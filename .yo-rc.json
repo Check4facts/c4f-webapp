@@ -1,0 +1,43 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "gr.ekke.check4facts",
+      "nativeLanguage": "el"
+    },
+    "jhipsterVersion": "6.10.1",
+    "applicationType": "monolith",
+    "baseName": "check4facts",
+    "packageName": "gr.ekke.check4facts",
+    "packageFolder": "gr/ekke/check4facts",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "elasticsearch",
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "ZTRjYjNiZDk4MWNiOWVlOGEyMjNiMTBiMTVhNmMwMjI4ZmM5YzEyZDY5ODg0NzVlMzNhNmVjNGFiMzRiMzBmNjVkZDIxOGM1NmVjMzllMTViNjFmOGU2MzdmYzA1OTViNTJjZTc3NmVmOTQ3NGJhMGQ2MWFiMTg0MjM5ZjQ1NDk=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "react",
+    "clientTheme": "sandstone",
+    "clientThemeVariant": "primary",
+    "creationTimestamp": 1599037042787,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "el",
+    "languages": ["el", "en"],
+    "blueprints": []
+  }
+}
