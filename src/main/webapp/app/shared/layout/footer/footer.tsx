@@ -4,12 +4,14 @@ import React from 'react';
 import { Translate } from 'react-jhipster';
 import { Col, Row } from 'reactstrap';
 
-const Footer = props => (
-  <div className="footer page-content">
+const Footer = () => (
+  <div className="footer border-top border-primary">
     <Row>
-      <Col md="12">
-        <p>
-          <Translate contentKey="footer">Your footer</Translate>
+      <Col className="py-2" md="12">
+        <p className="text-center text-info my-0">
+          <Translate contentKey="footer.project"/>
+          <br/>
+          © Copyright 2020 check4facts.gr ®
         </p>
       </Col>
     </Row>

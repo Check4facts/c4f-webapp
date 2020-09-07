@@ -1,7 +1,14 @@
 {
   "home": {
-    "title": "Welcome, Java Hipster!",
-    "subtitle": "This is your homepage",
+    "title": "Welcome to Check4Fact!",
+    "subtitle": "Below you can check the validity of a statement",
+    "check": {
+      "placeholder": "Insert your statement",
+      "button": "Check!"
+    },
+    "article": {
+      "title": "Articles"
+    },
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
     },
