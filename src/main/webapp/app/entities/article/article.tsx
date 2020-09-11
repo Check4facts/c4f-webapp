@@ -164,14 +164,14 @@ export const Article = (props: IArticleProps) => {
                 <th className="hand" onClick={sort('previewImage')}>
                   <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('content')}>
-                  <Translate contentKey="check4FactsApp.article.content">Content</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
                 <th className="hand" onClick={sort('articleDate')}>
                   <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('published')}>
                   <Translate contentKey="check4FactsApp.article.published">Published</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('content')}>
+                  <Translate contentKey="check4FactsApp.article.content">Content</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -204,9 +204,9 @@ export const Article = (props: IArticleProps) => {
                       </div>
                     ) : null}
                   </td>
-                  <td>{article.content}</td>
                   <td>{article.articleDate ? <TextFormat type="date" value={article.articleDate} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{article.published ? 'true' : 'false'}</td>
+                  <td>{article.content}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${article.id}`} color="info" size="sm">

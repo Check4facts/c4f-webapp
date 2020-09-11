@@ -2,6 +2,7 @@ package gr.ekke.check4facts.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -41,15 +42,16 @@ public class Article implements Serializable {
     @Column(name = "preview_image_content_type")
     private String previewImageContentType;
 
-    @NotNull
-    @Column(name = "content", nullable = false)
-    private String content;
-
     @Column(name = "article_date")
     private Instant articleDate;
 
     @Column(name = "published")
     private Boolean published;
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "content", nullable = false)
+    private String content;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -112,19 +114,6 @@ public class Article implements Serializable {
         this.previewImageContentType = previewImageContentType;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public Article content(String content) {
-        this.content = content;
-        return this;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public Instant getArticleDate() {
         return articleDate;
     }
@@ -149,6 +138,19 @@ public class Article implements Serializable {
 
     public void setPublished(Boolean published) {
         this.published = published;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Article content(String content) {
+        this.content = content;
+        return this;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -177,9 +179,9 @@ public class Article implements Serializable {
             ", category='" + getCategory() + "'" +
             ", previewImage='" + getPreviewImage() + "'" +
             ", previewImageContentType='" + getPreviewImageContentType() + "'" +
-            ", content='" + getContent() + "'" +
             ", articleDate='" + getArticleDate() + "'" +
             ", published='" + isPublished() + "'" +
+            ", content='" + getContent() + "'" +
             "}";
     }
 }

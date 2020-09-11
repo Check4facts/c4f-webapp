@@ -20,9 +20,9 @@
       "previewTitle": "Preview Title",
       "category": "Category",
       "previewImage": "Preview Image",
-      "content": "Content",
       "articleDate": "Article Date",
-      "published": "Published"
+      "published": "Published",
+      "content": "Content"
     }
   }
 }

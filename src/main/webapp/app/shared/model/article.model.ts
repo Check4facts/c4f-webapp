@@ -6,9 +6,9 @@ export interface IArticle {
   category?: string;
   previewImageContentType?: string;
   previewImage?: any;
-  content?: string;
   articleDate?: string;
   published?: boolean;
+  content?: any;
 }
 
 export const defaultValue: Readonly<IArticle> = {

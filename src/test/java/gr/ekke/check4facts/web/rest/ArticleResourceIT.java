@@ -54,14 +54,14 @@ public class ArticleResourceIT {
     private static final String DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_PREVIEW_IMAGE_CONTENT_TYPE = "image/png";
 
-    private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
-    private static final String UPDATED_CONTENT = "BBBBBBBBBB";
-
     private static final Instant DEFAULT_ARTICLE_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_ARTICLE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Boolean DEFAULT_PUBLISHED = false;
     private static final Boolean UPDATED_PUBLISHED = true;
+
+    private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
+    private static final String UPDATED_CONTENT = "BBBBBBBBBB";
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -97,9 +97,9 @@ public class ArticleResourceIT {
             .category(DEFAULT_CATEGORY)
             .previewImage(DEFAULT_PREVIEW_IMAGE)
             .previewImageContentType(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)
-            .content(DEFAULT_CONTENT)
             .articleDate(DEFAULT_ARTICLE_DATE)
-            .published(DEFAULT_PUBLISHED);
+            .published(DEFAULT_PUBLISHED)
+            .content(DEFAULT_CONTENT);
         return article;
     }
     /**
@@ -114,9 +114,9 @@ public class ArticleResourceIT {
             .category(UPDATED_CATEGORY)
             .previewImage(UPDATED_PREVIEW_IMAGE)
             .previewImageContentType(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE)
-            .content(UPDATED_CONTENT)
             .articleDate(UPDATED_ARTICLE_DATE)
-            .published(UPDATED_PUBLISHED);
+            .published(UPDATED_PUBLISHED)
+            .content(UPDATED_CONTENT);
         return article;
     }
 
@@ -143,9 +143,9 @@ public class ArticleResourceIT {
         assertThat(testArticle.getCategory()).isEqualTo(DEFAULT_CATEGORY);
         assertThat(testArticle.getPreviewImage()).isEqualTo(DEFAULT_PREVIEW_IMAGE);
         assertThat(testArticle.getPreviewImageContentType()).isEqualTo(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE);
-        assertThat(testArticle.getContent()).isEqualTo(DEFAULT_CONTENT);
         assertThat(testArticle.getArticleDate()).isEqualTo(DEFAULT_ARTICLE_DATE);
         assertThat(testArticle.isPublished()).isEqualTo(DEFAULT_PUBLISHED);
+        assertThat(testArticle.getContent()).isEqualTo(DEFAULT_CONTENT);
 
         // Validate the Article in Elasticsearch
         verify(mockArticleSearchRepository, times(1)).save(testArticle);
@@ -214,25 +214,6 @@ public class ArticleResourceIT {
 
     @Test
     @Transactional
-    public void checkContentIsRequired() throws Exception {
-        int databaseSizeBeforeTest = articleRepository.findAll().size();
-        // set the field null
-        article.setContent(null);
-
-        // Create the Article, which fails.
-
-
-        restArticleMockMvc.perform(post("/api/articles")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(article)))
-            .andExpect(status().isBadRequest());
-
-        List<Article> articleList = articleRepository.findAll();
-        assertThat(articleList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllArticles() throws Exception {
         // Initialize the database
         articleRepository.saveAndFlush(article);
@@ -246,9 +227,9 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY)))
             .andExpect(jsonPath("$.[*].previewImageContentType").value(hasItem(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
             .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].published").value(hasItem(DEFAULT_PUBLISHED.booleanValue())));
+            .andExpect(jsonPath("$.[*].published").value(hasItem(DEFAULT_PUBLISHED.booleanValue())))
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
     }
     
     @Test
@@ -266,9 +247,9 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY))
             .andExpect(jsonPath("$.previewImageContentType").value(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE))
             .andExpect(jsonPath("$.previewImage").value(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE)))
-            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT))
             .andExpect(jsonPath("$.articleDate").value(DEFAULT_ARTICLE_DATE.toString()))
-            .andExpect(jsonPath("$.published").value(DEFAULT_PUBLISHED.booleanValue()));
+            .andExpect(jsonPath("$.published").value(DEFAULT_PUBLISHED.booleanValue()))
+            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()));
     }
     @Test
     @Transactional
@@ -295,9 +276,9 @@ public class ArticleResourceIT {
             .category(UPDATED_CATEGORY)
             .previewImage(UPDATED_PREVIEW_IMAGE)
             .previewImageContentType(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE)
-            .content(UPDATED_CONTENT)
             .articleDate(UPDATED_ARTICLE_DATE)
-            .published(UPDATED_PUBLISHED);
+            .published(UPDATED_PUBLISHED)
+            .content(UPDATED_CONTENT);
 
         restArticleMockMvc.perform(put("/api/articles")
             .contentType(MediaType.APPLICATION_JSON)
@@ -312,9 +293,9 @@ public class ArticleResourceIT {
         assertThat(testArticle.getCategory()).isEqualTo(UPDATED_CATEGORY);
         assertThat(testArticle.getPreviewImage()).isEqualTo(UPDATED_PREVIEW_IMAGE);
         assertThat(testArticle.getPreviewImageContentType()).isEqualTo(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE);
-        assertThat(testArticle.getContent()).isEqualTo(UPDATED_CONTENT);
         assertThat(testArticle.getArticleDate()).isEqualTo(UPDATED_ARTICLE_DATE);
         assertThat(testArticle.isPublished()).isEqualTo(UPDATED_PUBLISHED);
+        assertThat(testArticle.getContent()).isEqualTo(UPDATED_CONTENT);
 
         // Validate the Article in Elasticsearch
         verify(mockArticleSearchRepository, times(2)).save(testArticle);
@@ -378,8 +359,8 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY)))
             .andExpect(jsonPath("$.[*].previewImageContentType").value(hasItem(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
             .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].published").value(hasItem(DEFAULT_PUBLISHED.booleanValue())));
+            .andExpect(jsonPath("$.[*].published").value(hasItem(DEFAULT_PUBLISHED.booleanValue())))
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
     }
 }

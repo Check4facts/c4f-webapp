@@ -19,17 +19,18 @@
       "fieldTypeBlobContent": "image"
     },
     {
-      "fieldName": "content",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "articleDate",
       "fieldType": "Instant"
     },
     {
       "fieldName": "published",
       "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
     }
   ],
   "changelogDate": "20200911095548",

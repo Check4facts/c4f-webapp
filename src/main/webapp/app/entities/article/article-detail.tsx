@@ -60,12 +60,6 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
             ) : null}
           </dd>
           <dt>
-            <span id="content">
-              <Translate contentKey="check4FactsApp.article.content">Content</Translate>
-            </span>
-          </dt>
-          <dd>{articleEntity.content}</dd>
-          <dt>
             <span id="articleDate">
               <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate>
             </span>
@@ -79,6 +73,12 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
             </span>
           </dt>
           <dd>{articleEntity.published ? 'true' : 'false'}</dd>
+          <dt>
+            <span id="content">
+              <Translate contentKey="check4FactsApp.article.content">Content</Translate>
+            </span>
+          </dt>
+          <dd>{articleEntity.content}</dd>
         </dl>
         <Button tag={Link} to="/article" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

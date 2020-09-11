@@ -1,11 +1,11 @@
-id;preview_title;category;preview_image;preview_image_content_type;content;article_date;published
-1;Buckinghamshire;Small online;../fake-data/blob/hipster.png;image/png;maroon copy;2020-09-10T11:06:26;false
-2;Kuwait Sleek backing up;compress;../fake-data/blob/hipster.png;image/png;Borders Cocos (Keeling) Islands visualize;2020-09-10T16:13:44;false
-3;microchip fuchsia Pre-emptive;PCI;../fake-data/blob/hipster.png;image/png;generating;2020-09-10T20:44:46;true
-4;Principal Egypt;alliance bifurcated;../fake-data/blob/hipster.png;image/png;programming program;2020-09-10T22:27:36;true
-5;transmitting;International static Borders;../fake-data/blob/hipster.png;image/png;Mouse;2020-09-10T17:15:36;false
-6;enhance;SMTP;../fake-data/blob/hipster.png;image/png;Incredible Fresh Computer online;2020-09-10T12:38:30;true
-7;Virginia XSS Refined Cotton Ball;grow Credit Card Account Planner;../fake-data/blob/hipster.png;image/png;white deposit Rustic Frozen Mouse;2020-09-10T16:20:04;true
-8;alarm matrix;transmit;../fake-data/blob/hipster.png;image/png;unleash Compatible Berkshire;2020-09-10T10:06:10;true
-9;Concrete;e-commerce web-enabled;../fake-data/blob/hipster.png;image/png;auxiliary Concrete Plastic;2020-09-10T14:46:42;true
-10;Shores Incredible Cotton Pizza;invoice;../fake-data/blob/hipster.png;image/png;navigate;2020-09-10T16:37:11;false
+id;preview_title;category;preview_image;preview_image_content_type;article_date;published;content
+1;Buckinghamshire;Small online;../fake-data/blob/hipster.png;image/png;2020-09-10T22:41:13;false;../fake-data/blob/hipster.txt
+2;copy Directives;Kuwait Sleek backing up;../fake-data/blob/hipster.png;image/png;2020-09-11T08:11:12;true;../fake-data/blob/hipster.txt
+3;firewall;Cocos (Keeling) Islands visualize;../fake-data/blob/hipster.png;image/png;2020-09-10T16:13:44;false;../fake-data/blob/hipster.txt
+4;microchip fuchsia Pre-emptive;PCI;../fake-data/blob/hipster.png;image/png;2020-09-11T05:46:10;true;../fake-data/blob/hipster.txt
+5;Tunisia invoice;Egypt Money Market Account Gorgeous Wooden Pants;../fake-data/blob/hipster.png;image/png;2020-09-10T14:12:25;true;../fake-data/blob/hipster.txt
+6;RSS HTTP transmitting;International static Borders;../fake-data/blob/hipster.png;image/png;2020-09-11T07:39:40;false;../fake-data/blob/hipster.txt
+7;Taka;enhance;../fake-data/blob/hipster.png;image/png;2020-09-11T09:03:59;true;../fake-data/blob/hipster.txt
+8;deposit user-centric Licensed;SAS generating;../fake-data/blob/hipster.png;image/png;2020-09-10T12:08:24;true;../fake-data/blob/hipster.txt
+9;Refined Cotton Ball AI Borders;Planner Implementation Pre-emptive;../fake-data/blob/hipster.png;image/png;2020-09-11T08:30:27;false;../fake-data/blob/hipster.txt
+10;Manager;Operations alarm matrix;../fake-data/blob/hipster.png;image/png;2020-09-11T09:42:43;true;../fake-data/blob/hipster.txt
