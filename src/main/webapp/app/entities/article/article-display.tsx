@@ -49,7 +49,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
       <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
     </div>
   ) : errorMessage === null ? (
-    <div className="ck-content" dangerouslySetInnerHTML={{ __html: this.handleEmbedTags(article.content) }} />
+    <div className="ck-content" dangerouslySetInnerHTML={{ __html: handleEmbedTags(article.content) }} />
   ) : (
     <div>
       <h1 className="text-center">{errorMessage}</h1>
