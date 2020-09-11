@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
@@ -12,9 +12,14 @@ import { IArticle } from 'app/shared/model/article.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
+import CKEditor from '@ckeditor/ckeditor5-react';
+import DecoupledEditor from 'ckeditor5-build-decoupled-document-base64-imageresize';
+
 export interface IArticleUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const ArticleUpdate = (props: IArticleUpdateProps) => {
+  const editorRef = useRef(CKEditor);
+
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
   const { articleEntity, loading, updating } = props;
@@ -146,16 +151,20 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                 </AvGroup>
               </AvGroup>
               <AvGroup>
-                <Label id="contentLabel" for="article-content">
-                  <Translate contentKey="check4FactsApp.article.content">Content</Translate>
-                </Label>
-                <AvField
-                  id="article-content"
-                  type="text"
-                  name="content"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                <CKEditor
+                  editor={DecoupledEditor}
+                  data={
+                    !isNew
+                      ?
+                        articleEntity.content
+                      :
+                        "<h1 style=\"text-align: center\">Remove this heading and start writing your article</h1>"
+                  }
+                  onInit={editor => {
+                    // Inserts the toolbar before the editable area.
+                    editor.ui.view.editable.element.parentElement.insertBefore(editor.ui.view.toolbar.element, editor.ui.view.editable.element);
                   }}
+                  ref={editorRef}
                 />
               </AvGroup>
               <AvGroup>
