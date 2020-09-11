@@ -1,0 +1,28 @@
+{
+  "check4FactsApp": {
+    "article": {
+      "home": {
+        "title": "Articles",
+        "createLabel": "Δημιουργήστε ένα νέο Article",
+        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Article",
+        "search": "Αναζήτηση για Article",
+        "notFound": "No Articles found"
+      },
+      "created": "Ένα νέο Article έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+      "updated": "Ένα Article έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+      "deleted": "Ένα Article έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+      "delete": {
+        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Article {{ id }};"
+      },
+      "detail": {
+        "title": "Article"
+      },
+      "category": "Category",
+      "content": "Content",
+      "lastModified": "Last Modified",
+      "previewImage": "Preview Image",
+      "previewTitle": "Preview Title",
+      "published": "Published"
+    }
+  }
+}
