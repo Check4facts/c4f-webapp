@@ -2,12 +2,12 @@ import { Moment } from 'moment';
 
 export interface IArticle {
   id?: number;
+  previewTitle?: string;
   category?: string;
-  content?: string;
-  lastModified?: string;
   previewImageContentType?: string;
   previewImage?: any;
-  previewTitle?: string;
+  content?: string;
+  articleDate?: string;
   published?: boolean;
 }
 

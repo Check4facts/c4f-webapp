@@ -26,25 +26,17 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
         </h2>
         <dl className="jh-entity-details">
           <dt>
+            <span id="previewTitle">
+              <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate>
+            </span>
+          </dt>
+          <dd>{articleEntity.previewTitle}</dd>
+          <dt>
             <span id="category">
               <Translate contentKey="check4FactsApp.article.category">Category</Translate>
             </span>
           </dt>
           <dd>{articleEntity.category}</dd>
-          <dt>
-            <span id="content">
-              <Translate contentKey="check4FactsApp.article.content">Content</Translate>
-            </span>
-          </dt>
-          <dd>{articleEntity.content}</dd>
-          <dt>
-            <span id="lastModified">
-              <Translate contentKey="check4FactsApp.article.lastModified">Last Modified</Translate>
-            </span>
-          </dt>
-          <dd>
-            {articleEntity.lastModified ? <TextFormat value={articleEntity.lastModified} type="date" format={APP_DATE_FORMAT} /> : null}
-          </dd>
           <dt>
             <span id="previewImage">
               <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
@@ -68,11 +60,19 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
             ) : null}
           </dd>
           <dt>
-            <span id="previewTitle">
-              <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate>
+            <span id="content">
+              <Translate contentKey="check4FactsApp.article.content">Content</Translate>
             </span>
           </dt>
-          <dd>{articleEntity.previewTitle}</dd>
+          <dd>{articleEntity.content}</dd>
+          <dt>
+            <span id="articleDate">
+              <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate>
+            </span>
+          </dt>
+          <dd>
+            {articleEntity.articleDate ? <TextFormat value={articleEntity.articleDate} type="date" format={APP_DATE_FORMAT} /> : null}
+          </dd>
           <dt>
             <span id="published">
               <Translate contentKey="check4FactsApp.article.published">Published</Translate>

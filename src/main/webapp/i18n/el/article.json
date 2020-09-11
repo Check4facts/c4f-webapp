@@ -17,11 +17,11 @@
       "detail": {
         "title": "Article"
       },
-      "category": "Category",
-      "content": "Content",
-      "lastModified": "Last Modified",
-      "previewImage": "Preview Image",
       "previewTitle": "Preview Title",
+      "category": "Category",
+      "previewImage": "Preview Image",
+      "content": "Content",
+      "articleDate": "Article Date",
       "published": "Published"
     }
   }

@@ -15,14 +15,11 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="preview_title" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="category" type="varchar(255)">
                 <constraints nullable="false" />
-            </column>
-            <column name="content" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-            <column name="last_modified" type="datetime">
-                <constraints nullable="true" />
             </column>
             <column name="preview_image" type="longblob">
                 <constraints nullable="true" />
@@ -30,15 +27,18 @@
             <column name="preview_image_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="preview_title" type="varchar(255)">
+            <column name="content" type="varchar(255)">
                 <constraints nullable="false" />
+            </column>
+            <column name="article_date" type="datetime">
+                <constraints nullable="true" />
             </column>
             <column name="published" type="boolean">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="article" columnName="last_modified" columnDataType="datetime"/>
+        <dropDefaultValue tableName="article" columnName="article_date" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200911095548-1-relations" author="jhipster">
@@ -60,12 +60,12 @@
                   separator=";"
                   tableName="article">
             <column name="id" type="numeric"/>
+            <column name="preview_title" type="string"/>
             <column name="category" type="string"/>
-            <column name="content" type="string"/>
-            <column name="last_modified" type="datetime"/>
             <column name="preview_image" type="blob"/>
             <column name="preview_image_content_type" type="string"/>
-            <column name="preview_title" type="string"/>
+            <column name="content" type="string"/>
+            <column name="article_date" type="datetime"/>
             <column name="published" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

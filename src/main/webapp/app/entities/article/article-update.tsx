@@ -48,7 +48,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   }, [props.updateSuccess]);
 
   const saveEntity = (event, errors, values) => {
-    values.lastModified = convertDateTimeToServer(values.lastModified);
+    values.articleDate = convertDateTimeToServer(values.articleDate);
 
     if (errors.length === 0) {
       const entity = {
@@ -88,6 +88,19 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                 </AvGroup>
               ) : null}
               <AvGroup>
+                <Label id="previewTitleLabel" for="article-previewTitle">
+                  <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate>
+                </Label>
+                <AvField
+                  id="article-previewTitle"
+                  type="text"
+                  name="previewTitle"
+                  validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                  }}
+                />
+              </AvGroup>
+              <AvGroup>
                 <Label id="categoryLabel" for="article-category">
                   <Translate contentKey="check4FactsApp.article.category">Category</Translate>
                 </Label>
@@ -98,32 +111,6 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label id="contentLabel" for="article-content">
-                  <Translate contentKey="check4FactsApp.article.content">Content</Translate>
-                </Label>
-                <AvField
-                  id="article-content"
-                  type="text"
-                  name="content"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                  }}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label id="lastModifiedLabel" for="article-lastModified">
-                  <Translate contentKey="check4FactsApp.article.lastModified">Last Modified</Translate>
-                </Label>
-                <AvInput
-                  id="article-lastModified"
-                  type="datetime-local"
-                  className="form-control"
-                  name="lastModified"
-                  placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.articleEntity.lastModified)}
                 />
               </AvGroup>
               <AvGroup>
@@ -159,16 +146,29 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                 </AvGroup>
               </AvGroup>
               <AvGroup>
-                <Label id="previewTitleLabel" for="article-previewTitle">
-                  <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate>
+                <Label id="contentLabel" for="article-content">
+                  <Translate contentKey="check4FactsApp.article.content">Content</Translate>
                 </Label>
                 <AvField
-                  id="article-previewTitle"
+                  id="article-content"
                   type="text"
-                  name="previewTitle"
+                  name="content"
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
+                />
+              </AvGroup>
+              <AvGroup>
+                <Label id="articleDateLabel" for="article-articleDate">
+                  <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate>
+                </Label>
+                <AvInput
+                  id="article-articleDate"
+                  type="datetime-local"
+                  className="form-control"
+                  name="articleDate"
+                  placeholder={'YYYY-MM-DD HH:mm'}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.articleEntity.articleDate)}
                 />
               </AvGroup>
               <AvGroup check>

@@ -4,18 +4,14 @@
   "relationships": [],
   "fields": [
     {
+      "fieldName": "previewTitle",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
       "fieldName": "category",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "content",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "lastModified",
-      "fieldType": "Instant"
     },
     {
       "fieldName": "previewImage",
@@ -23,9 +19,13 @@
       "fieldTypeBlobContent": "image"
     },
     {
-      "fieldName": "previewTitle",
+      "fieldName": "content",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "articleDate",
+      "fieldType": "Instant"
     },
     {
       "fieldName": "published",

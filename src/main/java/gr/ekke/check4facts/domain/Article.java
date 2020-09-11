@@ -27,15 +27,12 @@ public class Article implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "category", nullable = false)
-    private String category;
+    @Column(name = "preview_title", nullable = false)
+    private String previewTitle;
 
     @NotNull
-    @Column(name = "content", nullable = false)
-    private String content;
-
-    @Column(name = "last_modified")
-    private Instant lastModified;
+    @Column(name = "category", nullable = false)
+    private String category;
 
     @Lob
     @Column(name = "preview_image")
@@ -45,8 +42,11 @@ public class Article implements Serializable {
     private String previewImageContentType;
 
     @NotNull
-    @Column(name = "preview_title", nullable = false)
-    private String previewTitle;
+    @Column(name = "content", nullable = false)
+    private String content;
+
+    @Column(name = "article_date")
+    private Instant articleDate;
 
     @Column(name = "published")
     private Boolean published;
@@ -60,6 +60,19 @@ public class Article implements Serializable {
         this.id = id;
     }
 
+    public String getPreviewTitle() {
+        return previewTitle;
+    }
+
+    public Article previewTitle(String previewTitle) {
+        this.previewTitle = previewTitle;
+        return this;
+    }
+
+    public void setPreviewTitle(String previewTitle) {
+        this.previewTitle = previewTitle;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -71,32 +84,6 @@ public class Article implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Article content(String content) {
-        this.content = content;
-        return this;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Instant getLastModified() {
-        return lastModified;
-    }
-
-    public Article lastModified(Instant lastModified) {
-        this.lastModified = lastModified;
-        return this;
-    }
-
-    public void setLastModified(Instant lastModified) {
-        this.lastModified = lastModified;
     }
 
     public byte[] getPreviewImage() {
@@ -125,17 +112,30 @@ public class Article implements Serializable {
         this.previewImageContentType = previewImageContentType;
     }
 
-    public String getPreviewTitle() {
-        return previewTitle;
+    public String getContent() {
+        return content;
     }
 
-    public Article previewTitle(String previewTitle) {
-        this.previewTitle = previewTitle;
+    public Article content(String content) {
+        this.content = content;
         return this;
     }
 
-    public void setPreviewTitle(String previewTitle) {
-        this.previewTitle = previewTitle;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Instant getArticleDate() {
+        return articleDate;
+    }
+
+    public Article articleDate(Instant articleDate) {
+        this.articleDate = articleDate;
+        return this;
+    }
+
+    public void setArticleDate(Instant articleDate) {
+        this.articleDate = articleDate;
     }
 
     public Boolean isPublished() {
@@ -173,12 +173,12 @@ public class Article implements Serializable {
     public String toString() {
         return "Article{" +
             "id=" + getId() +
+            ", previewTitle='" + getPreviewTitle() + "'" +
             ", category='" + getCategory() + "'" +
-            ", content='" + getContent() + "'" +
-            ", lastModified='" + getLastModified() + "'" +
             ", previewImage='" + getPreviewImage() + "'" +
             ", previewImageContentType='" + getPreviewImageContentType() + "'" +
-            ", previewTitle='" + getPreviewTitle() + "'" +
+            ", content='" + getContent() + "'" +
+            ", articleDate='" + getArticleDate() + "'" +
             ", published='" + isPublished() + "'" +
             "}";
     }

@@ -155,20 +155,20 @@ export const Article = (props: IArticleProps) => {
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th className="hand" onClick={sort('previewTitle')}>
+                  <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th className="hand" onClick={sort('category')}>
                   <Translate contentKey="check4FactsApp.article.category">Category</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('content')}>
-                  <Translate contentKey="check4FactsApp.article.content">Content</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('lastModified')}>
-                  <Translate contentKey="check4FactsApp.article.lastModified">Last Modified</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('previewImage')}>
                   <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('previewTitle')}>
-                  <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('content')}>
+                  <Translate contentKey="check4FactsApp.article.content">Content</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('articleDate')}>
+                  <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('published')}>
                   <Translate contentKey="check4FactsApp.article.published">Published</Translate> <FontAwesomeIcon icon="sort" />
@@ -184,9 +184,8 @@ export const Article = (props: IArticleProps) => {
                       {article.id}
                     </Button>
                   </td>
+                  <td>{article.previewTitle}</td>
                   <td>{article.category}</td>
-                  <td>{article.content}</td>
-                  <td>{article.lastModified ? <TextFormat type="date" value={article.lastModified} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>
                     {article.previewImage ? (
                       <div>
@@ -205,7 +204,8 @@ export const Article = (props: IArticleProps) => {
                       </div>
                     ) : null}
                   </td>
-                  <td>{article.previewTitle}</td>
+                  <td>{article.content}</td>
+                  <td>{article.articleDate ? <TextFormat type="date" value={article.articleDate} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{article.published ? 'true' : 'false'}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
