@@ -55,6 +55,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const saveEntity = (event, errors, values) => {
     values.articleDate = convertDateTimeToServer(values.articleDate);
 
+    values.content = editorRef.current.editor.getData();
     if (errors.length === 0) {
       const entity = {
         ...articleEntity,
