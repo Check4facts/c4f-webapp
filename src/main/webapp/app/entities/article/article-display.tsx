@@ -1,9 +1,11 @@
 /* tslint:disable:jsx-no-lambda */
+import './article-display.scss';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { getEntity, reset } from 'app/entities/article/article.reducer';
 import { defaultValue } from 'app/shared/model/article.model';
+import { Container } from 'reactstrap';
 import { Spinner } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
 
@@ -49,7 +51,11 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
       <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
     </div>
   ) : errorMessage === null ? (
-    <div className="ck-content" dangerouslySetInnerHTML={{ __html: handleEmbedTags(article.content) }} />
+    <div className="article-display-page">
+      <Container>
+        <div className="ck-content" dangerouslySetInnerHTML={{ __html: handleEmbedTags(article.content) }} />
+      </Container>
+    </div>
   ) : (
     <div>
       <h1 className="text-center">{errorMessage}</h1>
