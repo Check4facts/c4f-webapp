@@ -2,27 +2,27 @@
   "check4FactsApp": {
     "article": {
       "home": {
-        "title": "Articles",
-        "createLabel": "Δημιουργήστε ένα νέο Article",
-        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Article",
-        "search": "Αναζήτηση για Article",
-        "notFound": "No Articles found"
+        "title": "Άρθρα",
+        "createLabel": "Δημιουργήστε ένα νέο Άρθρο",
+        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Άρθρο",
+        "search": "Αναζήτηση Άρθρου",
+        "notFound": "Δεν βρέθηκε κανένα άρθρο"
       },
-      "created": "Ένα νέο Article έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
-      "updated": "Ένα Article έχει ενημερωθεί με αναγνωριστικό {{ param }}",
-      "deleted": "Ένα Article έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+      "created": "Ένα νέο Άρθρο έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+      "updated": "Ένα Άρθρο έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+      "deleted": "Ένα Άρθρο έχει διαγραφτεί με αναγνωριστικό {{ param }}",
       "delete": {
-        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Article {{ id }};"
+        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Άρθρο {{ id }};"
       },
       "detail": {
-        "title": "Article"
+        "title": "Άρθρο"
       },
-      "previewTitle": "Preview Title",
-      "category": "Category",
-      "previewImage": "Preview Image",
-      "articleDate": "Article Date",
-      "published": "Published",
-      "content": "Content"
+      "previewTitle": "Τίτλος Προεπισκόπησης",
+      "category": "Κατηγορία",
+      "previewImage": "Εικόνα Προεπισκόπησης",
+      "articleDate": "Ημερομηνία Άθρου",
+      "published": "Δημοσιεύτηκε",
+      "content": "Περιεχόμενο"
     }
   }
 }
