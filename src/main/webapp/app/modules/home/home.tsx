@@ -1,39 +1,26 @@
 import './home.scss';
 
-import React from 'react';
-import { Translate, translate } from 'react-jhipster';
+import React, { useEffect } from 'react';
+import _ from 'lodash';
+import { TextFormat, Translate, translate } from 'react-jhipster';
 import { connect } from 'react-redux';
-import {
-  Row, Col, Input, Button, Container, CardHeader, Card, CardBody, CardTitle, CardText
-} from 'reactstrap';
+import { IRootState } from 'app/shared/reducers';
+import { Row, Col, Input, Button, ButtonGroup, Container } from 'reactstrap';
+import { getEntities } from 'app/entities/article/article.reducer';
+import { APP_DATE_FORMAT } from 'app/config/constants';
+import {Link} from "react-router-dom";
+import moment from "moment";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
-export type IHomeProp = StateProps;
-
-const Article = () => (
-  <Card>
-    <CardHeader>Article Header</CardHeader>
-    <CardBody>
-      <CardTitle>Article Title</CardTitle>
-      <CardText>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Pulvinar etiam non quam lacus. Sapien nec sagittis aliquam malesuada bibendum arcu. At erat
-        pellentesque adipiscing commodo elit. Purus non enim praesent elementum facilisis leo vel fringilla est. Dictum
-        varius duis at consectetur lorem. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras
-        tincidunt. Netus et malesuada fames ac turpis. Vitae suscipit tellus mauris a diam maecenas sed enim. Fermentum
-        dui faucibus in ornare quam viverra orci sagittis. A diam sollicitudin tempor id eu nisl nunc mi ipsum.
-        Ultricies mi eget mauris pharetra.
-      </CardText>
-      <Button color="secondary" className="float-right">More</Button>
-      <CardText>
-        <small className="text-muted">Release Date</small>
-      </CardText>
-    </CardBody>
-  </Card>
-);
+export interface IHomeProp extends StateProps, DispatchProps {}
 
 export const Home = (props: IHomeProp) => {
-  const { account } = props;
+  const { account, articleList, isAuthenticated } = props;
+
+  useEffect(() => {
+    props.getEntities()
+  }, [])
 
   return (
     <Container fluid className="my-5">
@@ -70,34 +57,74 @@ export const Home = (props: IHomeProp) => {
       </Row>
       <Row className="my-5">
         <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
-          <h2 className="text-center">
+          <h1 className="text-center">
             <Translate contentKey="home.article.title" />
-          </h2>
+          </h1>
+          {isAuthenticated &&
+            <div className="my-4">
+              <Link to={`/article/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity">
+                <FontAwesomeIcon icon="plus" />
+                &nbsp;
+                <Translate contentKey="check4FactsApp.article.home.createLabel">Create new Article</Translate>
+              </Link><br/><br/>
+              <span className="text-info">
+                <Translate contentKey={"home.article.info"} />
+              </span>
+            </div>
+          }
         </Col>
       </Row>
-      <Row className="my-3" xs="1" sm="2" md="4">
-        <Col>
-          <Article/>
-        </Col>
-        <Col>
-          <Article/>
-        </Col>
-        <Col>
-          <Article/>
-        </Col>
-        <Col>
-          <Article/>
-        </Col>
-      </Row>
+      <Container>
+        {_.orderBy(articleList, art => moment(art.articleDate), ['desc']).map(
+          article => (isAuthenticated || article.published) && (
+            <Row className={`my-5 ${!article.published && 'bg-info'}`} noGutters key={article.id} >
+              <Col className="align-content-center" md="4">
+                {article.previewImage ? (
+                  <img
+                    src={`data:${article.previewImageContentType};base64,${article.previewImage}`} alt="previewImage"
+                    style={{
+                      display: 'block',
+                      margin: 'auto',
+                      maxWidth: '10vw'
+                    }}
+                  />
+                ) : null}
+              </Col>
+              <Col md="8">
+                <div className="card-body">
+                  <h1 className="card-title">{article.previewTitle}</h1>
+                  <p className="text-right"><small className="text-muted">{article.articleDate ? <TextFormat type="date" value={article.articleDate} format={APP_DATE_FORMAT} /> : null}</small></p>
+                  <ButtonGroup className="float-right">
+                    {isAuthenticated &&
+                      <Button tag={Link} to={`/article/${article.id}/edit`}>
+                        <Translate contentKey="entity.action.edit" />
+                      </Button>
+                    }
+                    <Button tag={Link} to={`/article/${article.id}/display`} color="primary">
+                      <Translate contentKey="home.article.more" />
+                    </Button>
+                  </ButtonGroup>
+                </div>
+              </Col>
+            </Row>
+          )
+        )}
+      </Container>
     </Container>
   );
 };
 
-const mapStateToProps = storeState => ({
+const mapStateToProps = (storeState: IRootState) => ({
   account: storeState.authentication.account,
   isAuthenticated: storeState.authentication.isAuthenticated,
+  articleList: storeState.article.entities
 });
 
-type StateProps = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = {
+  getEntities
+};
 
-export default connect(mapStateToProps)(Home);
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

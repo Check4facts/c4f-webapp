@@ -7,7 +7,9 @@
       "button": "Check!"
     },
     "article": {
-      "title": "Articles"
+      "title": "Articles",
+      "more": "More",
+      "info": "Articles with a background color are not yet published."
     },
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
