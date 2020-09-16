@@ -8,11 +8,8 @@ import {
   byteSize,
   Translate,
   translate,
-  ICrudSearchAction,
-  ICrudGetAllAction,
   TextFormat,
   getSortState,
-  IPaginationBaseState,
   JhiPagination,
   JhiItemCount,
 } from 'react-jhipster';
@@ -20,8 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSearchEntities, getEntities } from './article.reducer';
-import { IArticle } from 'app/shared/model/article.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { APP_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 
@@ -82,7 +78,17 @@ export const Article = (props: IArticleProps) => {
 
   useEffect(() => {
     sortEntities();
-  }, [paginationState.activePage, paginationState.order, paginationState.sort, search]);
+  }, [paginationState.activePage, paginationState.order, paginationState.sort]);
+
+  useEffect(() => {
+    if (search === '') {
+      setPaginationState({
+        ...paginationState,
+        activePage: 1,
+      });
+      props.getEntities();
+    }
+  }, [search])
 
   useEffect(() => {
     const params = new URLSearchParams(props.location.search);
@@ -170,9 +176,6 @@ export const Article = (props: IArticleProps) => {
                 <th className="hand" onClick={sort('published')}>
                   <Translate contentKey="check4FactsApp.article.published">Published</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('content')}>
-                  <Translate contentKey="check4FactsApp.article.content">Content</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
                 <th />
               </tr>
             </thead>
@@ -193,7 +196,7 @@ export const Article = (props: IArticleProps) => {
                           <a onClick={openFile(article.previewImageContentType, article.previewImage)}>
                             <img
                               src={`data:${article.previewImageContentType};base64,${article.previewImage}`}
-                              style={{ maxHeight: '30px' }}
+                              style={{ maxHeight: '30px' }} alt="previewImage"
                             />
                             &nbsp;
                           </a>
@@ -206,7 +209,6 @@ export const Article = (props: IArticleProps) => {
                   </td>
                   <td>{article.articleDate ? <TextFormat type="date" value={article.articleDate} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{article.published ? 'true' : 'false'}</td>
-                  <td>{article.content}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${article.id}`} color="info" size="sm">
