@@ -63,6 +63,9 @@ public class ArticleResourceIT {
     private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
     private static final String UPDATED_CONTENT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PREVIEW_TEXT = "AAAAAAAAAA";
+    private static final String UPDATED_PREVIEW_TEXT = "BBBBBBBBBB";
+
     @Autowired
     private ArticleRepository articleRepository;
 
@@ -99,7 +102,8 @@ public class ArticleResourceIT {
             .previewImageContentType(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)
             .articleDate(DEFAULT_ARTICLE_DATE)
             .published(DEFAULT_PUBLISHED)
-            .content(DEFAULT_CONTENT);
+            .content(DEFAULT_CONTENT)
+            .previewText(DEFAULT_PREVIEW_TEXT);
         return article;
     }
     /**
@@ -116,7 +120,8 @@ public class ArticleResourceIT {
             .previewImageContentType(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE)
             .articleDate(UPDATED_ARTICLE_DATE)
             .published(UPDATED_PUBLISHED)
-            .content(UPDATED_CONTENT);
+            .content(UPDATED_CONTENT)
+            .previewText(UPDATED_PREVIEW_TEXT);
         return article;
     }
 
@@ -146,6 +151,7 @@ public class ArticleResourceIT {
         assertThat(testArticle.getArticleDate()).isEqualTo(DEFAULT_ARTICLE_DATE);
         assertThat(testArticle.isPublished()).isEqualTo(DEFAULT_PUBLISHED);
         assertThat(testArticle.getContent()).isEqualTo(DEFAULT_CONTENT);
+        assertThat(testArticle.getPreviewText()).isEqualTo(DEFAULT_PREVIEW_TEXT);
 
         // Validate the Article in Elasticsearch
         verify(mockArticleSearchRepository, times(1)).save(testArticle);
@@ -229,7 +235,8 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))
             .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))
             .andExpect(jsonPath("$.[*].published").value(hasItem(DEFAULT_PUBLISHED.booleanValue())))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
+            .andExpect(jsonPath("$.[*].previewText").value(hasItem(DEFAULT_PREVIEW_TEXT.toString())));
     }
     
     @Test
@@ -249,7 +256,8 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.previewImage").value(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE)))
             .andExpect(jsonPath("$.articleDate").value(DEFAULT_ARTICLE_DATE.toString()))
             .andExpect(jsonPath("$.published").value(DEFAULT_PUBLISHED.booleanValue()))
-            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()));
+            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
+            .andExpect(jsonPath("$.previewText").value(DEFAULT_PREVIEW_TEXT.toString()));
     }
     @Test
     @Transactional
@@ -278,7 +286,8 @@ public class ArticleResourceIT {
             .previewImageContentType(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE)
             .articleDate(UPDATED_ARTICLE_DATE)
             .published(UPDATED_PUBLISHED)
-            .content(UPDATED_CONTENT);
+            .content(UPDATED_CONTENT)
+            .previewText(UPDATED_PREVIEW_TEXT);
 
         restArticleMockMvc.perform(put("/api/articles")
             .contentType(MediaType.APPLICATION_JSON)
@@ -296,6 +305,7 @@ public class ArticleResourceIT {
         assertThat(testArticle.getArticleDate()).isEqualTo(UPDATED_ARTICLE_DATE);
         assertThat(testArticle.isPublished()).isEqualTo(UPDATED_PUBLISHED);
         assertThat(testArticle.getContent()).isEqualTo(UPDATED_CONTENT);
+        assertThat(testArticle.getPreviewText()).isEqualTo(UPDATED_PREVIEW_TEXT);
 
         // Validate the Article in Elasticsearch
         verify(mockArticleSearchRepository, times(2)).save(testArticle);
@@ -361,6 +371,7 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))
             .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))
             .andExpect(jsonPath("$.[*].published").value(hasItem(DEFAULT_PUBLISHED.booleanValue())))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
+            .andExpect(jsonPath("$.[*].previewText").value(hasItem(DEFAULT_PREVIEW_TEXT.toString())));
     }
 }

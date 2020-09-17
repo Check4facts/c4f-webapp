@@ -22,7 +22,8 @@
       "previewImage": "Preview Image",
       "articleDate": "Article Date",
       "published": "Published",
-      "content": "Content"
+      "content": "Content",
+      "previewText": "Preview Text"
     }
   }
 }

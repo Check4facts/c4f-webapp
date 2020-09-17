@@ -48,10 +48,17 @@ public class Article implements Serializable {
     @Column(name = "published")
     private Boolean published;
 
+    
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "content", nullable = false)
     private String content;
+
+    
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "preview_text", nullable = false)
+    private String previewText;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -152,6 +159,19 @@ public class Article implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public String getPreviewText() {
+        return previewText;
+    }
+
+    public Article previewText(String previewText) {
+        this.previewText = previewText;
+        return this;
+    }
+
+    public void setPreviewText(String previewText) {
+        this.previewText = previewText;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -182,6 +202,7 @@ public class Article implements Serializable {
             ", articleDate='" + getArticleDate() + "'" +
             ", published='" + isPublished() + "'" +
             ", content='" + getContent() + "'" +
+            ", previewText='" + getPreviewText() + "'" +
             "}";
     }
 }

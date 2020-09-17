@@ -107,6 +107,19 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
+                <Label id="previewTextLabel" for="article-previewText">
+                  <Translate contentKey="check4FactsApp.article.previewText">Preview Text</Translate>
+                </Label>
+                <AvField
+                  id="article-previewText"
+                  type="textarea"
+                  name="previewText"
+                  validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                  }}
+                />
+              </AvGroup>
+              <AvGroup>
                 <Label id="categoryLabel" for="article-category">
                   <Translate contentKey="check4FactsApp.article.category">Category</Translate>
                 </Label>

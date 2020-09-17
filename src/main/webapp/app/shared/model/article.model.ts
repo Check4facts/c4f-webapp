@@ -9,6 +9,7 @@ export interface IArticle {
   articleDate?: string;
   published?: boolean;
   content?: any;
+  previewText?: any;
 }
 
 export const defaultValue: Readonly<IArticle> = {

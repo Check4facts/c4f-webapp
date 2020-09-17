@@ -164,6 +164,9 @@ export const Article = (props: IArticleProps) => {
                 <th className="hand" onClick={sort('previewTitle')}>
                   <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th className="hand" onClick={sort('previewText')}>
+                  <Translate contentKey="check4FactsApp.article.previewText">Preview Text</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th className="hand" onClick={sort('category')}>
                   <Translate contentKey="check4FactsApp.article.category">Category</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
@@ -188,6 +191,7 @@ export const Article = (props: IArticleProps) => {
                     </Button>
                   </td>
                   <td>{article.previewTitle}</td>
+                  <td>{article.previewText}</td>
                   <td>{article.category}</td>
                   <td>
                     {article.previewImage ? (

@@ -79,6 +79,12 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
             </span>
           </dt>
           <dd>{articleEntity.content}</dd>
+          <dt>
+            <span id="previewText">
+              <Translate contentKey="check4FactsApp.article.previewText">Preview Text</Translate>
+            </span>
+          </dt>
+          <dd>{articleEntity.previewText}</dd>
         </dl>
         <Button tag={Link} to="/article" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}
