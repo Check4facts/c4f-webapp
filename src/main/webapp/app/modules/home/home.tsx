@@ -92,7 +92,8 @@ export const Home = (props: IHomeProp) => {
               </Col>
               <Col md="8">
                 <div className="card-body">
-                  <h1 className="card-title">{article.previewTitle}</h1>
+                  <h2 className="card-title">{article.previewTitle}</h2>
+                  <p>{article.previewText}</p>
                   <p className="text-right"><small className="text-muted">{article.articleDate ? <TextFormat type="date" value={article.articleDate} format={APP_DATE_FORMAT} /> : null}</small></p>
                   <ButtonGroup className="float-right">
                     {isAuthenticated &&
