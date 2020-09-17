@@ -1,6 +1,8 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
 
+import { AUTHORITIES } from 'app/config/constants';
+import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
 import Article from './article';
@@ -12,13 +14,13 @@ import ArticleDeleteDialog from './article-delete-dialog';
 const Routes = ({ match }) => (
   <>
     <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={ArticleUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={ArticleUpdate} />
+      <PrivateRoute exact path={`${match.url}/new`} component={ArticleUpdate} hasAnyAuthorities={[AUTHORITIES.USER]} />
+      <PrivateRoute exact path={`${match.url}/:id/edit`} component={ArticleUpdate} hasAnyAuthorities={[AUTHORITIES.USER]} />
       <ErrorBoundaryRoute exact path={`${match.url}/:id/display`} component={ArticleDisplay} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={ArticleDetail} />
-      <ErrorBoundaryRoute path={match.url} component={Article} />
+      <PrivateRoute exact path={`${match.url}/:id`} component={ArticleDetail} hasAnyAuthorities={[AUTHORITIES.USER]} />
+      <PrivateRoute path={match.url} component={Article} hasAnyAuthorities={[AUTHORITIES.USER]} />
     </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={ArticleDeleteDialog} />
+    <PrivateRoute exact path={`${match.url}/:id/delete`} component={ArticleDeleteDialog} hasAnyAuthorities={[AUTHORITIES.USER]} />
   </>
 );
 
