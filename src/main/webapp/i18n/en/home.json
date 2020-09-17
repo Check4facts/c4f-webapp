@@ -9,7 +9,8 @@
     "article": {
       "title": "Articles",
       "more": "More",
-      "info": "Articles with a background color are not yet published."
+      "info": "Articles with a background color are not yet published.",
+      "posted": "Posted on "
     },
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."

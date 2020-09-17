@@ -94,7 +94,12 @@ export const Home = (props: IHomeProp) => {
                 <div className="card-body">
                   <h2 className="card-title">{article.previewTitle}</h2>
                   <p>{article.previewText}</p>
-                  <p className="text-right"><small className="text-muted">{article.articleDate ? <TextFormat type="date" value={article.articleDate} format={APP_DATE_FORMAT} /> : null}</small></p>
+                  <p className="text-right">
+                    <small className="text-muted">
+                      <Translate contentKey="home.article.posted" />
+                      {article.articleDate ? <TextFormat type="date" value={article.articleDate} format={APP_DATE_FORMAT} /> : null}
+                    </small>
+                  </p>
                   <ButtonGroup className="float-right">
                     {isAuthenticated &&
                       <Button tag={Link} to={`/article/${article.id}/edit`}>
