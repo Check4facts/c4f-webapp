@@ -28,11 +28,21 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { faRoad } from '@fortawesome/free-solid-svg-icons/faRoad';
 import { faCloud } from '@fortawesome/free-solid-svg-icons/faCloud';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook';
+import { faInstagram } from '@fortawesome/free-brands-svg-icons/faInstagram';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter';
+import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons/faPhoneAlt';
+import { faClipboardList } from '@fortawesome/free-solid-svg-icons/faClipboardList';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 export const loadIcons = () => {
   library.add(
+    faClipboardList,
+    faPhoneAlt,
+    faFacebook,
+    faTwitter,
+    faInstagram,
     faSort,
     faEye,
     faSync,
