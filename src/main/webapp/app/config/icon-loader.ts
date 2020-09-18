@@ -33,11 +33,13 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons/faInstagram';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter';
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons/faPhoneAlt';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons/faClipboardList';
+import { faFile } from '@fortawesome/free-solid-svg-icons/faFile';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 export const loadIcons = () => {
   library.add(
+    faFile,
     faClipboardList,
     faPhoneAlt,
     faFacebook,
