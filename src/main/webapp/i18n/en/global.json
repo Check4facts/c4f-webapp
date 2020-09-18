@@ -10,6 +10,11 @@
         "article": "Article",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+      "about": {
+        "main": "About",
+        "project": "Project",
+        "contact": "Contact"
+      },
       "account": {
         "main": "Account",
         "settings": "Settings",

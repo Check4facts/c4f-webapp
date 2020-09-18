@@ -10,6 +10,11 @@
         "article": "Article",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+      "about": {
+        "main": "Σχετικά",
+        "project": "Έργο",
+        "contact": "Επικοινωνία"
+      },
       "account": {
         "main": "Λογαριασμός",
         "settings": "Ρυθμίσεις",
