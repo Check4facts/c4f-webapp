@@ -37,6 +37,11 @@
         "database": "Database",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
       },
+      "dissemination": {
+        "main": "Knowledge Dissemination",
+        "publications": "Scientific Publications",
+        "reports": "Technical Reports"
+      },
       "language": "Language"
     },
     "form": {

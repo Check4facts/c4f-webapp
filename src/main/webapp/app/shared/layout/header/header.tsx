@@ -9,6 +9,7 @@ import { Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
 import { Social } from 'app/shared/layout/menus/social';
 import { AboutMenu } from 'app/shared/layout/menus/about';
+import { DisseminationMenu } from 'app/shared/layout/menus/dissemination';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -44,6 +45,7 @@ const Header = (props: IHeaderProps) => {
             <Social />
             {props.isAuthenticated && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
+            <DisseminationMenu />
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
             <AccountMenu isAuthenticated={props.isAuthenticated} />
             <AboutMenu />
