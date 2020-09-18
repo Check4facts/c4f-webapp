@@ -15,10 +15,10 @@ export const Project = () => {
       <Row>
         <Col md={3}>
           <div className="d-none d-sm-block project-side-menu">
-            <NavHashLink isActive={isActive('#team')} to="#team" smooth replace={false}><Translate contentKey="project.sideMenu.team"/></NavHashLink>
-            <NavHashLink isActive={isActive('#funding')} to="#funding" smooth replace={false}><Translate contentKey="project.sideMenu.funding"/></NavHashLink>
-            <NavHashLink isActive={isActive('#collaborating')} to="#collaborating" smooth replace={false}><Translate contentKey="project.sideMenu.collaborating"/></NavHashLink>
-            <NavHashLink isActive={isActive('#experts')} to="#experts" smooth replace={false}><Translate contentKey="project.sideMenu.experts"/></NavHashLink>
+            <NavHashLink className="menu-link" isActive={isActive('#team')} to="#team" smooth replace={false}><Translate contentKey="project.sideMenu.team"/></NavHashLink>
+            <NavHashLink className="menu-link" isActive={isActive('#funding')} to="#funding" smooth replace={false}><Translate contentKey="project.sideMenu.funding"/></NavHashLink>
+            <NavHashLink className="menu-link" isActive={isActive('#collaborating')} to="#collaborating" smooth replace={false}><Translate contentKey="project.sideMenu.collaborating"/></NavHashLink>
+            <NavHashLink className="menu-link" isActive={isActive('#experts')} to="#experts" smooth replace={false}><Translate contentKey="project.sideMenu.experts"/></NavHashLink>
           </div>
         </Col>
         <Col md={9}>

@@ -7,14 +7,14 @@
   background: #eee;
   overflow-x: hidden;
   padding: 8px 0;
-  a {
+  .menu-link {
     padding: 6px 8px 6px 16px;
     text-decoration: none;
     font-size: 25px;
     color: #d9230f;
     display: block;
   }
-  a:hover {
+  .menu-link:hover {
     color: #ba1e0d;
   }
 }
