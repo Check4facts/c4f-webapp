@@ -2,120 +2,48 @@ import './home.scss';
 
 import React, { useEffect } from 'react';
 import _ from 'lodash';
-import { TextFormat, Translate, translate } from 'react-jhipster';
+import { Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
-import { Row, Col, Input, Button, ButtonGroup, Container } from 'reactstrap';
+import { Row, Col, Container, UncontrolledCarousel } from 'reactstrap';
 import { getEntities } from 'app/entities/article/article.reducer';
-import { APP_DATE_FORMAT } from 'app/config/constants';
 import {Link} from "react-router-dom";
 import moment from "moment";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
 
 export interface IHomeProp extends StateProps, DispatchProps {}
 
 export const Home = (props: IHomeProp) => {
-  const { account, articleList, isAuthenticated } = props;
+  const { articleList } = props;
 
   useEffect(() => {
     props.getEntities()
-  }, [])
+  }, []);
+
+  const slides = () => _.orderBy(articleList, art => moment(art.articleDate), ['desc']).filter(pubArt => pubArt.published).slice(0,5).map((article, idx) => ({
+    src: article.previewImage ? `data:${article.previewImageContentType};base64,${article.previewImage}` : null,
+    altText: `Slide ${idx}`,
+    caption: article.previewText,
+    header: <Link className="slider-header" to={`/article/${article.id}/display`}>{article.previewTitle}</Link>,
+    key: `${idx}`
+  }));
 
   return (
     <Container fluid className="my-5">
-      {account && account.login && (
-        <Row className="my-5">
-          <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
-            <h2 className="text-center">
-              <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}/>
-            </h2>
-          </Col>
-        </Row>
-      )}
       <Row className="my-5">
         <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
           <h2 className="text-center">
-            <Translate contentKey="home.title" />
+            <Translate contentKey="home.title" /><span className="check-4-fact">Check4Fact.gr</span>
           </h2>
-          <p className="lead">
+          <p>
             <Translate contentKey="home.subtitle" />
           </p>
         </Col>
       </Row>
       <Row className="my-3">
-        <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
-          <Input placeholder={translate("home.check.placeholder")} />
+        <Col md={{ size: 4, offset: 4 }}>
+          <UncontrolledCarousel items={slides()} />
         </Col>
       </Row>
-      <Row className="my-3">
-        <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
-          <Button color="primary">
-            <Translate contentKey="home.check.button"/>
-          </Button>
-        </Col>
-      </Row>
-      <Row className="my-5">
-        <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
-          <h1 className="text-center">
-            <Translate contentKey="home.article.title" />
-          </h1>
-          {isAuthenticated &&
-            <div className="my-4">
-              <Link to={`/article/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity">
-                <FontAwesomeIcon icon="plus" />
-                &nbsp;
-                <Translate contentKey="check4FactsApp.article.home.createLabel">Create new Article</Translate>
-              </Link><br/><br/>
-              <span className="text-info">
-                <Translate contentKey={"home.article.info"} />
-              </span>
-            </div>
-          }
-        </Col>
-      </Row>
-      <Container>
-        {_.orderBy(articleList, art => moment(art.articleDate), ['desc']).map(
-          article => (isAuthenticated || article.published) && (
-            <Row className={`my-5 ${!article.published && 'bg-info'}`} noGutters key={article.id} >
-              <Col className="align-content-center" md="4">
-                {article.previewImage ? (
-                  <img
-                    src={`data:${article.previewImageContentType};base64,${article.previewImage}`} alt="previewImage"
-                    style={{
-                      display: 'block',
-                      margin: 'auto',
-                      maxWidth: '10vw'
-                    }}
-                  />
-                ) : null}
-              </Col>
-              <Col md="8">
-                <div className="card-body">
-                  <h2 className="card-title">{article.previewTitle}</h2>
-                  <p>{article.previewText}</p>
-                  <p className="text-right">
-                    <small className="text-muted">
-                      <Translate contentKey="home.article.posted" />
-                      {article.articleDate ? <TextFormat type="date" value={article.articleDate} format={APP_DATE_FORMAT} /> : null}
-                    </small>
-                  </p>
-                  <ButtonGroup className="float-right">
-                    {isAuthenticated &&
-                      <Button tag={Link} to={`/article/${article.id}/edit`}>
-                        <Translate contentKey="entity.action.edit" />
-                      </Button>
-                    }
-                    <Button tag={Link} to={`/article/${article.id}/display`} color="primary">
-                      <Translate contentKey="home.article.more" />
-                    </Button>
-                  </ButtonGroup>
-                </div>
-              </Col>
-            </Row>
-          )
-        )}
-      </Container>
     </Container>
   );
 };

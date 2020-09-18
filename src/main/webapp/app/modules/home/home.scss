@@ -8,3 +8,40 @@ Main page styles
   background: url('../../../content/images/jhipster_family_member_1.svg') no-repeat center top;
   background-size: contain;
 }
+
+.check-4-fact {
+  font-variant: small-caps;
+  color: #ba1e0d;
+}
+
+.carousel-caption {
+  background: rgba(0, 0, 0, 0.6);
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none;
+}
+
+.carousel-control-next-icon:after {
+  content: '>';
+  font-size: 55px;
+  color: #ba1e0d;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: #ba1e0d;
+}
+
+.slider-header {
+  color: #fff;
+}
+
+.slider-header:hover {
+  color: #fff;
+}

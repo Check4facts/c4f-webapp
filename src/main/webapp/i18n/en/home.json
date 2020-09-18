@@ -1,7 +1,7 @@
 {
   "home": {
-    "title": "Welcome to Check4Fact!",
-    "subtitle": "Below you can check the validity of a statement",
+    "title": "Welcome to ",
+    "subtitle": "Below you can view the most recent fact-checked statements.",
     "check": {
       "placeholder": "Insert your statement",
       "button": "Check!"
