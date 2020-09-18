@@ -1,0 +1,13 @@
+{
+  "dissemination": {
+    "category": {
+      "fact": "Fact Checking",
+      "media": {
+        "main": "Media",
+        "func": "Functioning",
+        "role": "Role Towards Society"
+      },
+      "video": "Video Tutorials"
+    }
+  }
+}
