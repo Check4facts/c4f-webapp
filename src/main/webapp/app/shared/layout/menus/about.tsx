@@ -9,10 +9,10 @@ export const AboutMenu = () => (
     id="entity-menu"
     style={{ maxHeight: '80vh', overflow: 'auto' }}
   >
-    <MenuItem icon="clipboard-list" to="/project">
+    <MenuItem icon="clipboard-list" to="/about/project">
       <Translate contentKey="global.menu.about.project" />
     </MenuItem>
-    <MenuItem icon="phone-alt" to="/contact">
+    <MenuItem icon="phone-alt" to="/about/contact">
       <Translate contentKey="global.menu.about.contact" />
     </MenuItem>
   </NavDropdown>
