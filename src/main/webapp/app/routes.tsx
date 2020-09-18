@@ -9,8 +9,8 @@ import PasswordResetInit from 'app/modules/account/password-reset/init/password-
 import PasswordResetFinish from 'app/modules/account/password-reset/finish/password-reset-finish';
 import Logout from 'app/modules/login/logout';
 import Home from 'app/modules/home/home';
-import Contact from 'app/modules/contact/contact';
-import Project from 'app/modules/project/project';
+import Contact from 'app/modules/about/contact';
+import Project from 'app/modules/about/project';
 import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
