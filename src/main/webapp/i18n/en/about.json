@@ -2,9 +2,17 @@
   "about": {
     "contact": {
       "contact": "Contact",
-      "feedback": "User Feedback",
+      "feedback": {
+        "title": "User Feedback",
+        "subtitle": "Please fill the fields bellow if you want to leave us a comment.",
+        "fields": {
+          "fullName": "Full Name",
+          "email": "Email",
+          "comment": "Comment"
+        }
+      },
       "phone": "Phone",
-      "email": "Email",
+      "email": "E-mail",
       "address": "Address"
     },
     "project": {
