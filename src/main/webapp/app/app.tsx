@@ -18,6 +18,7 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
+import ScrollToTop from 'app/scroll-to-top';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -34,6 +35,7 @@ export const App = (props: IAppProps) => {
     <Router basename={baseHref}>
       <div className="app-container" style={{ paddingTop }}>
         <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
+        <ScrollToTop />
         <ErrorBoundary>
           <Header
             isAuthenticated={props.isAuthenticated}
