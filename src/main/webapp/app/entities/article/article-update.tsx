@@ -9,6 +9,8 @@ import { IRootState } from 'app/shared/reducers';
 
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './article.reducer';
 import { IArticle } from 'app/shared/model/article.model';
+import { ICategory } from 'app/shared/model/category.model';
+import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
@@ -20,9 +22,10 @@ export interface IArticleUpdateProps extends StateProps, DispatchProps, RouteCom
 export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const editorRef = useRef(CKEditor);
 
+  const [categoryId, setCategoryId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { articleEntity, loading, updating } = props;
+  const { articleEntity, categories, loading, updating } = props;
 
   const { previewImage, previewImageContentType } = articleEntity;
 
@@ -36,6 +39,8 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
+
+    props.getCategories();
   }, []);
 
   const onBlobChange = (isAnImage, name) => event => {
@@ -120,17 +125,28 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
-                <Label id="categoryLabel" for="article-category">
+                <Label for="article-category">
                   <Translate contentKey="check4FactsApp.article.category">Category</Translate>
                 </Label>
-                <AvField
+                <AvInput
                   id="article-category"
-                  type="text"
-                  name="category"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                  }}
-                />
+                  type="select"
+                  className="form-control"
+                  name="category.id"
+                  value={isNew ? categories[0] && categories[0].id : articleEntity.category?.id}
+                  required
+                >
+                  {categories
+                    ? categories.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.name}
+                      </option>
+                    ))
+                    : null}
+                </AvInput>
+                <AvFeedback>
+                  <Translate contentKey="entity.validation.required">This field is required.</Translate>
+                </AvFeedback>
               </AvGroup>
               <AvGroup>
                 <AvGroup>
@@ -222,6 +238,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  categories: storeState.category.entities,
   articleEntity: storeState.article.entity,
   loading: storeState.article.loading,
   updating: storeState.article.updating,
@@ -229,6 +246,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getCategories,
   getEntity,
   updateEntity,
   setBlob,

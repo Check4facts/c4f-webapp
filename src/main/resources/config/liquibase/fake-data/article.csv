@@ -1,11 +1,11 @@
-id;preview_title;category;preview_image;preview_image_content_type;article_date;published;content;preview_text
-1;Buckinghamshire;Small online;../fake-data/blob/hipster.png;image/png;2020-09-10T22:41:13;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
-2;copy Directives;Kuwait Sleek backing up;../fake-data/blob/hipster.png;image/png;2020-09-11T08:11:12;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
-3;firewall;Cocos (Keeling) Islands visualize;../fake-data/blob/hipster.png;image/png;2020-09-10T16:13:44;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
-4;microchip fuchsia Pre-emptive;PCI;../fake-data/blob/hipster.png;image/png;2020-09-11T05:46:10;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
-5;Tunisia invoice;Egypt Money Market Account Gorgeous Wooden Pants;../fake-data/blob/hipster.png;image/png;2020-09-10T14:12:25;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
-6;RSS HTTP transmitting;International static Borders;../fake-data/blob/hipster.png;image/png;2020-09-11T07:39:40;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
-7;Taka;enhance;../fake-data/blob/hipster.png;image/png;2020-09-11T09:03:59;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
-8;deposit user-centric Licensed;SAS generating;../fake-data/blob/hipster.png;image/png;2020-09-10T12:08:24;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
-9;Refined Cotton Ball AI Borders;Planner Implementation Pre-emptive;../fake-data/blob/hipster.png;image/png;2020-09-11T08:30:27;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
-10;Manager;Operations alarm matrix;../fake-data/blob/hipster.png;image/png;2020-09-11T09:42:43;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt
+id;preview_title;preview_image;preview_image_content_type;article_date;published;content;preview_text;category_id
+1;Buckinghamshire;../fake-data/blob/hipster.png;image/png;2020-09-11T00:33:35;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;1
+2;online;../fake-data/blob/hipster.png;image/png;2020-09-10T22:41:13;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2
+3;copy Directives;../fake-data/blob/hipster.png;image/png;2020-09-10T11:08:55;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;3
+4;Sleek backing up;../fake-data/blob/hipster.png;image/png;2020-09-11T08:11:12;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;4
+5;firewall;../fake-data/blob/hipster.png;image/png;2020-09-10T19:16:07;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;5
+6;visualize;../fake-data/blob/hipster.png;image/png;2020-09-10T16:13:44;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;6
+7;microchip fuchsia Pre-emptive;../fake-data/blob/hipster.png;image/png;2020-09-11T07:09:15;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;7
+8;Pizza Nevada;../fake-data/blob/hipster.png;image/png;2020-09-10T12:11:04;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;8
+9;Operations Persistent alliance;../fake-data/blob/hipster.png;image/png;2020-09-11T02:55:30;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;9
+10;programming program;../fake-data/blob/hipster.png;image/png;2020-09-10T22:27:36;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;10

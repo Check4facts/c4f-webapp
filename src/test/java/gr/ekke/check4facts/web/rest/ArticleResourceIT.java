@@ -2,6 +2,7 @@ package gr.ekke.check4facts.web.rest;
 
 import gr.ekke.check4facts.Check4FactsApp;
 import gr.ekke.check4facts.domain.Article;
+import gr.ekke.check4facts.domain.Category;
 import gr.ekke.check4facts.repository.ArticleRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
 import gr.ekke.check4facts.service.ArticleService;
@@ -45,9 +46,6 @@ public class ArticleResourceIT {
 
     private static final String DEFAULT_PREVIEW_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_PREVIEW_TITLE = "BBBBBBBBBB";
-
-    private static final String DEFAULT_CATEGORY = "AAAAAAAAAA";
-    private static final String UPDATED_CATEGORY = "BBBBBBBBBB";
 
     private static final byte[] DEFAULT_PREVIEW_IMAGE = TestUtil.createByteArray(1, "0");
     private static final byte[] UPDATED_PREVIEW_IMAGE = TestUtil.createByteArray(1, "1");
@@ -97,13 +95,22 @@ public class ArticleResourceIT {
     public static Article createEntity(EntityManager em) {
         Article article = new Article()
             .previewTitle(DEFAULT_PREVIEW_TITLE)
-            .category(DEFAULT_CATEGORY)
             .previewImage(DEFAULT_PREVIEW_IMAGE)
             .previewImageContentType(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)
             .articleDate(DEFAULT_ARTICLE_DATE)
             .published(DEFAULT_PUBLISHED)
             .content(DEFAULT_CONTENT)
             .previewText(DEFAULT_PREVIEW_TEXT);
+        // Add required entity
+        Category category;
+        if (TestUtil.findAll(em, Category.class).isEmpty()) {
+            category = CategoryResourceIT.createEntity(em);
+            em.persist(category);
+            em.flush();
+        } else {
+            category = TestUtil.findAll(em, Category.class).get(0);
+        }
+        article.setCategory(category);
         return article;
     }
     /**
@@ -115,13 +122,22 @@ public class ArticleResourceIT {
     public static Article createUpdatedEntity(EntityManager em) {
         Article article = new Article()
             .previewTitle(UPDATED_PREVIEW_TITLE)
-            .category(UPDATED_CATEGORY)
             .previewImage(UPDATED_PREVIEW_IMAGE)
             .previewImageContentType(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE)
             .articleDate(UPDATED_ARTICLE_DATE)
             .published(UPDATED_PUBLISHED)
             .content(UPDATED_CONTENT)
             .previewText(UPDATED_PREVIEW_TEXT);
+        // Add required entity
+        Category category;
+        if (TestUtil.findAll(em, Category.class).isEmpty()) {
+            category = CategoryResourceIT.createUpdatedEntity(em);
+            em.persist(category);
+            em.flush();
+        } else {
+            category = TestUtil.findAll(em, Category.class).get(0);
+        }
+        article.setCategory(category);
         return article;
     }
 
@@ -145,7 +161,6 @@ public class ArticleResourceIT {
         assertThat(articleList).hasSize(databaseSizeBeforeCreate + 1);
         Article testArticle = articleList.get(articleList.size() - 1);
         assertThat(testArticle.getPreviewTitle()).isEqualTo(DEFAULT_PREVIEW_TITLE);
-        assertThat(testArticle.getCategory()).isEqualTo(DEFAULT_CATEGORY);
         assertThat(testArticle.getPreviewImage()).isEqualTo(DEFAULT_PREVIEW_IMAGE);
         assertThat(testArticle.getPreviewImageContentType()).isEqualTo(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE);
         assertThat(testArticle.getArticleDate()).isEqualTo(DEFAULT_ARTICLE_DATE);
@@ -201,25 +216,6 @@ public class ArticleResourceIT {
 
     @Test
     @Transactional
-    public void checkCategoryIsRequired() throws Exception {
-        int databaseSizeBeforeTest = articleRepository.findAll().size();
-        // set the field null
-        article.setCategory(null);
-
-        // Create the Article, which fails.
-
-
-        restArticleMockMvc.perform(post("/api/articles")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(article)))
-            .andExpect(status().isBadRequest());
-
-        List<Article> articleList = articleRepository.findAll();
-        assertThat(articleList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllArticles() throws Exception {
         // Initialize the database
         articleRepository.saveAndFlush(article);
@@ -230,7 +226,6 @@ public class ArticleResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(article.getId().intValue())))
             .andExpect(jsonPath("$.[*].previewTitle").value(hasItem(DEFAULT_PREVIEW_TITLE)))
-            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY)))
             .andExpect(jsonPath("$.[*].previewImageContentType").value(hasItem(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))
             .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))
@@ -251,7 +246,6 @@ public class ArticleResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(article.getId().intValue()))
             .andExpect(jsonPath("$.previewTitle").value(DEFAULT_PREVIEW_TITLE))
-            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY))
             .andExpect(jsonPath("$.previewImageContentType").value(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE))
             .andExpect(jsonPath("$.previewImage").value(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE)))
             .andExpect(jsonPath("$.articleDate").value(DEFAULT_ARTICLE_DATE.toString()))
@@ -281,7 +275,6 @@ public class ArticleResourceIT {
         em.detach(updatedArticle);
         updatedArticle
             .previewTitle(UPDATED_PREVIEW_TITLE)
-            .category(UPDATED_CATEGORY)
             .previewImage(UPDATED_PREVIEW_IMAGE)
             .previewImageContentType(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE)
             .articleDate(UPDATED_ARTICLE_DATE)
@@ -299,7 +292,6 @@ public class ArticleResourceIT {
         assertThat(articleList).hasSize(databaseSizeBeforeUpdate);
         Article testArticle = articleList.get(articleList.size() - 1);
         assertThat(testArticle.getPreviewTitle()).isEqualTo(UPDATED_PREVIEW_TITLE);
-        assertThat(testArticle.getCategory()).isEqualTo(UPDATED_CATEGORY);
         assertThat(testArticle.getPreviewImage()).isEqualTo(UPDATED_PREVIEW_IMAGE);
         assertThat(testArticle.getPreviewImageContentType()).isEqualTo(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE);
         assertThat(testArticle.getArticleDate()).isEqualTo(UPDATED_ARTICLE_DATE);
@@ -366,7 +358,6 @@ public class ArticleResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(article.getId().intValue())))
             .andExpect(jsonPath("$.[*].previewTitle").value(hasItem(DEFAULT_PREVIEW_TITLE)))
-            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY)))
             .andExpect(jsonPath("$.[*].previewImageContentType").value(hasItem(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))
             .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))

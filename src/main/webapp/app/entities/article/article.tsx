@@ -192,7 +192,7 @@ export const Article = (props: IArticleProps) => {
                   </td>
                   <td>{article.previewTitle}</td>
                   <td>{article.previewText}</td>
-                  <td>{article.category}</td>
+                  <td>{article.category ? <Link to={`category/${article.category.id}`}>{article.category.name}</Link> : ''}</td>
                   <td>
                     {article.previewImage ? (
                       <div>

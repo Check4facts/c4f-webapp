@@ -32,12 +32,6 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
           </dt>
           <dd>{articleEntity.previewTitle}</dd>
           <dt>
-            <span id="category">
-              <Translate contentKey="check4FactsApp.article.category">Category</Translate>
-            </span>
-          </dt>
-          <dd>{articleEntity.category}</dd>
-          <dt>
             <span id="previewImage">
               <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
             </span>
@@ -85,6 +79,10 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
             </span>
           </dt>
           <dd>{articleEntity.previewText}</dd>
+          <dt>
+            <Translate contentKey="check4FactsApp.article.category">Category</Translate>
+          </dt>
+          <dd>{articleEntity.category ? articleEntity.category.name : ''}</dd>
         </dl>
         <Button tag={Link} to="/article" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

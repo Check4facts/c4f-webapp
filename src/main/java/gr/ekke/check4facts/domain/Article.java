@@ -1,5 +1,6 @@
 package gr.ekke.check4facts.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
@@ -31,10 +32,6 @@ public class Article implements Serializable {
     @Column(name = "preview_title", nullable = false)
     private String previewTitle;
 
-    @NotNull
-    @Column(name = "category", nullable = false)
-    private String category;
-
     @Lob
     @Column(name = "preview_image")
     private byte[] previewImage;
@@ -60,6 +57,11 @@ public class Article implements Serializable {
     @Column(name = "preview_text", nullable = false)
     private String previewText;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = "articles", allowSetters = true)
+    private Category category;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -80,19 +82,6 @@ public class Article implements Serializable {
 
     public void setPreviewTitle(String previewTitle) {
         this.previewTitle = previewTitle;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public Article category(String category) {
-        this.category = category;
-        return this;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public byte[] getPreviewImage() {
@@ -172,6 +161,19 @@ public class Article implements Serializable {
     public void setPreviewText(String previewText) {
         this.previewText = previewText;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public Article category(Category category) {
+        this.category = category;
+        return this;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -196,7 +198,6 @@ public class Article implements Serializable {
         return "Article{" +
             "id=" + getId() +
             ", previewTitle='" + getPreviewTitle() + "'" +
-            ", category='" + getCategory() + "'" +
             ", previewImage='" + getPreviewImage() + "'" +
             ", previewImageContentType='" + getPreviewImageContentType() + "'" +
             ", articleDate='" + getArticleDate() + "'" +
