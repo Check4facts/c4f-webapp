@@ -31,9 +31,9 @@ export const Home = (props: IHomeProp) => {
     <Container fluid className="my-5">
       <Row className="my-5">
         <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
-          <h2 className="text-center">
+          <h1 className="text-center">
             <Translate contentKey="home.title" /><span className="check-4-fact">Check4Fact.gr</span>
-          </h2>
+          </h1>
           <p>
             <Translate contentKey="home.subtitle" />
           </p>
@@ -42,6 +42,15 @@ export const Home = (props: IHomeProp) => {
       <Row className="my-3">
         <Col md={{ size: 4, offset: 4 }}>
           <UncontrolledCarousel items={slides()} />
+        </Col>
+      </Row>
+      <Row className="my-5">
+        <Col className="text-center py-5 border-top" md={{ size: 6, offset: 3 }}>
+          <h2>
+            <Link className="text-primary" to="/fact-checking">
+              <Translate contentKey="fact-checking.title" />
+            </Link>
+          </h2>
         </Col>
       </Row>
     </Container>

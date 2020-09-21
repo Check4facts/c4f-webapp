@@ -11,6 +11,7 @@ import Logout from 'app/modules/login/logout';
 import Home from 'app/modules/home/home';
 import About from 'app/modules/about';
 import Dissemination from 'app/modules/dissemination';
+import FactChecking from 'app/modules/fact-checking';
 import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
@@ -40,6 +41,7 @@ const Routes = () => (
       <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <ErrorBoundaryRoute path="/about" component={About} />
       <ErrorBoundaryRoute path="/dissemination" component={Dissemination} />
+      <ErrorBoundaryRoute path="/fact-checking" component={FactChecking} />
       <ErrorBoundaryRoute path="/" exact component={Home} />
       <ErrorBoundaryRoute path="/" component={Entities} />
       <ErrorBoundaryRoute component={PageNotFound} />
