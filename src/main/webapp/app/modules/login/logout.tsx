@@ -1,5 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { IRootState } from 'app/shared/reducers';
 import { logout } from 'app/shared/reducers/authentication';
@@ -22,9 +23,7 @@ export const Logout = (props: ILogoutProps) => {
   });
 
   return (
-    <div className="p-5">
-      <h4>Logged out successfully!</h4>
-    </div>
+    <Redirect to="/" />
   );
 };
 
