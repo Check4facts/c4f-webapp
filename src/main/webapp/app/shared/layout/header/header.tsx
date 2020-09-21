@@ -43,11 +43,11 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Social />
-            {props.isAuthenticated && <EntitiesMenu />}
+            {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
             <DisseminationMenu />
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
-            <AccountMenu isAuthenticated={props.isAuthenticated} />
+            {props.isAuthenticated && <AccountMenu isAdmin={props.isAdmin}/>}
             <AboutMenu />
           </Nav>
         </Collapse>

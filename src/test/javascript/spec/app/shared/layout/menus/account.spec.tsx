@@ -9,7 +9,7 @@ describe('AccountMenu', () => {
 
   const authenticatedWrapper = () => {
     if (!mountedWrapper) {
-      mountedWrapper = shallow(<AccountMenu isAuthenticated />);
+      mountedWrapper = shallow(<AccountMenu isAdmin />);
     }
     return mountedWrapper;
   };
