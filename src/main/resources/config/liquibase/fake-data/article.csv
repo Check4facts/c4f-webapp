@@ -4,8 +4,8 @@ id;preview_title;preview_image;preview_image_content_type;article_date;published
 3;copy Directives;../fake-data/blob/hipster.png;image/png;2020-09-10T11:08:55;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;3
 4;Sleek backing up;../fake-data/blob/hipster.png;image/png;2020-09-11T08:11:12;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;4
 5;firewall;../fake-data/blob/hipster.png;image/png;2020-09-10T19:16:07;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;5
-6;visualize;../fake-data/blob/hipster.png;image/png;2020-09-10T16:13:44;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;6
-7;microchip fuchsia Pre-emptive;../fake-data/blob/hipster.png;image/png;2020-09-11T07:09:15;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;7
-8;Pizza Nevada;../fake-data/blob/hipster.png;image/png;2020-09-10T12:11:04;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;8
-9;Operations Persistent alliance;../fake-data/blob/hipster.png;image/png;2020-09-11T02:55:30;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;9
-10;programming program;../fake-data/blob/hipster.png;image/png;2020-09-10T22:27:36;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;10
+6;visualize;../fake-data/blob/hipster.png;image/png;2020-09-10T16:13:44;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;1
+7;microchip fuchsia Pre-emptive;../fake-data/blob/hipster.png;image/png;2020-09-11T07:09:15;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;2
+8;Pizza Nevada;../fake-data/blob/hipster.png;image/png;2020-09-10T12:11:04;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;3
+9;Operations Persistent alliance;../fake-data/blob/hipster.png;image/png;2020-09-11T02:55:30;false;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;4
+10;programming program;../fake-data/blob/hipster.png;image/png;2020-09-10T22:27:36;true;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;5
