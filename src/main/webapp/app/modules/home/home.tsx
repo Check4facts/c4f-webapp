@@ -6,7 +6,7 @@ import { Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { Row, Col, Container, UncontrolledCarousel } from 'reactstrap';
-import { getEntities } from 'app/entities/article/article.reducer';
+import { getMostRecentArticles } from 'app/entities/article/article.reducer';
 import {Link} from "react-router-dom";
 import moment from "moment";
 
@@ -16,7 +16,7 @@ export const Home = (props: IHomeProp) => {
   const { articleList } = props;
 
   useEffect(() => {
-    props.getEntities()
+    props.getMostRecentArticles(5);
   }, []);
 
   const slides = () => _.orderBy(articleList, art => moment(art.articleDate), ['desc']).filter(pubArt => pubArt.published).slice(0,5).map((article, idx) => ({
@@ -64,7 +64,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getEntities
+  getMostRecentArticles
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

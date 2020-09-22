@@ -9,6 +9,7 @@ import { IArticle, defaultValue } from 'app/shared/model/article.model';
 export const ACTION_TYPES = {
   SEARCH_ARTICLES: 'article/SEARCH_ARTICLES',
   FETCH_ARTICLE_LIST: 'article/FETCH_ARTICLE_LIST',
+  FETCH_MOST_RECENT_ARTICLE_LIST: 'article/FETCH_MOST_RECENT_ARTICLE_LIST',
   FETCH_ARTICLE_LIST_BY_CATEGORY_NAME: 'article/FETCH_ARTICLE_LIST_BY_CATEGORY_NAME',
   FETCH_ARTICLE: 'article/FETCH_ARTICLE',
   CREATE_ARTICLE: 'article/CREATE_ARTICLE',
@@ -36,6 +37,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.SEARCH_ARTICLES):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_CATEGORY_NAME):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE):
       return {
@@ -55,6 +57,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
       };
     case FAILURE(ACTION_TYPES.SEARCH_ARTICLES):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_CATEGORY_NAME):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE):
     case FAILURE(ACTION_TYPES.CREATE_ARTICLE):
@@ -69,6 +72,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
       };
     case SUCCESS(ACTION_TYPES.SEARCH_ARTICLES):
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST):
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_CATEGORY_NAME):
       return {
         ...state,
@@ -140,6 +144,14 @@ export const getArticlesByCategoryName = (category, page?: number, size?: number
   return {
     type: ACTION_TYPES.FETCH_ARTICLE_LIST_BY_CATEGORY_NAME,
     payload: axios.get<IArticle>(`${requestUrl}${sort ? '&' : '?'}?cacheBuster=${new Date().getTime()}`),
+  };
+};
+
+export const getMostRecentArticles = (number: number) => {
+  const requestUrl = `${apiUrl}/recent/${number}`;
+  return {
+    type: ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST,
+    payload: axios.get<IArticle>(requestUrl),
   };
 };
 
