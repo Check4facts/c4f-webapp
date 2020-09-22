@@ -2,10 +2,10 @@ import './home.scss';
 
 import React, { useEffect } from 'react';
 import _ from 'lodash';
-import { Translate } from 'react-jhipster';
+import {translate, Translate} from 'react-jhipster';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
-import { Row, Col, Container, UncontrolledCarousel } from 'reactstrap';
+import { Row, Col, Container, UncontrolledCarousel, Button } from 'reactstrap';
 import { getMostRecentArticles } from 'app/entities/article/article.reducer';
 import {Link} from "react-router-dom";
 import moment from "moment";
@@ -27,8 +27,19 @@ export const Home = (props: IHomeProp) => {
     key: `${idx}`
   }));
 
+  const { isAuthenticated } = props;
+
   return (
     <Container fluid className="my-5">
+      { isAuthenticated &&
+        <Row className="my-5">
+          <Col md={{ size: 2, offset: 5 }} className="py-4 bg-info">
+            <Button tag={Link} to="/article" color="primary" style={{ display: 'block', margin: 'auto' }}>
+              {translate("home.article.view")}
+            </Button>
+          </Col>
+        </Row>
+      }
       <Row className="my-5">
         <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
           <h1 className="text-center">

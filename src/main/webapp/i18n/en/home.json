@@ -6,7 +6,8 @@
       "title": "Articles",
       "more": "More",
       "info": "Articles with a background color are not yet published.",
-      "posted": "Posted on "
+      "posted": "Posted on ",
+      "view": "View all Articles"
     },
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
