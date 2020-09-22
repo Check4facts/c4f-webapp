@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { ICrudSearchAction, ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { ICrudSearchAction, ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction, getSortState } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IArticle, defaultValue } from 'app/shared/model/article.model';
+import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 
 export const ACTION_TYPES = {
   SEARCH_ARTICLES: 'article/SEARCH_ARTICLES',
@@ -177,6 +178,8 @@ export const updateEntity: ICrudPutAction<IArticle> = entity => async dispatch =
     type: ACTION_TYPES.UPDATE_ARTICLE,
     payload: axios.put(apiUrl, cleanEntity(entity)),
   });
+  const paginationState = getSortState(location, ITEMS_PER_PAGE);
+  dispatch(getEntities(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`));
   return result;
 };
 
