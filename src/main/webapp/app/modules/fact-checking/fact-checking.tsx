@@ -13,7 +13,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
   return (
     <Container fluid className="my-5">
       <Row className="my-5">
-        <Col sm="12" md={{ size: 6, offset: 3 }}>
+        <Col className="border-bottom" sm="12" md={{ size: 6, offset: 3 }}>
           <h1 className="text-center">
             <Translate contentKey="fact-checking.title" />
           </h1><br/>
@@ -29,7 +29,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
         </Col>
       </Row>
       <Row  className="my-5">
-        <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
+        <Col className="text-center border-bottom pb-5" sm="12" md={{ size: 6, offset: 3 }}>
           <Input placeholder={translate("fact-checking.check.placeholder")} /><br/>
           <Button color="primary">
             <Translate contentKey="fact-checking.check.button"/>
@@ -57,8 +57,17 @@ export const FactChecking = (props: IFactCheckingProps) => {
           </h3>
         </Col>
       </Row>
-      <Row className="my-5 pt-5">
-        <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
+      <Row className="my-5">
+        <Col className="text-center border-top pt-5" sm="12" md={{ size: 6, offset: 3 }}>
+          <h2>
+            <Link className="text-primary" to={`${props.match.url}/ethics`}>
+              <Translate contentKey="fact-checking.ethics.main" />
+            </Link>
+          </h2>
+        </Col>
+      </Row>
+      <Row className="my-5">
+        <Col className="text-center pt-5 border-top" sm="12" md={{ size: 6, offset: 3 }}>
           <h2><Translate contentKey="fact-checking.third-party" /></h2><br/><br/>
           <ul style={{ listStyleType: 'none', fontWeight: 'bold' }}>
             {
@@ -69,15 +78,6 @@ export const FactChecking = (props: IFactCheckingProps) => {
               ))
             }
           </ul>
-        </Col>
-      </Row>
-      <Row className="my-5 pt-5">
-        <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
-          <h2>
-            <Link className="text-primary" to={`${props.match.url}/ethics`}>
-              <Translate contentKey="fact-checking.ethics.main" />
-            </Link>
-          </h2>
         </Col>
       </Row>
     </Container>
