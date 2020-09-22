@@ -17,11 +17,13 @@
       "detail": {
         "title": "Άρθρο"
       },
+      "display": "Προβολή",
       "previewTitle": "Τίτλος Προεπισκόπησης",
       "category": "Κατηγορία",
       "previewImage": "Εικόνα Προεπισκόπησης",
       "articleDate": "Ημερομηνία Άθρου",
-      "published": "Δημοσιεύτηκε",
+      "published": "Δημοσιευμένο",
+      "unpublished": "Αδημοσίευτο",
       "content": "Περιεχόμενο",
       "previewText": "Κείμενο Προεπισκόπησης"
     }

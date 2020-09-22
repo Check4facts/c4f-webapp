@@ -17,11 +17,13 @@
       "detail": {
         "title": "Article"
       },
+      "display": "Display",
       "previewTitle": "Preview Title",
       "category": "Category",
       "previewImage": "Preview Image",
       "articleDate": "Article Date",
       "published": "Published",
+      "unpublished": "Unpublished",
       "content": "Content",
       "previewText": "Preview Text"
     }

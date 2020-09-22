@@ -16,7 +16,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities } from './article.reducer';
+import { getSearchEntities, getEntities, updateEntity } from './article.reducer';
 import { APP_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
@@ -78,17 +78,7 @@ export const Article = (props: IArticleProps) => {
 
   useEffect(() => {
     sortEntities();
-  }, [paginationState.activePage, paginationState.order, paginationState.sort]);
-
-  useEffect(() => {
-    if (search === '') {
-      setPaginationState({
-        ...paginationState,
-        activePage: 1,
-      });
-      props.getEntities();
-    }
-  }, [search])
+  }, [paginationState.activePage, paginationState.order, paginationState.sort, search]);
 
   useEffect(() => {
     const params = new URLSearchParams(props.location.search);
@@ -117,6 +107,12 @@ export const Article = (props: IArticleProps) => {
     setPaginationState({
       ...paginationState,
       activePage: currentPage,
+    });
+
+  const togglePublished = article => () =>
+    props.updateEntity({
+      ...article,
+      published: !article.published
     });
 
   const { articleList, match, loading, totalItems } = props;
@@ -161,24 +157,22 @@ export const Article = (props: IArticleProps) => {
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('previewTitle')}>
-                  <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand">
+                  <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate>
                 </th>
-                <th className="hand" onClick={sort('previewText')}>
-                  <Translate contentKey="check4FactsApp.article.previewText">Preview Text</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand">
+                  <Translate contentKey="check4FactsApp.article.previewText">Preview Text</Translate>
                 </th>
-                <th className="hand" onClick={sort('category')}>
-                  <Translate contentKey="check4FactsApp.article.category">Category</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand">
+                  <Translate contentKey="check4FactsApp.article.category">Category</Translate>
                 </th>
-                <th className="hand" onClick={sort('previewImage')}>
-                  <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand">
+                  <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
                 </th>
                 <th className="hand" onClick={sort('articleDate')}>
                   <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('published')}>
-                  <Translate contentKey="check4FactsApp.article.published">Published</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
+                <th/>
                 <th />
               </tr>
             </thead>
@@ -212,13 +206,24 @@ export const Article = (props: IArticleProps) => {
                     ) : null}
                   </td>
                   <td>{article.articleDate ? <TextFormat type="date" value={article.articleDate} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{article.published ? 'true' : 'false'}</td>
+                  <td>
+                    <Button
+                      color={article.published ? 'success' : 'danger' }
+                      onClick={togglePublished(article)}
+                      style={{
+                        display: 'block',
+                        margin:'auto'
+                      }}
+                    >
+                      {translate(`check4FactsApp.article.${article.published ? 'published' : 'unpublished'}`)}
+                    </Button>
+                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${article.id}`} color="info" size="sm">
+                      <Button tag={Link} to={`${match.url}/${article.id}/display`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
+                          <Translate contentKey="check4FactsApp.article.display" />
                         </span>
                       </Button>
                       <Button
@@ -288,6 +293,7 @@ const mapStateToProps = ({ article }: IRootState) => ({
 const mapDispatchToProps = {
   getSearchEntities,
   getEntities,
+  updateEntity
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
