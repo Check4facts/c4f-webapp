@@ -17,7 +17,12 @@
       "detail": {
         "title": "Category"
       },
-      "name": "Name"
+      "name": "Name",
+      "news": "News",
+      "immigration": "Immigration",
+      "crime": "Crime",
+      "publication": "Publication",
+      "report": "Report"
     }
   }
 }

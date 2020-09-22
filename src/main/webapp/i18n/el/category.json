@@ -15,9 +15,14 @@
         "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Category {{ id }};"
       },
       "detail": {
-        "title": "Category"
+        "title": "Κατηγορία"
       },
-      "name": "Name"
+      "name": "Όνομα",
+      "news": "Νέα",
+      "immigration": "Μεταναστευτικό",
+      "crime": "Έγκλημα",
+      "publication": "Δημοσίευση",
+      "report": "Έκθεση"
     }
   }
 }

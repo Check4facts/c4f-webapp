@@ -3,16 +3,13 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, openFile, byteSize, ICrudPutAction } from 'react-jhipster';
+import { Translate, translate, setFileData, openFile, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './article.reducer';
-import { IArticle } from 'app/shared/model/article.model';
-import { ICategory } from 'app/shared/model/category.model';
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 
 import CKEditor from '@ckeditor/ckeditor5-react';
 import DecoupledEditor from 'ckeditor5-build-decoupled-document-base64-imageresize';
@@ -139,7 +136,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                   {categories
                     ? categories.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.name}
+                        {translate(`check4FactsApp.category.${otherEntity.name}`)}
                       </option>
                     ))
                     : null}
