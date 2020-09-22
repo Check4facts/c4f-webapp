@@ -141,5 +141,20 @@ public class ArticleResource {
         Page<Article> page = articleService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-        }
+    }
+
+    /**
+     * {@code GET  /articles/category_name/:category} : get all the articles by category name "category".
+     *
+     * @param category the name of the category
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of articles in body.
+     */
+    @GetMapping("/articles/category_name/{category}")
+    public ResponseEntity<List<Article>> getAllArticlesByCategory_Name(@PathVariable String category, Pageable pageable) {
+        log.debug("REST request to get a page of Articles by Category Name: {}", category);
+        Page<Article> page = articleService.findAllByCategory_Name(category, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }

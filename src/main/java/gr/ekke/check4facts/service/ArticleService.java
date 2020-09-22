@@ -92,5 +92,19 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public Page<Article> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Articles for query {}", query);
-        return articleSearchRepository.search(queryStringQuery(query), pageable);    }
+        return articleSearchRepository.search(queryStringQuery(query), pageable);
+    }
+
+    /**
+     * Get all the articles by category name.
+     *
+     * @param category the name of the category
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<Article> findAllByCategory_Name(String category, Pageable pageable) {
+        log.debug("Request to get all Articles by Category Name: {}", category);
+        return articleRepository.findAllByCategory_Name(category, pageable);
+    }
 }
