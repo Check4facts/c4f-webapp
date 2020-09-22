@@ -71,13 +71,13 @@ export const SubMenus = (props: ISubMenusProps) => {
       </Row>
       {articlesByCategory.map(article => (
         <Row className="my-5" key={article.id}>
-          <Col>
+          <Col md="3">
             {article.previewImage
               ? <img src={`data:${article.previewImageContentType};base64,${article.previewImage}`} alt="previewImage" style={{ display: 'block', margin: 'auto' }} />
               : null
             }
           </Col>
-          <Col className="border-left">
+          <Col md="9" className="border-left">
             <h2 className="text-center">{article.previewTitle}/{article.id}</h2>
             <p className="mt-5">{article.previewText}</p>
           </Col>
