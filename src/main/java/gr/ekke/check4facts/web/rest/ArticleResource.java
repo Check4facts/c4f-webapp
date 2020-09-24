@@ -146,16 +146,16 @@ public class ArticleResource {
     }
 
     /**
-     * {@code GET  /articles/published/:published/category_name/:category} : get all the articles by category name "category".
+     * {@code GET  /articles/published/:published/category_name/:category} : get all the articles by published category name "category".
      *
-     * @param published the published state of the articles
+     * @param published if true returns only published articles else returns them all.
      * @param category the name of the category
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of articles in body.
      */
     @GetMapping("/articles/published/{published}/category_name/{category}")
     public ResponseEntity<List<Article>> getAllArticlesByPublishedAndCategory_Name( @PathVariable Boolean published, @PathVariable String category, Pageable pageable) {
-        log.debug("REST request to get a page of Articles by Category Name: {}", category);
+        log.debug("REST request to get a page of Articles by Published and Category Name: {}", category);
         Page<Article> page = articleService.findAllByPublishedAndCategory_Name(published, category, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

@@ -98,14 +98,15 @@ public class ArticleService {
     /**
      * Get all the articles by category name.
      *
+     * @param published if true returns only published articles else returns them all.
      * @param category the name of the category
      * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public Page<Article> findAllByPublishedAndCategory_Name(Boolean published, String category, Pageable pageable) {
-        log.debug("Request to get all Articles by Category Name: {}", category);
-        return articleRepository.findAllByPublishedAndCategory_Name(published, category, pageable);
+        log.debug("Request to get all Articles by Published and Category Name: {}", category);
+        return published ? articleRepository.findAllByPublishedAndCategory_Name(true, category, pageable) : articleRepository.findAllByCategory_Name(category, pageable);
     }
 
     /**
