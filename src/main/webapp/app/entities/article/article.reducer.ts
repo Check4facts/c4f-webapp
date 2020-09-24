@@ -148,8 +148,8 @@ export const getArticlesByCategoryName = (category, page?: number, size?: number
   };
 };
 
-export const getMostRecentArticles = (number: number) => {
-  const requestUrl = `${apiUrl}/recent/${number}`;
+export const getMostRecentPublishedArticles = (number: number) => {
+  const requestUrl = `${apiUrl}/recent/published/${number}`;
   return {
     type: ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST,
     payload: axios.get<IArticle>(requestUrl),
