@@ -103,9 +103,9 @@ public class ArticleService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Article> findAllByCategory_Name(String category, Pageable pageable) {
+    public Page<Article> findAllByPublishedAndCategory_Name(Boolean published, String category, Pageable pageable) {
         log.debug("Request to get all Articles by Category Name: {}", category);
-        return articleRepository.findAllByCategory_Name(category, pageable);
+        return articleRepository.findAllByPublishedAndCategory_Name(published, category, pageable);
     }
 
     /**

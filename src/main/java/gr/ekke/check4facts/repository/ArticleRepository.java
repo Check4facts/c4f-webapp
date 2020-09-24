@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    Page<Article> findAllByCategory_Name(String category, Pageable pageable);
+    Page<Article> findAllByPublishedAndCategory_Name(Boolean published,String category, Pageable pageable);
 
     Page<Article> findAllByPublishedTrue(Pageable pageable);
 }
