@@ -4,7 +4,7 @@ import { IRootState } from 'app/shared/reducers';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Container, Col } from 'reactstrap';
 import {getSortState, JhiItemCount, JhiPagination, Translate} from "react-jhipster";
-import { getArticlesByCategoryName } from 'app/entities/article/article.reducer';
+import { getArticlesByPublishedAndCategoryName } from 'app/entities/article/article.reducer';
 import {overridePaginationStateWithQueryParams} from "app/shared/util/entity-utils";
 import {ITEMS_PER_PAGE} from "app/shared/util/pagination.constants";
 
@@ -15,12 +15,8 @@ export const SubMenus = (props: ISubMenusProps) => {
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
   );
 
-  useEffect(() => {
-    props.getArticlesByCategoryName(props.match.params.id);
-  }, []);
-
   const getAllEntities = () => {
-    props.getArticlesByCategoryName(props.match.params.id, paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+    props.getArticlesByPublishedAndCategoryName(!props.isAuthenticated, props.match.params.id, paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
   }
 
   const sortEntities = () => {
@@ -106,13 +102,14 @@ export const SubMenus = (props: ISubMenusProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  isAuthenticated: storeState.authentication.isAuthenticated,
   articlesByCategory: storeState.article.entities,
   loading: storeState.article.loading,
   totalItems: storeState.article.totalItems
 });
 
 const mapDispatchToProps = {
-  getArticlesByCategoryName
+  getArticlesByPublishedAndCategoryName
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
