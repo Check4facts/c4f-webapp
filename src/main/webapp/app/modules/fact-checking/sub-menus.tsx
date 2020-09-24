@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Container, Col } from 'reactstrap';
-import {getSortState, JhiItemCount, JhiPagination, Translate} from "react-jhipster";
+import {getSortState, JhiItemCount, JhiPagination, translate, Translate} from "react-jhipster";
 import { getArticlesByPublishedAndCategoryName } from 'app/entities/article/article.reducer';
 import {overridePaginationStateWithQueryParams} from "app/shared/util/entity-utils";
 import {ITEMS_PER_PAGE} from "app/shared/util/pagination.constants";
@@ -29,7 +29,7 @@ export const SubMenus = (props: ISubMenusProps) => {
 
   useEffect(() => {
     sortEntities();
-  }, [paginationState.activePage, paginationState.order, paginationState.sort]);
+  }, [props.isAuthenticated, paginationState.activePage, paginationState.order, paginationState.sort]);
 
   useEffect(() => {
     const params = new URLSearchParams(props.location.search);
@@ -52,7 +52,7 @@ export const SubMenus = (props: ISubMenusProps) => {
       activePage: currentPage,
     });
 
-  const { articlesByCategory } = props;
+  const { articlesByCategory, isAuthenticated } = props;
 
   return (
     <Container>
@@ -76,6 +76,7 @@ export const SubMenus = (props: ISubMenusProps) => {
           <Col md="9" className="border-left">
             <h2 className="text-center">{article.previewTitle}/{article.id}</h2>
             <p className="mt-5">{article.previewText}</p>
+            {isAuthenticated && !article.published && <p className="text-right text-danger">{translate('check4FactsApp.article.unpublished')}</p>}
           </Col>
         </Row>
       ))}
