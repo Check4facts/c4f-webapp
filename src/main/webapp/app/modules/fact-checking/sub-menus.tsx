@@ -76,7 +76,7 @@ export const SubMenus = (props: ISubMenusProps) => {
           <Col md="9" className="border-left">
             <h2 className="text-center">{article.previewTitle}/{article.id}</h2>
             <p className="mt-5">{article.previewText}</p>
-            {isAuthenticated && !article.published && <p className="text-right text-danger">{translate('check4FactsApp.article.unpublished')}</p>}
+            {isAuthenticated && !article.published && <p className="text-right text-danger text-uppercase">{translate('check4FactsApp.article.unpublished')}</p>}
           </Col>
         </Row>
       ))}
