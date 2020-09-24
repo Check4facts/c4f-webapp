@@ -107,4 +107,16 @@ public class ArticleService {
         log.debug("Request to get all Articles by Category Name: {}", category);
         return articleRepository.findAllByCategory_Name(category, pageable);
     }
+
+    /**
+     * Get all published articles
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public Page<Article> findAllPublished(Pageable pageable) {
+        log.debug("Request to get all published Articles");
+        return articleRepository.findAllByPublishedTrue(pageable);
+    }
 }

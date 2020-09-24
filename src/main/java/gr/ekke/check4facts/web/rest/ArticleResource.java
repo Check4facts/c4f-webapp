@@ -161,15 +161,15 @@ public class ArticleResource {
     }
 
     /**
-     * {@code GET /articles/recent/:number} : get "number" most recent articles
+     * {@code GET /articles/recent/published/:number} : get "number" most recent published articles
      *
      * @param number the number of top n articles to fetch.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of articles in body.
      */
-    @GetMapping("/articles/recent/{number}")
-    public ResponseEntity<List<Article>> getMostRecentArticles(@PathVariable Integer number) {
-        log.debug("REST request to get {} most recent Articles", number);
-        Page<Article> page = articleService.findAll(PageRequest.of(0, number, Sort.by(Sort.Direction.DESC, "articleDate")));
+    @GetMapping("/articles/recent/published/{number}")
+    public ResponseEntity<List<Article>> getMostRecentPublishedArticles(@PathVariable Integer number) {
+        log.debug("REST request to get {} most recent published Articles", number);
+        Page<Article> page = articleService.findAllPublished(PageRequest.of(0, number, Sort.by(Sort.Direction.DESC, "articleDate")));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
