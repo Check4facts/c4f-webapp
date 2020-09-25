@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, InputGroup, Col, Row, Table } from 'reactstrap';
+import { Button, InputGroup, Col, Row, Table, Input, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 import {
   openFile,
@@ -16,15 +16,18 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities, updateEntity } from './article.reducer';
+import { getSearchEntities, getEntities, updateEntity, getArticlesByPublishedAndCategoryName } from './article.reducer';
+import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { APP_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import {ICategory} from "app/shared/model/category.model";
 
 export interface IArticleProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Article = (props: IArticleProps) => {
   const [search, setSearch] = useState('');
+  const [categoryId, setCategoryId] = useState(0);
   const [paginationState, setPaginationState] = useState(
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
   );
@@ -77,8 +80,22 @@ export const Article = (props: IArticleProps) => {
   };
 
   useEffect(() => {
-    sortEntities();
-  }, [paginationState.activePage, paginationState.order, paginationState.sort, search]);
+    props.getCategories();
+  }, [])
+
+  useEffect(() => {
+    if(`${categoryId}` !== '0') {
+      props.getArticlesByPublishedAndCategoryName(false, props.categories[categoryId-1].name, paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+    } else {
+      sortEntities();
+    }
+  }, [paginationState.activePage, paginationState.order, paginationState.sort, categoryId]);
+
+  useEffect(() => {
+    if(search === '') {
+      sortEntities();
+    }
+  }, [search])
 
   useEffect(() => {
     const params = new URLSearchParams(props.location.search);
@@ -115,6 +132,13 @@ export const Article = (props: IArticleProps) => {
       published: !article.published
     });
 
+  const dropDownCategories: ICategory[] = [
+    {
+      id: 0,
+      name: 'all'
+    }
+  ]
+
   const { articleList, match, loading, totalItems } = props;
   return (
     <div>
@@ -127,7 +151,7 @@ export const Article = (props: IArticleProps) => {
         </Link>
       </h2>
       <Row>
-        <Col sm="12">
+        <Col sm="12" md={{ size: 6, offset: 3 }}>
           <AvForm onSubmit={startSearching}>
             <AvGroup>
               <InputGroup>
@@ -149,6 +173,30 @@ export const Article = (props: IArticleProps) => {
           </AvForm>
         </Col>
       </Row>
+      <Row>
+        <Col md={{ size: 3, offset: 5 }}>
+          <InputGroup>
+            <Label for="article-category" className="mx-1 p-2">
+              <Translate contentKey="check4FactsApp.article.category">Category</Translate>
+            </Label>
+            <Input
+              id="article-category"
+              type="select"
+              name="category.id"
+              onChange={e => setCategoryId(e.target.value)}
+              value={categoryId}
+            >
+              {props.categories
+                ? dropDownCategories.concat(props.categories).map(otherEntity => (
+                  <option value={otherEntity.id} key={otherEntity.id}>
+                    {translate(`check4FactsApp.category.${otherEntity.name}`)}
+                  </option>
+                ))
+                : null}
+            </Input>
+          </InputGroup>
+        </Col>
+      </Row>
       <div className="table-responsive">
         {articleList && articleList.length > 0 ? (
           <Table responsive>
@@ -157,16 +205,16 @@ export const Article = (props: IArticleProps) => {
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand">
+                <th>
                   <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate>
                 </th>
-                <th className="hand">
+                <th>
                   <Translate contentKey="check4FactsApp.article.previewText">Preview Text</Translate>
                 </th>
-                <th className="hand">
+                <th>
                   <Translate contentKey="check4FactsApp.article.category">Category</Translate>
                 </th>
-                <th className="hand">
+                <th>
                   <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
                 </th>
                 <th className="hand" onClick={sort('articleDate')}>
@@ -186,7 +234,7 @@ export const Article = (props: IArticleProps) => {
                   </td>
                   <td>{article.previewTitle}</td>
                   <td>{article.previewText}</td>
-                  <td>{article.category ? <Link to={`category/${article.category.id}`}>{article.category.name}</Link> : ''}</td>
+                  <td>{article.category ? <Translate contentKey={`check4FactsApp.category.${article.category.name}`}/> : ''}</td>
                   <td>
                     {article.previewImage ? (
                       <div>
@@ -284,15 +332,18 @@ export const Article = (props: IArticleProps) => {
   );
 };
 
-const mapStateToProps = ({ article }: IRootState) => ({
-  articleList: article.entities,
-  loading: article.loading,
-  totalItems: article.totalItems,
+const mapStateToProps = (storeState: IRootState) => ({
+  articleList: storeState.article.entities,
+  categories: storeState.category.entities,
+  loading: storeState.article.loading,
+  totalItems: storeState.article.totalItems,
 });
 
 const mapDispatchToProps = {
   getSearchEntities,
   getEntities,
+  getCategories,
+  getArticlesByPublishedAndCategoryName,
   updateEntity
 };
 

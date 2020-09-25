@@ -22,7 +22,8 @@
       "immigration": "Immigration",
       "crime": "Crime",
       "publication": "Publication",
-      "report": "Report"
+      "report": "Report",
+      "all": "All"
     }
   }
 }
