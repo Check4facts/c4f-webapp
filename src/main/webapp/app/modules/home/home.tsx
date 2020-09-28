@@ -43,7 +43,7 @@ export const Home = (props: IHomeProp) => {
       <Row className="my-5">
         <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
           <h1 className="text-center">
-            <Translate contentKey="home.title" /><span className="check-4-fact">Check4Fact.gr</span>
+            <Translate contentKey="home.title" /><span className="check-4-fact">Check4Facts.gr</span>
           </h1>
           <p>
             <Translate contentKey="home.subtitle" />
