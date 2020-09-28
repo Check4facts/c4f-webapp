@@ -146,6 +146,24 @@ public class ArticleResource {
     }
 
     /**
+     * {@code SEARCH  /_search/articles/:category?query=:query} : search for the article corresponding
+     * to the query in a certain category.
+     *
+     * @param category the category in which to search articles
+     * @param published if true returns only published articles else returns them all.
+     * @param query the query of the article search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
+     */
+    @GetMapping("/_search/articles/{category}/{published}")
+    public ResponseEntity<List<Article>> searchArticlesInCategory(@PathVariable String category, @PathVariable Boolean published, @RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Articles of category {} for query {}", category, query);
+        Page<Article> page = articleService.searchInCategory(category, published, query, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
      * {@code GET  /articles/published/:published/category_name/:category} : get all the articles by published category name "category".
      *
      * @param published if true returns only published articles else returns them all.

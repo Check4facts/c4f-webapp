@@ -3,6 +3,8 @@ package gr.ekke.check4facts.service;
 import gr.ekke.check4facts.domain.Article;
 import gr.ekke.check4facts.repository.ArticleRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,5 +121,29 @@ public class ArticleService {
     public Page<Article> findAllPublished(Pageable pageable) {
         log.debug("Request to get all published Articles");
         return articleRepository.findAllByPublishedTrue(pageable);
+    }
+
+    /**
+     * Search for the article corresponding to the query in a certain category.
+     *
+     * @param category the category in which to search articles
+     * @param published if true returns only published articles else returns them all.
+     * @param query the query of the search.
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<Article> searchInCategory(String category, Boolean published, String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Articles of category {} for query {}", category, query);
+        return published
+            ? articleSearchRepository.search(
+                boolQuery()
+                    .must(termQuery("published", true))
+                    .must(termQuery("category.name", category))
+                    .must(queryStringQuery(query)), pageable)
+            : articleSearchRepository.search(
+                boolQuery()
+                    .must(termQuery("category.name", category))
+                    .must(queryStringQuery(query)), pageable);
     }
 }
