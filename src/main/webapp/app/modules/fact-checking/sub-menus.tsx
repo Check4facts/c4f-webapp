@@ -2,21 +2,35 @@ import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { RouteComponentProps } from 'react-router-dom';
-import { Row, Container, Col } from 'reactstrap';
+import { Row, Container, Col, Button, InputGroup } from 'reactstrap';
+import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 import {getSortState, JhiItemCount, JhiPagination, translate, Translate} from "react-jhipster";
-import { getArticlesByPublishedAndCategoryName } from 'app/entities/article/article.reducer';
+import { getArticlesByPublishedAndCategoryName, getSearchEntitiesInCategory } from 'app/entities/article/article.reducer';
 import {overridePaginationStateWithQueryParams} from "app/shared/util/entity-utils";
 import {ITEMS_PER_PAGE} from "app/shared/util/pagination.constants";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface ISubMenusProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const SubMenus = (props: ISubMenusProps) => {
+  const [search, setSearch] = useState('');
   const [paginationState, setPaginationState] = useState(
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
   );
 
   const getAllEntities = () => {
-    props.getArticlesByPublishedAndCategoryName(!props.isAuthenticated, props.match.params.id, paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+    if (search) {
+      props.getSearchEntitiesInCategory(
+        search,
+        !props.isAuthenticated,
+        props.match.params.id,
+        paginationState.activePage - 1,
+        paginationState.itemsPerPage,
+        `${paginationState.sort},${paginationState.order}`
+      );
+    } else {
+      props.getArticlesByPublishedAndCategoryName(!props.isAuthenticated, props.match.params.id, paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+    }
   }
 
   const sortEntities = () => {
@@ -27,9 +41,43 @@ export const SubMenus = (props: ISubMenusProps) => {
     }
   };
 
+  const startSearching = () => {
+    if (search) {
+      setPaginationState({
+        ...paginationState,
+        activePage: 1,
+      });
+      props.getSearchEntitiesInCategory(
+        search,
+        !props.isAuthenticated,
+        props.match.params.id,
+        paginationState.activePage - 1,
+        paginationState.itemsPerPage,
+        `${paginationState.sort},${paginationState.order}`
+      );
+    }
+  };
+
+  const handleSearch = event => setSearch(event.target.value);
+
+  const clear = () => {
+    setSearch('');
+    setPaginationState({
+      ...paginationState,
+      activePage: 1,
+    });
+    props.getArticlesByPublishedAndCategoryName(!props.isAuthenticated, props.match.params.id);
+  };
+
   useEffect(() => {
     sortEntities();
-  }, [props.isAuthenticated, paginationState.activePage, paginationState.order, paginationState.sort]);
+  }, [props.isAuthenticated, paginationState.activePage, paginationState.order, paginationState.sort, props.match.params.id]);
+
+  useEffect(() => {
+    if(search === '') {
+      sortEntities();
+    }
+  }, [search]);
 
   useEffect(() => {
     const params = new URLSearchParams(props.location.search);
@@ -65,7 +113,30 @@ export const SubMenus = (props: ISubMenusProps) => {
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate posuere lorem eu sodales. Aliquam vel justo nulla. Ut finibus dolor ac placerat molestie. Praesent eget ipsum metus. Sed eget lectus convallis nisl sodales consequat. Aenean interdum urna dolor, ultricies fermentum dui iaculis sed. Morbi non lorem porttitor, ullamcorper nisi laoreet, pellentesque nibh. Pellentesque nec aliquet mauris. Phasellus eu tortor sagittis justo rutrum lobortis sed ut risus. Nullam ipsum libero, ultricies et ligula ac, placerat rutrum lorem. Sed urna urna, vestibulum eget purus eget, interdum suscipit nisl. Cras a sapien libero. Mauris magna risus, congue eu molestie in, luctus id lorem. Donec eget tempor lorem. Praesent varius vitae est non tempus. Donec condimentum purus ex, tempus hendrerit massa dictum et.</p>
         </Col>
       </Row>
-      {articlesByCategory.map(article => (
+       <Row>
+        <Col sm="12">
+          <AvForm onSubmit={startSearching}>
+            <AvGroup>
+              <InputGroup>
+                <AvInput
+                  type="text"
+                  name="search"
+                  value={search}
+                  onChange={handleSearch}
+                  placeholder={translate('check4FactsApp.article.home.search')}
+                />
+                <Button className="input-group-addon">
+                  <FontAwesomeIcon icon="search" />
+                </Button>
+                <Button type="reset" className="input-group-addon" onClick={clear}>
+                  <FontAwesomeIcon icon="trash" />
+                </Button>
+              </InputGroup>
+            </AvGroup>
+          </AvForm>
+        </Col>
+       </Row>
+      {articlesByCategory && articlesByCategory.length > 0 ? articlesByCategory.map(article => (
         <Row className="my-5" key={article.id}>
           <Col md="3">
             {article.previewImage
@@ -79,7 +150,13 @@ export const SubMenus = (props: ISubMenusProps) => {
             {isAuthenticated && !article.published && <p className="text-right text-danger text-uppercase">{translate('check4FactsApp.article.unpublished')}</p>}
           </Col>
         </Row>
-      ))}
+      )) : (
+        !props.loading && (
+          <div className="alert alert-warning">
+            <Translate contentKey="check4FactsApp.article.home.notFound">No Articles found</Translate>
+          </div>
+        )
+      )}
       {props.totalItems ? (
         <div className={articlesByCategory && articlesByCategory.length > 0 ? '' : 'd-none'}>
           <Row className="justify-content-center">
@@ -110,7 +187,8 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getArticlesByPublishedAndCategoryName
+  getArticlesByPublishedAndCategoryName,
+  getSearchEntitiesInCategory
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

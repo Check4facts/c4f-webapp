@@ -9,6 +9,7 @@ import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 
 export const ACTION_TYPES = {
   SEARCH_ARTICLES: 'article/SEARCH_ARTICLES',
+  SEARCH_ARTICLES_IN_CATEGORY: 'article/SEARCH_ARTICLES_IN_CATEGORY',
   FETCH_ARTICLE_LIST: 'article/FETCH_ARTICLE_LIST',
   FETCH_MOST_RECENT_ARTICLE_LIST: 'article/FETCH_MOST_RECENT_ARTICLE_LIST',
   FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME: 'article/FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME',
@@ -37,6 +38,7 @@ export type ArticleState = Readonly<typeof initialState>;
 export default (state: ArticleState = initialState, action): ArticleState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.SEARCH_ARTICLES):
+    case REQUEST(ACTION_TYPES.SEARCH_ARTICLES_IN_CATEGORY):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE_LIST):
     case REQUEST(ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
@@ -57,6 +59,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
         updating: true,
       };
     case FAILURE(ACTION_TYPES.SEARCH_ARTICLES):
+    case FAILURE(ACTION_TYPES.SEARCH_ARTICLES_IN_CATEGORY):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE_LIST):
     case FAILURE(ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
@@ -72,6 +75,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
         errorMessage: action.payload,
       };
     case SUCCESS(ACTION_TYPES.SEARCH_ARTICLES):
+    case SUCCESS(ACTION_TYPES.SEARCH_ARTICLES_IN_CATEGORY):
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE_LIST):
     case SUCCESS(ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST):
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
@@ -131,6 +135,14 @@ export const getSearchEntities: ICrudSearchAction<IArticle> = (query, page, size
   type: ACTION_TYPES.SEARCH_ARTICLES,
   payload: axios.get<IArticle>(`${apiSearchUrl}?query=${query}${sort ? `&page=${page}&size=${size}&sort=${sort}` : ''}`),
 });
+
+export const getSearchEntitiesInCategory = (query, published, category, page?: number, size?: number, sort?: string) => {
+  const requestUrl = `${apiSearchUrl}/${category}/${published}`;
+  return {
+    type: ACTION_TYPES.SEARCH_ARTICLES,
+    payload: axios.get<IArticle>(`${requestUrl}?query=${query}${sort ? `&page=${page}&size=${size}&sort=${sort}` : ''}`),
+  };
+};
 
 export const getEntities: ICrudGetAllAction<IArticle> = (page, size, sort) => {
   const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
