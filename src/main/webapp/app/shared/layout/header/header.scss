@@ -73,3 +73,13 @@ Navbar styles
   top: 0px;
   z-index: 1031;
 }
+
+@media (min-width: 768px) {
+  .dropdown-menu {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .dropdown-menu-right {
+    right: auto;
+  }
+}

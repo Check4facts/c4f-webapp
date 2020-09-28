@@ -1,8 +1,9 @@
 import './header.scss';
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Storage } from 'react-jhipster';
-import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap';
+import { Navbar, Nav, NavbarToggler, Collapse, Row, Col } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
 import { Brand } from './header-components';
@@ -10,6 +11,7 @@ import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
 import { Social } from 'app/shared/layout/menus/social';
 import { AboutMenu } from 'app/shared/layout/menus/about';
 import { DisseminationMenu } from 'app/shared/layout/menus/dissemination';
+import { TopicsMenu } from 'app/shared/layout/menus/topics-menu';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -35,23 +37,35 @@ const Header = (props: IHeaderProps) => {
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
   return (
-    <div id="app-header">
+    <div id="app-header" className="bg-dark fixed-top">
       <LoadingBar className="loading-bar" />
-      <Navbar dark expand="sm" fixed="top" className="bg-dark">
-        <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
-        <Brand />
-        <Collapse isOpen={menuOpen} navbar>
-          <Nav id="header-tabs" className="ml-auto" navbar>
+        <Row xs="2">
+          <Col className="d-flex justify-content-center" md={{ size:3, offset: 3 }} sm="6" >
+            <Brand />
+          </Col>
+          <Col className="d-flex justify-content-center" sm="6" md="3" >
             <Social />
-            {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
-            {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
-            <DisseminationMenu />
-            <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
-            {props.isAuthenticated && <AccountMenu isAdmin={props.isAdmin}/>}
-            <AboutMenu />
-          </Nav>
-        </Collapse>
-      </Navbar>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="d-flex justify-content-center" md={{ size: 6, offset: 3 }} >
+            <Navbar className="pt-0" dark expand="sm" style={{ borderStyle: 'none' }}>
+              <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
+              <Collapse isOpen={menuOpen} navbar>
+                <Nav id="header-tabs" className="ml-auto" navbar>
+                  {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
+                  {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
+                  <Link to="/fact-checking" className="d-flex align-items-center nav-link">FactChecker</Link>
+                  <TopicsMenu />
+                  <DisseminationMenu />
+                  <AboutMenu />
+                  {props.isAuthenticated && <AccountMenu isAdmin={props.isAdmin}/>}
+                  <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
+                </Nav>
+              </Collapse>
+            </Navbar>
+          </Col>
+        </Row>
     </div>
   );
 };
