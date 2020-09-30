@@ -55,15 +55,6 @@ export const Home = (props: IHomeProp) => {
           <UncontrolledCarousel items={slides()} />
         </Col>
       </Row>
-      <Row className="my-5">
-        <Col className="text-center py-5 border-top" md={{ size: 6, offset: 3 }}>
-          <h2>
-            <Link className="text-primary" to="/fact-checking">
-              <Translate contentKey="fact-checking.title" />
-            </Link>
-          </h2>
-        </Col>
-      </Row>
     </Container>
   );
 };
