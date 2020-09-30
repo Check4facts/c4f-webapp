@@ -1,12 +1,10 @@
 {
   "fact-checking": {
-    "title": "Fact Checking tool",
     "page-guidelines": {
       "main": "In this page you will be able to:",
       "guide-1": "Insert your own statement as a request for fact-checking.",
-      "guide-2": "Visit one of the topics and search for existing, fact-checked statements.",
-      "guide-3": "Check other third party fact checkers.",
-      "guide-4": "Review our methodology and code of ethics."
+      "guide-2": "Review our methodology and code of ethics.",
+      "guide-3": "Check other third party fact checkers."
     },
     "check": {
       "placeholder": "Insert your statement",
