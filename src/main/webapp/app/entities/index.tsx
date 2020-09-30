@@ -6,6 +6,7 @@ import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
 import Article from './article';
 import Category from './category';
+import PageNotFound from 'app/shared/error/page-not-found';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 const Routes = ({ match }) => (
@@ -15,6 +16,7 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}article`} component={Article} />
       <ErrorBoundaryRoute path={`${match.url}category`} component={Category} />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
+      <ErrorBoundaryRoute component={PageNotFound} />
     </Switch>
   </div>
 );

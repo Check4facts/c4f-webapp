@@ -15,7 +15,6 @@ import FactChecking from 'app/modules/fact-checking';
 import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
-import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 
 const Account = Loadable({
@@ -44,7 +43,6 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/fact-checking" component={FactChecking} />
       <ErrorBoundaryRoute path="/" exact component={Home} />
       <ErrorBoundaryRoute path="/" component={Entities} />
-      <ErrorBoundaryRoute component={PageNotFound} />
     </Switch>
   </div>
 );
