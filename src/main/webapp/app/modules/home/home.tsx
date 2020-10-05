@@ -1,25 +1,25 @@
 import './home.scss';
 
 import React, { useEffect } from 'react';
-import _ from 'lodash';
 import {translate, Translate} from 'react-jhipster';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { Row, Col, Container, UncontrolledCarousel, Button } from 'reactstrap';
 import { getMostRecentPublishedArticles } from 'app/entities/article/article.reducer';
 import {Link} from "react-router-dom";
-import moment from "moment";
+import ArticlesFeed from "app/shared/layout/templates/articles-feed";
+import {ITEMS_PER_PAGE} from "app/shared/util/pagination.constants";
 
 export interface IHomeProp extends StateProps, DispatchProps {}
 
 export const Home = (props: IHomeProp) => {
-  const { articleList } = props;
+  const { mostRecent } = props;
 
   useEffect(() => {
-    props.getMostRecentPublishedArticles(5);
+    props.getMostRecentPublishedArticles(ITEMS_PER_PAGE);
   }, []);
 
-  const slides = () => _.orderBy(articleList, art => moment(art.articleDate), ['desc']).filter(pubArt => pubArt.published).slice(0,5).map((article, idx) => ({
+  const slides = () => mostRecent.slice(0,5).map((article, idx) => ({
     src: article.previewImage ? `data:${article.previewImageContentType};base64,${article.previewImage}` : null,
     altText: `Slide ${idx}`,
     caption: article.previewText,
@@ -55,6 +55,9 @@ export const Home = (props: IHomeProp) => {
           <UncontrolledCarousel items={slides()} />
         </Col>
       </Row>
+      <Container className="py-5">
+        <ArticlesFeed />
+      </Container>
     </Container>
   );
 };
@@ -62,7 +65,7 @@ export const Home = (props: IHomeProp) => {
 const mapStateToProps = (storeState: IRootState) => ({
   account: storeState.authentication.account,
   isAuthenticated: storeState.authentication.isAuthenticated,
-  articleList: storeState.article.entities
+  mostRecent: storeState.article.entities
 });
 
 const mapDispatchToProps = {
