@@ -9,6 +9,7 @@ import { getArticlesByPublishedAndCategoryName, getSearchEntitiesInCategory } fr
 import {overridePaginationStateWithQueryParams} from "app/shared/util/entity-utils";
 import {ITEMS_PER_PAGE} from "app/shared/util/pagination.constants";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ArticlesFeed from "app/shared/layout/templates/articles-feed";
 
 export interface ISubMenusProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -136,27 +137,7 @@ export const SubMenus = (props: ISubMenusProps) => {
           </AvForm>
         </Col>
        </Row>
-      {articlesByCategory && articlesByCategory.length > 0 ? articlesByCategory.map(article => (
-        <Row className="my-5" key={article.id}>
-          <Col md="3">
-            {article.previewImage
-              ? <img src={`data:${article.previewImageContentType};base64,${article.previewImage}`} alt="previewImage" style={{ display: 'block', margin: 'auto' }} />
-              : null
-            }
-          </Col>
-          <Col md="9" className="border-left">
-            <h2 className="text-center">{article.previewTitle}/{article.id}</h2>
-            <p className="mt-5">{article.previewText}</p>
-            {isAuthenticated && !article.published && <p className="text-right text-danger text-uppercase">{translate('check4FactsApp.article.unpublished')}</p>}
-          </Col>
-        </Row>
-      )) : (
-        !props.loading && (
-          <div className="alert alert-warning">
-            <Translate contentKey="check4FactsApp.article.home.notFound">No Articles found</Translate>
-          </div>
-        )
-      )}
+      <ArticlesFeed />
       {props.totalItems ? (
         <div className={articlesByCategory && articlesByCategory.length > 0 ? '' : 'd-none'}>
           <Row className="justify-content-center">
