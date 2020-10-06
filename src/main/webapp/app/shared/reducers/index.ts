@@ -20,6 +20,7 @@ import article, {
 import category, {
   CategoryState
 } from 'app/entities/category/category.reducer';
+import factChecking, { FactCheckingState } from 'app/modules/fact-checking/fact-checking.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -35,6 +36,7 @@ export interface IRootState {
   readonly settings: SettingsState;
   readonly article: ArticleState;
   readonly category: CategoryState;
+  readonly factChecking: FactCheckingState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -52,6 +54,7 @@ const rootReducer = combineReducers<IRootState>({
   settings,
   article,
   category,
+  factChecking,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });
