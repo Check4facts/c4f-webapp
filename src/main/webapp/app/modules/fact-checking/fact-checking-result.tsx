@@ -5,7 +5,7 @@ import { Translate, translate } from 'react-jhipster';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Input, Button, Container } from 'reactstrap';
 import {THIRD_PARTY_LINK} from "app/config/constants";
-import { setFact } from "app/modules/fact-checking/fact-checking.reducer";
+import { setFact, setURLs } from "app/modules/fact-checking/fact-checking.reducer";
 
 export interface IFactCheckResultProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -13,6 +13,7 @@ export const FactCheckingResult = (props: IFactCheckResultProps) => {
 
   useEffect(() => {
     props.setFact(props.match.params.id.split('_').join(' '));
+    props.setURLs(THIRD_PARTY_LINK.map(item => item.link));
   }, [])
 
   const randStatus = Math.floor(Math.random() * Math.floor(2));
@@ -84,7 +85,8 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  setFact
+  setFact,
+  setURLs
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
