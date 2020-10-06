@@ -1,11 +1,13 @@
 export const ACTION_TYPES = {
   SET_FACT: 'fact/SET_FACT',
+  SET_URLS: 'fact/SET_URLS',
   SAVE_FACT: 'fact/SAVE_FACT',
   RESET: 'fact/RESET',
 };
 
 const initialState = {
   statement: '',
+  urls: [] as string[],
 };
 
 export type FactCheckingState = Readonly<typeof initialState>;
@@ -19,6 +21,11 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
         ...state,
         statement: action.payload,
       };
+    case ACTION_TYPES.SET_URLS:
+      return {
+        ...state,
+        urls: action.payload,
+      };
     case ACTION_TYPES.RESET:
       return {
         ...initialState,
@@ -30,9 +37,14 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
 
 // Actions
 
-export const setFact = statement => ({
+export const setFact = (statement: string) => ({
   type: ACTION_TYPES.SET_FACT,
   payload: statement,
+});
+
+export const setURLs = (urls: string[]) => ({
+  type: ACTION_TYPES.SET_URLS,
+  payload: urls,
 });
 
 export const reset = () => ({
