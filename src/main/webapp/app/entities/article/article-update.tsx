@@ -10,6 +10,7 @@ import { IRootState } from 'app/shared/reducers';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './article.reducer';
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
 
 import CKEditor from '@ckeditor/ckeditor5-react';
 import DecoupledEditor from 'ckeditor5-build-decoupled-document-base64-imageresize';
@@ -22,11 +23,12 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const [categoryId, setCategoryId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { articleEntity, categories, loading, updating } = props;
+  const { articleEntity, categories, loading, updating, statement } = props;
 
   const { previewImage, previewImageContentType } = articleEntity;
 
   const handleClose = () => {
+    props.factReset();
     props.history.push('/article' + props.location.search);
   };
 
@@ -86,7 +88,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? {} : articleEntity} onSubmit={saveEntity}>
+            <AvForm model={isNew ? { previewTitle: statement } : articleEntity} onSubmit={saveEntity}>
               {!isNew ? (
                 <AvGroup>
                   <Label for="article-id">
@@ -240,6 +242,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   loading: storeState.article.loading,
   updating: storeState.article.updating,
   updateSuccess: storeState.article.updateSuccess,
+  statement: storeState.factChecking.statement
 });
 
 const mapDispatchToProps = {
@@ -249,6 +252,7 @@ const mapDispatchToProps = {
   setBlob,
   createEntity,
   reset,
+  factReset
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
