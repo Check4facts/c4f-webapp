@@ -23,7 +23,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const [categoryId, setCategoryId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { articleEntity, categories, loading, updating, statement } = props;
+  const { articleEntity, categories, loading, updating, statement, urls } = props;
 
   const { previewImage, previewImageContentType } = articleEntity;
 
@@ -186,8 +186,13 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                     !isNew
                       ?
                         articleEntity.content
-                      :
-                        "<h1 style=\"text-align: center\">Remove this heading and start writing your article</h1>"
+                      : (
+                        urls.length > 0
+                          ?
+                              urls.map(url => `<blockquote><a href="${url}" target="_blank">${url}</a></blockquote>`).join('\n')
+                          :
+                            "<h1 style=\"text-align: center\">Remove this heading and start writing your article</h1>"
+                      )
                   }
                   onInit={editor => {
                     // Inserts the toolbar before the editable area.
@@ -242,7 +247,8 @@ const mapStateToProps = (storeState: IRootState) => ({
   loading: storeState.article.loading,
   updating: storeState.article.updating,
   updateSuccess: storeState.article.updateSuccess,
-  statement: storeState.factChecking.statement
+  statement: storeState.factChecking.statement,
+  urls: storeState.factChecking.urls
 });
 
 const mapDispatchToProps = {
