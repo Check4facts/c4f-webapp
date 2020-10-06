@@ -15,6 +15,21 @@
       "meth": "Methodology",
       "code": "Code of Ethics"
     },
+    "result": {
+      "action": {
+        "main": "Actions",
+        "createArticle": "Create an article for the statement",
+        "saveFact": "Save as Fact"
+      },
+      "statement": "Statement Under Check",
+      "status": {
+        "main": "Status",
+        "true": "True",
+        "false": "False"
+      },
+      "title": "Statement Check Results",
+      "urls": "List of URLs documenting the decision"
+    },
     "sub-menus": {
       "main": "Topics",
       "immigration": "Immigration",
