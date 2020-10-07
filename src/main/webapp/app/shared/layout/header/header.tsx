@@ -12,6 +12,7 @@ import { Social } from 'app/shared/layout/menus/social';
 import { AboutMenu } from 'app/shared/layout/menus/about';
 import { DisseminationMenu } from 'app/shared/layout/menus/dissemination';
 import { TopicsMenu } from 'app/shared/layout/menus/topics-menu';
+import { MoreMenu } from "app/shared/layout/menus/more";
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -59,6 +60,7 @@ const Header = (props: IHeaderProps) => {
                   <TopicsMenu />
                   <DisseminationMenu />
                   <AboutMenu />
+                  <MoreMenu />
                   {props.isAuthenticated && <AccountMenu isAdmin={props.isAdmin}/>}
                   <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
                 </Nav>

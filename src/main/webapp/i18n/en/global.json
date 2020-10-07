@@ -43,6 +43,11 @@
         "publications": "Scientific Publications",
         "reports": "Technical Reports"
       },
+      "more": {
+        "main": "More",
+        "ethics": "Methodology/Ethics",
+        "third-party": "Third Party Links"
+      },
       "language": "Language"
     },
     "form": {
