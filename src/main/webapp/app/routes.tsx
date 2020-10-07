@@ -12,6 +12,7 @@ import Home from 'app/modules/home/home';
 import About from 'app/modules/about';
 import Dissemination from 'app/modules/dissemination';
 import FactChecking from 'app/modules/fact-checking';
+import More from 'app/modules/more';
 import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
@@ -41,6 +42,7 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/about" component={About} />
       <ErrorBoundaryRoute path="/dissemination" component={Dissemination} />
       <ErrorBoundaryRoute path="/fact-checking" component={FactChecking} />
+      <ErrorBoundaryRoute path="/more" component={More} />
       <ErrorBoundaryRoute path="/" exact component={Home} />
       <ErrorBoundaryRoute path="/" component={Entities} />
     </Switch>
