@@ -4,6 +4,7 @@ import { faSync } from '@fortawesome/free-solid-svg-icons/faSync';
 import { faBan } from '@fortawesome/free-solid-svg-icons/faBan';
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { faSave } from '@fortawesome/free-solid-svg-icons/faSave';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons/faPencilAlt';
@@ -51,6 +52,7 @@ export const loadIcons = () => {
     faBan,
     faTrash,
     faArrowLeft,
+    faArrowRight,
     faSave,
     faPlus,
     faPencilAlt,

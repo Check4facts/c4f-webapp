@@ -25,7 +25,8 @@
       "published": "Published",
       "unpublished": "Unpublished",
       "content": "Content",
-      "previewText": "Preview Text"
+      "previewText": "Preview Text",
+      "urls": "Relative URLs"
     }
   }
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label } from 'reactstrap';
+import { TabContent, TabPane, Button, Row, Col, Label } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 import { Translate, translate, setFileData, openFile, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,16 +11,20 @@ import { getEntity, updateEntity, createEntity, setBlob, reset } from './article
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
+import ArticleContentEditor from "app/entities/article/article-content-editor";
 
 import CKEditor from '@ckeditor/ckeditor5-react';
-import DecoupledEditor from 'ckeditor5-build-decoupled-document-base64-imageresize';
 
 export interface IArticleUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const editorRef = useRef(CKEditor);
+  const [activeTab, setActiveTab] = useState('1');
 
-  const [categoryId, setCategoryId] = useState('0');
+  const toggle = tab => {
+    if(activeTab !== tab) setActiveTab(tab);
+  }
+
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
   const { articleEntity, categories, loading, updating, statement, urls } = props;
@@ -58,7 +62,6 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
 
   const saveEntity = (event, errors, values) => {
     values.articleDate = convertDateTimeToServer(values.articleDate);
-
     values.content = editorRef.current.editor.getData();
     if (errors.length === 0) {
       const entity = {
@@ -77,162 +80,170 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   return (
     <div>
       <Row className="justify-content-center">
-        <Col md="8">
+        <Col className="text-center" md="8">
           <h2 id="check4FactsApp.article.home.createOrEditLabel">
             <Translate contentKey="check4FactsApp.article.home.createOrEditLabel">Create or edit a Article</Translate>
           </h2>
         </Col>
       </Row>
-      <Row className="justify-content-center">
-        <Col md="8">
+      <Row>
+        <Col>
           {loading ? (
             <p>Loading...</p>
           ) : (
             <AvForm model={isNew ? { previewTitle: statement } : articleEntity} onSubmit={saveEntity}>
-              {!isNew ? (
-                <AvGroup>
-                  <Label for="article-id">
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </Label>
-                  <AvInput id="article-id" type="text" className="form-control" name="id" required readOnly />
-                </AvGroup>
-              ) : null}
-              <AvGroup>
-                <Label id="previewTitleLabel" for="article-previewTitle">
-                  <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate>
-                </Label>
-                <AvField
-                  id="article-previewTitle"
-                  type="text"
-                  name="previewTitle"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                  }}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label id="previewTextLabel" for="article-previewText">
-                  <Translate contentKey="check4FactsApp.article.previewText">Preview Text</Translate>
-                </Label>
-                <AvField
-                  id="article-previewText"
-                  type="textarea"
-                  name="previewText"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                  }}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label for="article-category">
-                  <Translate contentKey="check4FactsApp.article.category">Category</Translate>
-                </Label>
-                <AvInput
-                  id="article-category"
-                  type="select"
-                  className="form-control"
-                  name="category.id"
-                  value={isNew ? categories[0] && categories[0].id : articleEntity.category?.id}
-                  required
-                >
-                  {categories
-                    ? categories.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {translate(`check4FactsApp.category.${otherEntity.name}`)}
-                      </option>
-                    ))
-                    : null}
-                </AvInput>
-                <AvFeedback>
-                  <Translate contentKey="entity.validation.required">This field is required.</Translate>
-                </AvFeedback>
-              </AvGroup>
-              <AvGroup>
-                <AvGroup>
-                  <Label id="previewImageLabel" for="previewImage">
-                    <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
-                  </Label>
-                  <br />
-                  {previewImage ? (
-                    <div>
-                      {previewImageContentType ? (
-                        <a onClick={openFile(previewImageContentType, previewImage)}>
-                          <img src={`data:${previewImageContentType};base64,${previewImage}`} style={{ maxHeight: '100px' }} />
-                        </a>
-                      ) : null}
-                      <br />
-                      <Row>
-                        <Col md="11">
+              <TabContent activeTab={activeTab}>
+                <TabPane tabId="1">
+                  <Col md={{ size: 8, offset: 2 }} className="mt-3">
+                    {!isNew ? (
+                      <AvGroup>
+                        <Label for="article-id">
+                          <Translate contentKey="global.field.id">ID</Translate>
+                        </Label>
+                        <AvInput id="article-id" type="text" className="form-control" name="id" required readOnly />
+                      </AvGroup>
+                    ) : null}
+                    <AvGroup>
+                      <Label id="previewTitleLabel" for="article-previewTitle">
+                        <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate>
+                      </Label>
+                      <AvField
+                        id="article-previewTitle"
+                        type="text"
+                        name="previewTitle"
+                        validate={{
+                          required: { value: true, errorMessage: translate('entity.validation.required') },
+                        }}
+                      />
+                    </AvGroup>
+                    <AvGroup>
+                      <Label id="previewTextLabel" for="article-previewText">
+                        <Translate contentKey="check4FactsApp.article.previewText">Preview Text</Translate>
+                      </Label>
+                      <AvField
+                        id="article-previewText"
+                        type="textarea"
+                        name="previewText"
+                        validate={{
+                          required: { value: true, errorMessage: translate('entity.validation.required') },
+                        }}
+                      />
+                    </AvGroup>
+                    <AvGroup>
+                      <Label for="article-category">
+                        <Translate contentKey="check4FactsApp.article.category">Category</Translate>
+                      </Label>
+                      <AvInput
+                        id="article-category"
+                        type="select"
+                        className="form-control"
+                        name="category.id"
+                        value={isNew ? categories[0] && categories[0].id : articleEntity.category?.id}
+                        required
+                      >
+                        {categories
+                          ? categories.map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {translate(`check4FactsApp.category.${otherEntity.name}`)}
+                            </option>
+                          ))
+                          : null}
+                      </AvInput>
+                      <AvFeedback>
+                        <Translate contentKey="entity.validation.required">This field is required.</Translate>
+                      </AvFeedback>
+                    </AvGroup>
+                    <AvGroup>
+                      <AvGroup>
+                        <Label id="previewImageLabel" for="previewImage">
+                          <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
+                        </Label>
+                        <br />
+                        {previewImage ? (
+                          <div>
+                            {previewImageContentType ? (
+                              <a onClick={openFile(previewImageContentType, previewImage)}>
+                                <img src={`data:${previewImageContentType};base64,${previewImage}`} style={{ maxHeight: '100px' }} alt="previewImage" />
+                              </a>
+                            ) : null}
+                            <br />
+                            <Row>
+                              <Col md="11">
                           <span>
                             {previewImageContentType}, {byteSize(previewImage)}
                           </span>
-                        </Col>
-                        <Col md="1">
-                          <Button color="danger" onClick={clearBlob('previewImage')}>
-                            <FontAwesomeIcon icon="times-circle" />
-                          </Button>
-                        </Col>
-                      </Row>
-                    </div>
-                  ) : null}
-                  <input id="file_previewImage" type="file" onChange={onBlobChange(true, 'previewImage')} accept="image/*" />
-                  <AvInput type="hidden" name="previewImage" value={previewImage} />
-                </AvGroup>
-              </AvGroup>
-              <AvGroup>
-                <CKEditor
-                  editor={DecoupledEditor}
-                  data={
-                    !isNew
-                      ?
-                        articleEntity.content
-                      : (
-                        urls.length > 0
-                          ?
-                              urls.map(url => `<blockquote><a href="${url}" target="_blank">${url}</a></blockquote>`).join('\n')
-                          :
-                            "<h1 style=\"text-align: center\">Remove this heading and start writing your article</h1>"
-                      )
-                  }
-                  onInit={editor => {
-                    // Inserts the toolbar before the editable area.
-                    editor.ui.view.editable.element.parentElement.insertBefore(editor.ui.view.toolbar.element, editor.ui.view.editable.element);
-                  }}
-                  ref={editorRef}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label id="articleDateLabel" for="article-articleDate">
-                  <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate>
-                </Label>
-                <AvInput
-                  id="article-articleDate"
-                  type="datetime-local"
-                  className="form-control"
-                  name="articleDate"
-                  placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.articleEntity.articleDate)}
-                />
-              </AvGroup>
-              <AvGroup check>
-                <Label id="publishedLabel">
-                  <AvInput id="article-published" type="checkbox" className="form-check-input" name="published" />
-                  <Translate contentKey="check4FactsApp.article.published">Published</Translate>
-                </Label>
-              </AvGroup>
-              <Button tag={Link} id="cancel-save" to="/article" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
-                &nbsp;
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
-              &nbsp;
-              <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
-                &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
+                              </Col>
+                              <Col md="1">
+                                <Button color="danger" onClick={clearBlob('previewImage')}>
+                                  <FontAwesomeIcon icon="times-circle" />
+                                </Button>
+                              </Col>
+                            </Row>
+                          </div>
+                        ) : null}
+                        <input id="file_previewImage" type="file" onChange={onBlobChange(true, 'previewImage')} accept="image/*" />
+                        <AvInput type="hidden" name="previewImage" value={previewImage} />
+                      </AvGroup>
+                    </AvGroup>
+                    <AvGroup>
+                      <Label id="articleDateLabel" for="article-articleDate">
+                        <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate>
+                      </Label>
+                      <AvInput
+                        id="article-articleDate"
+                        type="datetime-local"
+                        className="form-control"
+                        name="articleDate"
+                        placeholder={'YYYY-MM-DD HH:mm'}
+                        value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.articleEntity.articleDate)}
+                      />
+                    </AvGroup>
+                    <AvGroup check>
+                      <Label id="publishedLabel">
+                        <AvInput id="article-published" type="checkbox" className="form-check-input" name="published" />
+                        <Translate contentKey="check4FactsApp.article.published">Published</Translate>
+                      </Label>
+                    </AvGroup>
+                    <Button tag={Link} id="cancel-save" to="/article" replace color="danger">
+                      <FontAwesomeIcon icon="arrow-left" />
+                      &nbsp;
+                      <Translate contentKey="entity.action.back">Back</Translate>
+                    </Button>
+                    &nbsp;
+                    <Button className="float-right" color="primary" type="button" onClick={() => toggle('2')}>
+                      <FontAwesomeIcon icon="arrow-right" />
+                      &nbsp;
+                      <Translate contentKey="entity.action.next" />
+                    </Button>
+                  </Col>
+                </TabPane>
+                <TabPane tabId="2">
+                  <ArticleContentEditor isNew={isNew} content={articleEntity.content} urls={urls} editorRef={editorRef} />
+                  <Row>
+                    <Col md={{ size: 8, offset: 2 }}>
+                      <Button tag={Link} id="cancel-save" to="/article" replace color="danger">
+                        <FontAwesomeIcon icon="arrow-left" />
+                        &nbsp;
+                        <Translate contentKey="entity.action.back">Back</Translate>
+                      </Button>
+                      &nbsp;
+                      <div className="float-right">
+                        <Button color="info" type="button" onClick={() => toggle('1')}>
+                          <FontAwesomeIcon icon="arrow-left" />
+                          &nbsp;
+                          <Translate contentKey="entity.action.previous" />
+                        </Button>
+                        &nbsp;
+                        <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+                          <FontAwesomeIcon icon="save" />
+                          &nbsp;
+                          <Translate contentKey="entity.action.save">Save</Translate>
+                        </Button>
+                      </div>
+                    </Col>
+                  </Row>
+                </TabPane>
+              </TabContent>
             </AvForm>
           )}
         </Col>
