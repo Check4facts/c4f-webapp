@@ -16,7 +16,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
         <Row className="my-5" key={article.id}>
           <Col md="3">
             {article.previewImage
-              ? <img src={`data:${article.previewImageContentType};base64,${article.previewImage}`} alt="previewImage" style={{ display: 'block', margin: 'auto' }} />
+              ? <img src={`data:${article.previewImageContentType};base64,${article.previewImage}`} alt="previewImage" style={{ display: 'block', margin: 'auto', width: '10vw' }} />
               : null
             }
           </Col>
