@@ -28,7 +28,9 @@ public class Article implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @NotNull
+    
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "preview_title", nullable = false)
     private String previewTitle;
 

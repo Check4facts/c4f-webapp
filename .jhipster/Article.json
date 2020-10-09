@@ -14,7 +14,8 @@
   "fields": [
     {
       "fieldName": "previewTitle",
-      "fieldType": "String",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
       "fieldValidateRules": ["required"]
     },
     {

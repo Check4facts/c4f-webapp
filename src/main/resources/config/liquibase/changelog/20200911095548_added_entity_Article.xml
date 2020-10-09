@@ -15,7 +15,7 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="preview_title" type="varchar(255)">
+            <column name="preview_title" type="${clobType}">
                 <constraints nullable="false" />
             </column>
             <column name="preview_image" type="longblob">
@@ -63,7 +63,7 @@
                   separator=";"
                   tableName="article">
             <column name="id" type="numeric"/>
-            <column name="preview_title" type="string"/>
+            <column name="preview_title" type="clob"/>
             <column name="preview_image" type="blob"/>
             <column name="preview_image_content_type" type="string"/>
             <column name="article_date" type="datetime"/>

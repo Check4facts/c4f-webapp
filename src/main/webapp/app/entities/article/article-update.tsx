@@ -109,7 +109,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                       </Label>
                       <AvField
                         id="article-previewTitle"
-                        type="text"
+                        type="textarea"
                         name="previewTitle"
                         validate={{
                           required: { value: true, errorMessage: translate('entity.validation.required') },

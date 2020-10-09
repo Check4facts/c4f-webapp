@@ -3,7 +3,7 @@ import { ICategory } from 'app/shared/model/category.model';
 
 export interface IArticle {
   id?: number;
-  previewTitle?: string;
+  previewTitle?: any;
   previewImageContentType?: string;
   previewImage?: any;
   articleDate?: string;
