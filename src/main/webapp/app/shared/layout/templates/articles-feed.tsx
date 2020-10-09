@@ -1,8 +1,10 @@
+import './templates.scss';
 import React from 'react';
-import { Row, Col, Container, UncontrolledCarousel, Button } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { Translate, translate } from "react-jhipster";
 import {IRootState} from "app/shared/reducers";
 import { connect } from 'react-redux';
+import {Link} from "react-router-dom";
 
 type IArticlesFeedProps = StateProps;
 
@@ -13,19 +15,25 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
   return (
     <>
       {articles && articles.length > 0 ? articles.map(article => (
-        <Row className="my-5" key={article.id}>
-          <Col md="3">
-            {article.previewImage
-              ? <img src={`data:${article.previewImageContentType};base64,${article.previewImage}`} alt="previewImage" style={{ display: 'block', margin: 'auto', width: '10vw' }} />
-              : null
-            }
-          </Col>
-          <Col md="9" className="border-left">
-            <h2 className="text-center">{article.previewTitle}/{article.id}</h2>
-            <p className="mt-5">{article.previewText}</p>
-            {isAuthenticated && !article.published && <p className="text-right text-danger text-uppercase">{translate('check4FactsApp.article.unpublished')}</p>}
-          </Col>
-        </Row>
+        <div className="my-5 py-3 article-feed-entry" key={article.id} >
+          <Row>
+            <Col md={{ size: 10, offset: 1 }}>
+              <h2><Link to={`/article/${article.id}/display`} className="text-primary`">{article.previewTitle}/{article.id}</Link></h2>
+            </Col>
+          </Row>
+          <Row className="py-2">
+            <Col md={{ size: 3, offset: 1 }}>
+              {article.previewImage
+                ? <Link to={`/article/${article.id}/display`}><img className="img-fluid" src={`data:${article.previewImageContentType};base64,${article.previewImage}`} alt="previewImage" style={{ display: 'block', margin: 'auto' }} /></Link>
+                : null
+              }
+            </Col>
+            <Col md="7" className="border-left d-flex">
+              <p className="article-feed-entry-content align-self-center">{article.previewText}</p>
+              {isAuthenticated && !article.published && <p className="text-right text-danger text-uppercase">{translate('check4FactsApp.article.unpublished')}</p>}
+            </Col>
+          </Row>
+        </div>
       )) : (
         !loading && (
           <div className="alert alert-warning">

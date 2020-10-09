@@ -26,3 +26,13 @@
   visibility: hidden;
   pointer-events: none;
 }
+
+.article-feed-entry {
+  .article-feed-entry-content {
+    font-size: 1rem;
+  }
+}
+
+.article-feed-entry:hover {
+  background-color: rgba(244, 193, 188, 0.3);
+}
