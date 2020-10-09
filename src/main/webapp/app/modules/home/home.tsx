@@ -23,7 +23,7 @@ export const Home = (props: IHomeProp) => {
     src: article.previewImage ? `data:${article.previewImageContentType};base64,${article.previewImage}` : null,
     altText: `Slide ${idx}`,
     caption: article.previewText,
-    header: <Link className="slider-header" to={`/article/${article.id}/display`}>{article.previewTitle}</Link>,
+    header: <Link className="slider-header container-fluid" to={`/article/${article.id}/display`}>{article.previewTitle}</Link>,
     key: `${idx}`
   }));
 
