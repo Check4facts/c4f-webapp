@@ -1,8 +1,8 @@
 import './header.scss';
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Storage } from 'react-jhipster';
+import { NavLink } from 'react-router-dom';
+import {Storage, translate} from 'react-jhipster';
 import { Navbar, Nav, NavbarToggler, Collapse, Row, Col } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
@@ -56,7 +56,8 @@ const Header = (props: IHeaderProps) => {
                 <Nav id="header-tabs" className="ml-auto" navbar>
                   {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
                   {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
-                  <Link to="/fact-checking" className="d-flex align-items-center nav-link">FactChecker</Link>
+                  <NavLink to="/" exact className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink>
+                  <NavLink to="/fact-checking" exact className="d-flex align-items-center nav-link">FactChecker</NavLink>
                   <TopicsMenu />
                   <DisseminationMenu />
                   <AboutMenu />
