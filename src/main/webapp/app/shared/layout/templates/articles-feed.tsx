@@ -18,7 +18,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
         <div className="my-5 py-3 article-feed-entry" key={article.id} >
           <Row>
             <Col md={{ size: 10, offset: 1 }}>
-              <h2><Link to={`/article/${article.id}/display`} className="text-primary`">{article.previewTitle}</Link></h2>
+              <h2><Link to={`/article/${article.id}/display`} className="text-primary">{article.previewTitle}</Link></h2>
             </Col>
           </Row>
           <Row className="py-2">
