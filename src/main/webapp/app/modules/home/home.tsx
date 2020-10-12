@@ -22,7 +22,7 @@ export const Home = (props: IHomeProp) => {
   const slides = () => mostRecent.slice(0,5).map((article, idx) => ({
     src: article.previewImage ? `data:${article.previewImageContentType};base64,${article.previewImage}` : null,
     altText: `Slide ${idx}`,
-    caption: article.previewText,
+    caption: <p className="slider-text container-fluid d-none d-md-block">{article.previewText}</p>,
     header: <Link className="slider-header container-fluid" to={`/article/${article.id}/display`}>{article.previewTitle}</Link>,
     key: `${idx}`
   }));
