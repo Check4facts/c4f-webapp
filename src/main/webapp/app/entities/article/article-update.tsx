@@ -20,12 +20,12 @@ export interface IArticleUpdateProps extends StateProps, DispatchProps, RouteCom
 export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const editorRef = useRef(CKEditor);
   const [activeTab, setActiveTab] = useState('1');
+  const [categoryId, setCategoryId] = useState('1');
+  const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
   const toggle = tab => {
     if(activeTab !== tab) setActiveTab(tab);
   }
-
-  const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
   const { articleEntity, categories, loading, updating, statement, urls } = props;
 
@@ -139,6 +139,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         className="form-control"
                         name="category.id"
                         value={isNew ? categories[0] && categories[0].id : articleEntity.category?.id}
+                        onChange={ event => setCategoryId(event.target.value)}
                         required
                       >
                         {categories
@@ -153,16 +154,19 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         <Translate contentKey="entity.validation.required">This field is required.</Translate>
                       </AvFeedback>
                     </AvGroup>
-                    <AvGroup>
-                      <Label id="factCreatorLabel" for="article-factCreator">
-                        <Translate contentKey="check4FactsApp.article.factCreator">Fact Creator</Translate>
-                      </Label>
-                      <AvField
-                        id="article-factCreator"
-                        type="text"
-                        name="factCreator"
-                      />
-                    </AvGroup>
+                    {
+                      (categoryId === '2' || categoryId === '3') &&
+                      <AvGroup>
+                        <Label id="factCreatorLabel" for="article-factCreator">
+                          <Translate contentKey="check4FactsApp.article.factCreator">Fact Creator</Translate>
+                        </Label>
+                        <AvField
+                          id="article-factCreator"
+                          type="text"
+                          name="factCreator"
+                        />
+                      </AvGroup>
+                    }
                     <AvGroup>
                       <Label id="authorLabel" for="article-author">
                         <Translate contentKey="check4FactsApp.article.author">Author</Translate>
