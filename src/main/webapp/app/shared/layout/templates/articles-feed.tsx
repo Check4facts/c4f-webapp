@@ -16,6 +16,13 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
     <>
       {articles && articles.length > 0 ? articles.map(article => (
         <div className="my-5 py-3 article-feed-entry" key={article.id} >
+          {isAuthenticated && !article.published &&
+          <Row>
+            <Col md={{ size: 3, offset: 6 }}>
+              <p className="text-danger text-uppercase">{translate('check4FactsApp.article.unpublished')}</p>
+            </Col>
+          </Row>
+          }
           <Row>
             <Col md={{ size: 10, offset: 1 }}>
               <h2><Link to={`/article/${article.id}/display`} className="text-primary">{article.previewTitle}</Link></h2>
@@ -30,7 +37,11 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
             </Col>
             <Col md="7" className="border-left d-flex">
               <p className="article-feed-entry-content align-self-center">{article.previewText}</p>
-              {isAuthenticated && !article.published && <p className="text-right text-danger text-uppercase">{translate('check4FactsApp.article.unpublished')}</p>}
+            </Col>
+          </Row>
+          <Row>
+            <Col md={{ size: 10, offset: 1 }}>
+              <p className="text-info text-right">Fact Creator: {article.factCreator}</p>
             </Col>
           </Row>
         </div>

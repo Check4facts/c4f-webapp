@@ -154,6 +154,26 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                       </AvFeedback>
                     </AvGroup>
                     <AvGroup>
+                      <Label id="factCreatorLabel" for="article-factCreator">
+                        <Translate contentKey="check4FactsApp.article.factCreator">Fact Creator</Translate>
+                      </Label>
+                      <AvField
+                        id="article-factCreator"
+                        type="text"
+                        name="factCreator"
+                      />
+                    </AvGroup>
+                    <AvGroup>
+                      <Label id="authorLabel" for="article-author">
+                        <Translate contentKey="check4FactsApp.article.author">Author</Translate>
+                      </Label>
+                      <AvField
+                        id="article-author"
+                        type="text"
+                        name="author"
+                      />
+                    </AvGroup>
+                    <AvGroup>
                       <AvGroup>
                         <Label id="previewImageLabel" for="previewImage">
                           <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>

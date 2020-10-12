@@ -44,6 +44,12 @@ public class Article implements Serializable {
     @Column(name = "article_date")
     private Instant articleDate;
 
+    @Column(name = "fact_creator")
+    private String factCreator;
+
+    @Column(name = "author")
+    private String author;
+
     @Column(name = "published")
     private Boolean published;
 
@@ -125,6 +131,32 @@ public class Article implements Serializable {
         this.articleDate = articleDate;
     }
 
+    public String getFactCreator() {
+        return factCreator;
+    }
+
+    public Article factCreator(String factCreator) {
+        this.factCreator = factCreator;
+        return this;
+    }
+
+    public void setFactCreator(String factCreator) {
+        this.factCreator = factCreator;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public Article author(String author) {
+        this.author = author;
+        return this;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public Boolean isPublished() {
         return published;
     }
@@ -203,6 +235,8 @@ public class Article implements Serializable {
             ", previewImage='" + getPreviewImage() + "'" +
             ", previewImageContentType='" + getPreviewImageContentType() + "'" +
             ", articleDate='" + getArticleDate() + "'" +
+            ", factCreator='" + getFactCreator() + "'" +
+            ", author='" + getAuthor() + "'" +
             ", published='" + isPublished() + "'" +
             ", content='" + getContent() + "'" +
             ", previewText='" + getPreviewText() + "'" +

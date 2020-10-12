@@ -20,6 +20,8 @@
       "display": "Display",
       "previewTitle": "Preview Title",
       "category": "Category",
+      "factCreator": "Fact Creator",
+      "author": "Author",
       "previewImage": "Preview Image",
       "articleDate": "Article Date",
       "published": "Published",

@@ -215,6 +215,12 @@ export const Article = (props: IArticleProps) => {
                   <Translate contentKey="check4FactsApp.article.category">Category</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="check4FactsApp.article.factCreator">Fact Creator</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="check4FactsApp.article.author">Author</Translate>
+                </th>
+                <th>
                   <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
                 </th>
                 <th className="hand" onClick={sort('articleDate')}>
@@ -235,6 +241,8 @@ export const Article = (props: IArticleProps) => {
                   <td>{article.previewTitle}</td>
                   <td>{article.previewText}</td>
                   <td>{article.category ? <Translate contentKey={`check4FactsApp.category.${article.category.name}`}/> : ''}</td>
+                  <td>{article.factCreator}</td>
+                  <td>{article.author}</td>
                   <td>
                     {article.previewImage ? (
                       <div>

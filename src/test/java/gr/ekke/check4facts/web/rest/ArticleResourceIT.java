@@ -55,6 +55,12 @@ public class ArticleResourceIT {
     private static final Instant DEFAULT_ARTICLE_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_ARTICLE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final String DEFAULT_FACT_CREATOR = "AAAAAAAAAA";
+    private static final String UPDATED_FACT_CREATOR = "BBBBBBBBBB";
+
+    private static final String DEFAULT_AUTHOR = "AAAAAAAAAA";
+    private static final String UPDATED_AUTHOR = "BBBBBBBBBB";
+
     private static final Boolean DEFAULT_PUBLISHED = false;
     private static final Boolean UPDATED_PUBLISHED = true;
 
@@ -98,6 +104,8 @@ public class ArticleResourceIT {
             .previewImage(DEFAULT_PREVIEW_IMAGE)
             .previewImageContentType(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)
             .articleDate(DEFAULT_ARTICLE_DATE)
+            .factCreator(DEFAULT_FACT_CREATOR)
+            .author(DEFAULT_AUTHOR)
             .published(DEFAULT_PUBLISHED)
             .content(DEFAULT_CONTENT)
             .previewText(DEFAULT_PREVIEW_TEXT);
@@ -125,6 +133,8 @@ public class ArticleResourceIT {
             .previewImage(UPDATED_PREVIEW_IMAGE)
             .previewImageContentType(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE)
             .articleDate(UPDATED_ARTICLE_DATE)
+            .factCreator(UPDATED_FACT_CREATOR)
+            .author(UPDATED_AUTHOR)
             .published(UPDATED_PUBLISHED)
             .content(UPDATED_CONTENT)
             .previewText(UPDATED_PREVIEW_TEXT);
@@ -164,6 +174,8 @@ public class ArticleResourceIT {
         assertThat(testArticle.getPreviewImage()).isEqualTo(DEFAULT_PREVIEW_IMAGE);
         assertThat(testArticle.getPreviewImageContentType()).isEqualTo(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE);
         assertThat(testArticle.getArticleDate()).isEqualTo(DEFAULT_ARTICLE_DATE);
+        assertThat(testArticle.getFactCreator()).isEqualTo(DEFAULT_FACT_CREATOR);
+        assertThat(testArticle.getAuthor()).isEqualTo(DEFAULT_AUTHOR);
         assertThat(testArticle.isPublished()).isEqualTo(DEFAULT_PUBLISHED);
         assertThat(testArticle.getContent()).isEqualTo(DEFAULT_CONTENT);
         assertThat(testArticle.getPreviewText()).isEqualTo(DEFAULT_PREVIEW_TEXT);
@@ -210,6 +222,8 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].previewImageContentType").value(hasItem(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))
             .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].factCreator").value(hasItem(DEFAULT_FACT_CREATOR)))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR)))
             .andExpect(jsonPath("$.[*].published").value(hasItem(DEFAULT_PUBLISHED.booleanValue())))
             .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
             .andExpect(jsonPath("$.[*].previewText").value(hasItem(DEFAULT_PREVIEW_TEXT.toString())));
@@ -230,6 +244,8 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.previewImageContentType").value(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE))
             .andExpect(jsonPath("$.previewImage").value(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE)))
             .andExpect(jsonPath("$.articleDate").value(DEFAULT_ARTICLE_DATE.toString()))
+            .andExpect(jsonPath("$.factCreator").value(DEFAULT_FACT_CREATOR))
+            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR))
             .andExpect(jsonPath("$.published").value(DEFAULT_PUBLISHED.booleanValue()))
             .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
             .andExpect(jsonPath("$.previewText").value(DEFAULT_PREVIEW_TEXT.toString()));
@@ -259,6 +275,8 @@ public class ArticleResourceIT {
             .previewImage(UPDATED_PREVIEW_IMAGE)
             .previewImageContentType(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE)
             .articleDate(UPDATED_ARTICLE_DATE)
+            .factCreator(UPDATED_FACT_CREATOR)
+            .author(UPDATED_AUTHOR)
             .published(UPDATED_PUBLISHED)
             .content(UPDATED_CONTENT)
             .previewText(UPDATED_PREVIEW_TEXT);
@@ -276,6 +294,8 @@ public class ArticleResourceIT {
         assertThat(testArticle.getPreviewImage()).isEqualTo(UPDATED_PREVIEW_IMAGE);
         assertThat(testArticle.getPreviewImageContentType()).isEqualTo(UPDATED_PREVIEW_IMAGE_CONTENT_TYPE);
         assertThat(testArticle.getArticleDate()).isEqualTo(UPDATED_ARTICLE_DATE);
+        assertThat(testArticle.getFactCreator()).isEqualTo(UPDATED_FACT_CREATOR);
+        assertThat(testArticle.getAuthor()).isEqualTo(UPDATED_AUTHOR);
         assertThat(testArticle.isPublished()).isEqualTo(UPDATED_PUBLISHED);
         assertThat(testArticle.getContent()).isEqualTo(UPDATED_CONTENT);
         assertThat(testArticle.getPreviewText()).isEqualTo(UPDATED_PREVIEW_TEXT);
@@ -342,6 +362,8 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].previewImageContentType").value(hasItem(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))
             .andExpect(jsonPath("$.[*].articleDate").value(hasItem(DEFAULT_ARTICLE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].factCreator").value(hasItem(DEFAULT_FACT_CREATOR)))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR)))
             .andExpect(jsonPath("$.[*].published").value(hasItem(DEFAULT_PUBLISHED.booleanValue())))
             .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
             .andExpect(jsonPath("$.[*].previewText").value(hasItem(DEFAULT_PREVIEW_TEXT.toString())));

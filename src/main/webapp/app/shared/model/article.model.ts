@@ -7,6 +7,8 @@ export interface IArticle {
   previewImageContentType?: string;
   previewImage?: any;
   articleDate?: string;
+  factCreator?: string;
+  author?: string;
   published?: boolean;
   content?: any;
   previewText?: any;
