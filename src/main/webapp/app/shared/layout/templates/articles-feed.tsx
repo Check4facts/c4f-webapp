@@ -1,16 +1,17 @@
 import './templates.scss';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Row, Col } from 'reactstrap';
 import { Translate, translate } from "react-jhipster";
 import {IRootState} from "app/shared/reducers";
 import { connect } from 'react-redux';
 import {Link} from "react-router-dom";
+import moment from "moment";
 
 type IArticlesFeedProps = StateProps;
 
 export const ArticlesFeed = (props: IArticlesFeedProps) => {
 
-  const { articles, loading, isAuthenticated } = props;
+  const { articles, loading, isAuthenticated, currentLocale } = props;
 
   return (
     <>
@@ -35,8 +36,9 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
                 : null
               }
             </Col>
-            <Col md="7" className="border-left d-flex">
-              <p className="article-feed-entry-content align-self-center">{article.previewText}</p>
+            <Col md="7" className="border-left pt-2">
+              <h5 className="text-muted">{moment.locale(currentLocale) && moment(article.articleDate).format("LL")}</h5>
+              <p className="article-feed-entry-content">{article.previewText}</p>
             </Col>
           </Row>
           <Row>
@@ -57,6 +59,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  currentLocale: storeState.locale.currentLocale,
   isAuthenticated: storeState.authentication.isAuthenticated,
   articles: storeState.article.entities,
   loading: storeState.article.loading
