@@ -180,15 +180,28 @@ public class ArticleResource {
     }
 
     /**
-     * {@code GET /articles/recent/published/:number} : get "number" most recent published articles
+     * {@code GET /articles/carousel/:number} : get "number" published articles for carousel.
      *
      * @param number the number of top n articles to fetch.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of articles in body.
      */
-    @GetMapping("/articles/recent/published/{number}")
-    public ResponseEntity<List<Article>> getMostRecentPublishedArticles(@PathVariable Integer number) {
-        log.debug("REST request to get {} most recent published Articles", number);
+    @GetMapping("/articles/carousel/{number}")
+    public ResponseEntity<List<Article>> getCarouselArticles(@PathVariable Integer number) {
+        log.debug("REST request to get {} published Articles for carousel", number);
         Page<Article> page = articleService.findAllPublished(PageRequest.of(0, number, Sort.by(Sort.Direction.DESC, "articleDate")));
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    /**
+     * {@code GET /articles/published} : get all the published articles.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of articles in body.
+     */
+    @GetMapping("/articles/published")
+    public ResponseEntity<List<Article>> getAllPublishedArticles(Pageable pageable) {
+        log.debug("REST request to get a page of published Articles");
+        Page<Article> page = articleService.findAllPublished(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

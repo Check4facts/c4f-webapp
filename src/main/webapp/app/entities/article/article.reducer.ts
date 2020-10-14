@@ -11,7 +11,8 @@ export const ACTION_TYPES = {
   SEARCH_ARTICLES: 'article/SEARCH_ARTICLES',
   SEARCH_ARTICLES_IN_CATEGORY: 'article/SEARCH_ARTICLES_IN_CATEGORY',
   FETCH_ARTICLE_LIST: 'article/FETCH_ARTICLE_LIST',
-  FETCH_MOST_RECENT_ARTICLE_LIST: 'article/FETCH_MOST_RECENT_ARTICLE_LIST',
+  FETCH_PUBLISHED_ARTICLE_LIST: 'article/FETCH_PUBLISHED_ARTICLE_LIST',
+  FETCH_CAROUSEL_ARTICLE_LIST: 'article/FETCH_CAROUSEL_ARTICLE_LIST',
   FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME: 'article/FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME',
   FETCH_ARTICLE: 'article/FETCH_ARTICLE',
   CREATE_ARTICLE: 'article/CREATE_ARTICLE',
@@ -25,6 +26,7 @@ const initialState = {
   loading: false,
   errorMessage: null,
   entities: [] as ReadonlyArray<IArticle>,
+  carouselItems: [] as ReadonlyArray<IArticle>,
   entity: defaultValue,
   updating: false,
   totalItems: 0,
@@ -40,7 +42,8 @@ export default (state: ArticleState = initialState, action): ArticleState => {
     case REQUEST(ACTION_TYPES.SEARCH_ARTICLES):
     case REQUEST(ACTION_TYPES.SEARCH_ARTICLES_IN_CATEGORY):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE_LIST):
-    case REQUEST(ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_PUBLISHED_ARTICLE_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_CAROUSEL_ARTICLE_LIST):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE):
       return {
@@ -61,7 +64,8 @@ export default (state: ArticleState = initialState, action): ArticleState => {
     case FAILURE(ACTION_TYPES.SEARCH_ARTICLES):
     case FAILURE(ACTION_TYPES.SEARCH_ARTICLES_IN_CATEGORY):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE_LIST):
-    case FAILURE(ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_PUBLISHED_ARTICLE_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_CAROUSEL_ARTICLE_LIST):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE):
     case FAILURE(ACTION_TYPES.CREATE_ARTICLE):
@@ -77,13 +81,19 @@ export default (state: ArticleState = initialState, action): ArticleState => {
     case SUCCESS(ACTION_TYPES.SEARCH_ARTICLES):
     case SUCCESS(ACTION_TYPES.SEARCH_ARTICLES_IN_CATEGORY):
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE_LIST):
-    case SUCCESS(ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_PUBLISHED_ARTICLE_LIST):
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
       return {
         ...state,
         loading: false,
         entities: action.payload.data,
         totalItems: parseInt(action.payload.headers['x-total-count'], 10),
+      };
+    case SUCCESS(ACTION_TYPES.FETCH_CAROUSEL_ARTICLE_LIST):
+      return {
+        ...state,
+        loading: false,
+        carouselItems: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE):
       return {
@@ -160,10 +170,18 @@ export const getArticlesByPublishedAndCategoryName = (published, category, page?
   };
 };
 
-export const getMostRecentPublishedArticles = (number: number) => {
-  const requestUrl = `${apiUrl}/recent/published/${number}`;
+export const getAllPublishedArticles: ICrudGetAllAction<IArticle> = (page, size, sort) => {
+  const requestUrl = `${apiUrl}/published${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
   return {
-    type: ACTION_TYPES.FETCH_MOST_RECENT_ARTICLE_LIST,
+    type: ACTION_TYPES.FETCH_PUBLISHED_ARTICLE_LIST,
+    payload: axios.get<IArticle>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
+  };
+};
+
+export const getCarouselArticles = (number: number) => {
+  const requestUrl = `${apiUrl}/carousel/${number}`;
+  return {
+    type: ACTION_TYPES.FETCH_CAROUSEL_ARTICLE_LIST,
     payload: axios.get<IArticle>(requestUrl),
   };
 };
