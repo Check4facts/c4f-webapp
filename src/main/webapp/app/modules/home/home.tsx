@@ -1,25 +1,50 @@
 import './home.scss';
 
-import React, { useEffect } from 'react';
-import {translate, Translate} from 'react-jhipster';
+import React, {useEffect, useState} from 'react';
+import {getSortState, JhiItemCount, JhiPagination, translate, Translate} from 'react-jhipster';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { Row, Col, Container, UncontrolledCarousel, Button } from 'reactstrap';
-import { getMostRecentPublishedArticles } from 'app/entities/article/article.reducer';
-import {Link} from "react-router-dom";
+import { getCarouselArticles, getAllPublishedArticles } from 'app/entities/article/article.reducer';
+import {Link, RouteComponentProps} from "react-router-dom";
 import ArticlesFeed from "app/shared/layout/templates/articles-feed";
 import {ITEMS_PER_PAGE} from "app/shared/util/pagination.constants";
 
-export interface IHomeProp extends StateProps, DispatchProps {}
+export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Home = (props: IHomeProp) => {
-  const { mostRecent } = props;
+  const { carouselItems } = props;
+  const [paginationState, setPaginationState] = useState({
+    activePage: 1,
+    itemsPerPage: ITEMS_PER_PAGE,
+    sort: 'articleDate',
+    order: 'desc'
+  });
+
+  const getPublishedEntities = () => {
+    props.getAllPublishedArticles(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+    const endURL = `?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`;
+    if (props.location.search !== endURL) {
+      props.history.push(`${props.location.pathname}${endURL}`);
+    }
+  }
 
   useEffect(() => {
-    props.getMostRecentPublishedArticles(ITEMS_PER_PAGE);
+    props.getCarouselArticles(5);
+    getPublishedEntities();
   }, []);
 
-  const slides = () => mostRecent.slice(0,5).map((article, idx) => ({
+  useEffect(() => {
+    getPublishedEntities();
+  }, [paginationState.activePage]);
+
+  const handlePagination = currentPage =>
+    setPaginationState({
+      ...paginationState,
+      activePage: currentPage,
+    });
+
+  const slides = () => carouselItems.map((article, idx) => ({
     src: article.previewImage ? `data:${article.previewImageContentType};base64,${article.previewImage}` : null,
     altText: `Slide ${idx}`,
     caption: <p className="slider-text container-fluid d-none d-md-block">{article.previewText}</p>,
@@ -40,23 +65,43 @@ export const Home = (props: IHomeProp) => {
           </Col>
         </Row>
       }
-      <Row className="my-5">
-        <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
-          <h1 className="text-center">
-            <Translate contentKey="home.title" /><span className="check-4-fact">Check4Facts.gr</span>
-          </h1>
-          <p>
-            <Translate contentKey="home.subtitle" />
-          </p>
-        </Col>
-      </Row>
-      <Row className="my-3">
-        <Col md={{ size: 4, offset: 4 }}>
-          <UncontrolledCarousel items={slides()} />
-        </Col>
-      </Row>
+      <div className={`${paginationState.activePage > 1 && 'd-none'}`}>
+        <Row className="my-5">
+          <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
+            <h1 className="text-center">
+              <Translate contentKey="home.title" /><span className="check-4-fact">Check4Facts.gr</span>
+            </h1>
+            <p>
+              <Translate contentKey="home.subtitle" />
+            </p>
+          </Col>
+        </Row>
+        <Row className="my-3">
+          <Col md={{ size: 4, offset: 4 }}>
+            <UncontrolledCarousel items={slides()} />
+          </Col>
+        </Row>
+      </div>
       <Container className="py-5">
         <ArticlesFeed />
+        {props.totalItems ? (
+          <div className={props.totalItems > 0 ? '' : 'd-none'}>
+            <Row className="justify-content-center">
+              <JhiItemCount page={paginationState.activePage} total={props.totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
+            </Row>
+            <Row className="justify-content-center">
+              <JhiPagination
+                activePage={paginationState.activePage}
+                onSelect={handlePagination}
+                maxButtons={5}
+                itemsPerPage={paginationState.itemsPerPage}
+                totalItems={props.totalItems}
+              />
+            </Row>
+          </div>
+        ) : (
+          ''
+        )}
       </Container>
     </Container>
   );
@@ -65,11 +110,13 @@ export const Home = (props: IHomeProp) => {
 const mapStateToProps = (storeState: IRootState) => ({
   account: storeState.authentication.account,
   isAuthenticated: storeState.authentication.isAuthenticated,
-  mostRecent: storeState.article.entities
+  totalItems: storeState.article.totalItems,
+  carouselItems: storeState.article.carouselItems
 });
 
 const mapDispatchToProps = {
-  getMostRecentPublishedArticles
+  getCarouselArticles,
+  getAllPublishedArticles
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
