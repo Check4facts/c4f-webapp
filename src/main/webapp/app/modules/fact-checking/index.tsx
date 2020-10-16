@@ -11,7 +11,7 @@ import {AUTHORITIES} from "app/config/constants";
 const Routes = ({ match }) => (
   <div>
     <Switch>
-      <ErrorBoundaryRoute path={`${match.url}/result/:id`} component={FactCheckResult} />
+      <PrivateRoute path={`${match.url}/result/:id`} component={FactCheckResult} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <ErrorBoundaryRoute path={`${match.url}/sub-menu/:id`} component={SubMenus} />
       <PrivateRoute path={`${match.url}`} component={FactChecking} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
     </Switch>
