@@ -4,6 +4,8 @@ import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import FactChecking from 'app/modules/fact-checking/fact-checking';
 import SubMenus from 'app/modules/fact-checking/sub-menus';
 import FactCheckResult from "app/modules/fact-checking/fact-checking-result";
+import PrivateRoute from "app/shared/auth/private-route";
+import {AUTHORITIES} from "app/config/constants";
 
 
 const Routes = ({ match }) => (
@@ -11,7 +13,7 @@ const Routes = ({ match }) => (
     <Switch>
       <ErrorBoundaryRoute path={`${match.url}/result/:id`} component={FactCheckResult} />
       <ErrorBoundaryRoute path={`${match.url}/sub-menu/:id`} component={SubMenus} />
-      <ErrorBoundaryRoute path={`${match.url}`} component={FactChecking} />
+      <PrivateRoute path={`${match.url}`} component={FactChecking} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
     </Switch>
   </div>
 );
