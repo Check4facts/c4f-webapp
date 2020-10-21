@@ -1,0 +1,31 @@
+{
+  "check4FactsApp": {
+    "resource": {
+      "home": {
+        "title": "Resources",
+        "createLabel": "Δημιουργήστε ένα νέο Resource",
+        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Resource",
+        "search": "Αναζήτηση για Resource",
+        "notFound": "No Resources found"
+      },
+      "created": "Ένα νέο Resource έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+      "updated": "Ένα Resource έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+      "deleted": "Ένα Resource έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+      "delete": {
+        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Resource {{ id }};"
+      },
+      "detail": {
+        "title": "Resource"
+      },
+      "url": "Url",
+      "harvestIteration": "Harvest Iteration",
+      "title": "Title",
+      "snippet": "Snippet",
+      "htmlSnippet": "Html Snippet",
+      "fileFormat": "File Format",
+      "body": "Body",
+      "harvestDate": "Harvest Date",
+      "statement": "Statement"
+    }
+  }
+}

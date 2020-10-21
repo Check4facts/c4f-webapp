@@ -2,15 +2,9 @@ package gr.ekke.check4facts.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
-import gr.ekke.check4facts.domain.Article;
-import gr.ekke.check4facts.domain.Category;
-import gr.ekke.check4facts.domain.User;
-import gr.ekke.check4facts.repository.ArticleRepository;
-import gr.ekke.check4facts.repository.CategoryRepository;
-import gr.ekke.check4facts.repository.UserRepository;
-import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
-import gr.ekke.check4facts.repository.search.CategorySearchRepository;
-import gr.ekke.check4facts.repository.search.UserSearchRepository;
+import gr.ekke.check4facts.domain.*;
+import gr.ekke.check4facts.repository.*;
+import gr.ekke.check4facts.repository.search.*;
 import org.elasticsearch.ResourceAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,10 +45,28 @@ public class ElasticsearchIndexService {
     private final JestElasticsearchTemplate jestElasticsearchTemplate;
 
     private final ArticleRepository articleRepository;
+
     private final ArticleSearchRepository articleSearchRepository;
+
     private final CategoryRepository categoryRepository;
+
     private final CategorySearchRepository categorySearchRepository;
 
+    private final ResourceRepository resourceRepository;
+
+    private final ResourceSearchRepository resourceSearchRepository;
+
+    private final StatementRepository statementRepository;
+
+    private final StatementSearchRepository statementSearchRepository;
+
+    private final StatementSourceRepository statementSourceRepository;
+
+    private final StatementSourceSearchRepository statementSourceSearchRepository;
+
+    private final SubTopicRepository subTopicRepository;
+
+    private final SubTopicSearchRepository subTopicSearchRepository;
 
     public ElasticsearchIndexService(
         UserRepository userRepository,
@@ -63,15 +75,30 @@ public class ElasticsearchIndexService {
         ArticleSearchRepository articleSearchRepository,
         CategoryRepository categoryRepository,
         CategorySearchRepository categorySearchRepository,
-        JestElasticsearchTemplate jestElasticesearchTemplate
-    ) {
+        ResourceRepository resourceRepository,
+        ResourceSearchRepository resourceSearchRepository,
+        StatementRepository statementRepository,
+        StatementSearchRepository statementSearchRepository,
+        StatementSourceRepository statementSourceRepository,
+        StatementSourceSearchRepository statementSourceSearchRepository,
+        SubTopicRepository subTopicRepository,
+        SubTopicSearchRepository subTopicSearchRepository,
+        JestElasticsearchTemplate jestElasticsearchTemplate) {
         this.userRepository = userRepository;
         this.userSearchRepository = userSearchRepository;
         this.articleRepository = articleRepository;
         this.articleSearchRepository = articleSearchRepository;
         this.categoryRepository = categoryRepository;
         this.categorySearchRepository = categorySearchRepository;
-        this.jestElasticsearchTemplate = jestElasticesearchTemplate;
+        this.resourceRepository = resourceRepository;
+        this.resourceSearchRepository = resourceSearchRepository;
+        this.statementRepository = statementRepository;
+        this.statementSearchRepository = statementSearchRepository;
+        this.statementSourceRepository = statementSourceRepository;
+        this.statementSourceSearchRepository = statementSourceSearchRepository;
+        this.subTopicRepository = subTopicRepository;
+        this.subTopicSearchRepository = subTopicSearchRepository;
+        this.jestElasticsearchTemplate = jestElasticsearchTemplate;
     }
 
     @Async
@@ -80,6 +107,10 @@ public class ElasticsearchIndexService {
             try {
                 reindexForClass(Article.class, articleRepository, articleSearchRepository);
                 reindexForClass(Category.class, categoryRepository, categorySearchRepository);
+                reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
+                reindexForClass(Statement.class, statementRepository, statementSearchRepository);
+                reindexForClass(StatementSource.class, statementSourceRepository, statementSourceSearchRepository);
+                reindexForClass(SubTopic.class, subTopicRepository, subTopicSearchRepository);
                 reindexForClass(User.class, userRepository, userSearchRepository);
                 log.info("Elasticsearch: Successfully performed reindexing");
             } finally {

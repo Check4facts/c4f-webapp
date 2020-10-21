@@ -1,0 +1,26 @@
+{
+  "check4FactsApp": {
+    "statementSource": {
+      "home": {
+        "title": "Statement Sources",
+        "createLabel": "Create a new Statement Source",
+        "createOrEditLabel": "Create or edit a Statement Source",
+        "search": "Search for Statement Source",
+        "notFound": "No Statement Sources found"
+      },
+      "created": "A new Statement Source is created with identifier {{ param }}",
+      "updated": "A Statement Source is updated with identifier {{ param }}",
+      "deleted": "A Statement Source is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Statement Source {{ id }}?"
+      },
+      "detail": {
+        "title": "Statement Source"
+      },
+      "url": "Url",
+      "title": "Title",
+      "snippet": "Snippet",
+      "statement": "Statement"
+    }
+  }
+}

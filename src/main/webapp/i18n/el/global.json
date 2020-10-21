@@ -9,6 +9,10 @@
         "main": "Entities",
         "article": "Article",
         "category": "Category",
+        "resource": "Resource",
+        "statement": "Statement",
+        "statementSource": "Statement Source",
+        "subTopic": "Sub Topic",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "about": {

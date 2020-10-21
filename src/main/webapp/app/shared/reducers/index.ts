@@ -21,6 +21,22 @@ import category, {
   CategoryState
 } from 'app/entities/category/category.reducer';
 import factChecking, { FactCheckingState } from 'app/modules/fact-checking/fact-checking.reducer';
+// prettier-ignore
+import resource, {
+  ResourceState
+} from 'app/entities/resource/resource.reducer';
+// prettier-ignore
+import statement, {
+  StatementState
+} from 'app/entities/statement/statement.reducer';
+// prettier-ignore
+import statementSource, {
+  StatementSourceState
+} from 'app/entities/statement-source/statement-source.reducer';
+// prettier-ignore
+import subTopic, {
+  SubTopicState
+} from 'app/entities/sub-topic/sub-topic.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -37,6 +53,10 @@ export interface IRootState {
   readonly article: ArticleState;
   readonly category: CategoryState;
   readonly factChecking: FactCheckingState;
+  readonly resource: ResourceState;
+  readonly statement: StatementState;
+  readonly statementSource: StatementSourceState;
+  readonly subTopic: SubTopicState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -55,6 +75,10 @@ const rootReducer = combineReducers<IRootState>({
   article,
   category,
   factChecking,
+  resource,
+  statement,
+  statementSource,
+  subTopic,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

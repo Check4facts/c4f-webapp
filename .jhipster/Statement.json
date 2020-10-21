@@ -1,0 +1,67 @@
+{
+  "name": "Statement",
+  "fields": [
+    {
+      "fieldName": "text",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "author",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "statementDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "registrationDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "mainArticleText",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "mainArticleUrl",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "subTopic",
+      "otherEntityRelationshipName": "statement",
+      "relationshipName": "subTopics"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "statementSource",
+      "otherEntityRelationshipName": "statement",
+      "relationshipName": "statementSources"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "resource",
+      "otherEntityRelationshipName": "statement",
+      "relationshipName": "resources"
+    }
+  ],
+  "changelogDate": "20201021125622",
+  "entityTableName": "statement",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*",
+  "searchEngine": "elasticsearch"
+}

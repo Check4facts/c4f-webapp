@@ -1,0 +1,10 @@
+{
+  "check4FactsApp": {
+    "FileFormat": {
+      "null": "",
+      "PDF": "PDF",
+      "DOC": "DOC",
+      "NONE": "NONE"
+    }
+  }
+}

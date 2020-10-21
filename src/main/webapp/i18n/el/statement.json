@@ -1,0 +1,31 @@
+{
+  "check4FactsApp": {
+    "statement": {
+      "home": {
+        "title": "Statements",
+        "createLabel": "Δημιουργήστε ένα νέο Statement",
+        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Statement",
+        "search": "Αναζήτηση για Statement",
+        "notFound": "No Statements found"
+      },
+      "created": "Ένα νέο Statement έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+      "updated": "Ένα Statement έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+      "deleted": "Ένα Statement έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+      "delete": {
+        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Statement {{ id }};"
+      },
+      "detail": {
+        "title": "Statement"
+      },
+      "text": "Text",
+      "author": "Author",
+      "statementDate": "Statement Date",
+      "registrationDate": "Registration Date",
+      "mainArticleText": "Main Article Text",
+      "mainArticleUrl": "Main Article Url",
+      "subTopics": "Sub Topics",
+      "statementSources": "Statement Sources",
+      "resources": "Resources"
+    }
+  }
+}

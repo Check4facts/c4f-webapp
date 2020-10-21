@@ -53,6 +53,13 @@ public class CacheConfiguration {
             createCache(cm, gr.ekke.check4facts.domain.User.class.getName() + ".authorities");
             createCache(cm, gr.ekke.check4facts.domain.Article.class.getName());
             createCache(cm, gr.ekke.check4facts.domain.Category.class.getName());
+            createCache(cm, gr.ekke.check4facts.domain.Resource.class.getName());
+            createCache(cm, gr.ekke.check4facts.domain.Statement.class.getName());
+            createCache(cm, gr.ekke.check4facts.domain.Statement.class.getName() + ".subTopics");
+            createCache(cm, gr.ekke.check4facts.domain.Statement.class.getName() + ".statementSources");
+            createCache(cm, gr.ekke.check4facts.domain.Statement.class.getName() + ".resources");
+            createCache(cm, gr.ekke.check4facts.domain.StatementSource.class.getName());
+            createCache(cm, gr.ekke.check4facts.domain.SubTopic.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
