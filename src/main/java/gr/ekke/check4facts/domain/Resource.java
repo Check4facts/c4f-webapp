@@ -69,7 +69,7 @@ public class Resource implements Serializable {
     @Column(name = "harvest_date", nullable = false)
     private Instant harvestDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnoreProperties(value = "resources", allowSetters = true)
     private Statement statement;
 

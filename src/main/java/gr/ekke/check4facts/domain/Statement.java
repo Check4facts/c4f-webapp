@@ -54,27 +54,18 @@ public class Statement implements Serializable {
     @Column(name = "main_article_url")
     private String mainArticleUrl;
 
-    @OneToMany(
-        mappedBy = "statement",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "statement_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<SubTopic> subTopics = new HashSet<>();
 
-    @OneToMany(
-        mappedBy = "statement",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "statement_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<StatementSource> statementSources = new HashSet<>();
 
-    @OneToMany(
-        mappedBy = "statement",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "statement_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Resource> resources = new HashSet<>();
 

@@ -41,7 +41,7 @@ public class StatementSource implements Serializable {
     @Column(name = "snippet")
     private String snippet;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnoreProperties(value = "statementSources", allowSetters = true)
     private Statement statement;
 

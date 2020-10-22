@@ -30,7 +30,7 @@ public class SubTopic implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnoreProperties(value = "subTopics", allowSetters = true)
     private Statement statement;
 
