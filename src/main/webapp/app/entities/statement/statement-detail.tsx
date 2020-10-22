@@ -69,6 +69,10 @@ export const StatementDetail = (props: IStatementDetailProps) => {
             </span>
           </dt>
           <dd>{statementEntity.mainArticleUrl}</dd>
+          <dt>
+            <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate>
+          </dt>
+          <dd>{statementEntity.topic ? statementEntity.topic.name : ''}</dd>
         </dl>
         <Button tag={Link} to="/statement" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

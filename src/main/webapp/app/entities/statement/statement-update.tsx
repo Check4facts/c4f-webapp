@@ -7,6 +7,8 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, b
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { ITopic } from 'app/shared/model/topic.model';
+import { getEntities as getTopics } from 'app/entities/topic/topic.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './statement.reducer';
 import { IStatement } from 'app/shared/model/statement.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -15,9 +17,10 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IStatementUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const StatementUpdate = (props: IStatementUpdateProps) => {
+  const [topicId, setTopicId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { statementEntity, loading, updating } = props;
+  const { statementEntity, topics, loading, updating } = props;
 
   const { text, mainArticleText, mainArticleUrl } = statementEntity;
 
@@ -31,6 +34,8 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
+
+    props.getTopics();
   }, []);
 
   const onBlobChange = (isAnImage, name) => event => {
@@ -145,6 +150,21 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
                 </Label>
                 <AvInput id="statement-mainArticleUrl" type="textarea" name="mainArticleUrl" />
               </AvGroup>
+              <AvGroup>
+                <Label for="statement-topic">
+                  <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate>
+                </Label>
+                <AvInput id="statement-topic" type="select" className="form-control" name="topic.id">
+                  <option value="" key="0" />
+                  {topics
+                    ? topics.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.name}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
+              </AvGroup>
               <Button tag={Link} id="cancel-save" to="/statement" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
@@ -167,6 +187,7 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  topics: storeState.topic.entities,
   statementEntity: storeState.statement.entity,
   loading: storeState.statement.loading,
   updating: storeState.statement.updating,
@@ -174,6 +195,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getTopics,
   getEntity,
   updateEntity,
   setBlob,

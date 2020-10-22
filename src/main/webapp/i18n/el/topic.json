@@ -1,0 +1,23 @@
+{
+  "check4FactsApp": {
+    "topic": {
+      "home": {
+        "title": "Topics",
+        "createLabel": "Δημιουργήστε ένα νέο Topic",
+        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Topic",
+        "search": "Αναζήτηση για Topic",
+        "notFound": "No Topics found"
+      },
+      "created": "Ένα νέο Topic έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+      "updated": "Ένα Topic έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+      "deleted": "Ένα Topic έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+      "delete": {
+        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Topic {{ id }};"
+      },
+      "detail": {
+        "title": "Topic"
+      },
+      "name": "Name"
+    }
+  }
+}

@@ -5,9 +5,7 @@
       "fieldName": "text",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "text",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "author",
@@ -50,6 +48,13 @@
       "otherEntityName": "resource",
       "otherEntityRelationshipName": "statement",
       "relationshipName": "resources"
+    },
+    {
+      "relationshipName": "topic",
+      "otherEntityName": "topic",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "name",
+      "otherEntityRelationshipName": "statement"
     }
   ],
   "changelogDate": "20201021125622",
@@ -63,5 +68,6 @@
   "embedded": false,
   "clientRootFolder": "",
   "applications": "*",
-  "searchEngine": "elasticsearch"
+  "searchEngine": "elasticsearch",
+  "databaseType": "sql"
 }

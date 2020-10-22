@@ -175,6 +175,9 @@ export const Statement = (props: IStatementProps) => {
                   <Translate contentKey="check4FactsApp.statement.mainArticleUrl">Main Article Url</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -198,6 +201,7 @@ export const Statement = (props: IStatementProps) => {
                   </td>
                   <td>{statement.mainArticleText}</td>
                   <td>{statement.mainArticleUrl}</td>
+                  <td>{statement.topic ? <Link to={`topic/${statement.topic.id}`}>{statement.topic.name}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${statement.id}`} color="info" size="sm">

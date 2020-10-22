@@ -37,6 +37,10 @@ import statementSource, {
 import subTopic, {
   SubTopicState
 } from 'app/entities/sub-topic/sub-topic.reducer';
+// prettier-ignore
+import topic, {
+  TopicState
+} from 'app/entities/topic/topic.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -57,6 +61,7 @@ export interface IRootState {
   readonly statement: StatementState;
   readonly statementSource: StatementSourceState;
   readonly subTopic: SubTopicState;
+  readonly topic: TopicState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -79,6 +84,7 @@ const rootReducer = combineReducers<IRootState>({
   statement,
   statementSource,
   subTopic,
+  topic,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

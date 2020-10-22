@@ -13,6 +13,7 @@
         "statement": "Statement",
         "statementSource": "Statement Source",
         "subTopic": "Sub Topic",
+        "topic": "Topic",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "about": {

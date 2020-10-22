@@ -1,5 +1,6 @@
 package gr.ekke.check4facts.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
@@ -68,6 +69,10 @@ public class Statement implements Serializable {
     @JoinColumn(name = "statement_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Resource> resources = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "statements", allowSetters = true)
+    private Topic topic;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -229,6 +234,19 @@ public class Statement implements Serializable {
 
     public void setResources(Set<Resource> resources) {
         this.resources = resources;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public Statement topic(Topic topic) {
+        this.topic = topic;
+        return this;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
