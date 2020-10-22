@@ -9,6 +9,7 @@ import { IResource, defaultValue } from 'app/shared/model/resource.model';
 export const ACTION_TYPES = {
   SEARCH_RESOURCES: 'resource/SEARCH_RESOURCES',
   FETCH_RESOURCE_LIST: 'resource/FETCH_RESOURCE_LIST',
+  FETCH_RESOURCE_LIST_BY_STATEMENT: 'resource/FETCH_RESOURCE_LIST_BY_STATEMENT',
   FETCH_RESOURCE: 'resource/FETCH_RESOURCE',
   CREATE_RESOURCE: 'resource/CREATE_RESOURCE',
   UPDATE_RESOURCE: 'resource/UPDATE_RESOURCE',
@@ -35,6 +36,7 @@ export default (state: ResourceState = initialState, action): ResourceState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.SEARCH_RESOURCES):
     case REQUEST(ACTION_TYPES.FETCH_RESOURCE_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_RESOURCE_LIST_BY_STATEMENT):
     case REQUEST(ACTION_TYPES.FETCH_RESOURCE):
       return {
         ...state,
@@ -53,6 +55,7 @@ export default (state: ResourceState = initialState, action): ResourceState => {
       };
     case FAILURE(ACTION_TYPES.SEARCH_RESOURCES):
     case FAILURE(ACTION_TYPES.FETCH_RESOURCE_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_RESOURCE_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.FETCH_RESOURCE):
     case FAILURE(ACTION_TYPES.CREATE_RESOURCE):
     case FAILURE(ACTION_TYPES.UPDATE_RESOURCE):
@@ -66,6 +69,7 @@ export default (state: ResourceState = initialState, action): ResourceState => {
       };
     case SUCCESS(ACTION_TYPES.SEARCH_RESOURCES):
     case SUCCESS(ACTION_TYPES.FETCH_RESOURCE_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_RESOURCE_LIST_BY_STATEMENT):
       return {
         ...state,
         loading: false,
@@ -127,6 +131,14 @@ export const getEntities: ICrudGetAllAction<IResource> = (page, size, sort) => {
   const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
   return {
     type: ACTION_TYPES.FETCH_RESOURCE_LIST,
+    payload: axios.get<IResource>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
+  };
+};
+
+export const getResourcesByStatement = (statementId, page?: number, size?: number, sort?: string) => {
+  const requestUrl = `${apiUrl}/statement/${statementId}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+  return {
+    type: ACTION_TYPES.FETCH_RESOURCE_LIST_BY_STATEMENT,
     payload: axios.get<IResource>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
   };
 };

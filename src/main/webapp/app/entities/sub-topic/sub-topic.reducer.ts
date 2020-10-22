@@ -9,6 +9,7 @@ import { ISubTopic, defaultValue } from 'app/shared/model/sub-topic.model';
 export const ACTION_TYPES = {
   SEARCH_SUBTOPICS: 'subTopic/SEARCH_SUBTOPICS',
   FETCH_SUBTOPIC_LIST: 'subTopic/FETCH_SUBTOPIC_LIST',
+  FETCH_SUBTOPIC_LIST_BY_STATEMENT: 'subTopic/FETCH_SUBTOPIC_LIST_BY_STATEMENT',
   FETCH_SUBTOPIC: 'subTopic/FETCH_SUBTOPIC',
   CREATE_SUBTOPIC: 'subTopic/CREATE_SUBTOPIC',
   UPDATE_SUBTOPIC: 'subTopic/UPDATE_SUBTOPIC',
@@ -33,6 +34,7 @@ export default (state: SubTopicState = initialState, action): SubTopicState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.SEARCH_SUBTOPICS):
     case REQUEST(ACTION_TYPES.FETCH_SUBTOPIC_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_SUBTOPIC_LIST_BY_STATEMENT):
     case REQUEST(ACTION_TYPES.FETCH_SUBTOPIC):
       return {
         ...state,
@@ -51,6 +53,7 @@ export default (state: SubTopicState = initialState, action): SubTopicState => {
       };
     case FAILURE(ACTION_TYPES.SEARCH_SUBTOPICS):
     case FAILURE(ACTION_TYPES.FETCH_SUBTOPIC_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_SUBTOPIC_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.FETCH_SUBTOPIC):
     case FAILURE(ACTION_TYPES.CREATE_SUBTOPIC):
     case FAILURE(ACTION_TYPES.UPDATE_SUBTOPIC):
@@ -64,6 +67,7 @@ export default (state: SubTopicState = initialState, action): SubTopicState => {
       };
     case SUCCESS(ACTION_TYPES.SEARCH_SUBTOPICS):
     case SUCCESS(ACTION_TYPES.FETCH_SUBTOPIC_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_SUBTOPIC_LIST_BY_STATEMENT):
       return {
         ...state,
         loading: false,
@@ -112,6 +116,11 @@ export const getSearchEntities: ICrudSearchAction<ISubTopic> = (query, page, siz
 export const getEntities: ICrudGetAllAction<ISubTopic> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_SUBTOPIC_LIST,
   payload: axios.get<ISubTopic>(`${apiUrl}?cacheBuster=${new Date().getTime()}`),
+});
+
+export const getSubTopicsByStatement = statementId => ({
+  type: ACTION_TYPES.FETCH_SUBTOPIC_LIST_BY_STATEMENT,
+  payload: axios.get<ISubTopic>(`${apiUrl}/statement/${statementId}?cacheBuster=${new Date().getTime()}`),
 });
 
 export const getEntity: ICrudGetAction<ISubTopic> = id => {

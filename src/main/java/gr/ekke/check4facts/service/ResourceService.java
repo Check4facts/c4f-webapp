@@ -92,5 +92,19 @@ public class ResourceService {
     @Transactional(readOnly = true)
     public Page<Resource> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Resources for query {}", query);
-        return resourceSearchRepository.search(queryStringQuery(query), pageable);    }
+        return resourceSearchRepository.search(queryStringQuery(query), pageable);
+    }
+
+    /**
+     * Get all the resources by statement id.
+     *
+     * @param statement_id the id of the statement
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public Page<Resource> findAllByStatementId(Long statement_id, Pageable pageable) {
+        log.debug("Request to get all Resources by statement id: {}", statement_id);
+        return resourceRepository.findAllByStatementId(statement_id, pageable);
+    }
 }

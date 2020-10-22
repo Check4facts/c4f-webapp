@@ -9,6 +9,7 @@ import { IStatementSource, defaultValue } from 'app/shared/model/statement-sourc
 export const ACTION_TYPES = {
   SEARCH_STATEMENTSOURCES: 'statementSource/SEARCH_STATEMENTSOURCES',
   FETCH_STATEMENTSOURCE_LIST: 'statementSource/FETCH_STATEMENTSOURCE_LIST',
+  FETCH_STATEMENTSOURCE_LIST_BY_STATEMENT: 'statementSource/FETCH_STATEMENTSOURCE_LIST_BY_STATEMENT',
   FETCH_STATEMENTSOURCE: 'statementSource/FETCH_STATEMENTSOURCE',
   CREATE_STATEMENTSOURCE: 'statementSource/CREATE_STATEMENTSOURCE',
   UPDATE_STATEMENTSOURCE: 'statementSource/UPDATE_STATEMENTSOURCE',
@@ -34,6 +35,7 @@ export default (state: StatementSourceState = initialState, action): StatementSo
   switch (action.type) {
     case REQUEST(ACTION_TYPES.SEARCH_STATEMENTSOURCES):
     case REQUEST(ACTION_TYPES.FETCH_STATEMENTSOURCE_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_STATEMENTSOURCE_LIST_BY_STATEMENT):
     case REQUEST(ACTION_TYPES.FETCH_STATEMENTSOURCE):
       return {
         ...state,
@@ -52,6 +54,7 @@ export default (state: StatementSourceState = initialState, action): StatementSo
       };
     case FAILURE(ACTION_TYPES.SEARCH_STATEMENTSOURCES):
     case FAILURE(ACTION_TYPES.FETCH_STATEMENTSOURCE_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_STATEMENTSOURCE_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.FETCH_STATEMENTSOURCE):
     case FAILURE(ACTION_TYPES.CREATE_STATEMENTSOURCE):
     case FAILURE(ACTION_TYPES.UPDATE_STATEMENTSOURCE):
@@ -65,6 +68,7 @@ export default (state: StatementSourceState = initialState, action): StatementSo
       };
     case SUCCESS(ACTION_TYPES.SEARCH_STATEMENTSOURCES):
     case SUCCESS(ACTION_TYPES.FETCH_STATEMENTSOURCE_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_STATEMENTSOURCE_LIST_BY_STATEMENT):
       return {
         ...state,
         loading: false,
@@ -124,6 +128,11 @@ export const getSearchEntities: ICrudSearchAction<IStatementSource> = (query, pa
 export const getEntities: ICrudGetAllAction<IStatementSource> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_STATEMENTSOURCE_LIST,
   payload: axios.get<IStatementSource>(`${apiUrl}?cacheBuster=${new Date().getTime()}`),
+});
+
+export const getStatementSourcesByStatement = statementId => ({
+  type: ACTION_TYPES.FETCH_STATEMENTSOURCE_LIST_BY_STATEMENT,
+  payload: axios.get<IStatementSource>(`${apiUrl}/statement/${statementId}?cacheBuster=${new Date().getTime()}`),
 });
 
 export const getEntity: ICrudGetAction<IStatementSource> = id => {

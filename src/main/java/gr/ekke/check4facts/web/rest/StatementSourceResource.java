@@ -130,4 +130,16 @@ public class StatementSourceResource {
         log.debug("REST request to search StatementSources for query {}", query);
         return statementSourceService.search(query);
     }
+
+    /**
+     * {@code GET  /statement-sources/statement/:id} : get all the statementSources by statement id.
+     *
+     * @param id the id of the statement
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of statementSources in body.
+     */
+    @GetMapping("/statement-sources/statement/{id}")
+    public List<StatementSource> getAllStatementSourcesByStatementId(@PathVariable Long id) {
+        log.debug("REST request to get all StatementSources by statement id: {}", id);
+        return statementSourceService.findAllByStatementId(id);
+    }
 }

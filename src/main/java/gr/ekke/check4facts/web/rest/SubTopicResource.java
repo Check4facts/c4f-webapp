@@ -130,4 +130,16 @@ public class SubTopicResource {
         log.debug("REST request to search SubTopics for query {}", query);
         return subTopicService.search(query);
     }
+
+    /**
+     * {@code GET  /sub-topics/statement/:id} : get all the subTopics by statement id.
+     *
+     * @param id the id of the statement
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of subTopics in body.
+     */
+    @GetMapping("/sub-topics/statement/{id}")
+    public List<SubTopic> getAllSubTopics(@PathVariable Long id) {
+        log.debug("REST request to get all SubTopics by statement id: {}", id);
+        return subTopicService.findAllByStatementId(id);
+    }
 }

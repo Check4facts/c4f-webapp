@@ -95,4 +95,16 @@ public class StatementSourceService {
             .stream(statementSourceSearchRepository.search(queryStringQuery(query)).spliterator(), false)
         .collect(Collectors.toList());
     }
+
+    /**
+     * Get all the statementSources by statement id.
+     *
+     * @param statement_id the itd of the statement
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<StatementSource> findAllByStatementId(Long statement_id) {
+        log.debug("Request to get all StatementSources by statement id: {}", statement_id);
+        return statementSourceRepository.findAllByStatementId(statement_id);
+    }
 }

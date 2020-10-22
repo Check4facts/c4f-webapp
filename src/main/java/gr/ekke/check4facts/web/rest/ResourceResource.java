@@ -141,5 +141,20 @@ public class ResourceResource {
         Page<Resource> page = resourceService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-        }
+    }
+
+    /**
+     * {@code GET  /resources/statement/:id} : get all the resources by statement id.
+     *
+     * @param id the id of the statement
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of resources in body.
+     */
+    @GetMapping("/resources/statement/{id}")
+    public ResponseEntity<List<Resource>> getAllResourcesByStatementId(@PathVariable Long id, Pageable pageable) {
+        log.debug("REST request to get a page of Resources by statement id: {}", id);
+        Page<Resource> page = resourceService.findAllByStatementId(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }
