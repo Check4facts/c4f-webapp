@@ -27,9 +27,6 @@
             <column name="article_date" type="datetime">
                 <constraints nullable="true" />
             </column>
-            <column name="fact_creator" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="author" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -76,7 +73,6 @@
             <column name="preview_image" type="blob"/>
             <column name="preview_image_content_type" type="string"/>
             <column name="article_date" type="datetime"/>
-            <column name="fact_creator" type="string"/>
             <column name="author" type="string"/>
             <column name="published" type="boolean"/>
             <column name="content" type="clob"/>

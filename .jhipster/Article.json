@@ -35,10 +35,6 @@
       "fieldType": "Instant"
     },
     {
-      "fieldName": "factCreator",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "author",
       "fieldType": "String"
     },

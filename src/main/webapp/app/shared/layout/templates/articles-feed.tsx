@@ -43,7 +43,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
           </Row>
           <Row>
             <Col md={{ size: 10, offset: 1 }}>
-              <p className="text-info text-right">Fact Creator: {article.factCreator}</p>
+              <p className="text-info text-right">{translate('check4FactsApp.article.statement')}: {article.statement && article.statement.author}</p>
             </Col>
           </Row>
         </div>

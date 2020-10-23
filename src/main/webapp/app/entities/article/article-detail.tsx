@@ -62,12 +62,6 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
             {articleEntity.articleDate ? <TextFormat value={articleEntity.articleDate} type="date" format={APP_DATE_FORMAT} /> : null}
           </dd>
           <dt>
-            <span id="factCreator">
-              <Translate contentKey="check4FactsApp.article.factCreator">Fact Creator</Translate>
-            </span>
-          </dt>
-          <dd>{articleEntity.factCreator}</dd>
-          <dt>
             <span id="author">
               <Translate contentKey="check4FactsApp.article.author">Author</Translate>
             </span>

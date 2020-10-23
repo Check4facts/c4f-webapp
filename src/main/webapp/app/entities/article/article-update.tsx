@@ -154,19 +154,6 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         <Translate contentKey="entity.validation.required">This field is required.</Translate>
                       </AvFeedback>
                     </AvGroup>
-                    {
-                      (categoryId === '2' || categoryId === '3') &&
-                      <AvGroup>
-                        <Label id="factCreatorLabel" for="article-factCreator">
-                          <Translate contentKey="check4FactsApp.article.factCreator">Fact Creator</Translate>
-                        </Label>
-                        <AvField
-                          id="article-factCreator"
-                          type="text"
-                          name="factCreator"
-                        />
-                      </AvGroup>
-                    }
                     <AvGroup>
                       <Label id="authorLabel" for="article-author">
                         <Translate contentKey="check4FactsApp.article.author">Author</Translate>
