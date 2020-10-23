@@ -68,6 +68,10 @@ public class ElasticsearchIndexService {
 
     private final SubTopicSearchRepository subTopicSearchRepository;
 
+    private final TopicRepository topicRepository;
+
+    private final TopicSearchRepository topicSearchRepository;
+
     public ElasticsearchIndexService(
         UserRepository userRepository,
         UserSearchRepository userSearchRepository,
@@ -83,7 +87,10 @@ public class ElasticsearchIndexService {
         StatementSourceSearchRepository statementSourceSearchRepository,
         SubTopicRepository subTopicRepository,
         SubTopicSearchRepository subTopicSearchRepository,
-        JestElasticsearchTemplate jestElasticsearchTemplate) {
+        TopicRepository topicRepository,
+        TopicSearchRepository topicSearchRepository,
+        JestElasticsearchTemplate jestElasticsearchTemplate
+    ) {
         this.userRepository = userRepository;
         this.userSearchRepository = userSearchRepository;
         this.articleRepository = articleRepository;
@@ -98,6 +105,8 @@ public class ElasticsearchIndexService {
         this.statementSourceSearchRepository = statementSourceSearchRepository;
         this.subTopicRepository = subTopicRepository;
         this.subTopicSearchRepository = subTopicSearchRepository;
+        this.topicRepository = topicRepository;
+        this.topicSearchRepository = topicSearchRepository;
         this.jestElasticsearchTemplate = jestElasticsearchTemplate;
     }
 
@@ -111,6 +120,7 @@ public class ElasticsearchIndexService {
                 reindexForClass(Statement.class, statementRepository, statementSearchRepository);
                 reindexForClass(StatementSource.class, statementSourceRepository, statementSourceSearchRepository);
                 reindexForClass(SubTopic.class, subTopicRepository, subTopicSearchRepository);
+                reindexForClass(Topic.class, topicRepository, topicSearchRepository );
                 reindexForClass(User.class, userRepository, userSearchRepository);
                 log.info("Elasticsearch: Successfully performed reindexing");
             } finally {
