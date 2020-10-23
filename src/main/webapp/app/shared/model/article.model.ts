@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { ICategory } from 'app/shared/model/category.model';
+import { IStatement } from 'app/shared/model/statement.model';
 
 export interface IArticle {
   id?: number;
@@ -13,6 +14,7 @@ export interface IArticle {
   content?: any;
   previewText?: any;
   category?: ICategory;
+  statement?: IStatement;
 }
 
 export const defaultValue: Readonly<IArticle> = {

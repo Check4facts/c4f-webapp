@@ -70,6 +70,10 @@ public class Article implements Serializable {
     @JsonIgnoreProperties(value = "articles", allowSetters = true)
     private Category category;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = "articles", allowSetters = true)
+    private Statement statement;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -207,6 +211,19 @@ public class Article implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Statement getStatement() {
+        return statement;
+    }
+
+    public Article statement(Statement statement) {
+        this.statement = statement;
+        return this;
+    }
+
+    public void setStatement(Statement statement) {
+        this.statement = statement;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

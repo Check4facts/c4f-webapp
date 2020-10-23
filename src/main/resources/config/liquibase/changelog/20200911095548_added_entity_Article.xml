@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    
+
     <!--
         Added the entity Article.
     -->
@@ -45,6 +45,9 @@
             <column name="category_id" type="bigint">
                 <constraints nullable="false" />
             </column>
+            <column name="statement_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="article" columnName="article_date" columnDataType="datetime"/>
@@ -79,6 +82,7 @@
             <column name="content" type="clob"/>
             <column name="preview_text" type="clob"/>
             <column name="category_id" type="numeric"/>
+            <column name="statement_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

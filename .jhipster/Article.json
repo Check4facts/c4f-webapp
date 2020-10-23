@@ -9,6 +9,13 @@
       "relationshipValidateRules": ["required"],
       "otherEntityField": "name",
       "otherEntityRelationshipName": "article"
+    },
+    {
+      "relationshipName": "statement",
+      "otherEntityName": "statement",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "article"
     }
   ],
   "fields": [

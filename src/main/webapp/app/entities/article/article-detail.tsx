@@ -95,6 +95,10 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
             <Translate contentKey="check4FactsApp.article.category">Category</Translate>
           </dt>
           <dd>{articleEntity.category ? articleEntity.category.name : ''}</dd>
+          <dt>
+            <Translate contentKey="check4FactsApp.article.statement">Statement</Translate>
+          </dt>
+          <dd>{articleEntity.statement ? articleEntity.statement.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/article" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}
