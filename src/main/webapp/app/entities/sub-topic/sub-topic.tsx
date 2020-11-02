@@ -78,9 +78,6 @@ export const SubTopic = (props: ISubTopicProps) => {
                 <th>
                   <Translate contentKey="check4FactsApp.subTopic.name">Name</Translate>
                 </th>
-                <th>
-                  <Translate contentKey="check4FactsApp.subTopic.statement">Statement</Translate>
-                </th>
                 <th />
               </tr>
             </thead>
@@ -93,7 +90,6 @@ export const SubTopic = (props: ISubTopicProps) => {
                     </Button>
                   </td>
                   <td>{subTopic.name}</td>
-                  <td>{subTopic.statement ? <Link to={`statement/${subTopic.statement.id}`}>{subTopic.statement.id}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${subTopic.id}`} color="info" size="sm">

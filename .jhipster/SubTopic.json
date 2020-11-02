@@ -4,19 +4,10 @@
     {
       "fieldName": "name",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required",
-        "unique"
-      ]
+      "fieldValidateRules": ["required", "unique"]
     }
   ],
-  "relationships": [
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "statement",
-      "otherEntityRelationshipName": "subTopics"
-    }
-  ],
+  "relationships": [],
   "changelogDate": "20201021125822",
   "entityTableName": "sub_topic",
   "dto": "no",
@@ -28,5 +19,6 @@
   "embedded": false,
   "clientRootFolder": "",
   "applications": "*",
-  "searchEngine": "elasticsearch"
+  "searchEngine": "elasticsearch",
+  "databaseType": "sql"
 }

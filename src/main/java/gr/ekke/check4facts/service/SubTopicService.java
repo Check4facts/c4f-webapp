@@ -95,16 +95,4 @@ public class SubTopicService {
             .stream(subTopicSearchRepository.search(queryStringQuery(query)).spliterator(), false)
         .collect(Collectors.toList());
     }
-
-    /**
-     * Get all the subTopics by statement id.
-     *
-     * @param statement_id the id of the statement
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<SubTopic> findAllByStatementId(Long statement_id) {
-        log.debug("Request to get all SubTopics by statement id: {}", statement_id);
-        return subTopicRepository.findAllByStatementId(statement_id);
-    }
 }

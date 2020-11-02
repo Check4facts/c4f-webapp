@@ -6,13 +6,4 @@
     <!--
         Added the constraints for entity SubTopic.
     -->
-    <changeSet id="20201021125822-2" author="jhipster">
-        
-        <addForeignKeyConstraint baseColumnNames="statement_id"
-                                 baseTableName="sub_topic"
-                                 constraintName="fk_sub_topic_statement_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="statement"/>
-
-    </changeSet>
 </databaseChangeLog>

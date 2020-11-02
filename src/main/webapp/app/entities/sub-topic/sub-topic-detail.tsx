@@ -31,10 +31,6 @@ export const SubTopicDetail = (props: ISubTopicDetailProps) => {
             </span>
           </dt>
           <dd>{subTopicEntity.name}</dd>
-          <dt>
-            <Translate contentKey="check4FactsApp.subTopic.statement">Statement</Translate>
-          </dt>
-          <dd>{subTopicEntity.statement ? subTopicEntity.statement.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/sub-topic" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

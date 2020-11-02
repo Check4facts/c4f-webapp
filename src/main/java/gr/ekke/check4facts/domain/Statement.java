@@ -58,11 +58,6 @@ public class Statement implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "statement_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<SubTopic> subTopics = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "statement_id")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<StatementSource> statementSources = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -159,31 +154,6 @@ public class Statement implements Serializable {
 
     public void setMainArticleUrl(String mainArticleUrl) {
         this.mainArticleUrl = mainArticleUrl;
-    }
-
-    public Set<SubTopic> getSubTopics() {
-        return subTopics;
-    }
-
-    public Statement subTopics(Set<SubTopic> subTopics) {
-        this.subTopics = subTopics;
-        return this;
-    }
-
-    public Statement addSubTopics(SubTopic subTopic) {
-        this.subTopics.add(subTopic);
-        subTopic.setStatement(this);
-        return this;
-    }
-
-    public Statement removeSubTopics(SubTopic subTopic) {
-        this.subTopics.remove(subTopic);
-        subTopic.setStatement(null);
-        return this;
-    }
-
-    public void setSubTopics(Set<SubTopic> subTopics) {
-        this.subTopics = subTopics;
     }
 
     public Set<StatementSource> getStatementSources() {

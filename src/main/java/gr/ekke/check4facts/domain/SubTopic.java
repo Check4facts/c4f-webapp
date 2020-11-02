@@ -1,6 +1,5 @@
 package gr.ekke.check4facts.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -30,10 +29,6 @@ public class SubTopic implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = "subTopics", allowSetters = true)
-    private Statement statement;
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -54,19 +49,6 @@ public class SubTopic implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Statement getStatement() {
-        return statement;
-    }
-
-    public SubTopic statement(Statement statement) {
-        this.statement = statement;
-        return this;
-    }
-
-    public void setStatement(Statement statement) {
-        this.statement = statement;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

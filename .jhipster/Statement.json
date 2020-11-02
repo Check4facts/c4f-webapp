@@ -33,12 +33,6 @@
   "relationships": [
     {
       "relationshipType": "one-to-many",
-      "otherEntityName": "subTopic",
-      "otherEntityRelationshipName": "statement",
-      "relationshipName": "subTopics"
-    },
-    {
-      "relationshipType": "one-to-many",
       "otherEntityName": "statementSource",
       "otherEntityRelationshipName": "statement",
       "relationshipName": "statementSources"
