@@ -44,6 +44,17 @@
 
     <changeSet id="20201021125622-1-relations" author="jhipster">
 
+        <createTable tableName="statement_sub_topics">
+            <column name="sub_topics_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="statement_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="statement_id, sub_topics_id" tableName="statement_sub_topics"/>
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
@@ -69,6 +80,16 @@
             <column name="main_article_url" type="clob"/>
             <column name="topic_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+
+    <changeSet id="20201021125622-1-statement_subTopics_data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/statement_sub_topic.csv"
+                  separator=";"
+                  tableName="statement_sub_topics">
+            <column name="sub_topics_id" type="numeric"/>
+            <column name="statement_id" type="numeric"/>
         </loadData>
     </changeSet>
 

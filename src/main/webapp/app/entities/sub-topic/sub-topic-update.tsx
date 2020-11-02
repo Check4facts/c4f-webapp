@@ -7,6 +7,8 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { IStatement } from 'app/shared/model/statement.model';
+import { getEntities as getStatements } from 'app/entities/statement/statement.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './sub-topic.reducer';
 import { ISubTopic } from 'app/shared/model/sub-topic.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -15,9 +17,10 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface ISubTopicUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const SubTopicUpdate = (props: ISubTopicUpdateProps) => {
+  const [statementsId, setStatementsId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { subTopicEntity, loading, updating } = props;
+  const { subTopicEntity, statements, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/sub-topic');
@@ -29,6 +32,8 @@ export const SubTopicUpdate = (props: ISubTopicUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
+
+    props.getStatements();
   }, []);
 
   useEffect(() => {
@@ -110,6 +115,7 @@ export const SubTopicUpdate = (props: ISubTopicUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  statements: storeState.statement.entities,
   subTopicEntity: storeState.subTopic.entity,
   loading: storeState.subTopic.loading,
   updating: storeState.subTopic.updating,
@@ -117,6 +123,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getStatements,
   getEntity,
   updateEntity,
   createEntity,

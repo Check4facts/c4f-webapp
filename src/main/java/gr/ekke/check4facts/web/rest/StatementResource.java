@@ -91,12 +91,18 @@ public class StatementResource {
      * {@code GET  /statements} : get all the statements.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of statements in body.
      */
     @GetMapping("/statements")
-    public ResponseEntity<List<Statement>> getAllStatements(Pageable pageable) {
+    public ResponseEntity<List<Statement>> getAllStatements(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Statements");
-        Page<Statement> page = statementService.findAll(pageable);
+        Page<Statement> page;
+        if (eagerload) {
+            page = statementService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = statementService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

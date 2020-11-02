@@ -69,6 +69,13 @@ public class Statement implements Serializable {
     @JsonIgnoreProperties(value = "statements", allowSetters = true)
     private Topic topic;
 
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JoinTable(name = "statement_sub_topics",
+               joinColumns = @JoinColumn(name = "statement_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "sub_topics_id", referencedColumnName = "id"))
+    private Set<SubTopic> subTopics = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -217,6 +224,31 @@ public class Statement implements Serializable {
 
     public void setTopic(Topic topic) {
         this.topic = topic;
+    }
+
+    public Set<SubTopic> getSubTopics() {
+        return subTopics;
+    }
+
+    public Statement subTopics(Set<SubTopic> subTopics) {
+        this.subTopics = subTopics;
+        return this;
+    }
+
+    public Statement addSubTopics(SubTopic subTopic) {
+        this.subTopics.add(subTopic);
+        subTopic.getStatements().add(this);
+        return this;
+    }
+
+    public Statement removeSubTopics(SubTopic subTopic) {
+        this.subTopics.remove(subTopic);
+        subTopic.getStatements().remove(this);
+        return this;
+    }
+
+    public void setSubTopics(Set<SubTopic> subTopics) {
+        this.subTopics = subTopics;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

@@ -61,6 +61,7 @@ public class CacheConfiguration {
             createCache(cm, gr.ekke.check4facts.domain.StatementSource.class.getName());
             createCache(cm, gr.ekke.check4facts.domain.SubTopic.class.getName());
             createCache(cm, gr.ekke.check4facts.domain.Topic.class.getName());
+            createCache(cm, gr.ekke.check4facts.domain.SubTopic.class.getName() + ".statements");
             // jhipster-needle-ehcache-add-entry
         };
     }

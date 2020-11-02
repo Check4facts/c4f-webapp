@@ -1,5 +1,6 @@
 package gr.ekke.check4facts.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -8,6 +9,8 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A SubTopic.
@@ -29,6 +32,11 @@ public class SubTopic implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @ManyToMany(mappedBy = "subTopics")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnore
+    private Set<Statement> statements = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -49,6 +57,31 @@ public class SubTopic implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Statement> getStatements() {
+        return statements;
+    }
+
+    public SubTopic statements(Set<Statement> statements) {
+        this.statements = statements;
+        return this;
+    }
+
+    public SubTopic addStatements(Statement statement) {
+        this.statements.add(statement);
+        statement.getSubTopics().add(this);
+        return this;
+    }
+
+    public SubTopic removeStatements(Statement statement) {
+        this.statements.remove(statement);
+        statement.getSubTopics().remove(this);
+        return this;
+    }
+
+    public void setStatements(Set<Statement> statements) {
+        this.statements = statements;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

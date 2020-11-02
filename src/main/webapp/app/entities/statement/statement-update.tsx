@@ -9,6 +9,8 @@ import { IRootState } from 'app/shared/reducers';
 
 import { ITopic } from 'app/shared/model/topic.model';
 import { getEntities as getTopics } from 'app/entities/topic/topic.reducer';
+import { ISubTopic } from 'app/shared/model/sub-topic.model';
+import { getEntities as getSubTopics } from 'app/entities/sub-topic/sub-topic.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './statement.reducer';
 import { IStatement } from 'app/shared/model/statement.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -17,10 +19,11 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IStatementUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const StatementUpdate = (props: IStatementUpdateProps) => {
+  const [idssubTopics, setIdssubTopics] = useState([]);
   const [topicId, setTopicId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { statementEntity, topics, loading, updating } = props;
+  const { statementEntity, topics, subTopics, loading, updating } = props;
 
   const { text, mainArticleText, mainArticleUrl } = statementEntity;
 
@@ -36,6 +39,7 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
     }
 
     props.getTopics();
+    props.getSubTopics();
   }, []);
 
   const onBlobChange = (isAnImage, name) => event => {
@@ -60,6 +64,7 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
       const entity = {
         ...statementEntity,
         ...values,
+        subTopics: mapIdList(values.subTopics),
       };
 
       if (isNew) {
@@ -165,6 +170,28 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
                     : null}
                 </AvInput>
               </AvGroup>
+              <AvGroup>
+                <Label for="statement-subTopics">
+                  <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
+                </Label>
+                <AvInput
+                  id="statement-subTopics"
+                  type="select"
+                  multiple
+                  className="form-control"
+                  name="subTopics"
+                  value={statementEntity.subTopics && statementEntity.subTopics.map(e => e.id)}
+                >
+                  <option value="" key="0" />
+                  {subTopics
+                    ? subTopics.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.name}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
+              </AvGroup>
               <Button tag={Link} id="cancel-save" to="/statement" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
@@ -188,6 +215,7 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   topics: storeState.topic.entities,
+  subTopics: storeState.subTopic.entities,
   statementEntity: storeState.statement.entity,
   loading: storeState.statement.loading,
   updating: storeState.statement.updating,
@@ -196,6 +224,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getTopics,
+  getSubTopics,
   getEntity,
   updateEntity,
   setBlob,

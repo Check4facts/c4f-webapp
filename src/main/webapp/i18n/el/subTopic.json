@@ -17,7 +17,8 @@
       "detail": {
         "title": "Sub Topic"
       },
-      "name": "Name"
+      "name": "Name",
+      "statements": "Statements"
     }
   }
 }

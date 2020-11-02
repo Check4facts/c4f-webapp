@@ -7,7 +7,15 @@
       "fieldValidateRules": ["required", "unique"]
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipName": "statements",
+      "otherEntityName": "statement",
+      "relationshipType": "many-to-many",
+      "ownerSide": false,
+      "otherEntityRelationshipName": "subTopics"
+    }
+  ],
   "changelogDate": "20201021125822",
   "entityTableName": "sub_topic",
   "dto": "no",

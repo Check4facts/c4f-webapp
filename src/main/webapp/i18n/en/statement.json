@@ -25,7 +25,8 @@
       "mainArticleUrl": "Main Article Url",
       "statementSources": "Statement Sources",
       "resources": "Resources",
-      "topic": "Topic"
+      "topic": "Topic",
+      "subTopics": "Sub Topics"
     }
   }
 }

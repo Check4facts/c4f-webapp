@@ -60,6 +60,15 @@ public class StatementService {
 
 
     /**
+     * Get all the statements with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<Statement> findAllWithEagerRelationships(Pageable pageable) {
+        return statementRepository.findAllWithEagerRelationships(pageable);
+    }
+
+    /**
      * Get one statement by id.
      *
      * @param id the id of the entity.
@@ -68,7 +77,7 @@ public class StatementService {
     @Transactional(readOnly = true)
     public Optional<Statement> findOne(Long id) {
         log.debug("Request to get Statement : {}", id);
-        return statementRepository.findById(id);
+        return statementRepository.findOneWithEagerRelationships(id);
     }
 
     /**
