@@ -1,0 +1,239 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="sukee94 (generated)" id="1604416693990-1">
+        <createSequence incrementBy="50" sequenceName="sequence_generator" startValue="1"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-2">
+        <createTable tableName="article">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="articlePK"/>
+            </column>
+            <column name="article_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="author" type="VARCHAR(255)"/>
+            <column name="content" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preview_image" type="BYTEA"/>
+            <column name="preview_image_content_type" type="VARCHAR(255)"/>
+            <column name="preview_text" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preview_title" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="published" type="BOOLEAN"/>
+            <column name="category_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="statement_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-3">
+        <createTable tableName="category">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="categoryPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-4">
+        <createTable tableName="jhi_authority">
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_authorityPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-5">
+        <createTable tableName="jhi_persistent_audit_event">
+            <column autoIncrement="true" name="event_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_persistent_audit_eventPK"/>
+            </column>
+            <column name="event_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="event_type" type="VARCHAR(255)"/>
+            <column name="principal" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-6">
+        <createTable tableName="jhi_persistent_audit_evt_data">
+            <column name="event_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-7">
+        <createTable tableName="jhi_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_userPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="activated" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activation_key" type="VARCHAR(20)"/>
+            <column name="email" type="VARCHAR(254)"/>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="image_url" type="VARCHAR(256)"/>
+            <column name="lang_key" type="VARCHAR(10)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="login" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reset_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="reset_key" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-8">
+        <createTable tableName="jhi_user_authority">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="authority_name" type="VARCHAR(50)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-9">
+        <createTable tableName="resource">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="resourcePK"/>
+            </column>
+            <column name="body" type="TEXT"/>
+            <column name="file_format" type="VARCHAR(255)"/>
+            <column name="harvest_date" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="harvest_iteration" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="html_snippet" type="TEXT"/>
+            <column name="snippet" type="TEXT"/>
+            <column name="title" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="statement_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-10">
+        <createTable tableName="statement">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="statementPK"/>
+            </column>
+            <column name="author" type="VARCHAR(255)"/>
+            <column name="main_article_text" type="TEXT"/>
+            <column name="main_article_url" type="TEXT"/>
+            <column name="registration_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="statement_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="text" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="topic_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-11">
+        <createTable tableName="statement_source">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="statement_sourcePK"/>
+            </column>
+            <column name="snippet" type="TEXT"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="url" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="statement_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-12">
+        <createTable tableName="statement_sub_topics">
+            <column name="statement_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="sub_topics_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-13">
+        <createTable tableName="sub_topic">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="sub_topicPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-14">
+        <createTable tableName="topic">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="topicPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-15">
+        <addUniqueConstraint columnNames="name" constraintName="UC_CATEGORYNAME_COL" tableName="category"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-16">
+        <addUniqueConstraint columnNames="email" constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-17">
+        <addUniqueConstraint columnNames="login" constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-18">
+        <addUniqueConstraint columnNames="name" constraintName="UC_SUB_TOPICNAME_COL" tableName="sub_topic"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-19">
+        <addUniqueConstraint columnNames="name" constraintName="UC_TOPICNAME_COL" tableName="topic"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-20">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jhi_user_authority" constraintName="FK290okww5jujghp4el5i7mgwu0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-21">
+        <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="jhi_persistent_audit_evt_data" constraintName="FK2ehnyx2si4tjd2nt4q7y40v8m" deferrable="false" initiallyDeferred="false" referencedColumnNames="event_id" referencedTableName="jhi_persistent_audit_event" validate="true"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-22">
+        <addForeignKeyConstraint baseColumnNames="authority_name" baseTableName="jhi_user_authority" constraintName="FK4psxl0jtx6nr7rhqbynr6itoc" deferrable="false" initiallyDeferred="false" referencedColumnNames="name" referencedTableName="jhi_authority" validate="true"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-23">
+        <addForeignKeyConstraint baseColumnNames="statement_id" baseTableName="resource" constraintName="FKebo2y6wrkv0n23drsm5rryqr5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="statement" validate="true"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-24">
+        <addForeignKeyConstraint baseColumnNames="statement_id" baseTableName="statement_sub_topics" constraintName="FKh0fsvf9wwxrbduo96576gne91" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="statement" validate="true"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-25">
+        <addForeignKeyConstraint baseColumnNames="statement_id" baseTableName="statement_source" constraintName="FKnft2ol9p1fctg48t72t345lp7" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="statement" validate="true"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-26">
+        <addForeignKeyConstraint baseColumnNames="sub_topics_id" baseTableName="statement_sub_topics" constraintName="FKqclppubmdiy1qquq1y432ix87" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="sub_topic" validate="true"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-27">
+        <addForeignKeyConstraint baseColumnNames="statement_id" baseTableName="article" constraintName="FKrgr7s7l468x81ga9k8jxa76cw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="statement" validate="true"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-28">
+        <addForeignKeyConstraint baseColumnNames="topic_id" baseTableName="statement" constraintName="FKsj6cc15qs4l5pk2bru4lbuhby" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="topic" validate="true"/>
+    </changeSet>
+    <changeSet author="sukee94 (generated)" id="1604416693990-29">
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="article" constraintName="FKy5kkohbk00g0w88fi05k2hcw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="category" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
