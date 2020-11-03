@@ -1,12 +1,19 @@
 {
   "fact-checking": {
-    "page-guidelines": {
-      "main": "In this page you will be able to:",
-      "guide-1": "Insert your own statement as a request for fact-checking.",
-      "guide-2": "Review our methodology and code of ethics.",
-      "guide-3": "Check other third party fact checkers."
+    "page-guide": {
+      "main": "In this page you are able to either:",
+      "one": "insert your statement for fact checking by filling the form below",
+      "two": "or follow the link for the already saved statements"
     },
     "check": {
+      "titles": {
+        "first": "",
+        "second": "",
+        "third": ""
+      },
+      "statementSources": {
+        "notAdded": "Δεν έχετε προσθέσει ακόμα κάποια."
+      },
       "placeholder": "Insert your statement",
       "button": "Check!"
     },
@@ -15,7 +22,7 @@
       "meth": "Methodology",
       "code": "Code of Ethics"
     },
-    "result": {
+    "harvest": {
       "action": {
         "main": "Actions",
         "createArticle": "Create an article for the statement",
@@ -27,8 +34,9 @@
         "true": "True",
         "false": "False"
       },
-      "title": "Statement Check Results",
-      "urls": "List of URLs documenting the decision"
+      "title": "Harvest",
+      "urls": "List of URLs documenting the decision",
+      "button": "Harvest"
     },
     "sub-menus": {
       "main": "Topics",
