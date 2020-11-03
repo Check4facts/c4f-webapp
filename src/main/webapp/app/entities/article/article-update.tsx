@@ -11,6 +11,9 @@ import { getEntity, updateEntity, createEntity, setBlob, reset } from './article
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
+import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
+import { getResourcesByStatement } from 'app/entities/resource/resource.reducer';
+import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
 import ArticleContentEditor from "app/entities/article/article-content-editor";
 
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -27,9 +30,11 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
     if(activeTab !== tab) setActiveTab(tab);
   }
 
-  const { articleEntity, categories, loading, updating, statement, urls } = props;
+  const { articleEntity, categories, loading, updating, statementId, statement, statementSources, resources } = props;
 
   const { previewImage, previewImageContentType } = articleEntity;
+
+  const urls = (statementSources && resources) ? statementSources.map(ss => ss.url) : [];
 
   const handleClose = () => {
     props.factReset();
@@ -41,6 +46,11 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
       props.reset();
     } else {
       props.getEntity(props.match.params.id);
+    }
+    if (statementId !== '') {
+      props.getStatement(statementId);
+      props.getStatementSourcesByStatement(statementId);
+      props.getResourcesByStatement(statementId);
     }
 
     props.getCategories();
@@ -91,7 +101,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? { previewTitle: statement } : articleEntity} onSubmit={saveEntity}>
+            <AvForm model={isNew ? { previewTitle: statement.text } : articleEntity} onSubmit={saveEntity}>
               <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
                   <Col md={{ size: 8, offset: 2 }} className="mt-3">
@@ -269,8 +279,10 @@ const mapStateToProps = (storeState: IRootState) => ({
   loading: storeState.article.loading,
   updating: storeState.article.updating,
   updateSuccess: storeState.article.updateSuccess,
-  statement: storeState.factChecking.statement,
-  urls: storeState.factChecking.urls
+  statementId: storeState.factChecking.statement,
+  statement: storeState.statement.entity,
+  statementSources: storeState.statementSource.entities,
+  resources: storeState.resource.entities
 });
 
 const mapDispatchToProps = {
@@ -279,6 +291,9 @@ const mapDispatchToProps = {
   updateEntity,
   setBlob,
   createEntity,
+  getStatement,
+  getResourcesByStatement,
+  getStatementSourcesByStatement,
   reset,
   factReset
 };
