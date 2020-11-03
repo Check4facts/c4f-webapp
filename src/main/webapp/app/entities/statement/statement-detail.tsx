@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { Translate, ICrudGetAction, byteSize, TextFormat } from 'react-jhipster';
+import {Translate, ICrudGetAction, byteSize, TextFormat, translate} from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -68,11 +68,11 @@ export const StatementDetail = (props: IStatementDetailProps) => {
               <Translate contentKey="check4FactsApp.statement.mainArticleUrl">Main Article Url</Translate>
             </span>
           </dt>
-          <dd>{statementEntity.mainArticleUrl}</dd>
+          <dd><a href={statementEntity.mainArticleUrl} target="_blank" rel="noopener noreferrer">{statementEntity.mainArticleUrl}</a></dd>
           <dt>
             <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate>
           </dt>
-          <dd>{statementEntity.topic ? statementEntity.topic.name : ''}</dd>
+          <dd>{statementEntity.topic ? translate(`fact-checking.sub-menus.${statementEntity.topic.name}`) : ''}</dd>
           <dt>
             <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
           </dt>

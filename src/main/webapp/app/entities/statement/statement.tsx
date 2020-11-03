@@ -195,8 +195,8 @@ export const Statement = (props: IStatementProps) => {
                     ) : null}
                   </td>
                   <td>{statement.mainArticleText}</td>
-                  <td>{statement.mainArticleUrl}</td>
-                  <td>{statement.topic ? <Link to={`topic/${statement.topic.id}`}>{statement.topic.name}</Link> : ''}</td>
+                  <td><a href={statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">{statement.mainArticleUrl}</a></td>
+                  <td>{statement.topic ? translate(`fact-checking.sub-menus.${statement.topic.name}`) : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${statement.id}`} color="info" size="sm">
@@ -216,15 +216,10 @@ export const Statement = (props: IStatementProps) => {
                           <Translate contentKey="entity.action.edit">Edit</Translate>
                         </span>
                       </Button>
-                      <Button
-                        tag={Link}
-                        to={`${match.url}/${statement.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="danger"
-                        size="sm"
-                      >
-                        <FontAwesomeIcon icon="trash" />{' '}
+                      <Button tag={Link} to={`/fact-checking/harvest/${statement.id}`} color="warning" size="sm">
+                        <FontAwesomeIcon icon="sync" />{' '}
                         <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                          <Translate contentKey="fact-checking.harvest.button"/>
                         </span>
                       </Button>
                     </div>

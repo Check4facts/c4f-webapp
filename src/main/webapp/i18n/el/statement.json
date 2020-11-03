@@ -17,16 +17,16 @@
       "detail": {
         "title": "Statement"
       },
-      "text": "Text",
-      "author": "Author",
-      "statementDate": "Statement Date",
-      "registrationDate": "Registration Date",
+      "text": "Κείμενο",
+      "author": "Δηλών",
+      "statementDate": "Ημερομηνία Δήλωσης",
+      "registrationDate": "Ημερομηνία Ελέγχου",
       "mainArticleText": "Main Article Text",
       "mainArticleUrl": "Main Article Url",
-      "statementSources": "Statement Sources",
+      "statementSources": "Πηγές Δήλωσης",
       "resources": "Resources",
-      "topic": "Topic",
-      "subTopics": "Sub Topics"
+      "topic": "Θεματική",
+      "subTopics": "Υπο-θεματικές"
     }
   }
 }
