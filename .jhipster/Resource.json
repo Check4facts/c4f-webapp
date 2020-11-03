@@ -25,12 +25,12 @@
       ]
     },
     {
-      "fieldName": "snippet",
+      "fieldName": "simSentence",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "text"
     },
     {
-      "fieldName": "htmlSnippet",
+      "fieldName": "simParagraph",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "text"
     },

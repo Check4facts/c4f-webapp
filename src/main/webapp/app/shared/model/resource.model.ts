@@ -7,8 +7,8 @@ export interface IResource {
   url?: any;
   harvestIteration?: number;
   title?: any;
-  snippet?: any;
-  htmlSnippet?: any;
+  simSentence?: any;
+  simParagraph?: any;
   fileFormat?: FileFormat;
   body?: any;
   harvestDate?: string;

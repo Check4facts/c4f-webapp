@@ -53,11 +53,11 @@ public class ResourceResourceIT {
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SNIPPET = "AAAAAAAAAA";
-    private static final String UPDATED_SNIPPET = "BBBBBBBBBB";
+    private static final String DEFAULT_SIM_SENTENCE = "AAAAAAAAAA";
+    private static final String UPDATED_SIM_SENTENCE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_HTML_SNIPPET = "AAAAAAAAAA";
-    private static final String UPDATED_HTML_SNIPPET = "BBBBBBBBBB";
+    private static final String DEFAULT_SIM_PARAGRAPH = "AAAAAAAAAA";
+    private static final String UPDATED_SIM_PARAGRAPH = "BBBBBBBBBB";
 
     private static final FileFormat DEFAULT_FILE_FORMAT = FileFormat.PDF;
     private static final FileFormat UPDATED_FILE_FORMAT = FileFormat.DOC;
@@ -101,8 +101,8 @@ public class ResourceResourceIT {
             .url(DEFAULT_URL)
             .harvestIteration(DEFAULT_HARVEST_ITERATION)
             .title(DEFAULT_TITLE)
-            .snippet(DEFAULT_SNIPPET)
-            .htmlSnippet(DEFAULT_HTML_SNIPPET)
+            .simSentence(DEFAULT_SIM_SENTENCE)
+            .simParagraph(DEFAULT_SIM_PARAGRAPH)
             .fileFormat(DEFAULT_FILE_FORMAT)
             .body(DEFAULT_BODY)
             .harvestDate(DEFAULT_HARVEST_DATE);
@@ -119,8 +119,8 @@ public class ResourceResourceIT {
             .url(UPDATED_URL)
             .harvestIteration(UPDATED_HARVEST_ITERATION)
             .title(UPDATED_TITLE)
-            .snippet(UPDATED_SNIPPET)
-            .htmlSnippet(UPDATED_HTML_SNIPPET)
+            .simSentence(UPDATED_SIM_SENTENCE)
+            .simParagraph(UPDATED_SIM_PARAGRAPH)
             .fileFormat(UPDATED_FILE_FORMAT)
             .body(UPDATED_BODY)
             .harvestDate(UPDATED_HARVEST_DATE);
@@ -149,8 +149,8 @@ public class ResourceResourceIT {
         assertThat(testResource.getUrl()).isEqualTo(DEFAULT_URL);
         assertThat(testResource.getHarvestIteration()).isEqualTo(DEFAULT_HARVEST_ITERATION);
         assertThat(testResource.getTitle()).isEqualTo(DEFAULT_TITLE);
-        assertThat(testResource.getSnippet()).isEqualTo(DEFAULT_SNIPPET);
-        assertThat(testResource.getHtmlSnippet()).isEqualTo(DEFAULT_HTML_SNIPPET);
+        assertThat(testResource.getSimSentence()).isEqualTo(DEFAULT_SIM_SENTENCE);
+        assertThat(testResource.getSimParagraph()).isEqualTo(DEFAULT_SIM_PARAGRAPH);
         assertThat(testResource.getFileFormat()).isEqualTo(DEFAULT_FILE_FORMAT);
         assertThat(testResource.getBody()).isEqualTo(DEFAULT_BODY);
         assertThat(testResource.getHarvestDate()).isEqualTo(DEFAULT_HARVEST_DATE);
@@ -234,8 +234,8 @@ public class ResourceResourceIT {
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
             .andExpect(jsonPath("$.[*].harvestIteration").value(hasItem(DEFAULT_HARVEST_ITERATION.intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].snippet").value(hasItem(DEFAULT_SNIPPET.toString())))
-            .andExpect(jsonPath("$.[*].htmlSnippet").value(hasItem(DEFAULT_HTML_SNIPPET.toString())))
+            .andExpect(jsonPath("$.[*].simSentence").value(hasItem(DEFAULT_SIM_SENTENCE.toString())))
+            .andExpect(jsonPath("$.[*].simParagraph").value(hasItem(DEFAULT_SIM_PARAGRAPH.toString())))
             .andExpect(jsonPath("$.[*].fileFormat").value(hasItem(DEFAULT_FILE_FORMAT.toString())))
             .andExpect(jsonPath("$.[*].body").value(hasItem(DEFAULT_BODY.toString())))
             .andExpect(jsonPath("$.[*].harvestDate").value(hasItem(DEFAULT_HARVEST_DATE.toString())));
@@ -255,8 +255,8 @@ public class ResourceResourceIT {
             .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
             .andExpect(jsonPath("$.harvestIteration").value(DEFAULT_HARVEST_ITERATION.intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
-            .andExpect(jsonPath("$.snippet").value(DEFAULT_SNIPPET.toString()))
-            .andExpect(jsonPath("$.htmlSnippet").value(DEFAULT_HTML_SNIPPET.toString()))
+            .andExpect(jsonPath("$.simSentence").value(DEFAULT_SIM_SENTENCE.toString()))
+            .andExpect(jsonPath("$.simParagraph").value(DEFAULT_SIM_PARAGRAPH.toString()))
             .andExpect(jsonPath("$.fileFormat").value(DEFAULT_FILE_FORMAT.toString()))
             .andExpect(jsonPath("$.body").value(DEFAULT_BODY.toString()))
             .andExpect(jsonPath("$.harvestDate").value(DEFAULT_HARVEST_DATE.toString()));
@@ -285,8 +285,8 @@ public class ResourceResourceIT {
             .url(UPDATED_URL)
             .harvestIteration(UPDATED_HARVEST_ITERATION)
             .title(UPDATED_TITLE)
-            .snippet(UPDATED_SNIPPET)
-            .htmlSnippet(UPDATED_HTML_SNIPPET)
+            .simSentence(UPDATED_SIM_SENTENCE)
+            .simParagraph(UPDATED_SIM_PARAGRAPH)
             .fileFormat(UPDATED_FILE_FORMAT)
             .body(UPDATED_BODY)
             .harvestDate(UPDATED_HARVEST_DATE);
@@ -303,8 +303,8 @@ public class ResourceResourceIT {
         assertThat(testResource.getUrl()).isEqualTo(UPDATED_URL);
         assertThat(testResource.getHarvestIteration()).isEqualTo(UPDATED_HARVEST_ITERATION);
         assertThat(testResource.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testResource.getSnippet()).isEqualTo(UPDATED_SNIPPET);
-        assertThat(testResource.getHtmlSnippet()).isEqualTo(UPDATED_HTML_SNIPPET);
+        assertThat(testResource.getSimSentence()).isEqualTo(UPDATED_SIM_SENTENCE);
+        assertThat(testResource.getSimParagraph()).isEqualTo(UPDATED_SIM_PARAGRAPH);
         assertThat(testResource.getFileFormat()).isEqualTo(UPDATED_FILE_FORMAT);
         assertThat(testResource.getBody()).isEqualTo(UPDATED_BODY);
         assertThat(testResource.getHarvestDate()).isEqualTo(UPDATED_HARVEST_DATE);
@@ -370,8 +370,8 @@ public class ResourceResourceIT {
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
             .andExpect(jsonPath("$.[*].harvestIteration").value(hasItem(DEFAULT_HARVEST_ITERATION.intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
-            .andExpect(jsonPath("$.[*].snippet").value(hasItem(DEFAULT_SNIPPET.toString())))
-            .andExpect(jsonPath("$.[*].htmlSnippet").value(hasItem(DEFAULT_HTML_SNIPPET.toString())))
+            .andExpect(jsonPath("$.[*].simSentence").value(hasItem(DEFAULT_SIM_SENTENCE.toString())))
+            .andExpect(jsonPath("$.[*].simParagraph").value(hasItem(DEFAULT_SIM_PARAGRAPH.toString())))
             .andExpect(jsonPath("$.[*].fileFormat").value(hasItem(DEFAULT_FILE_FORMAT.toString())))
             .andExpect(jsonPath("$.[*].body").value(hasItem(DEFAULT_BODY.toString())))
             .andExpect(jsonPath("$.[*].harvestDate").value(hasItem(DEFAULT_HARVEST_DATE.toString())));

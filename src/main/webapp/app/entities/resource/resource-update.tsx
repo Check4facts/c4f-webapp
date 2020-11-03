@@ -22,7 +22,7 @@ export const ResourceUpdate = (props: IResourceUpdateProps) => {
 
   const { resourceEntity, statements, loading, updating } = props;
 
-  const { url, title, snippet, htmlSnippet, body } = resourceEntity;
+  const { url, title, simSentence, simParagraph, body } = resourceEntity;
 
   const handleClose = () => {
     props.history.push('/resource' + props.location.search);
@@ -134,16 +134,16 @@ export const ResourceUpdate = (props: IResourceUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
-                <Label id="snippetLabel" for="resource-snippet">
-                  <Translate contentKey="check4FactsApp.resource.snippet">Snippet</Translate>
+                <Label id="simSentenceLabel" for="resource-simSentence">
+                  <Translate contentKey="check4FactsApp.resource.simSentence">Sim Sentence</Translate>
                 </Label>
-                <AvInput id="resource-snippet" type="textarea" name="snippet" />
+                <AvInput id="resource-simSentence" type="textarea" name="simSentence" />
               </AvGroup>
               <AvGroup>
-                <Label id="htmlSnippetLabel" for="resource-htmlSnippet">
-                  <Translate contentKey="check4FactsApp.resource.htmlSnippet">Html Snippet</Translate>
+                <Label id="simParagraphLabel" for="resource-simParagraph">
+                  <Translate contentKey="check4FactsApp.resource.simParagraph">Sim Paragraph</Translate>
                 </Label>
-                <AvInput id="resource-htmlSnippet" type="textarea" name="htmlSnippet" />
+                <AvInput id="resource-simParagraph" type="textarea" name="simParagraph" />
               </AvGroup>
               <AvGroup>
                 <Label id="fileFormatLabel" for="resource-fileFormat">

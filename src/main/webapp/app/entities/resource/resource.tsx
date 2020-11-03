@@ -164,11 +164,11 @@ export const Resource = (props: IResourceProps) => {
                 <th className="hand" onClick={sort('title')}>
                   <Translate contentKey="check4FactsApp.resource.title">Title</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('snippet')}>
-                  <Translate contentKey="check4FactsApp.resource.snippet">Snippet</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('simSentence')}>
+                  <Translate contentKey="check4FactsApp.resource.simSentence">Sim Sentence</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('htmlSnippet')}>
-                  <Translate contentKey="check4FactsApp.resource.htmlSnippet">Html Snippet</Translate> <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('simParagraph')}>
+                  <Translate contentKey="check4FactsApp.resource.simParagraph">Sim Paragraph</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th className="hand" onClick={sort('fileFormat')}>
                   <Translate contentKey="check4FactsApp.resource.fileFormat">File Format</Translate> <FontAwesomeIcon icon="sort" />
@@ -196,8 +196,8 @@ export const Resource = (props: IResourceProps) => {
                   <td>{resource.url}</td>
                   <td>{resource.harvestIteration}</td>
                   <td>{resource.title}</td>
-                  <td>{resource.snippet}</td>
-                  <td>{resource.htmlSnippet}</td>
+                  <td>{resource.simSentence}</td>
+                  <td>{resource.simParagraph}</td>
                   <td>
                     <Translate contentKey={`check4FactsApp.FileFormat.${resource.fileFormat}`} />
                   </td>

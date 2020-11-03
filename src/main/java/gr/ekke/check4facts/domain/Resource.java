@@ -30,7 +30,7 @@ public class Resource implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-
+    
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "url", nullable = false)
@@ -40,7 +40,7 @@ public class Resource implements Serializable {
     @Column(name = "harvest_iteration", nullable = false)
     private Long harvestIteration;
 
-
+    
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "title", nullable = false)
@@ -48,13 +48,13 @@ public class Resource implements Serializable {
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "snippet")
-    private String snippet;
+    @Column(name = "sim_sentence")
+    private String simSentence;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "html_snippet")
-    private String htmlSnippet;
+    @Column(name = "sim_paragraph")
+    private String simParagraph;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "file_format")
@@ -121,30 +121,30 @@ public class Resource implements Serializable {
         this.title = title;
     }
 
-    public String getSnippet() {
-        return snippet;
+    public String getSimSentence() {
+        return simSentence;
     }
 
-    public Resource snippet(String snippet) {
-        this.snippet = snippet;
+    public Resource simSentence(String simSentence) {
+        this.simSentence = simSentence;
         return this;
     }
 
-    public void setSnippet(String snippet) {
-        this.snippet = snippet;
+    public void setSimSentence(String simSentence) {
+        this.simSentence = simSentence;
     }
 
-    public String getHtmlSnippet() {
-        return htmlSnippet;
+    public String getSimParagraph() {
+        return simParagraph;
     }
 
-    public Resource htmlSnippet(String htmlSnippet) {
-        this.htmlSnippet = htmlSnippet;
+    public Resource simParagraph(String simParagraph) {
+        this.simParagraph = simParagraph;
         return this;
     }
 
-    public void setHtmlSnippet(String htmlSnippet) {
-        this.htmlSnippet = htmlSnippet;
+    public void setSimParagraph(String simParagraph) {
+        this.simParagraph = simParagraph;
     }
 
     public FileFormat getFileFormat() {
@@ -224,8 +224,8 @@ public class Resource implements Serializable {
             ", url='" + getUrl() + "'" +
             ", harvestIteration=" + getHarvestIteration() +
             ", title='" + getTitle() + "'" +
-            ", snippet='" + getSnippet() + "'" +
-            ", htmlSnippet='" + getHtmlSnippet() + "'" +
+            ", simSentence='" + getSimSentence() + "'" +
+            ", simParagraph='" + getSimParagraph() + "'" +
             ", fileFormat='" + getFileFormat() + "'" +
             ", body='" + getBody() + "'" +
             ", harvestDate='" + getHarvestDate() + "'" +

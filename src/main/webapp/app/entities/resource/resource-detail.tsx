@@ -44,17 +44,17 @@ export const ResourceDetail = (props: IResourceDetailProps) => {
           </dt>
           <dd>{resourceEntity.title}</dd>
           <dt>
-            <span id="snippet">
-              <Translate contentKey="check4FactsApp.resource.snippet">Snippet</Translate>
+            <span id="simSentence">
+              <Translate contentKey="check4FactsApp.resource.simSentence">Sim Sentence</Translate>
             </span>
           </dt>
-          <dd>{resourceEntity.snippet}</dd>
+          <dd>{resourceEntity.simSentence}</dd>
           <dt>
-            <span id="htmlSnippet">
-              <Translate contentKey="check4FactsApp.resource.htmlSnippet">Html Snippet</Translate>
+            <span id="simParagraph">
+              <Translate contentKey="check4FactsApp.resource.simParagraph">Sim Paragraph</Translate>
             </span>
           </dt>
-          <dd>{resourceEntity.htmlSnippet}</dd>
+          <dd>{resourceEntity.simParagraph}</dd>
           <dt>
             <span id="fileFormat">
               <Translate contentKey="check4FactsApp.resource.fileFormat">File Format</Translate>

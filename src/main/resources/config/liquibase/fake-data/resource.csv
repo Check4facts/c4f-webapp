@@ -1,4 +1,4 @@
-id;url;harvest_iteration;title;snippet;html_snippet;file_format;body;harvest_date
+id;url;harvest_iteration;title;sim_sentence;sim_paragraph;file_format;body;harvest_date
 1;../fake-data/blob/hipster.txt;71802;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;DOC;../fake-data/blob/hipster.txt;2020-10-20T19:00:21
 2;../fake-data/blob/hipster.txt;84587;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;NONE;../fake-data/blob/hipster.txt;2020-10-21T06:19:09
 3;../fake-data/blob/hipster.txt;1902;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;../fake-data/blob/hipster.txt;DOC;../fake-data/blob/hipster.txt;2020-10-21T04:29:41

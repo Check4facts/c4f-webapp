@@ -24,10 +24,10 @@
             <column name="title" type="${clobType}">
                 <constraints nullable="false" />
             </column>
-            <column name="snippet" type="${clobType}">
+            <column name="sim_sentence" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="html_snippet" type="${clobType}">
+            <column name="sim_paragraph" type="${clobType}">
                 <constraints nullable="true" />
             </column>
             <column name="file_format" type="varchar(255)">
@@ -69,8 +69,8 @@
             <column name="url" type="clob"/>
             <column name="harvest_iteration" type="numeric"/>
             <column name="title" type="clob"/>
-            <column name="snippet" type="clob"/>
-            <column name="html_snippet" type="clob"/>
+            <column name="sim_sentence" type="clob"/>
+            <column name="sim_paragraph" type="clob"/>
             <column name="file_format" type="string"/>
             <column name="body" type="clob"/>
             <column name="harvest_date" type="datetime"/>
