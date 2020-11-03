@@ -117,11 +117,6 @@ export const Statement = (props: IStatementProps) => {
     <div>
       <h2 id="statement-heading">
         <Translate contentKey="check4FactsApp.statement.home.title">Statements</Translate>
-        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-          <FontAwesomeIcon icon="plus" />
-          &nbsp;
-          <Translate contentKey="check4FactsApp.statement.home.createLabel">Create new Statement</Translate>
-        </Link>
       </h2>
       <Row>
         <Col sm="12">
