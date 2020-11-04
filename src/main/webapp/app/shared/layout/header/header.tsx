@@ -7,7 +7,7 @@ import { Navbar, Nav, NavbarToggler, Collapse, Row, Col } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
 import { Brand } from './header-components';
-import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
+import {AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu, LogIn} from '../menus';
 import { Social } from 'app/shared/layout/menus/social';
 import { AboutMenu } from 'app/shared/layout/menus/about';
 import { DisseminationMenu } from 'app/shared/layout/menus/dissemination';
@@ -62,8 +62,8 @@ const Header = (props: IHeaderProps) => {
                   <DisseminationMenu />
                   <AboutMenu />
                   <MoreMenu />
-                  {props.isAuthenticated && <AccountMenu isAdmin={props.isAdmin}/>}
-                  <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
+                  {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn />}
+                  {/* <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />*/}
                 </Nav>
               </Collapse>
             </Navbar>
