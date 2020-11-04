@@ -56,15 +56,6 @@ export const Home = (props: IHomeProp) => {
 
   return (
     <Container fluid className="my-5">
-      { isAuthenticated &&
-        <Row className="my-5">
-          <Col md={{ size: 2, offset: 5 }} className="py-4 bg-info">
-            <Button tag={Link} to="/article" color="primary" style={{ display: 'block', margin: 'auto' }}>
-              {translate("home.article.view")}
-            </Button>
-          </Col>
-        </Row>
-      }
       <div className={`${paginationState.activePage > 1 && 'd-none'}`}>
         <Row className="my-5">
           <Col className="text-center" sm="12" md={{ size: 6, offset: 3 }}>
@@ -82,6 +73,15 @@ export const Home = (props: IHomeProp) => {
           </Col>
         </Row>
       </div>
+      { isAuthenticated &&
+        <Row className="my-5">
+          <Col md={{ size: 2, offset: 5 }} className="py-4 bg-info">
+            <Button tag={Link} to="/article" color="primary" style={{ display: 'block', margin: 'auto' }}>
+              {translate("home.article.view")}
+            </Button>
+          </Col>
+        </Row>
+      }
       <Container className="py-5">
         <ArticlesFeed />
         {props.totalItems ? (
