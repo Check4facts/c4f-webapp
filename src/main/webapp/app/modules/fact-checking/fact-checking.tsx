@@ -54,6 +54,10 @@ export const FactChecking = (props: IFactCheckingProps) => {
     }
   };
 
+  const removeStatementSource = index => {
+    setStatementSources(statementSources.filter(ss => ss !== statementSources[index]));
+  }
+
   const saveStatement = (event, errors, values) => {
     values.statementDate = convertDateTimeToServer(values.statementDate);
     values.registrationDate = convertDateTimeToServer(values.registrationDate);
@@ -211,6 +215,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
                           <th>
                             <Translate contentKey="check4FactsApp.statementSource.snippet">Snippet</Translate>
                           </th>
+                          <th/>
                         </tr>
                         </thead>
                         <tbody>
@@ -220,6 +225,11 @@ export const FactChecking = (props: IFactCheckingProps) => {
                             <td>{statementSource.url}</td>
                             <td>{statementSource.title}</td>
                             <td>{statementSource.snippet}</td>
+                            <td className="text-right">
+                              <Button color="danger" onClick={() => removeStatementSource(i)}>
+                                <FontAwesomeIcon icon="trash" />
+                              </Button>
+                            </td>
                           </tr>
                         ))}
                         </tbody>
