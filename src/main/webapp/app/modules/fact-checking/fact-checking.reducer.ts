@@ -1,12 +1,20 @@
+import axios from 'axios';
+import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import { IStatement } from 'app/shared/model/statement.model';
+import { IResource } from 'app/shared/model/resource.model';
+
 export const ACTION_TYPES = {
   SET_FACT: 'fact/SET_FACT',
   SET_URLS: 'fact/SET_URLS',
-  SAVE_FACT: 'fact/SAVE_FACT',
+  SEARCH_HARVEST_STATEMENT: 'fact/SEARCH_HARVEST_STATEMENT',
   RESET: 'fact/RESET',
 };
 
 const initialState = {
   statement: '',
+  searchHarvestLoading: false,
+  errorMessage: null,
+  searchHarvestResponse: [] as IResource[],
   urls: [] as string[],
 };
 
@@ -16,6 +24,23 @@ export type FactCheckingState = Readonly<typeof initialState>;
 
 export default (state: FactCheckingState = initialState, action): FactCheckingState => {
   switch (action.type) {
+    case REQUEST(ACTION_TYPES.SEARCH_HARVEST_STATEMENT):
+      return {
+        ...state,
+        searchHarvestLoading: true,
+      };
+    case FAILURE(ACTION_TYPES.SEARCH_HARVEST_STATEMENT):
+      return {
+        ...state,
+        searchHarvestLoading: false,
+        errorMessage: action.payload.data,
+      };
+    case SUCCESS(ACTION_TYPES.SEARCH_HARVEST_STATEMENT):
+      return {
+        ...state,
+        searchHarvestLoading: false,
+        searchHarvestResponse: action.payload.data,
+      };
     case ACTION_TYPES.SET_FACT:
       return {
         ...state,
@@ -36,6 +61,16 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
 };
 
 // Actions
+
+const pythonUrl = 'http://localhost:5000';
+
+export const searchHarvestStatement = (statement: IStatement) => {
+  const requestUrl = `${pythonUrl}/search_harvest`;
+  return {
+    type: ACTION_TYPES.SEARCH_HARVEST_STATEMENT,
+    payload: axios.post(requestUrl, statement),
+  };
+};
 
 export const setFact = (statement: string) => ({
   type: ACTION_TYPES.SET_FACT,
