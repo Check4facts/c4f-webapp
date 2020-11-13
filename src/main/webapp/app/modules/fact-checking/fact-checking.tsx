@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { Translate, translate } from 'react-jhipster';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import {convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime} from "app/shared/util/date-utils";
+import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
+import { convertDateTimeToServer, displayDefaultDateTime} from "app/shared/util/date-utils";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { TabContent, TabPane, Table, Row, Col, Label, Button, Container } from 'reactstrap';
 import { createEntity as createStatement } from 'app/entities/statement/statement.reducer';
@@ -25,7 +25,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
     if(activeTab !== tab) setActiveTab(tab);
   }
 
-  const { isAuthenticated, topics, subTopics } = props;
+  const { topics, subTopics } = props;
 
   const handleClose = () => {
     props.history.push('/fact-checking/harvest/' + props.statement.id);
@@ -78,7 +78,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
       <Row className="my-5">
         <Col sm="12" md={{ size: 6, offset: 3 }}>
           <h1 className="text-center text-primary">
-            FactChecker
+            {translate('fact-checking.title')}
           </h1><br/>
           <p className="text-info">
             <Translate contentKey="fact-checking.page-guide.main" /><br/>

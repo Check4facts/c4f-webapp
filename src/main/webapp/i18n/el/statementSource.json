@@ -17,10 +17,10 @@
       "detail": {
         "title": "Statement Source"
       },
-      "url": "Url",
-      "title": "Title",
-      "snippet": "Snippet",
-      "statement": "Statement"
+      "url": "Σύνδεσμος",
+      "title": "Τίτλος",
+      "snippet": "Απόσπασμα",
+      "statement": "Δήλωση"
     }
   }
 }

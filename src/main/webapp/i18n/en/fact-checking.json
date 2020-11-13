@@ -1,5 +1,6 @@
 {
   "fact-checking": {
+    "tile": "Fact Checker",
     "page-guide": {
       "main": "In this page you are able to either:",
       "one": "insert your statement for fact checking by filling the form below",

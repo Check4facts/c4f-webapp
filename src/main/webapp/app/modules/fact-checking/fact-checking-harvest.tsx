@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { Translate, translate } from 'react-jhipster';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Table, Button, Container, Spinner } from 'reactstrap';
 import { setFact, setURLs, searchHarvestStatement } from "app/modules/fact-checking/fact-checking.reducer";
 import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
@@ -40,7 +40,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
       <Container>
         <Row className="text-center my-5 text-primary">
           <Col>
-            <h1>Fact Checker</h1>
+            <h1>{translate('fact-checking.title')}</h1>
           </Col>
         </Row>
         <Row className="text-center my-3">
@@ -89,6 +89,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
         <Row className="text-center my-3 text-info">
           <Col>
             <h3>{translate("check4FactsApp.statement.statementSources")}</h3>
+            <p className="text-muted">εισηγμένες από τον ειδικό ελεγκτή δήλωσης</p>
           </Col>
         </Row>
         <Row className="my-3">
@@ -97,7 +98,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
               <Table responsive>
                 <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>AA</th>
                   <th>
                     <Translate contentKey="check4FactsApp.statementSource.url">Url</Translate>
                   </th>
@@ -112,7 +113,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
                 <tbody>
                 {statementSources.map((statementSource, i) => (
                   <tr key={`entity-${i}`}>
-                    <td>{statementSource.id}</td>
+                    <td>{i+1}</td>
                     <td><a href={statementSource.url} target="_blank" rel="noopener noreferrer">{statementSource.url}</a></td>
                     <td>{statementSource.title}</td>
                     <td>{statementSource.snippet}</td>
