@@ -17,15 +17,15 @@
       "detail": {
         "title": "Resource"
       },
-      "url": "Url",
+      "url": "Σύνδεσμος",
       "harvestIteration": "Harvest Iteration",
-      "title": "Title",
-      "simSentence": "Sim Sentence",
-      "simParagraph": "Sim Paragraph",
+      "title": "Τίτλος",
+      "simSentence": "Παρεμφερή Πρόταση",
+      "simParagraph": "Παρεμφερή Παράγραφος",
       "fileFormat": "File Format",
-      "body": "Body",
-      "harvestDate": "Harvest Date",
-      "statement": "Statement"
+      "body": "Πλήρες Κείμενο",
+      "harvestDate": "Ημερομηνία Συγκομιδής",
+      "statement": "Δήλωση"
     }
   }
 }
