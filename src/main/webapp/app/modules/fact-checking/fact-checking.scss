@@ -1,0 +1,11 @@
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ellipsis:hover {
+  text-overflow: clip;
+  white-space: normal;
+  word-break: break-all;
+}

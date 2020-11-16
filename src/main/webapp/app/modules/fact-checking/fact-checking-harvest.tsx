@@ -1,3 +1,4 @@
+import './fact-checking.scss'
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
@@ -128,28 +129,15 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
             </Col>
           )}
         </Row>
-        <Row className="my-3">
-          <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
-            {!searchHarvestLoading ? (
-              <Button color="primary" onClick={searchAndHarvest}>
-                {translate("fact-checking.harvest.button")}
-              </Button>
-            ) : (
-              <Button color="primary">
-                <Spinner size="sm" color="dark" />
-              </Button>
-            )}
-          </Col>
-        </Row>
       </Container>
       {
         searchHarvestResponse && searchHarvestResponse.length > 0 ? (
           <Col>
-            <h3>Search and Harvest Results</h3>
+            <h3>Αποτελέσματα Συγκομιδής</h3>
             <Table responsive>
               <thead>
               <tr>
-                <th>ID</th>
+                <th>AA</th>
                 <th>
                   <Translate contentKey="check4FactsApp.resource.url">Url</Translate>
                 </th>
@@ -162,26 +150,42 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
                 <th>
                   <Translate contentKey="check4FactsApp.resource.simParagraph">Sim Paragraph</Translate>
                 </th>
-                <th>
-                  <Translate contentKey="check4FactsApp.resource.body">Body</Translate>
-                </th>
+                {/* <th>*/}
+                {/*  <Translate contentKey="check4FactsApp.resource.body">Body</Translate>*/}
+                {/* </th>*/}
               </tr>
               </thead>
               <tbody>
               {searchHarvestResponse.map((response, i) => (
                 <tr key={`entity-${i}`}>
                   <td>{i +1}</td>
-                  <td><a href={response.url} target="_blank" rel="noopener noreferrer">{response.url}</a></td>
-                  <td>{response.title}</td>
-                  <td>{response.simSentence}</td>
-                  <td>{response.simParagraph}</td>
-                  <td>{response.body}</td>
+                  <td style={{ maxWidth: '8vw' }}><a href={response.url} target="_blank" rel="noopener noreferrer">{response.url}</a></td>
+                  <td style={{ maxWidth: '8vw' }}>{response.title}</td>
+                  <td style={{ maxWidth: '12vw' }}>{response.simSentence}</td>
+                  <td style={{ maxWidth: '15vw' }}><div className="ellipsis">{response.simParagraph}</div></td>
+                  {/* <td style={{ maxWidth: '15vw' }}><div className="ellipsis">{response.body}</div></td>*/}
                 </tr>
               ))}
               </tbody>
             </Table>
           </Col>
-        ) : null
+        ) : (
+          <Container>
+            <Row className="my-3">
+              <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
+                {!searchHarvestLoading ? (
+                  <Button color="primary" onClick={searchAndHarvest}>
+                    {translate("fact-checking.harvest.button")}
+                  </Button>
+                ) : (
+                  <Button color="primary">
+                    <Spinner size="sm" color="dark" />
+                  </Button>
+                )}
+              </Col>
+            </Row>
+          </Container>
+        )
       }
     </>
   );
