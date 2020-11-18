@@ -7,22 +7,55 @@ import {Translate} from "react-jhipster";
 export type IArticleContentEditorProps = {
   isNew: boolean;
   content: any;
-  urls: string[];
+  statementSourcesUrls: string[];
+  resourcesUrls: string[];
   editorRef: any;
 }
 
 export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
 
-  const { isNew, content, urls, editorRef } = props;
+  const { isNew, content, statementSourcesUrls, resourcesUrls, editorRef } = props;
 
-  const quoteLink = index =>
+  const quoteLink = url =>
     editorRef.current.editor.setData(
-      `${editorRef.current.editor.getData()}<blockquote>${urls[index]}</blockquote>`
+      `${editorRef.current.editor.getData()}<blockquote>${url}</blockquote>`
     );
+
+  const displayUrls = () => (
+    <Col md="3">
+      {
+        statementSourcesUrls.length > 0 &&
+          <>
+            <h3 className="text-center">Πηγές Δήλωσης</h3>
+            <p className="text-center text-muted">εισηγμένες από τον ειδικό ελεγκτή δήλωσης</p>
+            <ul>
+              {statementSourcesUrls.map((url, index) => (
+                <li key={index} className="pt-2 border-bottom">
+                  <a onClick={() => quoteLink(url)}>{url}</a>
+                </li>
+              ))}
+            </ul>
+          </>
+      }
+      {
+        resourcesUrls.length > 0 &&
+          <>
+            <h3 className="text-center">Αποτλέσματα Συγκομιδής</h3>
+            <ul>
+              {resourcesUrls.map((url, index) => (
+                <li key={index} className="pt-2 border-bottom">
+                  <a onClick={() => quoteLink(url)}>{url}</a>
+                </li>
+              ))}
+            </ul>
+          </>
+      }
+    </Col>
+  );
 
   return (
     <Row className="pt-3">
-      <Col md={urls.length === 0 && { size: 10, offset: 1 }}>
+      <Col md={(statementSourcesUrls.length === 0 && resourcesUrls.length === 0) && { size: 10, offset: 1 }}>
         <CKEditor
           editor={DecoupledEditor}
           data={
@@ -39,19 +72,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
         />
       </Col>
       {
-        urls.length > 0 &&
-          <Col md="3">
-            <h3 className="text-center">
-              <Translate contentKey="check4FactsApp.article.urls" />
-            </h3>
-            <ul>
-              {urls.map((url, index) => (
-                <li key={index} className="pt-2 border-bottom">
-                  <a onClick={() => quoteLink(index)}>{url}</a>
-                </li>
-              ))}
-            </ul>
-          </Col>
+        statementSourcesUrls.length > 0 || resourcesUrls.length > 0 ? displayUrls() : null
       }
     </Row>
   );

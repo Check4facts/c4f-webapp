@@ -34,8 +34,6 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
 
   const { previewImage, previewImageContentType } = articleEntity;
 
-  const urls = (statementSources && resources) ? statementSources.map(ss => ss.url) : [];
-
   const handleClose = () => {
     props.factReset();
     props.history.push('/article' + props.location.search);
@@ -239,7 +237,13 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                   </Col>
                 </TabPane>
                 <TabPane tabId="2">
-                  <ArticleContentEditor isNew={isNew} content={articleEntity.content} urls={urls} editorRef={editorRef} />
+                  <ArticleContentEditor
+                    isNew={isNew}
+                    content={articleEntity.content}
+                    editorRef={editorRef}
+                    statementSourcesUrls={(statementSources && statementSources.length > 0) ? statementSources.map(ss => ss.url) : []}
+                    resourcesUrls={(resources && resources.length > 0) ? resources.map(rs => rs.url) : []}
+                  />
                   <Row>
                     <Col md={{ size: 8, offset: 2 }}>
                       <Button tag={Link} id="cancel-save" to="/article" replace color="danger">
