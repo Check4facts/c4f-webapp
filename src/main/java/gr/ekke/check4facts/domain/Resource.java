@@ -26,11 +26,11 @@ public class Resource implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resourceSequenceGenerator")
+    @SequenceGenerator(name = "resourceSequenceGenerator", initialValue = 100, allocationSize = 1)
     private Long id;
 
-    
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "url", nullable = false)
@@ -40,7 +40,7 @@ public class Resource implements Serializable {
     @Column(name = "harvest_iteration", nullable = false)
     private Long harvestIteration;
 
-    
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "title", nullable = false)

@@ -24,11 +24,11 @@ public class Article implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "articleSequenceGenerator")
+    @SequenceGenerator(name = "articleSequenceGenerator", initialValue = 100, allocationSize = 1)
     private Long id;
 
-    
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "preview_title", nullable = false)
@@ -50,13 +50,13 @@ public class Article implements Serializable {
     @Column(name = "published")
     private Boolean published;
 
-    
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "content", nullable = false)
     private String content;
 
-    
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "preview_text", nullable = false)
