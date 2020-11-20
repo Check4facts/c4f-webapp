@@ -60,7 +60,6 @@ export const FactChecking = (props: IFactCheckingProps) => {
 
   const saveStatement = (event, errors, values) => {
     values.statementDate = convertDateTimeToServer(values.statementDate);
-    values.registrationDate = convertDateTimeToServer(values.registrationDate);
 
     if (errors.length === 0) {
       const entity = {
@@ -125,19 +124,6 @@ export const FactChecking = (props: IFactCheckingProps) => {
                       type="datetime-local"
                       className="form-control"
                       name="statementDate"
-                      placeholder={'YYYY-MM-DD HH:mm'}
-                      value={displayDefaultDateTime()}
-                    />
-                  </AvGroup>
-                  <AvGroup>
-                    <Label id="registrationDateLabel" for="statement-registrationDate">
-                      <Translate contentKey="check4FactsApp.statement.registrationDate">Registration Date</Translate>
-                    </Label>
-                    <AvInput
-                      id="statement-registrationDate"
-                      type="datetime-local"
-                      className="form-control"
-                      name="registrationDate"
                       placeholder={'YYYY-MM-DD HH:mm'}
                       value={displayDefaultDateTime()}
                     />
