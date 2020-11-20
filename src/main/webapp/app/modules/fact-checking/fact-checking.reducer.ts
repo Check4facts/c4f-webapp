@@ -14,7 +14,7 @@ const initialState = {
   statement: '',
   searchHarvestLoading: false,
   errorMessage: null,
-  searchHarvestResponse: [] as IResource[],
+  searchHarvestResponse: null,
   urls: [] as string[],
 };
 
