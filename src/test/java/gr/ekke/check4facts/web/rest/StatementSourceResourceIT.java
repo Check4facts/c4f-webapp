@@ -22,6 +22,7 @@ import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -130,7 +131,7 @@ public class StatementSourceResourceIT {
         int databaseSizeBeforeCreate = statementSourceRepository.findAll().size();
 
         // Create the StatementSource with an existing ID
-        statementSource.setId(1L);
+        statementSource.setId(UUID.randomUUID());
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restStatementSourceMockMvc.perform(post("/api/statement-sources")
@@ -157,12 +158,12 @@ public class StatementSourceResourceIT {
         restStatementSourceMockMvc.perform(get("/api/statement-sources?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(statementSource.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(statementSource.getId())))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].snippet").value(hasItem(DEFAULT_SNIPPET.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getStatementSource() throws Exception {
@@ -173,7 +174,7 @@ public class StatementSourceResourceIT {
         restStatementSourceMockMvc.perform(get("/api/statement-sources/{id}", statementSource.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(statementSource.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(statementSource.getId()))
             .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.snippet").value(DEFAULT_SNIPPET.toString()));
@@ -273,7 +274,7 @@ public class StatementSourceResourceIT {
         restStatementSourceMockMvc.perform(get("/api/_search/statement-sources?query=id:" + statementSource.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(statementSource.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(statementSource.getId())))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].snippet").value(hasItem(DEFAULT_SNIPPET.toString())));

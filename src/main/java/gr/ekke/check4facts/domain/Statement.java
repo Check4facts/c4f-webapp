@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * A Statement.
@@ -26,9 +27,8 @@ public class Statement implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "statementSequenceGenerator")
-    @SequenceGenerator(name = "statementSequenceGenerator", initialValue = 100, allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
 
     @Lob
@@ -77,11 +77,11 @@ public class Statement implements Serializable {
     private Set<SubTopic> subTopics = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

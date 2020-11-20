@@ -6,13 +6,13 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
     <!--
         Added the entity Article.
     -->
     <changeSet id="20200911095548-1" author="jhipster">
         <createTable tableName="article">
-            <column name="id" type="bigint">
+            <column name="id" type="uuid" defaultValueComputed="${uuid_function}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="preview_title" type="${clobType}">
@@ -42,7 +42,7 @@
             <column name="category_id" type="bigint">
                 <constraints nullable="false" />
             </column>
-            <column name="statement_id" type="bigint">
+            <column name="statement_id" type="uuid">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -68,7 +68,6 @@
                   file="config/liquibase/fake-data/article.csv"
                   separator=";"
                   tableName="article">
-            <column name="id" type="numeric"/>
             <column name="preview_title" type="clob"/>
             <column name="preview_image" type="blob"/>
             <column name="preview_image_content_type" type="string"/>
@@ -78,7 +77,6 @@
             <column name="content" type="clob"/>
             <column name="preview_text" type="clob"/>
             <column name="category_id" type="numeric"/>
-            <column name="statement_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

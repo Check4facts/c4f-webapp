@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -114,7 +115,7 @@ public class StatementResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the statement, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/statements/{id}")
-    public ResponseEntity<Statement> getStatement(@PathVariable Long id) {
+    public ResponseEntity<Statement> getStatement(@PathVariable UUID id) {
         log.debug("REST request to get Statement : {}", id);
         Optional<Statement> statement = statementService.findOne(id);
         return ResponseUtil.wrapOrNotFound(statement);
@@ -127,7 +128,7 @@ public class StatementResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/statements/{id}")
-    public ResponseEntity<Void> deleteStatement(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStatement(@PathVariable UUID id) {
         log.debug("REST request to delete Statement : {}", id);
         statementService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();

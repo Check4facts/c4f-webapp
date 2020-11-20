@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -108,7 +109,7 @@ public class ResourceResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the resource, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/resources/{id}")
-    public ResponseEntity<Resource> getResource(@PathVariable Long id) {
+    public ResponseEntity<Resource> getResource(@PathVariable UUID id) {
         log.debug("REST request to get Resource : {}", id);
         Optional<Resource> resource = resourceService.findOne(id);
         return ResponseUtil.wrapOrNotFound(resource);
@@ -121,7 +122,7 @@ public class ResourceResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/resources/{id}")
-    public ResponseEntity<Void> deleteResource(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteResource(@PathVariable UUID id) {
         log.debug("REST request to delete Resource : {}", id);
         resourceService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
@@ -147,14 +148,12 @@ public class ResourceResource {
      * {@code GET  /resources/statement/:id} : get all the resources by statement id.
      *
      * @param id the id of the statement
-     * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of resources in body.
      */
     @GetMapping("/resources/statement/{id}")
-    public ResponseEntity<List<Resource>> getAllResourcesByStatementId(@PathVariable Long id, Pageable pageable) {
+    public ResponseEntity<List<Resource>> getAllResourcesByStatementId(@PathVariable UUID id) {
         log.debug("REST request to get a page of Resources by statement id: {}", id);
-        Page<Resource> page = resourceService.findAllByStatementId(id, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        List<Resource> list = resourceService.findAllByStatementId(id);
+        return ResponseEntity.ok().body(list);
     }
 }

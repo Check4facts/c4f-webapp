@@ -11,6 +11,7 @@ import javax.validation.constraints.*;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.UUID;
 
 import gr.ekke.check4facts.domain.enumeration.FileFormat;
 
@@ -26,9 +27,8 @@ public class Resource implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resourceSequenceGenerator")
-    @SequenceGenerator(name = "resourceSequenceGenerator", initialValue = 100, allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
 
     @Lob
@@ -74,11 +74,11 @@ public class Resource implements Serializable {
     private Statement statement;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

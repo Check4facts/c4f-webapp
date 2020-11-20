@@ -6,13 +6,13 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
     <!--
         Added the entity Resource.
     -->
     <changeSet id="20201021125522-1" author="jhipster">
         <createTable tableName="resource">
-            <column name="id" type="bigint">
+            <column name="id" type="uuid" defaultValueComputed="${uuid_function}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="url" type="${clobType}">
@@ -39,7 +39,7 @@
             <column name="harvest_date" type="datetime">
                 <constraints nullable="false" />
             </column>
-            <column name="statement_id" type="bigint">
+            <column name="statement_id" type="uuid">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -65,7 +65,6 @@
                   file="config/liquibase/fake-data/resource.csv"
                   separator=";"
                   tableName="resource">
-            <column name="id" type="numeric"/>
             <column name="url" type="clob"/>
             <column name="harvest_iteration" type="numeric"/>
             <column name="title" type="clob"/>

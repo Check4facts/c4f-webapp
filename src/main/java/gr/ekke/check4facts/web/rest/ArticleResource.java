@@ -25,6 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -110,7 +111,7 @@ public class ArticleResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the article, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/articles/{id}")
-    public ResponseEntity<Article> getArticle(@PathVariable Long id) {
+    public ResponseEntity<Article> getArticle(@PathVariable UUID id) {
         log.debug("REST request to get Article : {}", id);
         Optional<Article> article = articleService.findOne(id);
         return ResponseUtil.wrapOrNotFound(article);
@@ -123,7 +124,7 @@ public class ArticleResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/articles/{id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteArticle(@PathVariable UUID id) {
         log.debug("REST request to delete Article : {}", id);
         articleService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();

@@ -27,6 +27,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -159,7 +160,7 @@ public class StatementResourceIT {
         int databaseSizeBeforeCreate = statementRepository.findAll().size();
 
         // Create the Statement with an existing ID
-        statement.setId(1L);
+        statement.setId(UUID.randomUUID());
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restStatementMockMvc.perform(post("/api/statements")
@@ -186,7 +187,7 @@ public class StatementResourceIT {
         restStatementMockMvc.perform(get("/api/statements?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(statement.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(statement.getId())))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR)))
             .andExpect(jsonPath("$.[*].statementDate").value(hasItem(DEFAULT_STATEMENT_DATE.toString())))
@@ -194,7 +195,7 @@ public class StatementResourceIT {
             .andExpect(jsonPath("$.[*].mainArticleText").value(hasItem(DEFAULT_MAIN_ARTICLE_TEXT.toString())))
             .andExpect(jsonPath("$.[*].mainArticleUrl").value(hasItem(DEFAULT_MAIN_ARTICLE_URL.toString())));
     }
-    
+
     @SuppressWarnings({"unchecked"})
     public void getAllStatementsWithEagerRelationshipsIsEnabled() throws Exception {
         when(statementServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -225,7 +226,7 @@ public class StatementResourceIT {
         restStatementMockMvc.perform(get("/api/statements/{id}", statement.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(statement.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(statement.getId()))
             .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
             .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR))
             .andExpect(jsonPath("$.statementDate").value(DEFAULT_STATEMENT_DATE.toString()))
@@ -334,7 +335,7 @@ public class StatementResourceIT {
         restStatementMockMvc.perform(get("/api/_search/statements?query=id:" + statement.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(statement.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(statement.getId())))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
             .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR)))
             .andExpect(jsonPath("$.[*].statementDate").value(hasItem(DEFAULT_STATEMENT_DATE.toString())))

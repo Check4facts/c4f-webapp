@@ -5,7 +5,7 @@ import { ITopic } from 'app/shared/model/topic.model';
 import { ISubTopic } from 'app/shared/model/sub-topic.model';
 
 export interface IStatement {
-  id?: number;
+  id?: any;
   text?: any;
   author?: string;
   statementDate?: string;

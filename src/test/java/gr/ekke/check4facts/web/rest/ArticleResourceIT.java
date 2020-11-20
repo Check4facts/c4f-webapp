@@ -27,6 +27,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -184,7 +185,7 @@ public class ArticleResourceIT {
         int databaseSizeBeforeCreate = articleRepository.findAll().size();
 
         // Create the Article with an existing ID
-        article.setId(1L);
+        article.setId(UUID.randomUUID());
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restArticleMockMvc.perform(post("/api/articles")
@@ -211,7 +212,7 @@ public class ArticleResourceIT {
         restArticleMockMvc.perform(get("/api/articles?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(article.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(article.getId())))
             .andExpect(jsonPath("$.[*].previewTitle").value(hasItem(DEFAULT_PREVIEW_TITLE.toString())))
             .andExpect(jsonPath("$.[*].previewImageContentType").value(hasItem(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))
@@ -221,7 +222,7 @@ public class ArticleResourceIT {
             .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
             .andExpect(jsonPath("$.[*].previewText").value(hasItem(DEFAULT_PREVIEW_TEXT.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getArticle() throws Exception {
@@ -232,7 +233,7 @@ public class ArticleResourceIT {
         restArticleMockMvc.perform(get("/api/articles/{id}", article.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(article.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(article.getId()))
             .andExpect(jsonPath("$.previewTitle").value(DEFAULT_PREVIEW_TITLE.toString()))
             .andExpect(jsonPath("$.previewImageContentType").value(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE))
             .andExpect(jsonPath("$.previewImage").value(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE)))
@@ -347,7 +348,7 @@ public class ArticleResourceIT {
         restArticleMockMvc.perform(get("/api/_search/articles?query=id:" + article.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(article.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(article.getId())))
             .andExpect(jsonPath("$.[*].previewTitle").value(hasItem(DEFAULT_PREVIEW_TITLE.toString())))
             .andExpect(jsonPath("$.[*].previewImageContentType").value(hasItem(DEFAULT_PREVIEW_IMAGE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].previewImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_PREVIEW_IMAGE))))

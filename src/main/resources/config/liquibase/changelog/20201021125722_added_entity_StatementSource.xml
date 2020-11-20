@@ -6,13 +6,13 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
     <!--
         Added the entity StatementSource.
     -->
     <changeSet id="20201021125722-1" author="jhipster">
         <createTable tableName="statement_source">
-            <column name="id" type="bigint">
+            <column name="id" type="uuid" defaultValueComputed="${uuid_function}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="url" type="${clobType}">
@@ -24,7 +24,7 @@
             <column name="snippet" type="${clobType}">
                 <constraints nullable="true" />
             </column>
-            <column name="statement_id" type="bigint">
+            <column name="statement_id" type="uuid">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -49,11 +49,9 @@
                   file="config/liquibase/fake-data/statement_source.csv"
                   separator=";"
                   tableName="statement_source">
-            <column name="id" type="numeric"/>
             <column name="url" type="clob"/>
             <column name="title" type="string"/>
             <column name="snippet" type="clob"/>
-            <column name="statement_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

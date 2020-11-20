@@ -10,12 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Spring Data  repository for the Statement entity.
  */
 @Repository
-public interface StatementRepository extends JpaRepository<Statement, Long> {
+public interface StatementRepository extends JpaRepository<Statement, UUID> {
 
     @Query(value = "select distinct statement from Statement statement left join fetch statement.subTopics",
         countQuery = "select count(distinct statement) from Statement statement")
@@ -25,5 +26,5 @@ public interface StatementRepository extends JpaRepository<Statement, Long> {
     List<Statement> findAllWithEagerRelationships();
 
     @Query("select statement from Statement statement left join fetch statement.subTopics where statement.id =:id")
-    Optional<Statement> findOneWithEagerRelationships(@Param("id") Long id);
+    Optional<Statement> findOneWithEagerRelationships(@Param("id") UUID id);
 }

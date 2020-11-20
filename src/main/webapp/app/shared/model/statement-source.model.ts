@@ -1,7 +1,7 @@
 import { IStatement } from 'app/shared/model/statement.model';
 
 export interface IStatementSource {
-  id?: number;
+  id?: any;
   url?: any;
   title?: string;
   snippet?: any;

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -66,7 +67,7 @@ public class StatementSourceService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<StatementSource> findOne(Long id) {
+    public Optional<StatementSource> findOne(UUID id) {
         log.debug("Request to get StatementSource : {}", id);
         return statementSourceRepository.findById(id);
     }
@@ -76,7 +77,7 @@ public class StatementSourceService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(UUID id) {
         log.debug("Request to delete StatementSource : {}", id);
         statementSourceRepository.deleteById(id);
         statementSourceSearchRepository.deleteById(id);
@@ -103,7 +104,7 @@ public class StatementSourceService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<StatementSource> findAllByStatementId(Long statement_id) {
+    public List<StatementSource> findAllByStatementId(UUID statement_id) {
         log.debug("Request to get all StatementSources by statement id: {}", statement_id);
         return statementSourceRepository.findAllByStatementId(statement_id);
     }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -68,7 +69,7 @@ public class ArticleService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<Article> findOne(Long id) {
+    public Optional<Article> findOne(UUID id) {
         log.debug("Request to get Article : {}", id);
         return articleRepository.findById(id);
     }
@@ -78,7 +79,7 @@ public class ArticleService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(UUID id) {
         log.debug("Request to delete Article : {}", id);
         articleRepository.deleteById(id);
         articleSearchRepository.deleteById(id);

@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
@@ -165,7 +166,7 @@ public class ResourceResourceIT {
         int databaseSizeBeforeCreate = resourceRepository.findAll().size();
 
         // Create the Resource with an existing ID
-        resource.setId(1L);
+        resource.setId(UUID.randomUUID());
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restResourceMockMvc.perform(post("/api/resources")
@@ -230,7 +231,7 @@ public class ResourceResourceIT {
         restResourceMockMvc.perform(get("/api/resources?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(resource.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(resource.getId())))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
             .andExpect(jsonPath("$.[*].harvestIteration").value(hasItem(DEFAULT_HARVEST_ITERATION.intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
@@ -240,7 +241,7 @@ public class ResourceResourceIT {
             .andExpect(jsonPath("$.[*].body").value(hasItem(DEFAULT_BODY.toString())))
             .andExpect(jsonPath("$.[*].harvestDate").value(hasItem(DEFAULT_HARVEST_DATE.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getResource() throws Exception {
@@ -251,7 +252,7 @@ public class ResourceResourceIT {
         restResourceMockMvc.perform(get("/api/resources/{id}", resource.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(resource.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(resource.getId()))
             .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
             .andExpect(jsonPath("$.harvestIteration").value(DEFAULT_HARVEST_ITERATION.intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
@@ -366,7 +367,7 @@ public class ResourceResourceIT {
         restResourceMockMvc.perform(get("/api/_search/resources?query=id:" + resource.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(resource.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(resource.getId())))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
             .andExpect(jsonPath("$.[*].harvestIteration").value(hasItem(DEFAULT_HARVEST_ITERATION.intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))

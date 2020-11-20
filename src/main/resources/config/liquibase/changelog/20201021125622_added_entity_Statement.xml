@@ -6,13 +6,13 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
     <!--
         Added the entity Statement.
     -->
     <changeSet id="20201021125622-1" author="jhipster">
         <createTable tableName="statement">
-            <column name="id" type="bigint">
+            <column name="id" type="uuid" defaultValueComputed="${uuid_function}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="text" type="${clobType}">
@@ -48,7 +48,7 @@
             <column name="sub_topics_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="statement_id" type="bigint">
+            <column name="statement_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -71,7 +71,6 @@
                   file="config/liquibase/fake-data/statement.csv"
                   separator=";"
                   tableName="statement">
-            <column name="id" type="numeric"/>
             <column name="text" type="clob"/>
             <column name="author" type="string"/>
             <column name="statement_date" type="datetime"/>
@@ -83,14 +82,14 @@
         </loadData>
     </changeSet>
 
-    <changeSet id="20201021125622-1-statement_subTopics_data" author="jhipster" context="faker">
-        <loadData
-                  file="config/liquibase/fake-data/statement_sub_topic.csv"
-                  separator=";"
-                  tableName="statement_sub_topics">
-            <column name="sub_topics_id" type="numeric"/>
-            <column name="statement_id" type="numeric"/>
-        </loadData>
-    </changeSet>
+<!--    <changeSet id="20201021125622-1-statement_subTopics_data" author="jhipster" context="faker">-->
+<!--        <loadData-->
+<!--                  file="config/liquibase/fake-data/statement_sub_topic.csv"-->
+<!--                  separator=";"-->
+<!--                  tableName="statement_sub_topics">-->
+<!--            <column name="sub_topics_id" type="numeric"/>-->
+<!--            <column name="statement_id" type="numeric"/>-->
+<!--        </loadData>-->
+<!--    </changeSet>-->
 
 </databaseChangeLog>

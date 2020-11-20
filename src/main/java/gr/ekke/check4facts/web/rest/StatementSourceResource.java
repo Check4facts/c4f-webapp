@@ -17,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -99,7 +100,7 @@ public class StatementSourceResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the statementSource, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/statement-sources/{id}")
-    public ResponseEntity<StatementSource> getStatementSource(@PathVariable Long id) {
+    public ResponseEntity<StatementSource> getStatementSource(@PathVariable UUID id) {
         log.debug("REST request to get StatementSource : {}", id);
         Optional<StatementSource> statementSource = statementSourceService.findOne(id);
         return ResponseUtil.wrapOrNotFound(statementSource);
@@ -112,7 +113,7 @@ public class StatementSourceResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/statement-sources/{id}")
-    public ResponseEntity<Void> deleteStatementSource(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStatementSource(@PathVariable UUID id) {
         log.debug("REST request to delete StatementSource : {}", id);
         statementSourceService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
@@ -138,7 +139,7 @@ public class StatementSourceResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of statementSources in body.
      */
     @GetMapping("/statement-sources/statement/{id}")
-    public List<StatementSource> getAllStatementSourcesByStatementId(@PathVariable Long id) {
+    public List<StatementSource> getAllStatementSourcesByStatementId(@PathVariable UUID id) {
         log.debug("REST request to get all StatementSources by statement id: {}", id);
         return statementSourceService.findAllByStatementId(id);
     }

@@ -11,7 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -66,7 +68,7 @@ public class ResourceService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<Resource> findOne(Long id) {
+    public Optional<Resource> findOne(UUID id) {
         log.debug("Request to get Resource : {}", id);
         return resourceRepository.findById(id);
     }
@@ -76,7 +78,7 @@ public class ResourceService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(UUID id) {
         log.debug("Request to delete Resource : {}", id);
         resourceRepository.deleteById(id);
         resourceSearchRepository.deleteById(id);
@@ -99,12 +101,11 @@ public class ResourceService {
      * Get all the resources by statement id.
      *
      * @param statement_id the id of the statement
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Resource> findAllByStatementId(Long statement_id, Pageable pageable) {
+    public List<Resource> findAllByStatementId(UUID statement_id) {
         log.debug("Request to get all Resources by statement id: {}", statement_id);
-        return resourceRepository.findAllByStatementId(statement_id, pageable);
+        return resourceRepository.findAllByStatementId(statement_id);
     }
 }

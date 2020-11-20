@@ -3,7 +3,7 @@ import { IStatement } from 'app/shared/model/statement.model';
 import { FileFormat } from 'app/shared/model/enumerations/file-format.model';
 
 export interface IResource {
-  id?: number;
+  id?: any;
   url?: any;
   harvestIteration?: number;
   title?: any;
