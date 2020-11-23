@@ -1,98 +1,98 @@
-id;url;title;snippet;statement_id
-1;../fake-data/blob/url/url-1.txt;Υπουργείο;../fake-data/blob/hipster.txt;1
-2;../fake-data/blob/url/url-2.txt;Υπουργείο;../fake-data/blob/hipster.txt;1
-3;../fake-data/blob/url/url-3.txt;Περιφέρεια;../fake-data/blob/hipster.txt;1
-4;../fake-data/blob/url/url-4.txt;ΝΠΔΔ;../fake-data/blob/hipster.txt;1
-5;../fake-data/blob/url/url-5.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;1
-6;../fake-data/blob/url/url-6.txt;ΝΠΙΔ;../fake-data/blob/hipster.txt;2
-7;../fake-data/blob/url/url-7.txt;ΜΚΟ;../fake-data/blob/hipster.txt;2
-8;../fake-data/blob/url/url-8.txt;ΜΚΟ;../fake-data/blob/hipster.txt;2
-9;../fake-data/blob/url/url-9.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;2
-10;../fake-data/blob/url/url-10.txt;Διακυβερνητικός οργανισμός;../fake-data/blob/hipster.txt;2
-11;../fake-data/blob/url/url-11.txt;Υπουργείo;../fake-data/blob/hipster.txt;3
-12;../fake-data/blob/url/url-12.txt;Υπουργείo;../fake-data/blob/hipster.txt;3
-13;../fake-data/blob/url/url-13.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;3
-14;../fake-data/blob/url/url-14.txt;Υπουργείο;../fake-data/blob/hipster.txt;4
-15;../fake-data/blob/url/url-15.txt;Υπουργείο;../fake-data/blob/hipster.txt;5
-16;../fake-data/blob/url/url-16.txt;Διακυβερνητικός Οργανισμός;../fake-data/blob/hipster.txt;5
-17;../fake-data/blob/url/url-17.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;5
-18;../fake-data/blob/url/url-18.txt;Υπουργείο;../fake-data/blob/hipster.txt;6
-19;../fake-data/blob/url/url-19.txt;Δημόσια Υπηρεσία;../fake-data/blob/hipster.txt;7
-20;../fake-data/blob/url/url-20.txt;ΝΠΙΔ;../fake-data/blob/hipster.txt;8
-21;../fake-data/blob/url/url-21.txt;ΜΚΟ;../fake-data/blob/hipster.txt;8
-22;../fake-data/blob/url/url-22.txt;ΜΚΟ;../fake-data/blob/hipster.txt;8
-23;../fake-data/blob/url/url-23.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;8
-24;../fake-data/blob/url/url-24.txt;Διακυβερνητικός οργανισμός;../fake-data/blob/hipster.txt;8
-25;../fake-data/blob/url/url-25.txt;Υπουργείο;../fake-data/blob/hipster.txt;9
-26;../fake-data/blob/url/url-26.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;9
-27;../fake-data/blob/url/url-27.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;10
-28;../fake-data/blob/url/url-28.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;11
-29;../fake-data/blob/url/url-29.txt;Ιστοσελίδα της ΕΕ ","Eφημερίδα προσκείμενη στην ελληνική κυβέρνηση;../fake-data/blob/hipster.txt;13
-30;../fake-data/blob/url/url-30.txt;Υπουργείο;../fake-data/blob/hipster.txt;19
-31;../fake-data/blob/url/url-31.txt;Οργανισμός;../fake-data/blob/hipster.txt;19
-32;../fake-data/blob/url/url-32.txt;Οργανισμός;../fake-data/blob/hipster.txt;19
-33;../fake-data/blob/url/url-33.txt;Υπουργείο;../fake-data/blob/hipster.txt;20
-34;../fake-data/blob/url/url-34.txt;Πρεσβεία;../fake-data/blob/hipster.txt;20
-35;../fake-data/blob/url/url-35.txt;Τουρκικό Πρακτορείο Ειδήσεων;../fake-data/blob/hipster.txt;20
-36;../fake-data/blob/url/url-36.txt;Οργανισμός;../fake-data/blob/hipster.txt;20
-37;../fake-data/blob/url/url-37.txt;Υπουργείο;../fake-data/blob/hipster.txt;21
-38;../fake-data/blob/url/url-38.txt;Υπουργείο;../fake-data/blob/hipster.txt;21
-39;../fake-data/blob/url/url-39.txt;Πρεσβεία;../fake-data/blob/hipster.txt;21
-40;../fake-data/blob/url/url-40.txt;Υπουργείο;../fake-data/blob/hipster.txt;22
-41;../fake-data/blob/url/url-41.txt;Διακρατικό όργανο;../fake-data/blob/hipster.txt;22
-42;../fake-data/blob/url/url-42.txt;Οργανισμός;../fake-data/blob/hipster.txt;22
-43;../fake-data/blob/url/url-43.txt;Διακρατικό όργονο;../fake-data/blob/hipster.txt;23
-44;../fake-data/blob/url/url-44.txt;Κέντρο ερευνών;../fake-data/blob/hipster.txt;23
-45;../fake-data/blob/url/url-45.txt;Κέντρο ερευνών;../fake-data/blob/hipster.txt;23
-46;../fake-data/blob/url/url-46.txt;Αστυνομία;../fake-data/blob/hipster.txt;24
-47;../fake-data/blob/url/url-47.txt;Οργανισμός;../fake-data/blob/hipster.txt;24
-48;../fake-data/blob/url/url-48.txt;Οργανισμός;../fake-data/blob/hipster.txt;24
-49;../fake-data/blob/url/url-49.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;25
-50;../fake-data/blob/url/url-50.txt;Αστυνομία;../fake-data/blob/hipster.txt;25
-51;../fake-data/blob/url/url-51.txt;Υπουργείο;../fake-data/blob/hipster.txt;26
-52;../fake-data/blob/url/url-52.txt;Φορέας υγείας;../fake-data/blob/hipster.txt;26
-53;../fake-data/blob/url/url-53.txt;Φορέας υγείας;../fake-data/blob/hipster.txt;27
-54;../fake-data/blob/url/url-54.txt;Οργανισμός;../fake-data/blob/hipster.txt;27
-55;../fake-data/blob/url/url-55.txt;Υπουργείο;../fake-data/blob/hipster.txt;28
-56;../fake-data/blob/url/url-56.txt;Οργανισμός;../fake-data/blob/hipster.txt;28
-57;../fake-data/blob/url/url-57.txt;Οργανισμός;../fake-data/blob/hipster.txt;28
-58;../fake-data/blob/url/url-58.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;29
-59;../fake-data/blob/url/url-59.txt;Αστυνομία;../fake-data/blob/hipster.txt;29
-60;../fake-data/blob/url/url-60.txt;Οργανισμός;../fake-data/blob/hipster.txt;29
-61;../fake-data/blob/url/url-61.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;30
-62;../fake-data/blob/url/url-62.txt;Αστυνομία;../fake-data/blob/hipster.txt;30
-63;../fake-data/blob/url/url-63.txt;Υπουργείο;../fake-data/blob/hipster.txt;31
-64;../fake-data/blob/url/url-64.txt;Οργανισμός;../fake-data/blob/hipster.txt;31
-65;../fake-data/blob/url/url-65.txt;Οργάνωση;../fake-data/blob/hipster.txt;32
-66;../fake-data/blob/url/url-66.txt;Οργάνωση;../fake-data/blob/hipster.txt;32
-67;../fake-data/blob/url/url-67.txt;Διακρατικό όργανο;../fake-data/blob/hipster.txt;33
-68;../fake-data/blob/url/url-68.txt;Υπουργείο;../fake-data/blob/hipster.txt;33
-69;../fake-data/blob/url/url-69.txt;Οργανισμός;../fake-data/blob/hipster.txt;33
-70;../fake-data/blob/url/url-70.txt;Πρεσβεία;../fake-data/blob/hipster.txt;33
-71;../fake-data/blob/url/url-71.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;34
-72;../fake-data/blob/url/url-72.txt;ΜΚΟ;../fake-data/blob/hipster.txt;34
-73;../fake-data/blob/url/url-73.txt;Πανεπιστημιακός φορέας;../fake-data/blob/hipster.txt;34
-74;../fake-data/blob/url/url-74.txt;Υπουργείο;../fake-data/blob/hipster.txt;35
-75;../fake-data/blob/url/url-75.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;35
-76;../fake-data/blob/url/url-76.txt;Υπουργείο;../fake-data/blob/hipster.txt;36
-77;../fake-data/blob/url/url-77.txt;Οργανισμός;../fake-data/blob/hipster.txt;36
-78;../fake-data/blob/url/url-78.txt;Οργανισμός;../fake-data/blob/hipster.txt;36
-79;../fake-data/blob/url/url-79.txt;Υπουργείο;../fake-data/blob/hipster.txt;37
-80;../fake-data/blob/url/url-80.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;37
-81;../fake-data/blob/url/url-81.txt;Υπουργείο;../fake-data/blob/hipster.txt;38
-82;../fake-data/blob/url/url-82.txt;Υπουργείο;../fake-data/blob/hipster.txt;38
-83;../fake-data/blob/url/url-83.txt;Πρεσβεία;../fake-data/blob/hipster.txt;38
-84;../fake-data/blob/url/url-84.txt;Υπουργείο;../fake-data/blob/hipster.txt;39
-85;../fake-data/blob/url/url-85.txt;Φορέας πρόνοιας;../fake-data/blob/hipster.txt;39
-86;../fake-data/blob/url/url-86.txt;Υπουργείο;../fake-data/blob/hipster.txt;40
-87;../fake-data/blob/url/url-87.txt;Οργανισμός;../fake-data/blob/hipster.txt;40
-88;../fake-data/blob/url/url-88.txt;Οργανισμός;../fake-data/blob/hipster.txt;40
-89;../fake-data/blob/url/url-89.txt;Υπουργείο;../fake-data/blob/hipster.txt;41
-90;../fake-data/blob/url/url-90.txt;Οργανισμός;../fake-data/blob/hipster.txt;41
-91;../fake-data/blob/url/url-91.txt;Πανεπιστημιακός φορέας;../fake-data/blob/hipster.txt;41
-92;../fake-data/blob/url/url-92.txt;Υπουργείο;../fake-data/blob/hipster.txt;42
-93;../fake-data/blob/url/url-93.txt;Οργανισμός;../fake-data/blob/hipster.txt;42
-94;../fake-data/blob/url/url-94.txt;Πανεπιστημιακός φορέας;../fake-data/blob/hipster.txt;42
-95;../fake-data/blob/url/url-95.txt;Αρχές;../fake-data/blob/hipster.txt;43
-96;../fake-data/blob/url/url-96.txt;Τοπικής Αυτοδιοίκηση;../fake-data/blob/hipster.txt;43
-97;../fake-data/blob/url/url-97.txt;Οργανισμός;../fake-data/blob/hipster.txt;43
+url;title;snippet;statement_id
+../fake-data/blob/url/url-1.txt;Υπουργείο;../fake-data/blob/hipster.txt;1
+../fake-data/blob/url/url-2.txt;Υπουργείο;../fake-data/blob/hipster.txt;1
+../fake-data/blob/url/url-3.txt;Περιφέρεια;../fake-data/blob/hipster.txt;1
+../fake-data/blob/url/url-4.txt;ΝΠΔΔ;../fake-data/blob/hipster.txt;1
+../fake-data/blob/url/url-5.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;1
+../fake-data/blob/url/url-6.txt;ΝΠΙΔ;../fake-data/blob/hipster.txt;2
+../fake-data/blob/url/url-7.txt;ΜΚΟ;../fake-data/blob/hipster.txt;2
+../fake-data/blob/url/url-8.txt;ΜΚΟ;../fake-data/blob/hipster.txt;2
+../fake-data/blob/url/url-9.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;2
+../fake-data/blob/url/url-10.txt;Διακυβερνητικός οργανισμός;../fake-data/blob/hipster.txt;2
+../fake-data/blob/url/url-11.txt;Υπουργείo;../fake-data/blob/hipster.txt;3
+../fake-data/blob/url/url-12.txt;Υπουργείo;../fake-data/blob/hipster.txt;3
+../fake-data/blob/url/url-13.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;3
+../fake-data/blob/url/url-14.txt;Υπουργείο;../fake-data/blob/hipster.txt;4
+../fake-data/blob/url/url-15.txt;Υπουργείο;../fake-data/blob/hipster.txt;5
+../fake-data/blob/url/url-16.txt;Διακυβερνητικός Οργανισμός;../fake-data/blob/hipster.txt;5
+../fake-data/blob/url/url-17.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;5
+../fake-data/blob/url/url-18.txt;Υπουργείο;../fake-data/blob/hipster.txt;6
+../fake-data/blob/url/url-19.txt;Δημόσια Υπηρεσία;../fake-data/blob/hipster.txt;7
+../fake-data/blob/url/url-20.txt;ΝΠΙΔ;../fake-data/blob/hipster.txt;8
+../fake-data/blob/url/url-21.txt;ΜΚΟ;../fake-data/blob/hipster.txt;8
+../fake-data/blob/url/url-22.txt;ΜΚΟ;../fake-data/blob/hipster.txt;8
+../fake-data/blob/url/url-23.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;8
+../fake-data/blob/url/url-24.txt;Διακυβερνητικός οργανισμός;../fake-data/blob/hipster.txt;8
+../fake-data/blob/url/url-25.txt;Υπουργείο;../fake-data/blob/hipster.txt;9
+../fake-data/blob/url/url-26.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;9
+../fake-data/blob/url/url-27.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;10
+../fake-data/blob/url/url-28.txt;Υπηρεσία του ΟΗΕ;../fake-data/blob/hipster.txt;11
+../fake-data/blob/url/url-29.txt;Ιστοσελίδα της ΕΕ ","Eφημερίδα προσκείμενη στην ελληνική κυβέρνηση;../fake-data/blob/hipster.txt;13
+../fake-data/blob/url/url-30.txt;Υπουργείο;../fake-data/blob/hipster.txt;19
+../fake-data/blob/url/url-31.txt;Οργανισμός;../fake-data/blob/hipster.txt;19
+../fake-data/blob/url/url-32.txt;Οργανισμός;../fake-data/blob/hipster.txt;19
+../fake-data/blob/url/url-33.txt;Υπουργείο;../fake-data/blob/hipster.txt;20
+../fake-data/blob/url/url-34.txt;Πρεσβεία;../fake-data/blob/hipster.txt;20
+../fake-data/blob/url/url-35.txt;Τουρκικό Πρακτορείο Ειδήσεων;../fake-data/blob/hipster.txt;20
+../fake-data/blob/url/url-36.txt;Οργανισμός;../fake-data/blob/hipster.txt;20
+../fake-data/blob/url/url-37.txt;Υπουργείο;../fake-data/blob/hipster.txt;21
+../fake-data/blob/url/url-38.txt;Υπουργείο;../fake-data/blob/hipster.txt;21
+../fake-data/blob/url/url-39.txt;Πρεσβεία;../fake-data/blob/hipster.txt;21
+../fake-data/blob/url/url-40.txt;Υπουργείο;../fake-data/blob/hipster.txt;22
+../fake-data/blob/url/url-41.txt;Διακρατικό όργανο;../fake-data/blob/hipster.txt;22
+../fake-data/blob/url/url-42.txt;Οργανισμός;../fake-data/blob/hipster.txt;22
+../fake-data/blob/url/url-43.txt;Διακρατικό όργονο;../fake-data/blob/hipster.txt;23
+../fake-data/blob/url/url-44.txt;Κέντρο ερευνών;../fake-data/blob/hipster.txt;23
+../fake-data/blob/url/url-45.txt;Κέντρο ερευνών;../fake-data/blob/hipster.txt;23
+../fake-data/blob/url/url-46.txt;Αστυνομία;../fake-data/blob/hipster.txt;24
+../fake-data/blob/url/url-47.txt;Οργανισμός;../fake-data/blob/hipster.txt;24
+../fake-data/blob/url/url-48.txt;Οργανισμός;../fake-data/blob/hipster.txt;24
+../fake-data/blob/url/url-49.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;25
+../fake-data/blob/url/url-50.txt;Αστυνομία;../fake-data/blob/hipster.txt;25
+../fake-data/blob/url/url-51.txt;Υπουργείο;../fake-data/blob/hipster.txt;26
+../fake-data/blob/url/url-52.txt;Φορέας υγείας;../fake-data/blob/hipster.txt;26
+../fake-data/blob/url/url-53.txt;Φορέας υγείας;../fake-data/blob/hipster.txt;27
+../fake-data/blob/url/url-54.txt;Οργανισμός;../fake-data/blob/hipster.txt;27
+../fake-data/blob/url/url-55.txt;Υπουργείο;../fake-data/blob/hipster.txt;28
+../fake-data/blob/url/url-56.txt;Οργανισμός;../fake-data/blob/hipster.txt;28
+../fake-data/blob/url/url-57.txt;Οργανισμός;../fake-data/blob/hipster.txt;28
+../fake-data/blob/url/url-58.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;29
+../fake-data/blob/url/url-59.txt;Αστυνομία;../fake-data/blob/hipster.txt;29
+../fake-data/blob/url/url-60.txt;Οργανισμός;../fake-data/blob/hipster.txt;29
+../fake-data/blob/url/url-61.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;30
+../fake-data/blob/url/url-62.txt;Αστυνομία;../fake-data/blob/hipster.txt;30
+../fake-data/blob/url/url-63.txt;Υπουργείο;../fake-data/blob/hipster.txt;31
+../fake-data/blob/url/url-64.txt;Οργανισμός;../fake-data/blob/hipster.txt;31
+../fake-data/blob/url/url-65.txt;Οργάνωση;../fake-data/blob/hipster.txt;32
+../fake-data/blob/url/url-66.txt;Οργάνωση;../fake-data/blob/hipster.txt;32
+../fake-data/blob/url/url-67.txt;Διακρατικό όργανο;../fake-data/blob/hipster.txt;33
+../fake-data/blob/url/url-68.txt;Υπουργείο;../fake-data/blob/hipster.txt;33
+../fake-data/blob/url/url-69.txt;Οργανισμός;../fake-data/blob/hipster.txt;33
+../fake-data/blob/url/url-70.txt;Πρεσβεία;../fake-data/blob/hipster.txt;33
+../fake-data/blob/url/url-71.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;34
+../fake-data/blob/url/url-72.txt;ΜΚΟ;../fake-data/blob/hipster.txt;34
+../fake-data/blob/url/url-73.txt;Πανεπιστημιακός φορέας;../fake-data/blob/hipster.txt;34
+../fake-data/blob/url/url-74.txt;Υπουργείο;../fake-data/blob/hipster.txt;35
+../fake-data/blob/url/url-75.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;35
+../fake-data/blob/url/url-76.txt;Υπουργείο;../fake-data/blob/hipster.txt;36
+../fake-data/blob/url/url-77.txt;Οργανισμός;../fake-data/blob/hipster.txt;36
+../fake-data/blob/url/url-78.txt;Οργανισμός;../fake-data/blob/hipster.txt;36
+../fake-data/blob/url/url-79.txt;Υπουργείο;../fake-data/blob/hipster.txt;37
+../fake-data/blob/url/url-80.txt;Τοπική Αυτοδιοίκηση;../fake-data/blob/hipster.txt;37
+../fake-data/blob/url/url-81.txt;Υπουργείο;../fake-data/blob/hipster.txt;38
+../fake-data/blob/url/url-82.txt;Υπουργείο;../fake-data/blob/hipster.txt;38
+../fake-data/blob/url/url-83.txt;Πρεσβεία;../fake-data/blob/hipster.txt;38
+../fake-data/blob/url/url-84.txt;Υπουργείο;../fake-data/blob/hipster.txt;39
+../fake-data/blob/url/url-85.txt;Φορέας πρόνοιας;../fake-data/blob/hipster.txt;39
+../fake-data/blob/url/url-86.txt;Υπουργείο;../fake-data/blob/hipster.txt;40
+../fake-data/blob/url/url-87.txt;Οργανισμός;../fake-data/blob/hipster.txt;40
+../fake-data/blob/url/url-88.txt;Οργανισμός;../fake-data/blob/hipster.txt;40
+../fake-data/blob/url/url-89.txt;Υπουργείο;../fake-data/blob/hipster.txt;41
+../fake-data/blob/url/url-90.txt;Οργανισμός;../fake-data/blob/hipster.txt;41
+../fake-data/blob/url/url-91.txt;Πανεπιστημιακός φορέας;../fake-data/blob/hipster.txt;41
+../fake-data/blob/url/url-92.txt;Υπουργείο;../fake-data/blob/hipster.txt;42
+../fake-data/blob/url/url-93.txt;Οργανισμός;../fake-data/blob/hipster.txt;42
+../fake-data/blob/url/url-94.txt;Πανεπιστημιακός φορέας;../fake-data/blob/hipster.txt;42
+../fake-data/blob/url/url-95.txt;Αρχές;../fake-data/blob/hipster.txt;43
+../fake-data/blob/url/url-96.txt;Τοπικής Αυτοδιοίκηση;../fake-data/blob/hipster.txt;43
+../fake-data/blob/url/url-97.txt;Οργανισμός;../fake-data/blob/hipster.txt;43

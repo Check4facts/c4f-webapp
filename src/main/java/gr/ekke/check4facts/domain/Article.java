@@ -24,8 +24,7 @@ public class Article implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "articleSequenceGenerator")
-    @SequenceGenerator(name = "articleSequenceGenerator", initialValue = 100, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 

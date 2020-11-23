@@ -6,13 +6,13 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-
+    <property name="autoIncrement" value="true"/>
     <!--
         Added the entity Article.
     -->
     <changeSet id="20200911095548-1" author="jhipster">
         <createTable tableName="article">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="preview_title" type="${clobType}">
@@ -68,7 +68,6 @@
                   file="config/liquibase/fake-data/article.csv"
                   separator=";"
                   tableName="article">
-            <column name="id" type="numeric"/>
             <column name="preview_title" type="clob"/>
             <column name="preview_image" type="blob"/>
             <column name="preview_image_content_type" type="string"/>

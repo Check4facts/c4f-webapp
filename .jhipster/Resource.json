@@ -19,10 +19,7 @@
     {
       "fieldName": "title",
       "fieldType": "byte[]",
-      "fieldTypeBlobContent": "text",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldTypeBlobContent": "text"
     },
     {
       "fieldName": "simSentence",
