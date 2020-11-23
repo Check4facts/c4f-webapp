@@ -59,8 +59,8 @@ public class ResourceResourceIT {
     private static final String DEFAULT_SIM_PARAGRAPH = "AAAAAAAAAA";
     private static final String UPDATED_SIM_PARAGRAPH = "BBBBBBBBBB";
 
-    private static final FileFormat DEFAULT_FILE_FORMAT = FileFormat.PDF;
-    private static final FileFormat UPDATED_FILE_FORMAT = FileFormat.DOC;
+    private static final FileFormat DEFAULT_FILE_FORMAT = FileFormat.pdf;
+    private static final FileFormat UPDATED_FILE_FORMAT = FileFormat.doc;
 
     private static final String DEFAULT_BODY = "AAAAAAAAAA";
     private static final String UPDATED_BODY = "BBBBBBBBBB";
@@ -240,7 +240,7 @@ public class ResourceResourceIT {
             .andExpect(jsonPath("$.[*].body").value(hasItem(DEFAULT_BODY.toString())))
             .andExpect(jsonPath("$.[*].harvestDate").value(hasItem(DEFAULT_HARVEST_DATE.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getResource() throws Exception {

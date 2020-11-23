@@ -2,9 +2,9 @@
   "check4FactsApp": {
     "FileFormat": {
       "null": "",
-      "PDF": "PDF",
-      "DOC": "DOC",
-      "NONE": "NONE"
+      "pdf": "pdf",
+      "doc": "doc",
+      "html": "html"
     }
   }
 }
