@@ -1,5 +1,6 @@
 package gr.ekke.check4facts.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -69,7 +70,7 @@ public class Resource implements Serializable {
     private Instant harvestDate;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = "resources", allowSetters = true)
+    @JsonBackReference
     private Statement statement;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
