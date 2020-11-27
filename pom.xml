@@ -180,6 +180,11 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.vladmihalcea</groupId>
+            <artifactId>hibernate-types-52</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <!-- Inherited version from Spring Boot can't be used because of regressions -->

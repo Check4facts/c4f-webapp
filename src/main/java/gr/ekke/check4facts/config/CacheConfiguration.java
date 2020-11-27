@@ -53,6 +53,7 @@ public class CacheConfiguration {
             createCache(cm, gr.ekke.check4facts.domain.User.class.getName() + ".authorities");
             createCache(cm, gr.ekke.check4facts.domain.Article.class.getName());
             createCache(cm, gr.ekke.check4facts.domain.Category.class.getName());
+            createCache(cm, gr.ekke.check4facts.domain.FeatureStatement.class.getName());
             createCache(cm, gr.ekke.check4facts.domain.Resource.class.getName());
             createCache(cm, gr.ekke.check4facts.domain.Statement.class.getName());
             createCache(cm, gr.ekke.check4facts.domain.Statement.class.getName() + ".subTopics");

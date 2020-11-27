@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <property name="autoIncrement" value="true"/>
+
+    <changeSet id="20201126111330-1" author="asteris">
+        <createTable tableName="feature_statement">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="s_embedding" type="float8[300]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_subjectivity" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_subjectivity_counts" type="int[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_sentiment" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_sentiment_counts" type="int[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_emotion_anger" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_emotion_disgust" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_emotion_fear" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_emotion_happiness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_emotion_sadness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="s_emotion_surprise" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_embedding" type="float8[300]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_similarity" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_subjectivity" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_subjectivity_counts" type="float8[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_sentiment" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_sentiment_counts" type="float8[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_emotion_anger" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_emotion_disgust" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_emotion_fear" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_emotion_happiness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_emotion_sadness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_emotion_surprise" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_embedding" type="float8[300]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_similarity" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_subjectivity" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_subjectivity_counts" type="float8[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_sentiment" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_sentiment_counts" type="float8[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_emotion_anger" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_emotion_disgust" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_emotion_fear" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_emotion_happiness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_emotion_sadness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_body_emotion_surprise" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_embedding" type="float8[300]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_similarity" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_subjectivity" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_subjectivity_counts" type="float8[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_sentiment" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_sentiment_counts" type="float8[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_emotion_anger" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_emotion_disgust" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_emotion_fear" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_emotion_happiness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_emotion_sadness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_emotion_surprise" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_embedding" type="float8[300]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_similarity" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_subjectivity" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_subjectivity_counts" type="float8[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_sentiment" type="float8">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_sentiment_counts" type="float8[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_emotion_anger" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_emotion_disgust" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_emotion_fear" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_emotion_happiness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_emotion_sadness" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_emotion_surprise" type="float8[3]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="predict_label" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="true_label" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="statement_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
