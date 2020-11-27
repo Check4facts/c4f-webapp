@@ -241,8 +241,8 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                     isNew={isNew}
                     content={articleEntity.content}
                     editorRef={editorRef}
-                    statementSourcesUrls={(statementSources && statementSources.length > 0) ? statementSources.map(ss => ss.url) : []}
-                    resourcesUrls={(resources && resources.length > 0) ? resources.map(rs => rs.url) : []}
+                    statementSources={(statementSources && statementSources.length > 0) ? [...statementSources] : []}
+                    resources={(resources && resources.length > 0) ? [...resources] : []}
                   />
                   <Row>
                     <Col md={{ size: 8, offset: 2 }}>
