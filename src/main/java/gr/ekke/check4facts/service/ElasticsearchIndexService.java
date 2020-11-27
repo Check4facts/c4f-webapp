@@ -52,6 +52,10 @@ public class ElasticsearchIndexService {
 
     private final CategorySearchRepository categorySearchRepository;
 
+    private final FeatureStatementRepository featureStatementRepository;
+
+    private final FeatureStatementSearchRepository featureStatementSearchRepository;
+
     private final ResourceRepository resourceRepository;
 
     private final ResourceSearchRepository resourceSearchRepository;
@@ -89,8 +93,9 @@ public class ElasticsearchIndexService {
         SubTopicSearchRepository subTopicSearchRepository,
         TopicRepository topicRepository,
         TopicSearchRepository topicSearchRepository,
-        JestElasticsearchTemplate jestElasticsearchTemplate
-    ) {
+        FeatureStatementRepository featureStatementRepository,
+        FeatureStatementSearchRepository featureStatementSearchRepository,
+        JestElasticsearchTemplate jestElasticsearchTemplate) {
         this.userRepository = userRepository;
         this.userSearchRepository = userSearchRepository;
         this.articleRepository = articleRepository;
@@ -107,6 +112,8 @@ public class ElasticsearchIndexService {
         this.subTopicSearchRepository = subTopicSearchRepository;
         this.topicRepository = topicRepository;
         this.topicSearchRepository = topicSearchRepository;
+        this.featureStatementRepository = featureStatementRepository;
+        this.featureStatementSearchRepository = featureStatementSearchRepository;
         this.jestElasticsearchTemplate = jestElasticsearchTemplate;
     }
 
@@ -116,6 +123,7 @@ public class ElasticsearchIndexService {
             try {
                 reindexForClass(Article.class, articleRepository, articleSearchRepository);
                 reindexForClass(Category.class, categoryRepository, categorySearchRepository);
+                reindexForClass(FeatureStatement.class, featureStatementRepository, featureStatementSearchRepository);
                 reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
                 reindexForClass(Statement.class, statementRepository, statementSearchRepository);
                 reindexForClass(StatementSource.class, statementSourceRepository, statementSourceSearchRepository);
