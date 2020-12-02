@@ -148,8 +148,8 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
           {
             resourcesForDisplay.length > 0 ? (
               <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
-                <Button tag={Link} to="/article/new" color="info">
-                  {translate("fact-checking.harvest.action.createArticle")}
+                <Button tag={Link} to={`/fact-checking/results/${statement.id}`} color="info">
+                  {translate("fact-checking.results.title")}
                 </Button>
               </Col>
             ) : (
@@ -176,47 +176,6 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
           }
         </Row>
       </Container>
-      {
-        resourcesForDisplay.length > 0 ? (
-          <Col>
-            <h3>Αποτελέσματα Συγκομιδής</h3>
-            <Table responsive>
-              <thead>
-              <tr>
-                <th>AA</th>
-                <th>
-                  <Translate contentKey="check4FactsApp.resource.url">Url</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="check4FactsApp.resource.title">Title</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="check4FactsApp.resource.simSentence">Sim Sentence</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="check4FactsApp.resource.simParagraph">Sim Paragraph</Translate>
-                </th>
-                 {/* <th>*/}
-                 {/* <Translate contentKey="check4FactsApp.resource.body">Body</Translate>*/}
-                 {/* </th>*/}
-              </tr>
-              </thead>
-              <tbody>
-              {resourcesForDisplay.map((response, i) => (
-                <tr key={`entity-${i}`}>
-                  <td>{i +1}</td>
-                  <td style={{ maxWidth: '8vw' }}><a href={response.url} target="_blank" rel="noopener noreferrer">{response.url}</a></td>
-                  <td style={{ maxWidth: '8vw' }}>{response.title}</td>
-                  <td style={{ maxWidth: '12vw' }}>{response.simSentence}</td>
-                  <td style={{ maxWidth: '15vw' }}><div className="ellipsis">{response.simParagraph}</div></td>
-                  {/* <td style={{ maxWidth: '15vw' }}><div className="ellipsis">{response.body}</div></td>*/}
-                </tr>
-              ))}
-              </tbody>
-            </Table>
-          </Col>
-        ) : null
-      }
     </>
   );
 };

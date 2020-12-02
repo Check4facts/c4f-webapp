@@ -65,7 +65,7 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
 const pythonUrl = 'http://localhost:5000';
 
 export const searchHarvestStatement = (statement: IStatement) => {
-  const requestUrl = `${pythonUrl}/search_harvest`;
+  const requestUrl = `${pythonUrl}/analyze`;
   return {
     type: ACTION_TYPES.SEARCH_HARVEST_STATEMENT,
     payload: axios.post(requestUrl, statement),

@@ -42,6 +42,7 @@ import topic, {
   TopicState
 } from 'app/entities/topic/topic.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
+import featureStatement, { FeatureStatementState } from 'app/entities/feature-statement/feature-statement.reducer';
 
 export interface IRootState {
   readonly authentication: AuthenticationState;
@@ -62,6 +63,7 @@ export interface IRootState {
   readonly statementSource: StatementSourceState;
   readonly subTopic: SubTopicState;
   readonly topic: TopicState;
+  readonly featureStatement: FeatureStatementState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -85,6 +87,7 @@ const rootReducer = combineReducers<IRootState>({
   statementSource,
   subTopic,
   topic,
+  featureStatement,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

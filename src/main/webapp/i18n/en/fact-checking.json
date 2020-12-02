@@ -39,6 +39,16 @@
       "urls": "List of URLs documenting the decision",
       "button": "Harvest"
     },
+    "results": {
+      "title": "Harvest Results",
+      "model": {
+        "title": "Model Results",
+        "label": "Label",
+        "probability": "Probability",
+        "emotions": "Emotion Results",
+        "rest": "More Characterization Results"
+      }
+    },
     "sub-menus": {
       "main": "Topics",
       "immigration": "Immigration",
