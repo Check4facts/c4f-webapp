@@ -57,6 +57,7 @@ export interface IFeatureStatement {
   rSimSentEmotionSadness?: number[];
   rSimSentEmotionSurprise?: number[];
   predictLabel?: boolean;
+  predictProba?: number;
   trueLabel?: boolean;
   statement?: IStatement;
 }

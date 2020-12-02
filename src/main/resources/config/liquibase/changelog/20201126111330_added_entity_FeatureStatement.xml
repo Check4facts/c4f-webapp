@@ -192,6 +192,9 @@
             <column name="predict_label" type="boolean">
                 <constraints nullable="true"/>
             </column>
+            <column name="predict_proba" type="float8">
+                <constraints nullable="true"/>
+            </column>
             <column name="true_label" type="boolean">
                 <constraints nullable="true"/>
             </column>

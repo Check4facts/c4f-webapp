@@ -238,6 +238,9 @@ public class FeatureStatement implements Serializable {
     @Column(name = "predict_label")
     private Boolean predictLabel;
 
+    @Column(name = "predict_proba")
+    private Double predictProba;
+
     @Column(name = "true_label")
     private Boolean trueLabel;
 
@@ -960,11 +963,24 @@ public class FeatureStatement implements Serializable {
 
     public FeatureStatement predictLabel(Boolean predictLabel) {
         this.predictLabel = predictLabel;
-        return  this;
+        return this;
     }
 
     public void setPredictLabel(Boolean predictLabel) {
         this.predictLabel = predictLabel;
+    }
+
+    public Double getPredictProba() {
+        return predictProba;
+    }
+
+    public FeatureStatement predictProba(Double predictProba) {
+        this.predictProba = predictProba;
+        return this;
+    }
+
+    public void setPredictProba(Double predictProba) {
+        this.predictProba = predictProba;
     }
 
     public Boolean getTrueLabel() {
@@ -1064,6 +1080,7 @@ public class FeatureStatement implements Serializable {
             ", rSimSentEmotionSadness=" + rSimSentEmotionSadness +
             ", rSimSentEmotionSurprise=" + rSimSentEmotionSurprise +
             ", predictLabel=" + predictLabel +
+            ", predictProba=" + predictProba +
             ", trueLabel=" + trueLabel +
             ", statement=" + statement +
             '}';
