@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface FeatureStatementRepository extends JpaRepository<FeatureStatement, Long> {
     List<FeatureStatement> findAllByStatementId(Long statement_id);
+
+    Integer countAllByStatementId(Long statement_id);
 }

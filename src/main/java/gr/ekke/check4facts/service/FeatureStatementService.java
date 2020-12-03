@@ -66,7 +66,12 @@ public class FeatureStatementService {
 
     @Transactional(readOnly = true)
     public List<FeatureStatement> findAllByStatementId(Long statement_id) {
-        log.debug("Request to get all FeatureStatements by statement id: {}", statement_id);
+        log.debug("Request to get all FeatureStatements by Statement id: {}", statement_id);
         return featureStatementRepository.findAllByStatementId(statement_id);
+    }
+
+    public Integer countAllByStatementId(Long statement_id) {
+        log.debug("Request to count all FeatureStatements by Statement id: {}", statement_id);
+        return featureStatementRepository.countAllByStatementId(statement_id);
     }
 }

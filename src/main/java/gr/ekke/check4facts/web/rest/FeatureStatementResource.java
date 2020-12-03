@@ -63,4 +63,10 @@ public class FeatureStatementResource {
         log.debug("REST request to get all FeatureStatements by statement id: {}", id);
         return featureStatementService.findAllByStatementId(id);
     }
+
+    @GetMapping("/feature-statements/count/statement/{id}")
+    public Integer countAllFeatureStatementsByStatementId(@PathVariable Long id) {
+        log.debug("REST request to count all FeatureStatements by Statement id: {}", id);
+        return featureStatementService.countAllByStatementId(id);
+    }
 }
