@@ -198,6 +198,9 @@
             <column name="true_label" type="boolean">
                 <constraints nullable="true"/>
             </column>
+            <column name="harvest_iteration" type="bigint">
+                <constraints nullable="false" />
+            </column>
             <column name="statement_id" type="bigint">
                 <constraints nullable="false" />
             </column>

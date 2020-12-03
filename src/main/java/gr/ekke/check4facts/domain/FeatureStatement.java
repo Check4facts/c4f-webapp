@@ -8,6 +8,7 @@ import org.hibernate.annotations.TypeDef;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -243,6 +244,10 @@ public class FeatureStatement implements Serializable {
 
     @Column(name = "true_label")
     private Boolean trueLabel;
+
+    @NotNull
+    @Column(name = "harvest_iteration", nullable = false)
+    private Long harvestIteration;
 
     @ManyToOne
     private Statement statement;
@@ -994,6 +999,19 @@ public class FeatureStatement implements Serializable {
 
     public void setTrueLabel(Boolean trueLabel) {
         this.trueLabel = trueLabel;
+    }
+
+    public Long getHarvestIteration() {
+        return harvestIteration;
+    }
+
+    public FeatureStatement harvestIteration(Long harvestIteration) {
+        this.harvestIteration = harvestIteration;
+        return this;
+    }
+
+    public void setHarvestIteration(Long harvestIteration) {
+        this.harvestIteration = harvestIteration;
     }
 
     public Statement getStatement() {
