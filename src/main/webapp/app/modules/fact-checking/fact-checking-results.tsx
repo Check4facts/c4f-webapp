@@ -20,9 +20,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     props.getResourcesByStatement(props.match.params.id);
   }, []);
 
-  const { statement, sLoading, resources, rLoading, featureStatements, fLoading } = props;
-
-  const confident = Math.floor(Math.random() * (100 - 50) + 50);
+  const { statement, sLoading, resources, rLoading, featureStatements } = props;
 
   return sLoading || rLoading || (featureStatements.length === 0) ? (
     <div>
@@ -73,7 +71,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
             )}
           </Col>
           <Col>
-            <h5 className={confident > 50 ? 'text-success' : 'text-danger'}>{confident}%</h5>
+            <h5 className={featureStatements[0].predictProba > 0.5 ? 'text-success' : 'text-danger'}>{featureStatements[0].predictProba * 100}%</h5>
           </Col>
         </Row>
         <Row className="text-center my-3 text-info">
