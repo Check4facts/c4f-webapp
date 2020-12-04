@@ -20,9 +20,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 import { getSearchEntities, getEntities } from './statement.reducer';
 import { IStatement } from 'app/shared/model/statement.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import {APP_DATE_FORMAT, AUTHORITIES} from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
 export interface IStatementProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -112,7 +113,7 @@ export const Statement = (props: IStatementProps) => {
       activePage: currentPage,
     });
 
-  const { statementList, match, loading, totalItems } = props;
+  const { statementList, match, loading, totalItems, isAdmin } = props;
   return (
     <div>
       <h2 id="statement-heading">
@@ -162,10 +163,10 @@ export const Statement = (props: IStatementProps) => {
                   <Translate contentKey="check4FactsApp.statement.registrationDate">Registration Date</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('mainArticleText')}>
-                  <Translate contentKey="check4FactsApp.statement.mainArticleText">Main Article Text</Translate>{' '}
-                  <FontAwesomeIcon icon="sort" />
-                </th>
+                {/* <th className="hand" onClick={sort('mainArticleText')}>*/}
+                {/*  <Translate contentKey="check4FactsApp.statement.mainArticleText">Main Article Text</Translate>{' '}*/}
+                {/*  <FontAwesomeIcon icon="sort" />*/}
+                {/* </th>*/}
                 <th className="hand" onClick={sort('mainArticleUrl')}>
                   <Translate contentKey="check4FactsApp.statement.mainArticleUrl">Main Article Url</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
@@ -194,17 +195,24 @@ export const Statement = (props: IStatementProps) => {
                       <TextFormat type="date" value={statement.registrationDate} format={APP_DATE_FORMAT} />
                     ) : null}
                   </td>
-                  <td>{statement.mainArticleText}</td>
+                  {/* <td>{statement.mainArticleText}</td>*/}
                   <td><a href={statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">{statement.mainArticleUrl}</a></td>
                   <td>{statement.topic ? translate(`fact-checking.sub-menus.${statement.topic.name}`) : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${statement.id}`} color="info" size="sm">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
+                      {isAdmin ? (
+                        <Button
+                          tag={Link}
+                          to={`${match.url}/${statement.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                          color="danger"
+                          size="sm"
+                        >
+                          <FontAwesomeIcon icon="trash" />{' '}
+                          <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
                         </span>
-                      </Button>
+                        </Button>
+                      ) : null}
                       <Button
                         tag={Link}
                         to={`${match.url}/${statement.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
@@ -258,8 +266,9 @@ export const Statement = (props: IStatementProps) => {
   );
 };
 
-const mapStateToProps = ({ statement }: IRootState) => ({
+const mapStateToProps = ({ statement, authentication }: IRootState) => ({
   statementList: statement.entities,
+  isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN]),
   loading: statement.loading,
   totalItems: statement.totalItems,
 });

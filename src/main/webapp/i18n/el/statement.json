@@ -2,20 +2,20 @@
   "check4FactsApp": {
     "statement": {
       "home": {
-        "title": "Statements",
-        "createLabel": "Δημιουργήστε ένα νέο Statement",
-        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Statement",
-        "search": "Αναζήτηση για Statement",
-        "notFound": "No Statements found"
+        "title": "Δηλώσεις",
+        "createLabel": "Δημιουργήστε μία νέα Δήλωση",
+        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε μία Δήλωση",
+        "search": "Αναζήτηση για Δήλωση",
+        "notFound": "Δεν βρέθηκαν δηλώσεις"
       },
-      "created": "Ένα νέο Statement έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
-      "updated": "Ένα Statement έχει ενημερωθεί με αναγνωριστικό {{ param }}",
-      "deleted": "Ένα Statement έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+      "created": "Μία νέα Δήλωση έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+      "updated": "Μία Δήλωση έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+      "deleted": "Μία Δήλωση έχει διαγραφτεί με αναγνωριστικό {{ param }}",
       "delete": {
-        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Statement {{ id }};"
+        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε την ακόλουθη Δήλωση; {{ id }};"
       },
       "detail": {
-        "title": "Statement"
+        "title": "Δήλωση"
       },
       "text": "Κείμενο",
       "author": "Δηλών",
