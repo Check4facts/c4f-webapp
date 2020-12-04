@@ -6,10 +6,10 @@ import { IRootState } from 'app/shared/reducers';
 import { Translate, translate } from 'react-jhipster';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Table, Button, Container, Spinner } from 'reactstrap';
-import { setFact, setURLs, searchHarvestStatement } from "app/modules/fact-checking/fact-checking.reducer";
+import { setFact, searchHarvestStatement } from "app/modules/fact-checking/fact-checking.reducer";
 import { getEntity as getStatement, updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
 import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
-import { getResourcesByStatement } from 'app/entities/resource/resource.reducer';
+import { countFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
 import { IResource } from 'app/shared/model/resource.model';
 import { convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { APP_LOCAL_DATETIME_FORMAT } from 'app/config/constants';
@@ -22,17 +22,18 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
     props.setFact(props.match.params.id);
     props.getStatement(props.match.params.id);
     props.getStatementSourcesByStatement(props.match.params.id);
-    props.getResourcesByStatement(props.match.params.id);
+    props.countFeatureStatementsByStatement(props.match.params.id);
   }, []);
 
-  const { statement, sLoading, ssLoading, rLoading, statementSources, resources, searchHarvestLoading } = props;
+  const { statement, sLoading, ssLoading, statementSources, searchHarvestLoading, featureStatementCount } = props;
 
   const searchAndHarvest = () => {
     // FIXME Remove those ugly ignores when got the time.
     const entity = {
       ...statement,
       registrationDate: convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT)),
-      statementSources: [...statementSources]
+      statementSources: [...statementSources],
+      resources: []
     };
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
@@ -40,14 +41,12 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     props.updateStatement({
-      ...entity,
-      resources: [...resources]
+      ...entity
     });
   };
 
-  const resourcesForDisplay: IResource[] = (resources && resources.length > 0) ? [...resources] : []
 
-  return sLoading || ssLoading || rLoading ? (
+  return sLoading || ssLoading ? (
     <div>
       <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
     </div>
@@ -146,7 +145,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
         </Row>
         <Row className="my-3">
           {
-            resourcesForDisplay.length > 0 ? (
+             featureStatementCount > 0 ? (
               <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
                 <Button tag={Link} to={`/fact-checking/results/${statement.id}`} color="info">
                   {translate("fact-checking.results.title")}
@@ -184,10 +183,9 @@ const mapStateToProps = (storeState: IRootState) => ({
   statement: storeState.statement.entity,
   statementUpdateSuccess: storeState.statement.updateSuccess,
   statementSources: storeState.statementSource.entities,
-  resources: storeState.resource.entities,
   sLoading: storeState.statement.loading,
   ssLoading: storeState.statementSource.loading,
-  rLoading: storeState.resource.loading,
+  featureStatementCount: storeState.featureStatement.count,
   searchHarvestLoading: storeState.factChecking.searchHarvestLoading
 });
 
@@ -196,9 +194,8 @@ const mapDispatchToProps = {
   getStatement,
   updateStatement,
   getStatementSourcesByStatement,
-  getResourcesByStatement,
-  searchHarvestStatement,
-  setURLs
+  countFeatureStatementsByStatement,
+  searchHarvestStatement
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
