@@ -170,7 +170,7 @@ public class Statement implements Serializable {
     }
 
     public Statement statementSources(Set<StatementSource> statementSources) {
-        this.statementSources = statementSources;
+        this.statementSources.addAll(statementSources);
         return this;
     }
 
@@ -187,7 +187,7 @@ public class Statement implements Serializable {
     }
 
     public void setStatementSources(Set<StatementSource> statementSources) {
-        this.statementSources = statementSources;
+        this.statementSources.addAll(statementSources);
     }
 
     public Set<Resource> getResources() {
@@ -195,7 +195,7 @@ public class Statement implements Serializable {
     }
 
     public Statement resources(Set<Resource> resources) {
-        this.resources = resources;
+        this.resources.addAll(resources);
         return this;
     }
 
@@ -212,7 +212,7 @@ public class Statement implements Serializable {
     }
 
     public void setResources(Set<Resource> resources) {
-        this.resources = resources;
+        this.resources.addAll(resources);
     }
 
     public Topic getTopic() {
