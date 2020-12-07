@@ -25,6 +25,9 @@ public class FeatureStatement implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "s_fertile_terms")
+    private Integer sFertileTerms;
+
     @Column(name = "s_subjectivity")
     private Double sSubjectivity;
 
@@ -70,6 +73,9 @@ public class FeatureStatement implements Serializable {
     @Type(type = "list-array")
     @Column(name = "s_emotion_surprise", columnDefinition = "float8[]")
     private List<Double> sEmotionSurprise;
+
+    @Column(name = "r_title_fertile_terms")
+    private Integer rTitleFertileTerms;
 
     @Column(name = "r_title_similarity")
     private Double rTitleSimilarity;
@@ -153,6 +159,9 @@ public class FeatureStatement implements Serializable {
     @Column(name = "r_body_emotion_surprise", columnDefinition = "float8[]")
     private List<Double> rBodyEmotionSurprise;
 
+    @Column(name = "r_sim_par_fertile_terms")
+    private Integer rSimParFertileTerms;
+
     @Column(name = "r_sim_par_similarity")
     private Double rSimParSimilarity;
 
@@ -193,6 +202,9 @@ public class FeatureStatement implements Serializable {
     @Type(type = "list-array")
     @Column(name = "r_sim_par_emotion_surprise", columnDefinition = "float8[]")
     private List<Double> rSimParEmotionSurprise;
+
+    @Column(name = "r_sim_sent_fertile_terms")
+    private Integer rSimSentFertileTerms;
 
     @Column(name = "r_sim_sent_similarity")
     private Double rSimSentSimilarity;
@@ -258,6 +270,19 @@ public class FeatureStatement implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public Integer getsFertileTerms() {
+        return sFertileTerms;
+    }
+
+    FeatureStatement sFertileTerms(Integer sFertileTerms) {
+        this.sFertileTerms = sFertileTerms;
+        return this;
+    }
+
+    public void setsFertileTerms(Integer sFertileTerms) {
+        this.sFertileTerms = sFertileTerms;
     }
 
     public Double getsSubjectivity() {
@@ -388,6 +413,19 @@ public class FeatureStatement implements Serializable {
 
     public void setsEmotionSurprise(List<Double> sEmotionSurprise) {
         this.sEmotionSurprise = sEmotionSurprise;
+    }
+
+    public Integer getrTitleFertileTerms() {
+        return rTitleFertileTerms;
+    }
+
+    public FeatureStatement rTitleFertileTerms(Integer rTitleFertileTerms) {
+        this.rTitleFertileTerms = rTitleFertileTerms;
+        return this;
+    }
+
+    public void setrTitleFertileTerms(Integer rTitleFertileTerms) {
+        this.rTitleFertileTerms = rTitleFertileTerms;
     }
 
     public Double getrTitleSimilarity() {
@@ -676,6 +714,19 @@ public class FeatureStatement implements Serializable {
         this.rBodyEmotionSurprise = rBodyEmotionSurprise;
     }
 
+    public Integer getrSimParFertileTerms() {
+        return rSimParFertileTerms;
+    }
+
+    public FeatureStatement rSimParFertileTerms(Integer rSimParFertileTerms) {
+        this.rSimParFertileTerms = rSimParFertileTerms;
+        return this;
+    }
+
+    public void setrSimParFertileTerms(Integer rSimParFertileTerms) {
+        this.rSimParFertileTerms = rSimParFertileTerms;
+    }
+
     public Double getrSimParSimilarity() {
         return rSimParSimilarity;
     }
@@ -817,6 +868,19 @@ public class FeatureStatement implements Serializable {
 
     public void setrSimParEmotionSurprise(List<Double> rSimParEmotionSurprise) {
         this.rSimParEmotionSurprise = rSimParEmotionSurprise;
+    }
+
+    public Integer getrSimSentFertileTerms() {
+        return rSimSentFertileTerms;
+    }
+
+    public FeatureStatement rSimSentFertileTerms(Integer rSimSentFertileTerms) {
+        this.rSimSentFertileTerms = rSimSentFertileTerms;
+        return this;
+    }
+
+    public void setrSimSentFertileTerms(Integer rSimSentFertileTerms) {
+        this.rSimSentFertileTerms = rSimSentFertileTerms;
     }
 
     public Double getrSimSentSimilarity() {
@@ -1043,6 +1107,7 @@ public class FeatureStatement implements Serializable {
     public String toString() {
         return "FeatureStatement{" +
             "id=" + id +
+            ", sFertileTerms=" + sFertileTerms +
             ", sSubjectivity=" + sSubjectivity +
             ", sSubjectivityCounts=" + sSubjectivityCounts +
             ", sSentiment=" + sSentiment +
@@ -1053,6 +1118,7 @@ public class FeatureStatement implements Serializable {
             ", sEmotionHappiness=" + sEmotionHappiness +
             ", sEmotionSadness=" + sEmotionSadness +
             ", sEmotionSurprise=" + sEmotionSurprise +
+            ", rTitleFertileTerms=" + rTitleFertileTerms +
             ", rTitleSimilarity=" + rTitleSimilarity +
             ", rTitleSubjectivity=" + rTitleSubjectivity +
             ", rTitleSubjectivityCounts=" + rTitleSubjectivityCounts +
@@ -1075,6 +1141,7 @@ public class FeatureStatement implements Serializable {
             ", rBodyEmotionHappiness=" + rBodyEmotionHappiness +
             ", rBodyEmotionSadness=" + rBodyEmotionSadness +
             ", rBodyEmotionSurprise=" + rBodyEmotionSurprise +
+            ", rSimParFertileTerms=" + rSimParFertileTerms +
             ", rSimParSimilarity=" + rSimParSimilarity +
             ", rSimParSubjectivity=" + rSimParSubjectivity +
             ", rSimParSubjectivityCounts=" + rSimParSubjectivityCounts +
@@ -1086,6 +1153,7 @@ public class FeatureStatement implements Serializable {
             ", rSimParEmotionHappiness=" + rSimParEmotionHappiness +
             ", rSimParEmotionSadness=" + rSimParEmotionSadness +
             ", rSimParEmotionSurprise=" + rSimParEmotionSurprise +
+            ", rSimSentFertileTerms=" + rSimSentFertileTerms +
             ", rSimSentSimilarity=" + rSimSentSimilarity +
             ", rSimSentSubjectivity=" + rSimSentSubjectivity +
             ", rSimSentSubjectivityCounts=" + rSimSentSubjectivityCounts +
@@ -1100,6 +1168,7 @@ public class FeatureStatement implements Serializable {
             ", predictLabel=" + predictLabel +
             ", predictProba=" + predictProba +
             ", trueLabel=" + trueLabel +
+            ", harvestIteration=" + harvestIteration +
             ", statement=" + statement +
             '}';
     }

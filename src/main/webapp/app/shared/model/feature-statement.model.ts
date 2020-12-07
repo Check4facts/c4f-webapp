@@ -2,6 +2,7 @@ import { IStatement } from 'app/shared/model/statement.model';
 
 export interface IFeatureStatement {
   id?: number;
+  sFertileTerms?: number;
   sSubjectivity?: number;
   sSubjectivityCounts?: number[];
   sSentiment?: number;
@@ -12,6 +13,7 @@ export interface IFeatureStatement {
   sEmotionHappiness?: number[];
   sEmotionSadness?: number[];
   sEmotionSurprise?: number[];
+  rTitleFertileTerms?: number;
   rTitleSimilarity?: number;
   rTitleSubjectivity?: number;
   rTitleSubjectivityCounts?: number[];
@@ -34,6 +36,7 @@ export interface IFeatureStatement {
   rBodyEmotionHappiness?: number[];
   rBodyEmotionSadness?: number[];
   rBodyEmotionSurprise?: number[];
+  rSimParFertileTerms?: number;
   rSimParSimilarity?: number;
   rSimParSubjectivity?: number;
   rSimParSubjectivityCounts?: number[];
@@ -45,6 +48,7 @@ export interface IFeatureStatement {
   rSimParEmotionHappiness?: number[];
   rSimParEmotionSadness?: number[];
   rSimParEmotionSurprise?: number[];
+  rSimSentFertileTerms?: number;
   rSimSentSimilarity?: number;
   rSimSentSubjectivity?: number;
   rSimSentSubjectivityCounts?: number[];

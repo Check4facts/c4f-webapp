@@ -15,6 +15,9 @@
             <column name="s_embedding" type="float8[300]">
                 <constraints nullable="true"/>
             </column>
+            <column name="s_fertile_terms" type="int">
+                <constraints nullable="true"/>
+            </column>
             <column name="s_subjectivity" type="float8">
                 <constraints nullable="true"/>
             </column>
@@ -27,25 +30,28 @@
             <column name="s_sentiment_counts" type="int[2]">
                 <constraints nullable="true"/>
             </column>
-            <column name="s_emotion_anger" type="float8[3]">
+            <column name="s_emotion_anger" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="s_emotion_disgust" type="float8[3]">
+            <column name="s_emotion_disgust" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="s_emotion_fear" type="float8[3]">
+            <column name="s_emotion_fear" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="s_emotion_happiness" type="float8[3]">
+            <column name="s_emotion_happiness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="s_emotion_sadness" type="float8[3]">
+            <column name="s_emotion_sadness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="s_emotion_surprise" type="float8[3]">
+            <column name="s_emotion_surprise" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
             <column name="r_title_embedding" type="float8[300]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_title_fertile_terms" type="int">
                 <constraints nullable="true"/>
             </column>
             <column name="r_title_similarity" type="float8">
@@ -63,22 +69,22 @@
             <column name="r_title_sentiment_counts" type="float8[2]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_title_emotion_anger" type="float8[3]">
+            <column name="r_title_emotion_anger" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_title_emotion_disgust" type="float8[3]">
+            <column name="r_title_emotion_disgust" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_title_emotion_fear" type="float8[3]">
+            <column name="r_title_emotion_fear" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_title_emotion_happiness" type="float8[3]">
+            <column name="r_title_emotion_happiness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_title_emotion_sadness" type="float8[3]">
+            <column name="r_title_emotion_sadness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_title_emotion_surprise" type="float8[3]">
+            <column name="r_title_emotion_surprise" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
             <column name="r_body_embedding" type="float8[300]">
@@ -99,25 +105,28 @@
             <column name="r_body_sentiment_counts" type="float8[2]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_body_emotion_anger" type="float8[3]">
+            <column name="r_body_emotion_anger" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_body_emotion_disgust" type="float8[3]">
+            <column name="r_body_emotion_disgust" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_body_emotion_fear" type="float8[3]">
+            <column name="r_body_emotion_fear" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_body_emotion_happiness" type="float8[3]">
+            <column name="r_body_emotion_happiness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_body_emotion_sadness" type="float8[3]">
+            <column name="r_body_emotion_sadness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_body_emotion_surprise" type="float8[3]">
+            <column name="r_body_emotion_surprise" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
             <column name="r_sim_par_embedding" type="float8[300]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_par_fertile_terms" type="int">
                 <constraints nullable="true"/>
             </column>
             <column name="r_sim_par_similarity" type="float8">
@@ -135,25 +144,28 @@
             <column name="r_sim_par_sentiment_counts" type="float8[2]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_par_emotion_anger" type="float8[3]">
+            <column name="r_sim_par_emotion_anger" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_par_emotion_disgust" type="float8[3]">
+            <column name="r_sim_par_emotion_disgust" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_par_emotion_fear" type="float8[3]">
+            <column name="r_sim_par_emotion_fear" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_par_emotion_happiness" type="float8[3]">
+            <column name="r_sim_par_emotion_happiness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_par_emotion_sadness" type="float8[3]">
+            <column name="r_sim_par_emotion_sadness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_par_emotion_surprise" type="float8[3]">
+            <column name="r_sim_par_emotion_surprise" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
             <column name="r_sim_sent_embedding" type="float8[300]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="r_sim_sent_fertile_terms" type="int">
                 <constraints nullable="true"/>
             </column>
             <column name="r_sim_sent_similarity" type="float8">
@@ -171,22 +183,22 @@
             <column name="r_sim_sent_sentiment_counts" type="float8[2]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_sent_emotion_anger" type="float8[3]">
+            <column name="r_sim_sent_emotion_anger" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_sent_emotion_disgust" type="float8[3]">
+            <column name="r_sim_sent_emotion_disgust" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_sent_emotion_fear" type="float8[3]">
+            <column name="r_sim_sent_emotion_fear" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_sent_emotion_happiness" type="float8[3]">
+            <column name="r_sim_sent_emotion_happiness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_sent_emotion_sadness" type="float8[3]">
+            <column name="r_sim_sent_emotion_sadness" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
-            <column name="r_sim_sent_emotion_surprise" type="float8[3]">
+            <column name="r_sim_sent_emotion_surprise" type="float8[4]">
                 <constraints nullable="true"/>
             </column>
             <column name="predict_label" type="boolean">

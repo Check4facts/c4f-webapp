@@ -46,15 +46,24 @@ public class Resource implements Serializable {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "title_fertile_terms")
+    private Integer titleFertileTerms;
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "sim_sentence")
     private String simSentence;
 
+    @Column(name = "sim_sentence_fertile_terms")
+    private Integer simSentenceFertileTerms;
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "sim_paragraph")
     private String simParagraph;
+
+    @Column(name = "sim_paragraph_fertile_terms")
+    private Integer simParagraphFertileTerms;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "file_format")
@@ -64,6 +73,9 @@ public class Resource implements Serializable {
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "body")
     private String body;
+
+    @Column(name = "number_of_sentences")
+    private Integer numberOfSentences;
 
     @NotNull
     @Column(name = "harvest_date", nullable = false)
@@ -186,6 +198,58 @@ public class Resource implements Serializable {
         this.harvestDate = harvestDate;
     }
 
+    public Integer getTitleFertileTerms() {
+        return titleFertileTerms;
+    }
+
+    public Resource titleFertileTerms(Integer titleFertileTerms) {
+        this.titleFertileTerms = titleFertileTerms;
+        return this;
+    }
+
+    public void setTitleFertileTerms(Integer titleFertileTerms) {
+        this.titleFertileTerms = titleFertileTerms;
+    }
+
+    public Integer getSimSentenceFertileTerms() {
+        return simSentenceFertileTerms;
+    }
+
+    public Resource simSentenceFertileTerms(Integer simSentenceFertileTerms) {
+        this.simSentenceFertileTerms = simSentenceFertileTerms;
+        return this;
+    }
+
+    public void setSimSentenceFertileTerms(Integer simSentenceFertileTerms) {
+        this.simSentenceFertileTerms = simSentenceFertileTerms;
+    }
+
+    public Integer getSimParagraphFertileTerms() {
+        return simParagraphFertileTerms;
+    }
+
+    public Resource simParagraphFertileTerms(Integer simParagraphFertileTerms) {
+        this.simParagraphFertileTerms = simParagraphFertileTerms;
+        return this;
+    }
+
+    public void setSimParagraphFertileTerms(Integer simParagraphFertileTerms) {
+        this.simParagraphFertileTerms = simParagraphFertileTerms;
+    }
+
+    public Integer getNumberOfSentences() {
+        return numberOfSentences;
+    }
+
+    public Resource numberOfSentences(Integer numberOfSentences) {
+        this.numberOfSentences = numberOfSentences;
+        return this;
+    }
+
+    public void setNumberOfSentences(Integer numberOfSentences) {
+        this.numberOfSentences = numberOfSentences;
+    }
+
     public Statement getStatement() {
         return statement;
     }
@@ -216,19 +280,23 @@ public class Resource implements Serializable {
         return 31;
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Resource{" +
-            "id=" + getId() +
-            ", url='" + getUrl() + "'" +
-            ", harvestIteration=" + getHarvestIteration() +
-            ", title='" + getTitle() + "'" +
-            ", simSentence='" + getSimSentence() + "'" +
-            ", simParagraph='" + getSimParagraph() + "'" +
-            ", fileFormat='" + getFileFormat() + "'" +
-            ", body='" + getBody() + "'" +
-            ", harvestDate='" + getHarvestDate() + "'" +
-            "}";
+            "id=" + id +
+            ", url='" + url + '\'' +
+            ", harvestIteration=" + harvestIteration +
+            ", title='" + title + '\'' +
+            ", titleFertileTerms=" + titleFertileTerms +
+            ", simSentence='" + simSentence + '\'' +
+            ", simSentenceFertileTerms=" + simSentenceFertileTerms +
+            ", simParagraph='" + simParagraph + '\'' +
+            ", simParagraphFertileTerms=" + simParagraphFertileTerms +
+            ", fileFormat=" + fileFormat +
+            ", body='" + body + '\'' +
+            ", numberOfSentences=" + numberOfSentences +
+            ", harvestDate=" + harvestDate +
+            ", statement=" + statement +
+            '}';
     }
 }

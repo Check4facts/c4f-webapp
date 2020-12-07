@@ -7,10 +7,14 @@ export interface IResource {
   url?: any;
   harvestIteration?: number;
   title?: any;
+  titleFertileTerms?: number;
   simSentence?: any;
+  simSentenceFertileTerms?: number;
   simParagraph?: any;
+  simParagraphFertileTerms?: number;
   fileFormat?: FileFormat;
   body?: any;
+  numberOfSentences?: number;
   harvestDate?: string;
   statement?: IStatement;
 }

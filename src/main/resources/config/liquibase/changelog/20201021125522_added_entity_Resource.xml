@@ -24,16 +24,28 @@
             <column name="title" type="${clobType}">
                 <constraints nullable="true" />
             </column>
+            <column name="title_fertile_terms" type="int">
+                <constraints nullable="true"/>
+            </column>
             <column name="sim_sentence" type="${clobType}">
                 <constraints nullable="true" />
             </column>
+            <column name="sim_sentence_fertile_terms" type="int">
+                <constraints nullable="true" />
+            </column>
             <column name="sim_paragraph" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="sim_paragraph_fertile_terms" type="int">
                 <constraints nullable="true" />
             </column>
             <column name="file_format" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="body" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="number_of_sentences" type="int">
                 <constraints nullable="true" />
             </column>
             <column name="harvest_date" type="datetime">
