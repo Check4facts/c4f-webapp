@@ -98,7 +98,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
                   <h4 className="text-center">{translate("fact-checking.check.titles.first")}</h4>
                   <AvGroup>
                     <Label id="textLabel" for="statement-text">
-                      <Translate contentKey="check4FactsApp.statement.text">Text</Translate>
+                      <Translate contentKey="check4FactsApp.statement.text">Text</Translate>{' '}(*)
                     </Label>
                     <AvInput
                       id="statement-text"
@@ -111,13 +111,13 @@ export const FactChecking = (props: IFactCheckingProps) => {
                   </AvGroup>
                   <AvGroup>
                     <Label id="authorLabel" for="statement-author">
-                      <Translate contentKey="check4FactsApp.statement.author">Author</Translate>
+                      <Translate contentKey="check4FactsApp.statement.author">Author</Translate>{' '}(*)
                     </Label>
                     <AvField id="statement-author" type="text" name="author" />
                   </AvGroup>
                   <AvGroup>
                     <Label id="statementDateLabel" for="statement-statementDate">
-                      <Translate contentKey="check4FactsApp.statement.statementDate">Statement Date</Translate>
+                      <Translate contentKey="check4FactsApp.statement.statementDate">Statement Date</Translate>{' '}(*)
                     </Label>
                     <AvInput
                       id="statement-statementDate"
@@ -142,7 +142,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
                   </AvGroup>
                   <AvGroup>
                     <Label for="statement-topic">
-                      <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate>
+                      <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate>{' '}(*)
                     </Label>
                     <AvInput id="statement-topic" type="select" className="form-control" name="topic.id">
                       <option value="" key="0" />
@@ -157,7 +157,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
                   </AvGroup>
                   <AvGroup>
                     <Label for="statement-subTopics">
-                      <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
+                      <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>{' '}(*)
                     </Label>
                     <AvInput
                       id="statement-subTopics"
@@ -186,6 +186,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
               <TabPane tabId="2">
                 <Col md={{ size: 8, offset: 2 }}>
                   <h4 className="text-center">{translate("fact-checking.check.titles.second")}</h4>
+                  <p className="text-center text-muted">Δεν είναι υποχρεωτικό να εισάγετε κάποια πηγή</p>
                   {statementSources.length > 0 ? (
                     <Col md={{ size: 10, offset: 1 }}>
                       <Table responsive>
