@@ -153,7 +153,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
               </Col>
             ) : (
               statement.registrationDate === null ? (
-                !searchHarvestLoading ? (
+                !searchHarvestLoading && !sLoading ? (
                   <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
                     <Button color="primary" onClick={searchAndHarvest}>
                       {translate("fact-checking.harvest.button")}

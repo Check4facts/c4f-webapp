@@ -43,52 +43,76 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
       {
         statementSources.length > 0 &&
           <>
-            <h3 className="text-center">Πηγές Δήλωσης</h3>
-            <p className="text-center text-muted">εισηγμένες από τον ειδικό ελεγκτή δήλωσης</p>
-            <ul>
-              {statementSources.map((statementSource, index) => (
-                <li key={index} className="py-1 my-1 list-unstyled">
-                  <a
-                    onClick={() => quoteLink(statementSource.url)}
-                    style={{
-                      display: 'inline-block',
-                      maxWidth: '15vw',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis'
-                    }}
-                  >{statementSource.url}</a>
-                  <Button className="float-right" color="info" size="sm" onClick={() => openStatementSourceInfoModal(statementSource)}>
-                    <FontAwesomeIcon icon="eye" />
-                  </Button>
-                </li>
-              ))}
-            </ul>
+            <h3 className="text-center">
+              <span className="py-2 px-3" style={{
+                backgroundColor: 'rgba(244, 193, 188, 0.3)',
+                borderRadius: '30px'
+              }}>Πηγές Δήλωσης</span>
+            </h3>
+            <p className="text-center text-muted" >εισηγμένες από τον ειδικό ελεγκτή δήλωσης</p>
+            {statementSources.map((statementSource, index) => (
+              <div key={index} className="py-2">
+                <Row>
+                  <Col className="text-center">{statementSource.title}</Col>
+                </Row>
+                <Row className="my-1">
+                  <Col>
+                    <a
+                      onClick={() => quoteLink(statementSource.url)}
+                      style={{
+                        display: 'inline-block',
+                        width: '15vw',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}
+                    >{statementSource.url}</a>
+                  </Col>
+                  <Col className="d-flex justify-content-center">
+                    <Button className="float-right" color="info" size="sm" onClick={() => openStatementSourceInfoModal(statementSource)}>
+                      <FontAwesomeIcon icon="eye" />
+                    </Button>
+                  </Col>
+                </Row>
+              </div>
+            ))}
           </>
       }
       {
         resources.length > 0 &&
           <>
-            <h3 className="text-center">Αποτλέσματα Συγκομιδής</h3>
-            <ul>
-              {resources.map((resource, index) => (
-                <li key={index} className="py-1 my-1 list-unstyled">
-                  <a
-                    onClick={() => quoteLink(resource.url)}
-                    style={{
-                      display: 'inline-block',
-                      maxWidth: '15vw',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis'
-                    }}
-                  >{resource.url}</a>
-                  <Button className="float-right" color="info" size="sm" onClick={() => openResourceInfoModal(resource)}>
-                    <FontAwesomeIcon icon="eye" />
-                  </Button>
-                </li>
-              ))}
-            </ul>
+            <h3 className="text-center mt-2">
+              <span className="py-2 px-3" style={{
+                backgroundColor: 'rgba(244, 193, 188, 0.3)',
+                borderRadius: '30px'
+              }}>Αποτλέσματα Συγκομιδής</span>
+            </h3>
+            {resources.filter(r => r.title !== null).map((resource, index) => (
+              <div key={index} className="py-2">
+                <Row>
+                  <Col className="text-center">{resource.title}</Col>
+                </Row>
+                <Row className="my-1">
+                  <Col>
+                    <a
+                      onClick={() => quoteLink(resource.url)}
+                      style={{
+                        display: 'inline-block',
+                        width: '15vw',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}
+                    >{resource.url}</a>
+                  </Col>
+                  <Col className="d-flex justify-content-center">
+                    <Button className="float-right" color="info" size="sm" onClick={() => openResourceInfoModal(resource)}>
+                      <FontAwesomeIcon icon="eye" />
+                    </Button>
+                  </Col>
+                </Row>
+              </div>
+            ))}
           </>
       }
     </Col>
