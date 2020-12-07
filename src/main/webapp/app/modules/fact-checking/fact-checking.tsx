@@ -157,7 +157,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
                   </AvGroup>
                   <AvGroup>
                     <Label for="statement-subTopics">
-                      <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>{' '}(*)
+                      <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
                     </Label>
                     <AvInput
                       id="statement-subTopics"
