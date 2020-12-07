@@ -62,7 +62,7 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
 
 // Actions
 
-const pythonUrl = 'http://localhost:5000';
+const pythonUrl = 'http://localhost:9090';
 
 export const searchHarvestStatement = (statement: IStatement) => {
   const requestUrl = `${pythonUrl}/analyze`;
