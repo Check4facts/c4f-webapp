@@ -64,12 +64,13 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
 
 const pythonUrl = 'http://localhost:9090';
 
-export const searchHarvestStatement = (statement: IStatement) => {
-  const requestUrl = `${pythonUrl}/analyze`;
-  return {
+export const searchHarvestStatement = (statement: IStatement) => (dispatch, getState) => {
+  const { inProduction } = getState().applicationProfile;
+  const requestUrl = `${inProduction ? '/ml' : pythonUrl}/analyze`;
+  return dispatch({
     type: ACTION_TYPES.SEARCH_HARVEST_STATEMENT,
     payload: axios.post(requestUrl, statement),
-  };
+  });
 };
 
 export const setFact = (statement: string) => ({
