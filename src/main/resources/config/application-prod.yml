@@ -18,6 +18,8 @@ logging:
     ROOT: INFO
     io.github.jhipster: INFO
     gr.ekke.check4facts: INFO
+  file:
+    name: /opt/c4f-webapp/logs/check4facts.log
 
 eureka:
   instance:
@@ -60,7 +62,7 @@ spring:
       uris: http://localhost:9200
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
-    contexts: prod
+    contexts: prod, faker
   mail:
     host: localhost
     port: 25
