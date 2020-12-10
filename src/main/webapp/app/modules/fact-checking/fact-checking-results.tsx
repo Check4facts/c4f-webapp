@@ -90,48 +90,48 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         </Row>
         <Row className="text-center">
           <Col><p>Δήλωση</p></Col>
-          <Col><p>{(featureStatements[0].sEmotionAnger[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].sEmotionDisgust[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].sEmotionFear[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].sEmotionHappiness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].sEmotionSadness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].sEmotionSurprise[2] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatements[0].sEmotionAnger[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatements[0].sEmotionDisgust[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatements[0].sEmotionFear[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatements[0].sEmotionHappiness[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatements[0].sEmotionSadness[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatements[0].sEmotionSurprise[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
           <Col><p>Τίτλοι</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionAnger[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionDisgust[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionFear[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionHappiness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionSadness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionSurprise[2] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rTitleEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rTitleEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rTitleEmotionFear[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rTitleEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rTitleEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rTitleEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
           <Col><p>Κείμενα</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionAnger[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionDisgust[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionFear[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionHappiness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionSadness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionSurprise[2] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rBodyEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rBodyEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rBodyEmotionFear[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rBodyEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rBodyEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rBodyEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
           <Col><p>Αντιπροσωπ/τερες Παραγράφοι</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionAnger[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionDisgust[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionFear[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionHappiness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionSadness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionSurprise[2] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimParEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimParEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimParEmotionFear[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimParEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimParEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimParEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center border-bottom">
           <Col><p>Αντιπροσωπ/τερες Προτάσεις</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionAnger[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionDisgust[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionFear[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionHappiness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionSadness[2] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionSurprise[2] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimSentEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimSentEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimSentEmotionFear[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimSentEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimSentEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatements[0].rSimSentEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center my-3 text-info">
           <Col>
