@@ -12,8 +12,8 @@ import { getEntities as getCategories } from 'app/entities/category/category.red
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
 import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
-import { getResourcesByStatement } from 'app/entities/resource/resource.reducer';
-import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
+import { getResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
+import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
 import ArticleContentEditor from "app/entities/article/article-content-editor";
 
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -30,12 +30,14 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
     if(activeTab !== tab) setActiveTab(tab);
   }
 
-  const { articleEntity, categories, loading, updating, statementId, statement, statementSources, resources } = props;
+  const { currentLocale, articleEntity, categories, loading, updating, statementId, statement, statementSources, resources } = props;
 
   const { previewImage, previewImageContentType } = articleEntity;
 
   const handleClose = () => {
     props.factReset();
+    props.statementSourcesReset();
+    props.resourcesReset();
     props.history.push('/article' + props.location.search);
   };
 
@@ -53,6 +55,13 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
 
     props.getCategories();
   }, []);
+
+  useEffect(() => {
+    if (articleEntity && articleEntity.statement) {
+      props.getStatementSourcesByStatement(articleEntity.statement.id);
+      props.getResourcesByStatement(articleEntity.statement.id);
+    }
+  }, [articleEntity.statement])
 
   const onBlobChange = (isAnImage, name) => event => {
     setFileData(event, (contentType, data) => props.setBlob(name, data, contentType), isAnImage);
@@ -74,13 +83,31 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
     if (errors.length === 0) {
       const entity = {
         ...articleEntity,
-        ...values,
+        ...values
       };
 
       if (isNew) {
-        props.createEntity(entity);
+        if (statementId !== '') {
+          props.createEntity({
+            ...entity,
+            statement: { id: statementId }
+          })
+        } else {
+          props.createEntity(entity);
+        }
       } else {
-        props.updateEntity(entity);
+        if (articleEntity.statement !== null) {
+          props.updateEntity({
+            ...entity,
+            statement: {
+              ...articleEntity.statement,
+              statementSources: [],
+              resources: []
+            }
+          })
+        } else {
+          props.updateEntity(entity);
+        }
       }
     }
   };
@@ -92,6 +119,13 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
           <h2 id="check4FactsApp.article.home.createOrEditLabel">
             <Translate contentKey="check4FactsApp.article.home.createOrEditLabel">Create or edit a Article</Translate>
           </h2>
+        </Col>
+      </Row>
+      <Row className="justify-content-center mt-3">
+        <Col className="text-center" md="8">
+          <h5 className="text-muted">
+            Βήμα {activeTab} από 2
+          </h5>
         </Col>
       </Row>
       <Row>
@@ -240,7 +274,9 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                   <ArticleContentEditor
                     isNew={isNew}
                     content={articleEntity.content}
+                    currentLocale={currentLocale}
                     editorRef={editorRef}
+                    statement={statementId !== '' ? statement : articleEntity.statement}
                     statementSources={(statementSources && statementSources.length > 0) ? [...statementSources] : []}
                     resources={(resources && resources.length > 0) ? [...resources] : []}
                   />
@@ -278,6 +314,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  currentLocale: storeState.locale.currentLocale,
   categories: storeState.category.entities,
   articleEntity: storeState.article.entity,
   loading: storeState.article.loading,
@@ -299,6 +336,8 @@ const mapDispatchToProps = {
   getResourcesByStatement,
   getStatementSourcesByStatement,
   reset,
+  statementSourcesReset,
+  resourcesReset,
   factReset
 };
 
