@@ -4,7 +4,7 @@
       "home": {
         "title": "Άρθρα",
         "createLabel": "Δημιουργήστε ένα νέο Άρθρο",
-        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Άρθρο",
+        "createOrEditLabel": "Δημιουργήστε ή επεξεργαστείτε ένα Άρθρο",
         "search": "Αναζήτηση Άρθρου",
         "notFound": "Δεν βρέθηκε κανένα άρθρο"
       },
@@ -18,7 +18,7 @@
         "title": "Άρθρο"
       },
       "display": "Προβολή",
-      "previewTitle": "Τίτλος Προεπισκόπησης",
+      "previewTitle": "Τίτλος",
       "category": "Κατηγορία",
       "factCreator": "Fact Creator",
       "author": "Συγγραφέας",

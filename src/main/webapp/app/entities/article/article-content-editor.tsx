@@ -1,15 +1,20 @@
+import './article-content-editor.scss'
 import React, {useState} from 'react';
 import { Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import DecoupledEditor from 'ckeditor5-build-decoupled-document-base64-imageresize';
-import {Translate} from "react-jhipster";
+import {translate, Translate} from "react-jhipster";
 import {IStatementSource} from "app/shared/model/statement-source.model";
 import {IResource} from "app/shared/model/resource.model";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {IStatement} from "app/shared/model/statement.model";
+import moment from "moment";
 
 export type IArticleContentEditorProps = {
   isNew: boolean;
   content: any;
+  currentLocale: any;
+  statement: IStatement;
   statementSources: IStatementSource[];
   resources: IResource[];
   editorRef: any;
@@ -21,7 +26,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
   const [viewStatementSource, setViewStatementSource] = useState({} as IStatementSource);
   const [statementSourceModalOpen, setStatementSourceModalOpen] = useState(false);
 
-  const { isNew, content, statementSources, resources, editorRef } = props;
+  const { isNew, content, currentLocale, statement, statementSources, resources, editorRef } = props;
 
   const quoteLink = url =>
     editorRef.current.editor.setData(
@@ -39,17 +44,54 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
   }
 
   const displayUrls = () => (
-    <Col md="3">
-      {
-        statementSources.length > 0 &&
-          <>
-            <h3 className="text-center">
+    <Col md="3" style={{ height: '64vh', overflow: 'scroll' }}>
+      <h3 className="text-center my-3">
               <span className="py-2 px-3" style={{
                 backgroundColor: 'rgba(244, 193, 188, 0.3)',
                 borderRadius: '30px'
-              }}>Πηγές Δήλωσης</span>
-            </h3>
-            <p className="text-center text-muted" >εισηγμένες από τον ειδικό ελεγκτή δήλωσης</p>
+              }}>Δεδομένα Δήλωσης</span>
+      </h3>
+      <Row className="my-1 py-1 border-top border-bottom">
+        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.text")}</Col>
+        <Col>{statement.text}</Col>
+      </Row>
+      <Row className="my-1 py-1 border-bottom">
+        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.author")}</Col>
+        <Col>{statement.author}</Col>
+      </Row>
+      <Row className="my-1 py-1 border-bottom">
+        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.statementDate")}</Col>
+        <Col>{moment.locale(currentLocale) && moment(statement.statementDate).format("LL")}</Col>
+      </Row>
+      <Row className="my-1 py-1 border-bottom">
+        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.registrationDate")}</Col>
+        <Col>{moment.locale(currentLocale) && moment(statement.registrationDate).format("LL")}</Col>
+      </Row>
+      <Row className="my-1 py-1 border-bottom">
+        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.mainArticleText")}</Col>
+        <Col>{statement.mainArticleText}</Col>
+      </Row>
+      <Row className="my-1 py-1 border-bottom">
+        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.mainArticleUrl")}</Col>
+        <Col><a href={statement.mainArticleText} target="_blank" rel="noopener noreferrer">{statement.mainArticleUrl}</a></Col>
+      </Row>
+      <Row className="my-1 py-1 border-bottom">
+        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.topic")}</Col>
+        <Col>{statement.topic && translate(`fact-checking.sub-menus.${statement.topic.name}`)}</Col>
+      </Row>
+      <Row className="my-1 py-1 border-bottom">
+        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.subTopics")}</Col>
+        <Col>{statement.subTopics && statement.subTopics.map(subTopic => subTopic.name).join(",")}</Col>
+      </Row>
+      {
+        statementSources.length > 0 &&
+          <>
+            <h5 className="text-center mt-3">
+              <span className="py-2 px-3" style={{
+                backgroundColor: 'rgba(244, 193, 188, 0.3)',
+                borderRadius: '30px'
+              }}>Αρχικές Πηγές</span>
+            </h5>
             {statementSources.map((statementSource, index) => (
               <div key={index} className="py-2">
                 <Row>
@@ -81,13 +123,13 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
       {
         resources.length > 0 &&
           <>
-            <h3 className="text-center mt-2">
+            <h5 className="text-center mt-2">
               <span className="py-2 px-3" style={{
                 backgroundColor: 'rgba(244, 193, 188, 0.3)',
                 borderRadius: '30px'
-              }}>Αποτλέσματα Συγκομιδής</span>
-            </h3>
-            {resources.filter(r => r.title !== null).map((resource, index) => (
+              }}>Ανακτημένες Πηγές</span>
+            </h5>
+            {resources.filter(r => r.title !== null && r.body !== null).map((resource, index) => (
               <div key={index} className="py-2">
                 <Row>
                   <Col className="text-center">{resource.title}</Col>
@@ -119,7 +161,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
   );
 
   return (
-    <Row className="pt-3">
+    <Row className="pt-3" style={{ height: '70vh' }}>
       <Col md={(statementSources.length === 0 && resources.length === 0) && { size: 10, offset: 1 }}>
         <CKEditor
           editor={DecoupledEditor}
@@ -127,7 +169,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
             !isNew
               ?
               content
-              : "<h1 style=\"text-align: center\">Remove this heading and start writing your article</h1>"
+              : "<h1 style=\"text-align: center\">Remove this heading and start writing</h1>"
           }
           onInit={editor => {
             // Inserts the toolbar before the editable area.
@@ -137,7 +179,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
         />
       </Col>
       {
-        statementSources.length > 0 || resources.length > 0 ? displayUrls() : null
+        (statementSources.length > 0 || resources.length > 0) && statement ? displayUrls() : null
       }
       <Modal size="xl" isOpen={statementSourceModalOpen} toggle={() => setStatementSourceModalOpen(false)}>
         <ModalHeader className="text-primary">Πηγή δήλωσης</ModalHeader>
@@ -158,7 +200,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
         </ModalFooter>
       </Modal>
       <Modal size="xl" isOpen={resourceModalOpen} toggle={() => setResourceModalOpen(false)}>
-        <ModalHeader className="text-primary">Αποτέλεσμα συγκομιδής</ModalHeader>
+        <ModalHeader className="text-primary">Αποτέλεσμα ανάλυσης</ModalHeader>
         <ModalBody className="text-center">
           <h5 className="text-info"><Translate contentKey="check4FactsApp.resource.url"/></h5>
           <p><a href={viewResource.url} target="_blank" rel="noopener noreferrer">{viewResource.url}</a></p>

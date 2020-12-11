@@ -25,7 +25,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
     props.countFeatureStatementsByStatement(props.match.params.id);
   }, []);
 
-  const { statement, sLoading, ssLoading, statementSources, searchHarvestLoading, featureStatementCount } = props;
+  const { currentLocale, statement, sLoading, ssLoading, statementSources, searchHarvestLoading, featureStatementCount } = props;
 
   const searchAndHarvest = () => {
     // FIXME Remove those ugly ignores when got the time.
@@ -58,11 +58,6 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
             <h1>{translate('fact-checking.title')}</h1>
           </Col>
         </Row>
-        <Row className="text-center my-3">
-          <Col>
-            <h2>{translate("fact-checking.harvest.title")}</h2>
-          </Col>
-        </Row>
         <Row className="text-center my-3 text-info">
           <Col>
             <h3>{translate("fact-checking.harvest.statement")}</h3>
@@ -71,6 +66,22 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
         <Row className="text-center my-3">
           <Col>
             <h5>{statement.text}</h5>
+          </Col>
+        </Row>
+        <Row className="text-center my-3 text-info">
+          <Col>
+            <h4>{translate("check4FactsApp.statement.author")}</h4>
+          </Col>
+          <Col>
+            <h4>{translate("check4FactsApp.statement.statementDate")}</h4>
+          </Col>
+        </Row>
+        <Row className="text-center my-3">
+          <Col>
+            <h5>{statement.author}</h5>
+          </Col>
+          <Col>
+            <h5>{moment.locale(currentLocale) && moment(statement.statementDate).format("LL")}</h5>
           </Col>
         </Row>
         <Row className="text-center my-3 text-info">
@@ -168,7 +179,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
                 )
               ) : (
                 <Col className="d-flex justify-content-center alert alert-info py-3" md={{ size: 4, offset: 4 }} style={{ borderRadius: '30px' }}>
-                  Το αίτημα συγκομιδής είναι υπό επεξεργασία
+                  Το αίτημα ανάλυσης είναι υπό επεξεργασία
                 </Col>
               )
             )
@@ -180,6 +191,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  currentLocale: storeState.locale.currentLocale,
   statement: storeState.statement.entity,
   statementUpdateSuccess: storeState.statement.updateSuccess,
   statementSources: storeState.statementSource.entities,

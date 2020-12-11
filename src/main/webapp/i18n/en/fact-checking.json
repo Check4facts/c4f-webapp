@@ -44,7 +44,8 @@
       "model": {
         "title": "Model Results",
         "label": "Label",
-        "probability": "Probability",
+        "probability": "Model Decision Trust",
+        "retrieved": "Retrieved Results",
         "emotions": "Emotion Results",
         "rest": "More Characterization Results"
       }

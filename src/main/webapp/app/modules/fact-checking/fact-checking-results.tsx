@@ -8,6 +8,7 @@ import { getEntity as getStatement } from 'app/entities/statement/statement.redu
 import { getResourcesByStatement } from 'app/entities/resource/resource.reducer';
 import { getFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
 import { translate, Translate } from 'react-jhipster';
+import moment from "moment";
 
 export interface IFactCheckingResultsProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -20,7 +21,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     props.getResourcesByStatement(props.match.params.id);
   }, []);
 
-  const { statement, sLoading, resources, rLoading, featureStatements } = props;
+  const { currentLocale, statement, sLoading, resources, rLoading, featureStatements } = props;
 
   return sLoading || rLoading || (featureStatements.length === 0) ? (
     <div>
@@ -31,12 +32,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
       <Container>
         <Row className="text-center my-5 text-primary">
           <Col>
-            <h1>{translate('fact-checking.title')}</h1>
-          </Col>
-        </Row>
-        <Row className="text-center my-3">
-          <Col>
-            <h2>{translate("fact-checking.results.title")}</h2>
+            <h1>{translate('fact-checking.results.title')}</h1>
           </Col>
         </Row>
         <Row className="text-center my-3 text-info">
@@ -51,7 +47,18 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         </Row>
         <Row className="text-center my-3 text-info">
           <Col>
-            <h3>{translate("fact-checking.results.model.title")}</h3>
+            <h4>{translate("check4FactsApp.statement.author")}</h4>
+          </Col>
+          <Col>
+            <h4>{translate("check4FactsApp.statement.statementDate")}</h4>
+          </Col>
+        </Row>
+        <Row className="text-center my-3">
+          <Col>
+            <h5>{statement.author}</h5>
+          </Col>
+          <Col>
+            <h5>{moment.locale(currentLocale) && moment(statement.statementDate).format("LL")}</h5>
           </Col>
         </Row>
         <Row className="text-center my-3 text-info">
@@ -116,7 +123,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           <Col><p>{(featureStatements[0].rBodyEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
-          <Col><p>Αντιπροσωπ/τερες Παραγράφοι</p></Col>
+          <Col><p>Αντιπροσωπ/τερες Παράγραφοι</p></Col>
           <Col><p>{(featureStatements[0].rSimParEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
           <Col><p>{(featureStatements[0].rSimParEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
           <Col><p>{(featureStatements[0].rSimParEmotionFear[3] * 100).toFixed(2)}%</p></Col>
@@ -133,7 +140,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           <Col><p>{(featureStatements[0].rSimSentEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
           <Col><p>{(featureStatements[0].rSimSentEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
-        <Row className="text-center my-3 text-info">
+        <Row className="text-center mt-5 mb-3 text-info">
           <Col>
             <h4>{translate("fact-checking.results.model.rest")}</h4>
           </Col>
@@ -163,7 +170,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           <Col><p>{((1 - featureStatements[0].rBodySimilarity) * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
-          <Col><p>Αντιπροσωπ/τερες Παραγράφοι</p></Col>
+          <Col><p>Αντιπροσωπ/τερες Παράγραφοι</p></Col>
           <Col><p>{((1 - featureStatements[0].rSimParSubjectivity) * 100).toFixed(2)}%</p></Col>
           <Col><p>{((1 - featureStatements[0].rSimParSentiment) * 100).toFixed(2)}%</p></Col>
           <Col><p>{((1 - featureStatements[0].rSimParSimilarity) * 100).toFixed(2)}%</p></Col>
@@ -175,14 +182,29 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           <Col><p>{((1 - featureStatements[0].rSimSentSimilarity) * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="my-3">
-          <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
+          <Col>
+            <p className="text-muted">
+              <ul>
+                <li>Οι τιμές που αφορούν το πεδίο «Δήλωση» αναφέρονται στο ποσοστό των όρων που ταυτοποιήθηκαν με το εκάστοτε χαρακτηριστικό.</li>
+                <li>Tα πεδία «Τίτλοι», «Κείμενα», «Αντιπροσωπ/τερες Παράγραφοι» και «Αντιπροσωπ/τερες Προτάσεις» αναφέρονται στο σύνολο των αντίστοιχων πεδίων που προκύπτουν από τις πηγές που ανακτήθηκαν. Οι τιμές των πεδίων αυτών αναφέρονται στο ποσοστό των προτάσεων που ταυτοποιήθηκαν με το εκάστοτε χαρακτηριστικό.</li>
+              </ul>
+            </p>
+          </Col>
+        </Row>
+        <Row className="my-3">
+          <Col className="d-flex justify-content-center" md={{ size: 4, offset: 4 }}>
             <Button tag={Link} to="/article/new" color="info">
               {translate("fact-checking.harvest.action.createArticle")}
             </Button>
           </Col>
         </Row>
+        <Row className="text-center mt-5 mb-2 text-info">
+          <Col>
+            <h3>{translate("fact-checking.results.model.retrieved")}</h3>
+          </Col>
+        </Row>
       </Container>
-      {resources.length > 0 ?(
+      {resources.length > 0 ? (
         <Table responsive>
           <thead>
           <tr>
@@ -202,7 +224,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           </tr>
           </thead>
           <tbody>
-          {resources.map((response, i) => (
+          {resources.filter(filRes => filRes.title !==null && filRes.body !== null).map((response, i) => (
             <tr key={`entity-${i}`}>
               <td>{i +1}</td>
               <td style={{ maxWidth: '8vw' }}><a href={response.url} target="_blank" rel="noopener noreferrer">{response.url}</a></td>
@@ -219,6 +241,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  currentLocale: storeState.locale.currentLocale,
   statement: storeState.statement.entity,
   sLoading: storeState.statement.loading,
   resources: storeState.resource.entities,
