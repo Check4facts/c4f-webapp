@@ -12,6 +12,7 @@ export interface IStatement {
   registrationDate?: string;
   mainArticleText?: any;
   mainArticleUrl?: any;
+  factCheckerLabel?: boolean;
   statementSources?: IStatementSource[];
   resources?: IResource[];
   topic?: ITopic;

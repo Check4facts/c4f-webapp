@@ -33,6 +33,9 @@
             <column name="main_article_url" type="${clobType}">
                 <constraints nullable="true" />
             </column>
+            <column name="fact_checker_label" type="boolean" defaultValue="false">
+                <constraints nullable="true" />
+            </column>
             <column name="topic_id" type="bigint">
                 <constraints nullable="true" />
             </column>

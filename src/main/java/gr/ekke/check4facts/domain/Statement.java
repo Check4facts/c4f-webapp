@@ -55,6 +55,9 @@ public class Statement implements Serializable {
     @Column(name = "main_article_url")
     private String mainArticleUrl;
 
+    @Column(name = "fact_checker_label")
+    private Boolean factCheckerLabel;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "statement_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -163,6 +166,19 @@ public class Statement implements Serializable {
 
     public void setMainArticleUrl(String mainArticleUrl) {
         this.mainArticleUrl = mainArticleUrl;
+    }
+
+    public Boolean getFactCheckerLabel() {
+        return factCheckerLabel;
+    }
+
+    public Statement factCheckerLabel(Boolean factCheckerLabel) {
+        this.factCheckerLabel = factCheckerLabel;
+        return this;
+    }
+
+    public void setFactCheckerLabel(Boolean factCheckerLabel) {
+        this.factCheckerLabel = factCheckerLabel;
     }
 
     public Set<StatementSource> getStatementSources() {
