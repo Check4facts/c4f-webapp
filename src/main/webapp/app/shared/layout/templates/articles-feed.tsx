@@ -27,6 +27,9 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
           <Row>
             <Col md={{ size: 10, offset: 1 }}>
               <h2><Link to={`/article/${article.id}/display`} className="text-primary">{article.previewTitle}</Link></h2>
+              { article.statement &&
+                <p className={`text-right mb-0 fact-checker-label ${article.statement.factCheckerLabel ? 'label-true' : 'label-false'}`}>{article.statement.factCheckerLabel ? 'Αληθής' : 'Ψευδής'}</p>
+              }
             </Col>
           </Row>
           <Row className="py-2">
@@ -43,7 +46,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
           </Row>
           <Row>
             <Col md={{ size: 10, offset: 1 }}>
-              <p className="text-info text-right">{translate('check4FactsApp.article.statement')}: {article.statement && article.statement.author}</p>
+              <p className="text-info text-right">{translate('check4FactsApp.statement.author')}: {article.statement && article.statement.author} <br/><a className="text-info" href={article.statement && article.statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">Πηγή</a></p>
             </Col>
           </Row>
         </div>

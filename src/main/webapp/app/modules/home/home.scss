@@ -54,3 +54,13 @@ Main page styles
 .slider-header:hover {
   color: #fff;
 }
+
+.fact-checker-label {
+  font-size: 1rem;
+  &.label-true {
+    color: green !important;
+  }
+  &.label-false {
+    color: red !important;
+  }
+}

@@ -21,7 +21,8 @@ import { getEntities as getCategories } from 'app/entities/category/category.red
 import { APP_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
-import {ICategory} from "app/shared/model/category.model";
+import { ICategory } from 'app/shared/model/category.model';
+import { IArticle } from 'app/shared/model/article.model';
 
 export interface IArticleProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -126,11 +127,23 @@ export const Article = (props: IArticleProps) => {
       activePage: currentPage,
     });
 
-  const togglePublished = article => () =>
-    props.updateEntity({
+  const togglePublished = (article: IArticle) => () => {
+    const entity = {
       ...article,
       published: !article.published
-    });
+    };
+
+    if (article.statement !== null) {
+      props.updateEntity({
+        ...entity,
+        statement: {
+          id: article.statement.id
+        }
+      })
+    } else {
+      props.updateEntity(entity);
+    }
+  }
 
   const dropDownCategories: ICategory[] = [
     {

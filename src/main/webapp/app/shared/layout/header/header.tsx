@@ -49,7 +49,7 @@ const Header = (props: IHeaderProps) => {
           </Col>
         </Row>
         <Row>
-          <Col className="d-flex justify-content-center" md={{ size: 6, offset: 3 }} >
+          <Col className="d-flex justify-content-center" md={{ size: 8, offset: 2 }} >
             <Navbar className="pt-0" dark expand="sm" style={{ borderStyle: 'none' }}>
               <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
               <Collapse isOpen={menuOpen} navbar>
@@ -58,6 +58,7 @@ const Header = (props: IHeaderProps) => {
                   {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
                   <NavLink to="/" exact className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink>
                   {props.isAuthenticated && <NavLink to="/fact-checking" className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink>}
+                  {props.isAuthenticated && <NavLink to="/article" className="d-flex align-items-center nav-link">{translate(('check4FactsApp.article.home.title'))}</NavLink>}
                   <TopicsMenu />
                   <DisseminationMenu />
                   <AboutMenu />

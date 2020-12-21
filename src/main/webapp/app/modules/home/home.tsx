@@ -1,14 +1,14 @@
 import './home.scss';
 
 import React, {useEffect, useState} from 'react';
-import {getSortState, JhiItemCount, JhiPagination, translate, Translate} from 'react-jhipster';
+import { JhiItemCount, JhiPagination, Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
-import { Row, Col, Container, UncontrolledCarousel, Button } from 'reactstrap';
+import { Row, Col, Container, UncontrolledCarousel } from 'reactstrap';
 import { getCarouselArticles, getAllPublishedArticles } from 'app/entities/article/article.reducer';
-import {Link, RouteComponentProps} from "react-router-dom";
-import ArticlesFeed from "app/shared/layout/templates/articles-feed";
-import {ITEMS_PER_PAGE} from "app/shared/util/pagination.constants";
+import { Link, RouteComponentProps } from 'react-router-dom';
+import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
+import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -48,7 +48,12 @@ export const Home = (props: IHomeProp) => {
     src: article.previewImage ? `data:${article.previewImageContentType};base64,${article.previewImage}` : null,
     altText: `Slide ${idx}`,
     caption: <p className="slider-text container-fluid d-none d-md-block">{article.previewText}</p>,
-    header: <Link className="slider-header container-fluid" to={`/article/${article.id}/display`}>{article.previewTitle}</Link>,
+    header: <>
+              <Link className="slider-header container-fluid" to={`/article/${article.id}/display`}>{article.previewTitle}</Link><br/>
+              <span className={`fact-checker-label ${article.statement && article.statement.factCheckerLabel ? 'label-true' : 'label-false'}`}>
+                {article.statement && article.statement.factCheckerLabel ? 'Αληθής' : 'Ψευδής'}
+              </span>
+            </>,
     key: `${idx}`
   }));
 
@@ -73,15 +78,6 @@ export const Home = (props: IHomeProp) => {
           </Col>
         </Row>
       </div>
-      { isAuthenticated &&
-        <Row className="my-5">
-          <Col md={{ size: 2, offset: 5 }} className="py-4 bg-info">
-            <Button tag={Link} to="/article" color="primary" style={{ display: 'block', margin: 'auto' }}>
-              {translate("home.article.view")}
-            </Button>
-          </Col>
-        </Row>
-      }
       <Container className="py-5">
         <ArticlesFeed />
         {props.totalItems ? (

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { TabContent, TabPane, Button, Row, Col, Label } from 'reactstrap';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
+import { AvFeedback, AvForm, AvGroup, AvInput, AvField, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
 import { Translate, translate, setFileData, openFile, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
@@ -251,11 +251,14 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.articleEntity.articleDate)}
                       />
                     </AvGroup>
-                    <AvGroup check>
+                    <AvGroup>
                       <Label id="publishedLabel">
-                        <AvInput id="article-published" type="checkbox" className="form-check-input" name="published" />
                         <Translate contentKey="check4FactsApp.article.published">Published</Translate>
                       </Label>
+                      <AvRadioGroup id="article-published" name="published">
+                        <AvRadio label="Ναι" value />
+                        <AvRadio label="Όχι" value={false} />
+                      </AvRadioGroup>
                     </AvGroup>
                     <Button tag={Link} id="cancel-save" to="/article" replace color="danger">
                       <FontAwesomeIcon icon="arrow-left" />
