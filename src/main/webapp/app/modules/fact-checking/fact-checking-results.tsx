@@ -5,6 +5,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Table, Button, Container, Spinner } from 'reactstrap';
 import { setFact } from 'app/modules/fact-checking/fact-checking.reducer';
 import { getEntity as getStatement, updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
+import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
 import { getResourcesByStatement } from 'app/entities/resource/resource.reducer';
 import { getFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
 import { translate, Translate } from 'react-jhipster';
@@ -17,17 +18,18 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
   useEffect(() => {
     props.setFact(props.match.params.id);
     props.getStatement(props.match.params.id);
+    props.getStatementSourcesByStatement(props.match.params.id);
     props.getFeatureStatementsByStatement(parseInt(props.match.params.id, 10));
     props.getResourcesByStatement(props.match.params.id);
   }, []);
 
-  const { currentLocale, statement, sLoading, resources, rLoading, featureStatements } = props;
+  const { currentLocale, statement, sLoading, statementSources, resources, rLoading, featureStatements } = props;
 
   const toggleFactCheckerLabel = () => (
     props.updateStatement({
       ...statement,
-      statementSources: [],
-      resources: [],
+      statementSources: [...statementSources],
+      resources: [...resources],
       factCheckerLabel: !statement.factCheckerLabel
     })
   )
@@ -272,6 +274,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   currentLocale: storeState.locale.currentLocale,
   statement: storeState.statement.entity,
   sLoading: storeState.statement.loading,
+  statementSources: storeState.statementSource.entities,
   resources: storeState.resource.entities,
   rLoading: storeState.resource.loading,
   featureStatements: storeState.featureStatement.entities,
@@ -282,6 +285,7 @@ const mapDispatchToProps = {
   setFact,
   getStatement,
   updateStatement,
+  getStatementSourcesByStatement,
   getResourcesByStatement,
   getFeatureStatementsByStatement
 };
