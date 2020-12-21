@@ -1,44 +1,44 @@
 text;author;statement_date;registration_date;main_article_text;main_article_url;topic_id
-../fake-data/blob/preview-title/preview-title-1.txt;Νότης Μηταράκης;2020-10-21T04:14:17;;../fake-data/blob/preview-text/preview-text-1.txt;../fake-data/blob/main-article-url/main-article-url-1.txt;1
-../fake-data/blob/preview-title/preview-title-2.txt;Κυριάκος Μητσοτάκης;2020-10-21T11:18:14;;../fake-data/blob/preview-text/preview-text-2.txt;../fake-data/blob/main-article-url/main-article-url-2.txt;1
-../fake-data/blob/preview-title/preview-title-3.txt;Κυριάκος Βελόπουλος;2020-10-21T01:34:58;;../fake-data/blob/preview-text/preview-text-3.txt;../fake-data/blob/main-article-url/main-article-url-3.txt;1
-../fake-data/blob/preview-title/preview-title-4.txt;Πρώτο Θέμα/Δημήτρης Πώποτας"," Άρια Καλύβα;2020-10-20T21:20:40;;../fake-data/blob/preview-text/preview-text-4.txt;../fake-data/blob/main-article-url/main-article-url-4.txt;1
-../fake-data/blob/preview-title/preview-title-5.txt;Καθημερινή/Βασίλης Νέδος;2020-10-21T06:32:04;;../fake-data/blob/preview-text/preview-text-5.txt;../fake-data/blob/main-article-url/main-article-url-5.txt;1
-../fake-data/blob/preview-title/preview-title-6.txt;Μουντζούρης;2020-10-20T23:26:11;;../fake-data/blob/preview-text/preview-text-6.txt;../fake-data/blob/main-article-url/main-article-url-6.txt;1
-../fake-data/blob/preview-title/preview-title-7.txt;Μουντζούρης;2020-10-20T15:32:00;;../fake-data/blob/preview-text/preview-text-7.txt;../fake-data/blob/main-article-url/main-article-url-7.txt;1
-../fake-data/blob/preview-title/preview-title-8.txt;Υπουργείο Μετανάστευσης και Ασύλου;2020-10-20T18:06:18;;../fake-data/blob/preview-text/preview-text-8.txt;../fake-data/blob/main-article-url/main-article-url-8.txt;1
-../fake-data/blob/preview-title/preview-title-9.txt;Βραδυνή;2020-10-21T03:24:07;;../fake-data/blob/preview-text/preview-text-9.txt;../fake-data/blob/main-article-url/main-article-url-9.txt;1
-../fake-data/blob/preview-title/preview-title-10.txt;Βραδυνή;2020-10-21T07:23:49;;../fake-data/blob/preview-text/preview-text-10.txt;../fake-data/blob/main-article-url/main-article-url-10.txt;1
-../fake-data/blob/preview-title/preview-title-11.txt;Capital.gr;2020-10-21T04:14:17;;../fake-data/blob/preview-text/preview-text-11.txt;../fake-data/blob/main-article-url/main-article-url-11.txt;1
-../fake-data/blob/preview-title/preview-title-12.txt;Παπαδημούλης;2020-10-21T11:18:14;;../fake-data/blob/preview-text/preview-text-12.txt;../fake-data/blob/main-article-url/main-article-url-12.txt;1
-../fake-data/blob/preview-title/preview-title-13.txt;Κοτζιάς"," Βαρδάκης;2020-10-21T01:34:58;;../fake-data/blob/preview-text/preview-text-13.txt;../fake-data/blob/main-article-url/main-article-url-13.txt;1
-../fake-data/blob/preview-title/preview-title-14.txt;Χαρδαλιάς;2020-10-20T21:20:40;;../fake-data/blob/preview-text/preview-text-14.txt;../fake-data/blob/main-article-url/main-article-url-14.txt;1
-../fake-data/blob/preview-title/preview-title-15.txt;Μηταράκης;2020-10-21T06:32:04;;../fake-data/blob/preview-text/preview-text-15.txt;../fake-data/blob/main-article-url/main-article-url-15.txt;1
-../fake-data/blob/preview-title/preview-title-16.txt;Πέτσας"," Στέλιος;2020-10-20T23:26:11;;../fake-data/blob/preview-text/preview-text-16.txt;../fake-data/blob/main-article-url/main-article-url-16.txt;1
-../fake-data/blob/preview-title/preview-title-17.txt;Τσίπρας;2020-10-20T15:32:00;;../fake-data/blob/preview-text/preview-text-17.txt;../fake-data/blob/main-article-url/main-article-url-17.txt;1
-../fake-data/blob/preview-title/preview-title-18.txt;Καμίνης;2020-10-20T18:06:18;;../fake-data/blob/preview-text/preview-text-18.txt;../fake-data/blob/main-article-url/main-article-url-18.txt;1
-../fake-data/blob/preview-title/preview-title-19.txt;Αλκιβιάδης Στεφανής;2020-10-21T03:24:07;;../fake-data/blob/preview-text/preview-text-19.txt;../fake-data/blob/main-article-url/main-article-url-19.txt;1
-../fake-data/blob/preview-title/preview-title-20.txt;ΑΠΕ/ΜΠΕ"," Anadolu;2020-10-21T07:23:49;;../fake-data/blob/preview-text/preview-text-20.txt;../fake-data/blob/main-article-url/main-article-url-20.txt;1
-../fake-data/blob/preview-title/preview-title-21.txt;Κυβέρνηση;2020-10-21T04:14:17;;../fake-data/blob/preview-text/preview-text-21.txt;../fake-data/blob/main-article-url/main-article-url-21.txt;1
-../fake-data/blob/preview-title/preview-title-22.txt;Συντάκτης;2020-10-21T11:18:14;;../fake-data/blob/preview-text/preview-text-22.txt;../fake-data/blob/main-article-url/main-article-url-22.txt;1
-../fake-data/blob/preview-title/preview-title-23.txt;Ταγίπ Ερντογάν;2020-10-21T01:34:58;;../fake-data/blob/preview-text/preview-text-23.txt;../fake-data/blob/main-article-url/main-article-url-23.txt;1
-../fake-data/blob/preview-title/preview-title-24.txt;ΑΠΕ/ΜΠΕ;2020-10-20T21:20:40;;../fake-data/blob/preview-text/preview-text-24.txt;../fake-data/blob/main-article-url/main-article-url-24.txt;1
-../fake-data/blob/preview-title/preview-title-25.txt;Ιδιώτης;2020-10-21T06:32:04;;../fake-data/blob/preview-text/preview-text-25.txt;../fake-data/blob/main-article-url/main-article-url-25.txt;1
-../fake-data/blob/preview-title/preview-title-26.txt;Συντάκτης;2020-10-20T23:26:11;;../fake-data/blob/preview-text/preview-text-26.txt;../fake-data/blob/main-article-url/main-article-url-26.txt;1
-../fake-data/blob/preview-title/preview-title-27.txt;Καθηγητής Πνευμονολογίας;2020-10-20T15:32:00;;../fake-data/blob/preview-text/preview-text-27.txt;../fake-data/blob/main-article-url/main-article-url-27.txt;1
-../fake-data/blob/preview-title/preview-title-28.txt;Συντάκτης;2020-10-20T18:06:18;;../fake-data/blob/preview-text/preview-text-28.txt;../fake-data/blob/main-article-url/main-article-url-28.txt;1
-../fake-data/blob/preview-title/preview-title-29.txt;Δήμος Χίου;2020-10-21T03:24:07;;../fake-data/blob/preview-text/preview-text-29.txt;../fake-data/blob/main-article-url/main-article-url-29.txt;1
-../fake-data/blob/preview-title/preview-title-30.txt;Ασφάλεια Μυτιλήνης;2020-10-21T07:23:49;;../fake-data/blob/preview-text/preview-text-30.txt;../fake-data/blob/main-article-url/main-article-url-30.txt;1
-../fake-data/blob/preview-title/preview-title-31.txt;Δεν αναφέρεται;2020-10-21T04:14:17;;../fake-data/blob/preview-text/preview-text-31.txt;../fake-data/blob/main-article-url/main-article-url-31.txt;1
-../fake-data/blob/preview-title/preview-title-32.txt;Κυριάκος Βελόπουλος;2020-10-21T11:18:14;;../fake-data/blob/preview-text/preview-text-32.txt;../fake-data/blob/main-article-url/main-article-url-32.txt;1
-../fake-data/blob/preview-title/preview-title-33.txt;Νότης Μηταράκης;2020-10-21T01:34:58;;../fake-data/blob/preview-text/preview-text-33.txt;../fake-data/blob/main-article-url/main-article-url-33.txt;1
-../fake-data/blob/preview-title/preview-title-34.txt;Περιφέρεια Βορείου Αιγαίου;2020-10-20T21:20:40;;../fake-data/blob/preview-text/preview-text-34.txt;../fake-data/blob/main-article-url/main-article-url-34.txt;1
-../fake-data/blob/preview-title/preview-title-35.txt;Αντιπεριφερειάρχης Γρεβενών;2020-10-21T06:32:04;;../fake-data/blob/preview-text/preview-text-35.txt;../fake-data/blob/main-article-url/main-article-url-35.txt;1
-../fake-data/blob/preview-title/preview-title-36.txt;Κυβερνητικές πηγές;2020-10-20T23:26:11;;../fake-data/blob/preview-text/preview-text-36.txt;../fake-data/blob/main-article-url/main-article-url-36.txt;1
-../fake-data/blob/preview-title/preview-title-37.txt;Μιχάλης Χρυσοχοΐδης;2020-10-20T15:32:00;;../fake-data/blob/preview-text/preview-text-37.txt;../fake-data/blob/main-article-url/main-article-url-37.txt;1
-../fake-data/blob/preview-title/preview-title-38.txt;Κυβερνητικές πηγές;2020-10-20T18:06:18;;../fake-data/blob/preview-text/preview-text-38.txt;../fake-data/blob/main-article-url/main-article-url-38.txt;1
-../fake-data/blob/preview-title/preview-title-39.txt;Θεανώ Φωτίου;2020-10-21T03:24:07;;../fake-data/blob/preview-text/preview-text-39.txt;../fake-data/blob/main-article-url/main-article-url-39.txt;1
-../fake-data/blob/preview-title/preview-title-40.txt;Νότης Μηταράκης;2020-10-21T07:23:49;;../fake-data/blob/preview-text/preview-text-40.txt;../fake-data/blob/main-article-url/main-article-url-40.txt;1
-../fake-data/blob/preview-title/preview-title-41.txt;Νίκος Ανδρουλάκης;2020-10-21T04:14:17;;../fake-data/blob/preview-text/preview-text-41.txt;../fake-data/blob/main-article-url/main-article-url-41.txt;1
-../fake-data/blob/preview-title/preview-title-42.txt;Ιστοσελίδα;2020-10-21T11:18:14;;../fake-data/blob/preview-text/preview-text-42.txt;../fake-data/blob/main-article-url/main-article-url-42.txt;1
-../fake-data/blob/preview-title/preview-title-43.txt;Υπάλληλοι πυροσβεστικού σώματος;2020-10-21T01:34:58;;../fake-data/blob/preview-text/preview-text-43.txt;../fake-data/blob/main-article-url/main-article-url-43.txt;1
+../fake-data/blob/preview-title/preview-title-1.txt;Νότης Μηταράκης;2020-03-05T00:33:35;;../fake-data/blob/preview-text/preview-text-1.txt;../fake-data/blob/main-article-url/main-article-url-1.txt;1
+../fake-data/blob/preview-title/preview-title-2.txt;Κυριάκος Μητσοτάκης;2020-02-27T00:33:35;;../fake-data/blob/preview-text/preview-text-2.txt;../fake-data/blob/main-article-url/main-article-url-2.txt;1
+../fake-data/blob/preview-title/preview-title-3.txt;Κυριάκος Βελόπουλος;2020-03-31T00:33:35;;../fake-data/blob/preview-text/preview-text-3.txt;../fake-data/blob/main-article-url/main-article-url-3.txt;1
+../fake-data/blob/preview-title/preview-title-4.txt;Πρώτο Θέμα/Δημήτρης Πώποτας"," Άρια Καλύβα;2020-03-09T00:33:35;;../fake-data/blob/preview-text/preview-text-4.txt;../fake-data/blob/main-article-url/main-article-url-4.txt;1
+../fake-data/blob/preview-title/preview-title-5.txt;Καθημερινή/Βασίλης Νέδος;2020-03-01T00:33:35;;../fake-data/blob/preview-text/preview-text-5.txt;../fake-data/blob/main-article-url/main-article-url-5.txt;1
+../fake-data/blob/preview-title/preview-title-6.txt;Μουντζούρης;2020-02-06T00:33:35;;../fake-data/blob/preview-text/preview-text-6.txt;../fake-data/blob/main-article-url/main-article-url-6.txt;1
+../fake-data/blob/preview-title/preview-title-7.txt;Μουντζούρης;2020-02-06T00:33:35;;../fake-data/blob/preview-text/preview-text-7.txt;../fake-data/blob/main-article-url/main-article-url-7.txt;1
+../fake-data/blob/preview-title/preview-title-8.txt;Υπουργείο Μετανάστευσης και Ασύλου;2020-04-03T00:33:35;;../fake-data/blob/preview-text/preview-text-8.txt;../fake-data/blob/main-article-url/main-article-url-8.txt;1
+../fake-data/blob/preview-title/preview-title-9.txt;Βραδυνή;2020-05-24T00:33:35;;../fake-data/blob/preview-text/preview-text-9.txt;../fake-data/blob/main-article-url/main-article-url-9.txt;1
+../fake-data/blob/preview-title/preview-title-10.txt;Βραδυνή;2020-05-25T00:33:35;;../fake-data/blob/preview-text/preview-text-10.txt;../fake-data/blob/main-article-url/main-article-url-10.txt;1
+../fake-data/blob/preview-title/preview-title-11.txt;Capital.gr;2020-05-06T00:33:35;;../fake-data/blob/preview-text/preview-text-11.txt;../fake-data/blob/main-article-url/main-article-url-11.txt;1
+../fake-data/blob/preview-title/preview-title-12.txt;Παπαδημούλης;2020-03-05T00:33:35;;../fake-data/blob/preview-text/preview-text-12.txt;../fake-data/blob/main-article-url/main-article-url-12.txt;1
+../fake-data/blob/preview-title/preview-title-13.txt;Κοτζιάς"," Βαρδάκης;2020-03-27T00:33:35;;../fake-data/blob/preview-text/preview-text-13.txt;../fake-data/blob/main-article-url/main-article-url-13.txt;1
+../fake-data/blob/preview-title/preview-title-14.txt;Χαρδαλιάς;2020-04-21T00:33:35;;../fake-data/blob/preview-text/preview-text-14.txt;../fake-data/blob/main-article-url/main-article-url-14.txt;1
+../fake-data/blob/preview-title/preview-title-15.txt;Μηταράκης;2020-06-07T00:33:35;;../fake-data/blob/preview-text/preview-text-15.txt;../fake-data/blob/main-article-url/main-article-url-15.txt;1
+../fake-data/blob/preview-title/preview-title-16.txt;Πέτσας"," Στέλιος;2020-07-24T00:33:35;;../fake-data/blob/preview-text/preview-text-16.txt;../fake-data/blob/main-article-url/main-article-url-16.txt;1
+../fake-data/blob/preview-title/preview-title-17.txt;Τσίπρας;2020-07-23T00:33:35;;../fake-data/blob/preview-text/preview-text-17.txt;../fake-data/blob/main-article-url/main-article-url-17.txt;1
+../fake-data/blob/preview-title/preview-title-18.txt;Καμίνης;2020-07-07T00:33:35;;../fake-data/blob/preview-text/preview-text-18.txt;../fake-data/blob/main-article-url/main-article-url-18.txt;1
+../fake-data/blob/preview-title/preview-title-19.txt;Αλκιβιάδης Στεφανής;2020-03-04T00:33:35;;../fake-data/blob/preview-text/preview-text-19.txt;../fake-data/blob/main-article-url/main-article-url-19.txt;1
+../fake-data/blob/preview-title/preview-title-20.txt;ΑΠΕ/ΜΠΕ"," Anadolu;2020-03-07T00:33:35;;../fake-data/blob/preview-text/preview-text-20.txt;../fake-data/blob/main-article-url/main-article-url-20.txt;1
+../fake-data/blob/preview-title/preview-title-21.txt;Κυβέρνηση;2020-03-10T00:33:35;;../fake-data/blob/preview-text/preview-text-21.txt;../fake-data/blob/main-article-url/main-article-url-21.txt;1
+../fake-data/blob/preview-title/preview-title-22.txt;Συντάκτης;2020-03-11T00:33:35;;../fake-data/blob/preview-text/preview-text-22.txt;../fake-data/blob/main-article-url/main-article-url-22.txt;1
+../fake-data/blob/preview-title/preview-title-23.txt;Ταγίπ Ερντογάν;2020-03-11T00:33:35;;../fake-data/blob/preview-text/preview-text-23.txt;../fake-data/blob/main-article-url/main-article-url-23.txt;1
+../fake-data/blob/preview-title/preview-title-24.txt;ΑΠΕ/ΜΠΕ;2020-04-03T00:33:35;;../fake-data/blob/preview-text/preview-text-24.txt;../fake-data/blob/main-article-url/main-article-url-24.txt;1
+../fake-data/blob/preview-title/preview-title-25.txt;Ιδιώτης;2020-04-07T00:33:35;;../fake-data/blob/preview-text/preview-text-25.txt;../fake-data/blob/main-article-url/main-article-url-25.txt;1
+../fake-data/blob/preview-title/preview-title-26.txt;Συντάκτης;2020-04-12T00:33:35;;../fake-data/blob/preview-text/preview-text-26.txt;../fake-data/blob/main-article-url/main-article-url-26.txt;1
+../fake-data/blob/preview-title/preview-title-27.txt;Καθηγητής Πνευμονολογίας;2020-04-14T00:33:35;;../fake-data/blob/preview-text/preview-text-27.txt;../fake-data/blob/main-article-url/main-article-url-27.txt;1
+../fake-data/blob/preview-title/preview-title-28.txt;Συντάκτης;2020-04-22T00:33:35;;../fake-data/blob/preview-text/preview-text-28.txt;../fake-data/blob/main-article-url/main-article-url-28.txt;1
+../fake-data/blob/preview-title/preview-title-29.txt;Δήμος Χίου;2020-04-24T00:33:35;;../fake-data/blob/preview-text/preview-text-29.txt;../fake-data/blob/main-article-url/main-article-url-29.txt;1
+../fake-data/blob/preview-title/preview-title-30.txt;Ασφάλεια Μυτιλήνης;2020-04-24T00:33:35;;../fake-data/blob/preview-text/preview-text-30.txt;../fake-data/blob/main-article-url/main-article-url-30.txt;1
+../fake-data/blob/preview-title/preview-title-31.txt;Δεν αναφέρεται;2020-04-27T00:33:35;;../fake-data/blob/preview-text/preview-text-31.txt;../fake-data/blob/main-article-url/main-article-url-31.txt;1
+../fake-data/blob/preview-title/preview-title-32.txt;Κυριάκος Βελόπουλος;2020-05-06T00:33:35;;../fake-data/blob/preview-text/preview-text-32.txt;../fake-data/blob/main-article-url/main-article-url-32.txt;1
+../fake-data/blob/preview-title/preview-title-33.txt;Νότης Μηταράκης;2020-05-13T00:33:35;;../fake-data/blob/preview-text/preview-text-33.txt;../fake-data/blob/main-article-url/main-article-url-33.txt;1
+../fake-data/blob/preview-title/preview-title-34.txt;Περιφέρεια Βορείου Αιγαίου;2020-05-25T00:33:35;;../fake-data/blob/preview-text/preview-text-34.txt;../fake-data/blob/main-article-url/main-article-url-34.txt;1
+../fake-data/blob/preview-title/preview-title-35.txt;Αντιπεριφερειάρχης Γρεβενών;2020-05-29T00:33:35;;../fake-data/blob/preview-text/preview-text-35.txt;../fake-data/blob/main-article-url/main-article-url-35.txt;1
+../fake-data/blob/preview-title/preview-title-36.txt;Κυβερνητικές πηγές;2020-05-31T00:33:35;;../fake-data/blob/preview-text/preview-text-36.txt;../fake-data/blob/main-article-url/main-article-url-36.txt;1
+../fake-data/blob/preview-title/preview-title-37.txt;Μιχάλης Χρυσοχοΐδης;2020-05-31T00:33:35;;../fake-data/blob/preview-text/preview-text-37.txt;../fake-data/blob/main-article-url/main-article-url-37.txt;1
+../fake-data/blob/preview-title/preview-title-38.txt;Κυβερνητικές πηγές;2020-06-04T00:33:35;;../fake-data/blob/preview-text/preview-text-38.txt;../fake-data/blob/main-article-url/main-article-url-38.txt;1
+../fake-data/blob/preview-title/preview-title-39.txt;Θεανώ Φωτίου;2020-06-09T00:33:35;;../fake-data/blob/preview-text/preview-text-39.txt;../fake-data/blob/main-article-url/main-article-url-39.txt;1
+../fake-data/blob/preview-title/preview-title-40.txt;Νότης Μηταράκης;2020-06-11T00:33:35;;../fake-data/blob/preview-text/preview-text-40.txt;../fake-data/blob/main-article-url/main-article-url-40.txt;1
+../fake-data/blob/preview-title/preview-title-41.txt;Νίκος Ανδρουλάκης;2020-06-17T00:33:35;;../fake-data/blob/preview-text/preview-text-41.txt;../fake-data/blob/main-article-url/main-article-url-41.txt;1
+../fake-data/blob/preview-title/preview-title-42.txt;Ιστοσελίδα;2020-06-17T00:33:35;;../fake-data/blob/preview-text/preview-text-42.txt;../fake-data/blob/main-article-url/main-article-url-42.txt;1
+../fake-data/blob/preview-title/preview-title-43.txt;Υπάλληλοι πυροσβεστικού σώματος;2020-06-24T00:33:35;;../fake-data/blob/preview-text/preview-text-43.txt;../fake-data/blob/main-article-url/main-article-url-43.txt;1
