@@ -4,7 +4,7 @@ import { IRootState } from 'app/shared/reducers';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Table, Button, Container, Spinner } from 'reactstrap';
 import { setFact } from 'app/modules/fact-checking/fact-checking.reducer';
-import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
+import { getEntity as getStatement, updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
 import { getResourcesByStatement } from 'app/entities/resource/resource.reducer';
 import { getFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
 import { translate, Translate } from 'react-jhipster';
@@ -22,6 +22,15 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
   }, []);
 
   const { currentLocale, statement, sLoading, resources, rLoading, featureStatements } = props;
+
+  const toggleFactCheckerLabel = () => (
+    props.updateStatement({
+      ...statement,
+      statementSources: [],
+      resources: [],
+      factCheckerLabel: !statement.factCheckerLabel
+    })
+  )
 
   return sLoading || rLoading || (featureStatements.length === 0) ? (
     <div>
@@ -198,6 +207,25 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
             </Button>
           </Col>
         </Row>
+        <Row className="mt-5 text-center">
+          <Col>
+            <h5>Με βάση τα παραπάνω στοιχεία μπορείτε να αλλάξετε την κατάσταση της δήλωσης αυτής</h5>
+            <p>
+              Η τωρινή της κατάσταση φαίνεται στο παρακάτω κουμπί.<br/>
+              Πατείστε πάνω σε αυτό για να γίνει αλλαγή στην αντίθετη.
+            </p>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="d-flex justify-content-center">
+            <Button
+              color={statement.factCheckerLabel ? 'success' : 'danger'}
+              onClick={toggleFactCheckerLabel}
+            >
+              {statement.factCheckerLabel ? 'Αληθής' : 'Ψευδής'}
+            </Button>
+          </Col>
+        </Row>
         <Row className="text-center mt-5 mb-2 text-info">
           <Col>
             <h3>{translate("fact-checking.results.model.retrieved")}</h3>
@@ -253,6 +281,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   setFact,
   getStatement,
+  updateStatement,
   getResourcesByStatement,
   getFeatureStatementsByStatement
 };
