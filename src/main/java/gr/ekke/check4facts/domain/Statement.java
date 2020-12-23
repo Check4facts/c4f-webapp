@@ -1,6 +1,7 @@
 package gr.ekke.check4facts.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -203,7 +204,9 @@ public class Statement implements Serializable {
     }
 
     public void setStatementSources(Set<StatementSource> statementSources) {
-        this.statementSources.addAll(statementSources);
+        if (statementSources != null) {
+            this.statementSources.addAll(statementSources);
+        }
     }
 
     public Set<Resource> getResources() {
@@ -228,7 +231,9 @@ public class Statement implements Serializable {
     }
 
     public void setResources(Set<Resource> resources) {
-        this.resources.addAll(resources);
+        if (resources != null) {
+            this.resources.addAll(resources);
+        }
     }
 
     public Topic getTopic() {
