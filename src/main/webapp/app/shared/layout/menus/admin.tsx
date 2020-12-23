@@ -27,6 +27,9 @@ const adminMenuItems = (
     <MenuItem icon="tasks" to="/admin/logs">
       <Translate contentKey="global.menu.admin.logs">Logs</Translate>
     </MenuItem>
+    <MenuItem icon="search" to="/admin/search">
+      Search
+    </MenuItem>
   </>
 );
 
