@@ -23,6 +23,7 @@ export interface IArticleUpdateProps extends StateProps, DispatchProps, RouteCom
 export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const editorRef = useRef(CKEditor);
   const [activeTab, setActiveTab] = useState('1');
+  const [publishArticle, setPublishArticle] = useState(false);
   const [categoryId, setCategoryId] = useState('1');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
@@ -83,7 +84,8 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
     if (errors.length === 0) {
       const entity = {
         ...articleEntity,
-        ...values
+        ...values,
+        published: publishArticle
       };
 
       if (isNew) {
@@ -96,18 +98,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
           props.createEntity(entity);
         }
       } else {
-        if (articleEntity.statement !== null) {
-          props.updateEntity({
-            ...entity,
-            statement: {
-              ...articleEntity.statement,
-              statementSources: [],
-              resources: []
-            }
-          })
-        } else {
-          props.updateEntity(entity);
-        }
+        props.updateEntity(entity);
       }
     }
   };
@@ -251,15 +242,6 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.articleEntity.articleDate)}
                       />
                     </AvGroup>
-                    <AvGroup>
-                      <Label id="publishedLabel">
-                        <Translate contentKey="check4FactsApp.article.published">Published</Translate>
-                      </Label>
-                      <AvRadioGroup id="article-published" name="published">
-                        <AvRadio label="Ναι" value />
-                        <AvRadio label="Όχι" value={false} />
-                      </AvRadioGroup>
-                    </AvGroup>
                     <Button tag={Link} id="cancel-save" to="/article" replace color="danger">
                       <FontAwesomeIcon icon="arrow-left" />
                       &nbsp;
@@ -298,10 +280,16 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                           <Translate contentKey="entity.action.previous" />
                         </Button>
                         &nbsp;
-                        <Button color="primary" id="save-entity" type="submit" disabled={updating}>
+                        <Button color="primary" id="save-entity" type="submit" onClick={() => setPublishArticle(false)} disabled={updating}>
                           <FontAwesomeIcon icon="save" />
                           &nbsp;
                           <Translate contentKey="entity.action.save">Save</Translate>
+                        </Button>
+                        &nbsp;
+                        <Button color="success" id="save-entity" type="submit" onClick={() => setPublishArticle(true)} disabled={updating}>
+                          <FontAwesomeIcon icon="save" />
+                          &nbsp;
+                          <Translate contentKey="check4FactsApp.article.publish">Publish</Translate>
                         </Button>
                       </div>
                     </Col>
