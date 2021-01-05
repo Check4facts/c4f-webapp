@@ -3,11 +3,11 @@ $header-color-secondary: #bbb;
 $header-color-hover: darken($header-color, 20%);
 
 /* ==========================================================================
-Developement Ribbon
+Ribbon
 ========================================================================== */
 .ribbon {
   background-color: rgba(170, 0, 0, 0.5);
-  left: -3.5em;
+  left: -5em;
   -moz-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   -o-transform: rotate(-45deg);
@@ -15,9 +15,9 @@ Developement Ribbon
   transform: rotate(-45deg);
   overflow: hidden;
   position: absolute;
-  top: 30px;
+  top: 25px;
   white-space: nowrap;
-  width: 15em;
+  width: 18em;
   z-index: 99999;
   pointer-events: none;
   opacity: 0.75;

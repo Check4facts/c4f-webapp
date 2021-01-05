@@ -39,6 +39,11 @@ const Header = (props: IHeaderProps) => {
 
   return (
     <div id="app-header" className="bg-dark fixed-top">
+      <div className="ribbon dev">
+        <a href="">
+          Πειραματική<br/>Εφαρμογή
+        </a>
+      </div>
       <LoadingBar className="loading-bar" />
         <Row xs="2">
           <Col className="d-flex justify-content-center" md={{ size:3, offset: 3 }} sm="6" >
