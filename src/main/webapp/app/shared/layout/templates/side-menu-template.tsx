@@ -2,15 +2,10 @@ import './templates.scss';
 import React from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { NavHashLink } from 'react-router-hash-link';
-
-type sideMenuTemplateItem = {
-  id: string,
-  title: string,
-  content: any
-};
+import { ITemplateItem } from 'app/shared/model/template-item';
 
 export interface ISideMenuTemplateProps {
-  items: sideMenuTemplateItem[];
+  items: ITemplateItem[];
   className?: string;
 }
 
