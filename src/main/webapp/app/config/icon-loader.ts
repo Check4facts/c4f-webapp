@@ -35,6 +35,10 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter';
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons/faPhoneAlt';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons/faClipboardList';
 import { faFile } from '@fortawesome/free-solid-svg-icons/faFile';
+import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons/faMoneyBillWave';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
+import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers';
+import { faCompressArrowsAlt } from '@fortawesome/free-solid-svg-icons/faCompressArrowsAlt';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -76,6 +80,10 @@ export const loadIcons = () => {
     faRoad,
     faCloud,
     faTimesCircle,
-    faSearch
+    faSearch,
+    faMoneyBillWave,
+    faExclamationCircle,
+    faUsers,
+    faCompressArrowsAlt
   );
 };

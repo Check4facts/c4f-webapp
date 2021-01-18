@@ -9,8 +9,17 @@ export const AboutMenu = () => (
     id="entity-menu"
     style={{ maxHeight: '80vh', overflow: 'auto' }}
   >
-    <MenuItem icon="clipboard-list" to="/about/project">
-      <Translate contentKey="global.menu.about.project" />
+    <MenuItem icon="users" to="/about/team">
+      <Translate contentKey="global.menu.about.team" />
+    </MenuItem>
+    <MenuItem icon="money-bill-wave" to="/about/funding">
+      <Translate contentKey="global.menu.about.funding" />
+    </MenuItem>
+    <MenuItem icon="compress-arrows-alt" to="/about/collaborating">
+      <Translate contentKey="global.menu.about.collaborating" />
+    </MenuItem>
+    <MenuItem icon="exclamation-circle" to="/about/experts">
+      <Translate contentKey="global.menu.about.experts" />
     </MenuItem>
     <MenuItem icon="phone-alt" to="/about/contact">
       <Translate contentKey="global.menu.about.contact" />

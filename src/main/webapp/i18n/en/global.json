@@ -18,7 +18,10 @@
       },
       "about": {
         "main": "About",
-        "project": "Project",
+        "team": "Team",
+        "funding": "Funding",
+        "collaborating": "Collaborating Organizations",
+        "experts": "Experts",
         "contact": "Contact"
       },
       "account": {
