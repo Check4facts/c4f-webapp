@@ -50,10 +50,15 @@ public class FeatureStatementService {
         return featureStatementRepository.findById(id);
     }
 
-    public Optional<FeatureStatement> setTrueLabel(Long id, Boolean label) {
+    @Transactional(readOnly = true)
+    public Optional<FeatureStatement> getLatestFeatureStatementByStatementId(Long statement_id) {
+        log.debug("Request to get FeatureStatement with Max harvestIteration by Statement : {}", statement_id);
+        return featureStatementRepository.getLatestFeatureStatementByStatementId(statement_id);
+    }
+
+    public Integer setTrueLabel(Long id, Boolean label) {
         log.debug("Request to set trueLabel of FeatureStatement : {} to : {}", id, label);
-        featureStatementRepository.setTrueLabel(id, label);
-        return featureStatementRepository.findById(id);
+        return featureStatementRepository.setTrueLabel(id, label);
     }
 
     public void delete(Long id) {

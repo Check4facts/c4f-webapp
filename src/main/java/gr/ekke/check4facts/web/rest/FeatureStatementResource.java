@@ -45,11 +45,17 @@ public class FeatureStatementResource {
         return ResponseUtil.wrapOrNotFound(featureStatement);
     }
 
-    @PutMapping("/feature-statements/{id}/{label}")
-    public ResponseEntity<FeatureStatement> setTrueLabel(@PathVariable Long id, @PathVariable Boolean label) {
-        log.debug("Rest request to set trueLabel of FeatureStatement : {} to : {}", id, label);
-        Optional<FeatureStatement> featureStatement = featureStatementService.setTrueLabel(id, label);
+    @GetMapping("/feature-statements/latest/statement/{id}")
+    public ResponseEntity<FeatureStatement> getLatestFeatureStatementByStatementId(@PathVariable Long id) {
+        log.debug("REST Request to get FeatureStatement with Max harvestIteration by Statement : {}", id);
+        Optional<FeatureStatement> featureStatement = featureStatementService.getLatestFeatureStatementByStatementId(id);
         return ResponseUtil.wrapOrNotFound(featureStatement);
+    }
+
+    @PutMapping("/feature-statements/{id}/{label}")
+    public Integer setTrueLabel(@PathVariable Long id, @PathVariable Boolean label) {
+        log.debug("Rest request to set trueLabel of FeatureStatement : {} to : {}", id, label);
+        return featureStatementService.setTrueLabel(id, label);
     }
 
     @DeleteMapping("/feature-statements/{id}")
