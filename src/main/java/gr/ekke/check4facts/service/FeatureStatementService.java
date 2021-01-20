@@ -50,6 +50,12 @@ public class FeatureStatementService {
         return featureStatementRepository.findById(id);
     }
 
+    public Optional<FeatureStatement> setTrueLabel(Long id, Boolean label) {
+        log.debug("Request to set trueLabel of FeatureStatement : {} to : {}", id, label);
+        featureStatementRepository.setTrueLabel(id, label);
+        return featureStatementRepository.findById(id);
+    }
+
     public void delete(Long id) {
         log.debug("Request to delete FeatureSource : {}", id);
         featureStatementRepository.deleteById(id);

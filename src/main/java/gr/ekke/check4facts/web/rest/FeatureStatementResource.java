@@ -45,6 +45,13 @@ public class FeatureStatementResource {
         return ResponseUtil.wrapOrNotFound(featureStatement);
     }
 
+    @PutMapping("/feature-statements/{id}/{label}")
+    public ResponseEntity<FeatureStatement> setTrueLabel(@PathVariable Long id, @PathVariable Boolean label) {
+        log.debug("Rest request to set trueLabel of FeatureStatement : {} to : {}", id, label);
+        Optional<FeatureStatement> featureStatement = featureStatementService.setTrueLabel(id, label);
+        return ResponseUtil.wrapOrNotFound(featureStatement);
+    }
+
     @DeleteMapping("/feature-statements/{id}")
     public ResponseEntity<Void> deleteFeatureStatement(@PathVariable Long id) {
         log.debug("REST request to delete FeatureStatement : {}", id);
