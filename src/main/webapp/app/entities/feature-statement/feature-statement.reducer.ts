@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { ICrudSearchAction, ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { ICrudSearchAction, ICrudGetAction, ICrudGetAllAction } from 'react-jhipster';
 
-import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IFeatureStatement, defaultValue } from 'app/shared/model/feature-statement.model';
@@ -12,6 +11,8 @@ export const ACTION_TYPES = {
   FETCH_FEATURESTATEMENT_LIST_BY_STATEMENT: 'featureStatement/FETCH_FEATURESTATEMENT_LIST_BY_STATEMENT',
   COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT: 'featureStatement/COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT',
   FETCH_FEATURESTATEMENT: 'featureStatement/FETCH_FEATURESTATEMENT',
+  FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT: 'featureStatement/FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT',
+  SET_TRUE_LABEL_FEATURESTATMENT: 'featureStatement/SET_TRUE_LABEL_FEATURESTATMENT',
   RESET: 'featureStatement/RESET',
 };
 
@@ -20,6 +21,7 @@ const initialState = {
   errorMessage: null,
   entities: [] as ReadonlyArray<IFeatureStatement>,
   entity: defaultValue,
+  rowsUpdated: 0,
   count: 0,
 };
 
@@ -34,6 +36,8 @@ export default (state: FeatureStatementState = initialState, action): FeatureSta
     case REQUEST(ACTION_TYPES.FETCH_FEATURESTATEMENT_LIST_BY_STATEMENT):
     case REQUEST(ACTION_TYPES.COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT):
     case REQUEST(ACTION_TYPES.FETCH_FEATURESTATEMENT):
+    case REQUEST(ACTION_TYPES.FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT):
+    case REQUEST(ACTION_TYPES.SET_TRUE_LABEL_FEATURESTATMENT):
       return {
         ...state,
         errorMessage: null,
@@ -44,6 +48,8 @@ export default (state: FeatureStatementState = initialState, action): FeatureSta
     case FAILURE(ACTION_TYPES.FETCH_FEATURESTATEMENT_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.FETCH_FEATURESTATEMENT):
+    case FAILURE(ACTION_TYPES.FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT):
+    case FAILURE(ACTION_TYPES.SET_TRUE_LABEL_FEATURESTATMENT):
       return {
         ...state,
         errorMessage: action.payload,
@@ -58,10 +64,17 @@ export default (state: FeatureStatementState = initialState, action): FeatureSta
         entities: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.FETCH_FEATURESTATEMENT):
+    case SUCCESS(ACTION_TYPES.FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT):
       return {
         ...state,
         loading: false,
         entity: action.payload.data,
+      };
+    case SUCCESS(ACTION_TYPES.SET_TRUE_LABEL_FEATURESTATMENT):
+      return {
+        ...state,
+        loading: false,
+        rowsUpdated: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT):
       return {
@@ -107,6 +120,20 @@ export const getEntity: ICrudGetAction<IFeatureStatement> = id => ({
   type: ACTION_TYPES.FETCH_FEATURESTATEMENT,
   payload: axios.get<IFeatureStatement>(`${apiUrl}/${id}`),
 });
+
+export const getLatestFeatureStatementByStatementId: ICrudGetAction<IFeatureStatement> = statementId => ({
+  type: ACTION_TYPES.FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT,
+  payload: axios.get<IFeatureStatement>(`${apiUrl}/latest/statement/${statementId}`),
+});
+
+export const setTrueLabel = (id: number, label: boolean) => dispatch => {
+  const result = dispatch({
+    type: ACTION_TYPES.SET_TRUE_LABEL_FEATURESTATMENT,
+    payload: axios.put(`${apiUrl}/${id}/${label}`),
+  });
+  dispatch(getEntity(`${id}`));
+  return result;
+};
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET,

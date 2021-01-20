@@ -7,7 +7,8 @@ import { setFact } from 'app/modules/fact-checking/fact-checking.reducer';
 import { getEntity as getStatement, updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
 import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
 import { getResourcesByStatement } from 'app/entities/resource/resource.reducer';
-import { getFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
+import { defaultValue } from 'app/shared/model/feature-statement.model';
+import { setTrueLabel, getLatestFeatureStatementByStatementId } from 'app/entities/feature-statement/feature-statement.reducer';
 import { translate, Translate } from 'react-jhipster';
 import moment from "moment";
 
@@ -19,22 +20,23 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     props.setFact(props.match.params.id);
     props.getStatement(props.match.params.id);
     props.getStatementSourcesByStatement(props.match.params.id);
-    props.getFeatureStatementsByStatement(parseInt(props.match.params.id, 10));
+    props.getLatestFeatureStatementByStatementId(props.match.params.id);
     props.getResourcesByStatement(props.match.params.id);
   }, []);
 
-  const { currentLocale, statement, sLoading, statementSources, resources, rLoading, featureStatements } = props;
+  const { currentLocale, statement, sLoading, statementSources, resources, rLoading, featureStatement } = props;
 
-  const toggleFactCheckerLabel = () => (
+  const toggleFactCheckerLabel = () => {
     props.updateStatement({
       ...statement,
       statementSources: [...statementSources],
       resources: [...resources],
       factCheckerLabel: !statement.factCheckerLabel
-    })
-  )
+    });
+    props.setTrueLabel(featureStatement.id, !statement.factCheckerLabel);
+  }
 
-  return sLoading || rLoading || (featureStatements.length === 0) ? (
+  return sLoading || rLoading || (featureStatement === defaultValue) ? (
     <div>
       <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
     </div>
@@ -82,14 +84,14 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         </Row>
         <Row className="text-center my-3">
           <Col>
-            {featureStatements[0].predictLabel ? (
+            {featureStatement.predictLabel ? (
               <h5 className="text-success">Αληθής</h5>
             ) : (
               <h5 className="text-danger">Ψευδής</h5>
             )}
           </Col>
           <Col>
-            <h5 className={featureStatements[0].predictProba > 0.5 ? 'text-success' : 'text-danger'}>{featureStatements[0].predictProba * 100}%</h5>
+            <h5 className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{featureStatement.predictProba * 100}%</h5>
           </Col>
         </Row>
         <Row className="text-center my-3 text-info">
@@ -108,48 +110,48 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         </Row>
         <Row className="text-center">
           <Col><p>Δήλωση</p></Col>
-          <Col><p>{((featureStatements[0].sEmotionAnger[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((featureStatements[0].sEmotionDisgust[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((featureStatements[0].sEmotionFear[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((featureStatements[0].sEmotionHappiness[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((featureStatements[0].sEmotionSadness[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((featureStatements[0].sEmotionSurprise[3] / featureStatements[0].sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatement.sEmotionAnger[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatement.sEmotionDisgust[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatement.sEmotionFear[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatement.sEmotionHappiness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatement.sEmotionSadness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((featureStatement.sEmotionSurprise[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
           <Col><p>Τίτλοι</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionFear[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rTitleEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rTitleEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rTitleEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rTitleEmotionFear[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rTitleEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rTitleEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rTitleEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
           <Col><p>Κείμενα</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionFear[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rBodyEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rBodyEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rBodyEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rBodyEmotionFear[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rBodyEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rBodyEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rBodyEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
           <Col><p>Αντιπροσωπ/τερες Παράγραφοι</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionFear[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimParEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimParEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimParEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimParEmotionFear[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimParEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimParEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimParEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center border-bottom">
           <Col><p>Αντιπροσωπ/τερες Προτάσεις</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionFear[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
-          <Col><p>{(featureStatements[0].rSimSentEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimSentEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimSentEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimSentEmotionFear[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimSentEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimSentEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
+          <Col><p>{(featureStatement.rSimSentEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center mt-5 mb-3 text-info">
           <Col>
@@ -164,33 +166,33 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         </Row>
         <Row className="text-center">
           <Col><p>Δήλωση</p></Col>
-          <Col><p>{((1 - featureStatements[0].sSubjectivity) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((1 - featureStatements[0].sSentiment) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.sSubjectivity) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.sSentiment) * 100).toFixed(2)}%</p></Col>
           <Col><p>-</p></Col>
         </Row>
         <Row className="text-center">
           <Col><p>Τίτλοι</p></Col>
-          <Col><p>{((1 - featureStatements[0].rTitleSubjectivity) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((1 - featureStatements[0].rTitleSentiment) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((1 - featureStatements[0].rTitleSimilarity) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rTitleSubjectivity) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rTitleSentiment) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rTitleSimilarity) * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
           <Col><p>Κείμενα</p></Col>
-          <Col><p>{((1 - featureStatements[0].rBodySubjectivity) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((1 - featureStatements[0].rBodySentiment) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((1 - featureStatements[0].rBodySimilarity) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rBodySubjectivity) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rBodySentiment) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rBodySimilarity) * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center">
           <Col><p>Αντιπροσωπ/τερες Παράγραφοι</p></Col>
-          <Col><p>{((1 - featureStatements[0].rSimParSubjectivity) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((1 - featureStatements[0].rSimParSentiment) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((1 - featureStatements[0].rSimParSimilarity) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rSimParSubjectivity) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rSimParSentiment) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rSimParSimilarity) * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="text-center border-bottom">
           <Col><p>Αντιπροσωπ/τερες Προτάσεις</p></Col>
-          <Col><p>{((1 - featureStatements[0].rSimSentSubjectivity) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((1 - featureStatements[0].rSimSentSentiment) * 100).toFixed(2)}%</p></Col>
-          <Col><p>{((1 - featureStatements[0].rSimSentSimilarity) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rSimSentSubjectivity) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rSimSentSentiment) * 100).toFixed(2)}%</p></Col>
+          <Col><p>{((1 - featureStatement.rSimSentSimilarity) * 100).toFixed(2)}%</p></Col>
         </Row>
         <Row className="my-3">
           <Col>
@@ -275,7 +277,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   statementSources: storeState.statementSource.entities,
   resources: storeState.resource.entities,
   rLoading: storeState.resource.loading,
-  featureStatements: storeState.featureStatement.entities,
+  featureStatement: storeState.featureStatement.entity,
   fLoading: storeState.featureStatement.loading
 });
 
@@ -285,7 +287,8 @@ const mapDispatchToProps = {
   updateStatement,
   getStatementSourcesByStatement,
   getResourcesByStatement,
-  getFeatureStatementsByStatement
+  getLatestFeatureStatementByStatementId,
+  setTrueLabel
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
