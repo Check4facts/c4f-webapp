@@ -35,6 +35,7 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter';
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons/faPhoneAlt';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons/faClipboardList';
 import { faFile } from '@fortawesome/free-solid-svg-icons/faFile';
+import { faTools } from '@fortawesome/free-solid-svg-icons/faTools';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -76,6 +77,7 @@ export const loadIcons = () => {
     faRoad,
     faCloud,
     faTimesCircle,
-    faSearch
+    faSearch,
+    faTools
   );
 };

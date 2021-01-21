@@ -39,6 +39,7 @@
         "configuration": "Διαμόρφωση",
         "logs": "Καταγραφές",
         "audits": "'Ελεγχει",
+        "tools": "Εργαλεία",
         "apidocs": "API",
         "database": "Βάση Δεδομένων",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"

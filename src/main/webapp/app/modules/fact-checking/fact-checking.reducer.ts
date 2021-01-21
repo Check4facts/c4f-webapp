@@ -4,10 +4,11 @@ import { IStatement } from 'app/shared/model/statement.model';
 import { IResource } from 'app/shared/model/resource.model';
 
 export const ACTION_TYPES = {
-  SET_FACT: 'fact/SET_FACT',
-  SET_URLS: 'fact/SET_URLS',
-  SEARCH_HARVEST_STATEMENT: 'fact/SEARCH_HARVEST_STATEMENT',
-  RESET: 'fact/RESET',
+  SET_FACT: 'fact-checking/SET_FACT',
+  SET_URLS: 'fact-checking/SET_URLS',
+  SEARCH_HARVEST_STATEMENT: 'fact-checking/SEARCH_HARVEST_STATEMENT',
+  TRAIN: 'fact-checking/TRAIN',
+  RESET: 'fact-checking/RESET',
 };
 
 const initialState = {
@@ -16,6 +17,9 @@ const initialState = {
   errorMessage: null,
   searchHarvestResponse: null,
   urls: [] as string[],
+  training: false,
+  trainingLoading: false,
+  trainingResponse: null,
 };
 
 export type FactCheckingState = Readonly<typeof initialState>;
@@ -40,6 +44,24 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
         ...state,
         searchHarvestLoading: false,
         searchHarvestResponse: action.payload.data,
+      };
+    case REQUEST(ACTION_TYPES.TRAIN):
+      return {
+        ...state,
+        trainingLoading: true,
+      };
+    case FAILURE(ACTION_TYPES.TRAIN):
+      return {
+        ...state,
+        trainingLoading: false,
+        errorMessage: action.payload.data,
+      };
+    case SUCCESS(ACTION_TYPES.TRAIN):
+      return {
+        ...state,
+        trainingLoading: false,
+        training: true,
+        trainingResponse: action.payload.data,
       };
     case ACTION_TYPES.SET_FACT:
       return {
@@ -70,6 +92,15 @@ export const searchHarvestStatement = (statement: IStatement) => (dispatch, getS
   return dispatch({
     type: ACTION_TYPES.SEARCH_HARVEST_STATEMENT,
     payload: axios.post(requestUrl, statement),
+  });
+};
+
+export const trainModel = () => (dispatch, getState) => {
+  const { inProduction } = getState().applicationProfile;
+  const requestUrl = `${inProduction ? '/ml' : pythonUrl}/train`;
+  return dispatch({
+    type: ACTION_TYPES.TRAIN,
+    payload: axios.post(requestUrl),
   });
 };
 
