@@ -54,12 +54,12 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
       <Container>
         <Row className="text-center my-5 text-primary">
           <Col>
-            <h1>{translate('fact-checking.title')}</h1>
+            <h1>{translate('fact-checking.analyze.title')}</h1>
           </Col>
         </Row>
         <Row className="text-center my-3 text-info">
           <Col>
-            <h3>{translate("fact-checking.analyze.statement")}</h3>
+            <h3>{translate("check4FactsApp.statement.text")}</h3>
           </Col>
         </Row>
         <Row className="text-center my-3">
