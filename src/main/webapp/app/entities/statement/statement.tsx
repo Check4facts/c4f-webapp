@@ -4,14 +4,10 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, InputGroup, Col, Row, Table } from 'reactstrap';
 import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 import {
-  byteSize,
   Translate,
   translate,
-  ICrudSearchAction,
-  ICrudGetAllAction,
   TextFormat,
   getSortState,
-  IPaginationBaseState,
   JhiPagination,
   JhiItemCount,
 } from 'react-jhipster';
@@ -19,7 +15,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSearchEntities, getEntities } from './statement.reducer';
-import { IStatement } from 'app/shared/model/statement.model';
 import {APP_DATE_FORMAT, AUTHORITIES} from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
@@ -224,10 +219,10 @@ export const Statement = (props: IStatementProps) => {
                           <Translate contentKey="entity.action.edit">Edit</Translate>
                         </span>
                       </Button>
-                      <Button tag={Link} to={`/fact-checking/harvest/${statement.id}`} color="warning" size="sm">
+                      <Button tag={Link} to={`/fact-checking/analyze/${statement.id}`} color="warning" size="sm">
                         <FontAwesomeIcon icon="sync" />{' '}
                         <span className="d-none d-md-inline">
-                          <Translate contentKey="fact-checking.harvest.button"/>
+                          <Translate contentKey="fact-checking.analyze.button"/>
                         </span>
                       </Button>
                     </div>

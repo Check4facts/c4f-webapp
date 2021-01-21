@@ -6,17 +6,16 @@ import { IRootState } from 'app/shared/reducers';
 import { Translate, translate } from 'react-jhipster';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Table, Button, Container, Spinner } from 'reactstrap';
-import { setFact, searchHarvestStatement } from "app/modules/fact-checking/fact-checking.reducer";
+import { setFact, analyzeStatement } from "app/modules/fact-checking/fact-checking.reducer";
 import { getEntity as getStatement, updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
 import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
 import { countFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
-import { IResource } from 'app/shared/model/resource.model';
 import { convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { APP_LOCAL_DATETIME_FORMAT } from 'app/config/constants';
 
-export interface IFactCheckHarvestProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IFactCheckAnalyzeProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
-export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
+export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
 
   useEffect(() => {
     props.setFact(props.match.params.id);
@@ -25,9 +24,9 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
     props.countFeatureStatementsByStatement(props.match.params.id);
   }, []);
 
-  const { currentLocale, statement, sLoading, ssLoading, statementSources, searchHarvestLoading, featureStatementCount } = props;
+  const { currentLocale, statement, sLoading, ssLoading, statementSources, analyzeLoading, featureStatementCount } = props;
 
-  const searchAndHarvest = () => {
+  const analyze = () => {
     // FIXME Remove those ugly ignores when got the time.
     const entity = {
       ...statement,
@@ -37,7 +36,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
     };
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    props.searchHarvestStatement(entity);
+    props.analyzeStatement(entity);
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     props.updateStatement({
@@ -60,7 +59,7 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
         </Row>
         <Row className="text-center my-3 text-info">
           <Col>
-            <h3>{translate("fact-checking.harvest.statement")}</h3>
+            <h3>{translate("fact-checking.analyze.statement")}</h3>
           </Col>
         </Row>
         <Row className="text-center my-3">
@@ -164,10 +163,10 @@ export const FactCheckingHarvest = (props: IFactCheckHarvestProps) => {
               </Col>
             ) : (
               statement.registrationDate === null ? (
-                !searchHarvestLoading && !sLoading ? (
+                !analyzeLoading && !sLoading ? (
                   <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
-                    <Button color="primary" onClick={searchAndHarvest}>
-                      {translate("fact-checking.harvest.button")}
+                    <Button color="primary" onClick={analyze}>
+                      {translate("fact-checking.analyze.button")}
                     </Button>
                   </Col>
                 ) : (
@@ -198,7 +197,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   sLoading: storeState.statement.loading,
   ssLoading: storeState.statementSource.loading,
   featureStatementCount: storeState.featureStatement.count,
-  searchHarvestLoading: storeState.factChecking.searchHarvestLoading
+  analyzeLoading: storeState.factChecking.analyzeLoading
 });
 
 const mapDispatchToProps = {
@@ -207,10 +206,10 @@ const mapDispatchToProps = {
   updateStatement,
   getStatementSourcesByStatement,
   countFeatureStatementsByStatement,
-  searchHarvestStatement
+  analyzeStatement
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(FactCheckingHarvest);
+export default connect(mapStateToProps, mapDispatchToProps)(FactCheckingAnalyze);

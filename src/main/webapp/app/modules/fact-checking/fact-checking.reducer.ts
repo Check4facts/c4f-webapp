@@ -1,21 +1,20 @@
 import axios from 'axios';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { IStatement } from 'app/shared/model/statement.model';
-import { IResource } from 'app/shared/model/resource.model';
 
 export const ACTION_TYPES = {
   SET_FACT: 'fact-checking/SET_FACT',
   SET_URLS: 'fact-checking/SET_URLS',
-  SEARCH_HARVEST_STATEMENT: 'fact-checking/SEARCH_HARVEST_STATEMENT',
+  ANALYZE_STATEMENT: 'fact-checking/ANALYZE_STATEMENT',
   TRAIN: 'fact-checking/TRAIN',
   RESET: 'fact-checking/RESET',
 };
 
 const initialState = {
   statement: '',
-  searchHarvestLoading: false,
+  analyzeLoading: false,
   errorMessage: null,
-  searchHarvestResponse: null,
+  analyzeResponse: null,
   urls: [] as string[],
   training: false,
   trainingLoading: false,
@@ -28,22 +27,22 @@ export type FactCheckingState = Readonly<typeof initialState>;
 
 export default (state: FactCheckingState = initialState, action): FactCheckingState => {
   switch (action.type) {
-    case REQUEST(ACTION_TYPES.SEARCH_HARVEST_STATEMENT):
+    case REQUEST(ACTION_TYPES.ANALYZE_STATEMENT):
       return {
         ...state,
-        searchHarvestLoading: true,
+        analyzeLoading: true,
       };
-    case FAILURE(ACTION_TYPES.SEARCH_HARVEST_STATEMENT):
+    case FAILURE(ACTION_TYPES.ANALYZE_STATEMENT):
       return {
         ...state,
-        searchHarvestLoading: false,
+        analyzeLoading: false,
         errorMessage: action.payload.data,
       };
-    case SUCCESS(ACTION_TYPES.SEARCH_HARVEST_STATEMENT):
+    case SUCCESS(ACTION_TYPES.ANALYZE_STATEMENT):
       return {
         ...state,
-        searchHarvestLoading: false,
-        searchHarvestResponse: action.payload.data,
+        analyzeLoading: false,
+        analyzeResponse: action.payload.data,
       };
     case REQUEST(ACTION_TYPES.TRAIN):
       return {
@@ -86,11 +85,11 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
 
 const pythonUrl = 'http://localhost:9090';
 
-export const searchHarvestStatement = (statement: IStatement) => (dispatch, getState) => {
+export const analyzeStatement = (statement: IStatement) => (dispatch, getState) => {
   const { inProduction } = getState().applicationProfile;
   const requestUrl = `${inProduction ? '/ml' : pythonUrl}/analyze`;
   return dispatch({
-    type: ACTION_TYPES.SEARCH_HARVEST_STATEMENT,
+    type: ACTION_TYPES.ANALYZE_STATEMENT,
     payload: axios.post(requestUrl, statement),
   });
 };

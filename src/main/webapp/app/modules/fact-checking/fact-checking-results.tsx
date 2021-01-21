@@ -50,7 +50,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         </Row>
         <Row className="text-center my-3 text-info">
           <Col>
-            <h3>{translate("fact-checking.harvest.statement")}</h3>
+            <h3>{translate("fact-checking.analyze.statement")}</h3>
           </Col>
         </Row>
         <Row className="text-center my-3">
@@ -205,7 +205,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         <Row className="my-3">
           <Col className="d-flex justify-content-center" md={{ size: 4, offset: 4 }}>
             <Button tag={Link} to="/article/new" color="info">
-              {translate("fact-checking.harvest.action.createArticle")}
+              {translate("fact-checking.analyze.action.createArticle")}
             </Button>
           </Col>
         </Row>

@@ -23,7 +23,7 @@
       "meth": "Methodology",
       "code": "Code of Ethics"
     },
-    "harvest": {
+    "analyze": {
       "action": {
         "main": "Actions",
         "createArticle": "Create an article for the statement",
