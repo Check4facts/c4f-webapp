@@ -36,7 +36,12 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
     };
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    props.analyzeStatement(entity);
+    props.analyzeStatement({
+      ...entity,
+      statementSources: null,
+      resources: null,
+      subTopics: null
+    });
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     props.updateStatement({
