@@ -7,21 +7,21 @@ export const ACTION_TYPES = {
   SET_URLS: 'fact-checking/SET_URLS',
   ANALYZE_TASK: 'fact-checking/ANALYZE_TASK',
   TRAIN_TASK: 'fact-checking/TRAIN_TASK',
+  GET_ACTIVE_TASKS: 'fact-checking/GET_ACTIVE_TASKS',
   GET_TASK_STATUS: 'fact-checking/GET_TASK_STATUS',
   RESET: 'fact-checking/RESET',
 };
 
 const initialState = {
   statement: '',
-  analyzeLoading: false,
   errorMessage: null,
-  analyzeResponse: null,
   urls: [] as string[],
   training: false,
+  analyzeLoading: false,
   trainingLoading: false,
-  trainingResponse: null,
   taskStatusLoading: false,
-  taskStatusResponse: null,
+  activeTasks: [] as string[],
+  activeTasksLoading: false,
 };
 
 export type FactCheckingState = Readonly<typeof initialState>;
@@ -45,7 +45,7 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
       return {
         ...state,
         analyzeLoading: false,
-        analyzeResponse: action.payload.data,
+        activeTasks: [...state.activeTasks, action.payload.data.taskId],
       };
     case REQUEST(ACTION_TYPES.TRAIN_TASK):
       return {
@@ -63,7 +63,24 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
         ...state,
         trainingLoading: false,
         training: true,
-        trainingResponse: action.payload.data,
+        activeTasks: [...state.activeTasks, action.payload.data.taskId],
+      };
+    case REQUEST(ACTION_TYPES.GET_ACTIVE_TASKS):
+      return {
+        ...state,
+        activeTasksLoading: true,
+      };
+    case FAILURE(ACTION_TYPES.GET_ACTIVE_TASKS):
+      return {
+        ...state,
+        activeTasksLoading: false,
+        errorMessage: action.payload,
+      };
+    case SUCCESS(ACTION_TYPES.GET_ACTIVE_TASKS):
+      return {
+        ...state,
+        activeTasksLoading: false,
+        activeTasks: action.payload,
       };
     case REQUEST(ACTION_TYPES.GET_TASK_STATUS):
       return {
@@ -80,7 +97,6 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
       return {
         ...state,
         taskStatusLoading: false,
-        taskStatusResponse: action.payload.data,
       };
     case ACTION_TYPES.SET_FACT:
       return {
@@ -122,6 +138,8 @@ export const trainModel = () => (dispatch, getState) => {
     payload: axios.post(requestUrl),
   });
 };
+
+export const getActiveTasks = () => (dispatch, getState) => {};
 
 export const getTaskStatus = id => (dispatch, getState) => {
   const { inProduction } = getState().applicationProfile;
