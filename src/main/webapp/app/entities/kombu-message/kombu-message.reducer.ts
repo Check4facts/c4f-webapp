@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import { ICeleryTask } from 'app/shared/model/celery-task.model';
 
 export const ACTION_TYPES = {
   FETCH_KOMBUMESSAGE_LIST: 'kombuMessage/FETCH_KOMBUMESSAGE_LIST',
+  FETCH_LATEST_CELERY_TASKS: 'kombuMessage/FETCH_LATEST_CELERY_TASKS',
   FETCH_KOMBUMESSAGE: 'kombuMessage/FETCH_KOMBUMESSAGE',
   FETCH_KOMBUMESSAGE_TASK_ID: 'kombuMessage/FETCH_KOMBUMESSAGE_TASK_ID',
   RESET: 'kombuMessage/RESET',
@@ -25,6 +27,7 @@ export default (state: KombuMessageState = initialState, action): KombuMessageSt
     case REQUEST(ACTION_TYPES.FETCH_KOMBUMESSAGE):
     case REQUEST(ACTION_TYPES.FETCH_KOMBUMESSAGE_TASK_ID):
     case REQUEST(ACTION_TYPES.FETCH_KOMBUMESSAGE_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_LATEST_CELERY_TASKS):
       return {
         ...state,
         errorMessage: null,
@@ -33,6 +36,7 @@ export default (state: KombuMessageState = initialState, action): KombuMessageSt
     case FAILURE(ACTION_TYPES.FETCH_KOMBUMESSAGE):
     case FAILURE(ACTION_TYPES.FETCH_KOMBUMESSAGE_TASK_ID):
     case FAILURE(ACTION_TYPES.FETCH_KOMBUMESSAGE_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_LATEST_CELERY_TASKS):
       return {
         ...state,
         errorMessage: action.payload,
@@ -46,6 +50,7 @@ export default (state: KombuMessageState = initialState, action): KombuMessageSt
         entity: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.FETCH_KOMBUMESSAGE_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_LATEST_CELERY_TASKS):
       return {
         ...state,
         loading: false,
@@ -76,6 +81,11 @@ export const getEntityByTaskId = taskId => ({
 export const getEntities = () => ({
   type: ACTION_TYPES.FETCH_KOMBUMESSAGE_LIST,
   payload: axios.get(apiUrl),
+});
+
+export const getLatestCeleryTasks = () => ({
+  type: ACTION_TYPES.FETCH_LATEST_CELERY_TASKS,
+  payload: axios.get<ICeleryTask>(`${apiUrl}/celery-task/latest`),
 });
 
 export const reset = () => ({

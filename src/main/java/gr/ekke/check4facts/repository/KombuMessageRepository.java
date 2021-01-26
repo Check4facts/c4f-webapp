@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("unused")
@@ -19,4 +20,8 @@ public interface KombuMessageRepository extends JpaRepository<KombuMessage, Inte
     @Query(value = "select km from KombuMessage km " +
         "where km.payload like %:task_id%")
     Optional<KombuMessage> findKombuMessageByTaskId(@Param(value = "task_id") String task_id);
+
+    @Query(value = "SELECT * FROM kombu_message km " +
+        "WHERE km.timestamp BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()", nativeQuery = true)
+    List<KombuMessage> findAllInLast24Hours();
 }

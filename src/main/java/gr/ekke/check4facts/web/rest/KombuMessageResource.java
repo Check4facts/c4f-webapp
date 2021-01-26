@@ -2,10 +2,12 @@ package gr.ekke.check4facts.web.rest;
 
 import gr.ekke.check4facts.domain.KombuMessage;
 import gr.ekke.check4facts.service.KombuMessageService;
+import gr.ekke.check4facts.service.dto.CeleryTask;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,5 +52,11 @@ public class KombuMessageResource {
         log.debug("REST request to get KombuMessage by task_id: {}", task_id);
         Optional<KombuMessage> kombuMessage = kombuMessageService.findKombuMessageByTaskId(task_id);
         return ResponseUtil.wrapOrNotFound(kombuMessage);
+    }
+
+    @GetMapping("/kombu-messages/celery-task/latest")
+    public List<CeleryTask> getAllInLast24Hours() throws JSONException {
+        log.debug("REST request to get CeleryTasks in last 24 hours");
+        return kombuMessageService.findAllCeleryTasksInLast24Hours();
     }
 }
