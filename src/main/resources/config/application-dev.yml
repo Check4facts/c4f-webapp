@@ -70,10 +70,15 @@ spring:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.mail.yahoo.com
+    port: 587
+    username: check4facts@yahoo.com
+    password: iduaroqntcumgocx
+    protocol: smtp
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.mail.yahoo.com
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
@@ -120,6 +125,7 @@ jhipster:
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: http://127.0.0.1:8080
+    from: check4facts@yahoo.com
   metrics:
     logs: # Reports metrics in the logs
       enabled: false
