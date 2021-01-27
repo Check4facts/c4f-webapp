@@ -5,7 +5,7 @@ import { IRootState } from 'app/shared/reducers';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Table, Button, Container, Spinner, Collapse } from 'reactstrap';
 import { setFact } from 'app/modules/fact-checking/fact-checking.reducer';
-import { getEntity as getStatement, updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
+import { getEntity as getStatement, setFactCheckerLabel } from 'app/entities/statement/statement.reducer';
 import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
 import { getResourcesByStatement } from 'app/entities/resource/resource.reducer';
 import { defaultValue } from 'app/shared/model/feature-statement.model';
@@ -28,15 +28,16 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     props.getResourcesByStatement(props.match.params.id);
   }, []);
 
-  const { currentLocale, statement, sLoading, statementSources, resources, rLoading, featureStatement } = props;
+  const { currentLocale, statement, sUpdating, sUpdateSuccess, sLoading, resources, rLoading, featureStatement } = props;
+
+  useEffect(() => {
+    if (sUpdateSuccess) {
+      props.getStatement(props.match.params.id);
+    }
+  }, [sUpdateSuccess]);
 
   const toggleFactCheckerLabel = () => {
-    props.updateStatement({
-      ...statement,
-      statementSources: [...statementSources],
-      resources: [...resources],
-      factCheckerLabel: !statement.factCheckerLabel
-    });
+    props.setFactCheckerLabel(statement.id, !statement.factCheckerLabel);
     props.setTrueLabel(featureStatement.id, !statement.factCheckerLabel);
   }
 
@@ -224,12 +225,17 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
             <h4 className={statement.factCheckerLabel ? 'text-success' : 'text-danger'}>{statement.factCheckerLabel ? 'Αληθής' : 'Ψευδής'}</h4>
           </Col>
           <Col className="d-flex justify-content-center">
-            <Button
-              color="info"
-              onClick={toggleFactCheckerLabel}
-            >
-              Αλλαγή
-            </Button>
+            {
+              sUpdating ? (
+                <Button color="primary">
+                  <Spinner size="sm" color="dark" />
+                </Button>
+              ) : (
+                <Button color="info" onClick={toggleFactCheckerLabel}>
+                  Αλλαγή
+                </Button>
+              )
+            }
           </Col>
         </Row>
         <Row className="text-center">
@@ -289,8 +295,9 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
 const mapStateToProps = (storeState: IRootState) => ({
   currentLocale: storeState.locale.currentLocale,
   statement: storeState.statement.entity,
+  sUpdating: storeState.statement.updating,
+  sUpdateSuccess: storeState.statement.updateSuccess,
   sLoading: storeState.statement.loading,
-  statementSources: storeState.statementSource.entities,
   resources: storeState.resource.entities,
   rLoading: storeState.resource.loading,
   featureStatement: storeState.featureStatement.entity,
@@ -300,7 +307,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   setFact,
   getStatement,
-  updateStatement,
+  setFactCheckerLabel,
   getStatementSourcesByStatement,
   getResourcesByStatement,
   getLatestFeatureStatementByStatementId,
