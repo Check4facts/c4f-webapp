@@ -3,16 +3,11 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import {Translate} from 'react-jhipster';
 import { IRootState } from 'app/shared/reducers';
+import { IModalContent } from 'app/shared/model/util.model';
 import { trainModel} from 'app/modules/fact-checking/fact-checking.reducer';
 import { Button, Row, Col, Container, Spinner, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 export interface IToolsProps extends StateProps, DispatchProps {}
-
-interface IModalContent {
-  header: string;
-  body: string;
-  action: () => void;
-}
 
 export const Tools = (props: IToolsProps) => {
   const [modalOpen, setModalOpen] = useState(false);
