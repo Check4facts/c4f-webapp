@@ -65,12 +65,6 @@ public class Statement implements Serializable {
     @JsonManagedReference
     private Set<StatementSource> statementSources = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "statement_id")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonManagedReference
-    private Set<Resource> resources = new HashSet<>();
-
     @ManyToOne
     @JsonIgnoreProperties(value = "statements", allowSetters = true)
     private Topic topic;
@@ -206,33 +200,6 @@ public class Statement implements Serializable {
     public void setStatementSources(Set<StatementSource> statementSources) {
         if (statementSources != null) {
             this.statementSources.addAll(statementSources);
-        }
-    }
-
-    public Set<Resource> getResources() {
-        return resources;
-    }
-
-    public Statement resources(Set<Resource> resources) {
-        this.resources.addAll(resources);
-        return this;
-    }
-
-    public Statement addResources(Resource resource) {
-        this.resources.add(resource);
-        resource.setStatement(this);
-        return this;
-    }
-
-    public Statement removeResources(Resource resource) {
-        this.resources.remove(resource);
-        resource.setStatement(null);
-        return this;
-    }
-
-    public void setResources(Set<Resource> resources) {
-        if (resources != null) {
-            this.resources.addAll(resources);
         }
     }
 

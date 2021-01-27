@@ -7,7 +7,7 @@ import { Row, Col, Table, Button, Container, Spinner, Collapse } from 'reactstra
 import { setFact } from 'app/modules/fact-checking/fact-checking.reducer';
 import { getEntity as getStatement, setFactCheckerLabel } from 'app/entities/statement/statement.reducer';
 import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
-import { getResourcesByStatement } from 'app/entities/resource/resource.reducer';
+import { getLatestResourcesByStatement } from 'app/entities/resource/resource.reducer';
 import { defaultValue } from 'app/shared/model/feature-statement.model';
 import { setTrueLabel, getLatestFeatureStatementByStatementId } from 'app/entities/feature-statement/feature-statement.reducer';
 import { translate, Translate } from 'react-jhipster';
@@ -25,7 +25,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     props.getStatement(props.match.params.id);
     props.getStatementSourcesByStatement(props.match.params.id);
     props.getLatestFeatureStatementByStatementId(props.match.params.id);
-    props.getResourcesByStatement(props.match.params.id);
+    props.getLatestResourcesByStatement(props.match.params.id);
   }, []);
 
   const { currentLocale, statement, sUpdating, sUpdateSuccess, sLoading, resources, rLoading, featureStatement } = props;
@@ -309,7 +309,7 @@ const mapDispatchToProps = {
   getStatement,
   setFactCheckerLabel,
   getStatementSourcesByStatement,
-  getResourcesByStatement,
+  getLatestResourcesByStatement,
   getLatestFeatureStatementByStatementId,
   setTrueLabel
 };

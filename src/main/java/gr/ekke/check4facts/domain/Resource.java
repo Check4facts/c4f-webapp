@@ -82,7 +82,6 @@ public class Resource implements Serializable {
     private Instant harvestDate;
 
     @ManyToOne
-    @JsonBackReference
     private Statement statement;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

@@ -12,7 +12,7 @@ import { getEntities as getCategories } from 'app/entities/category/category.red
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
 import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
-import { getResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
+import { getLatestResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
 import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
 import ArticleContentEditor from "app/entities/article/article-content-editor";
 
@@ -51,7 +51,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
     if (statementId !== '') {
       props.getStatement(statementId);
       props.getStatementSourcesByStatement(statementId);
-      props.getResourcesByStatement(statementId);
+      props.getLatestResourcesByStatement(statementId);
     }
 
     props.getCategories();
@@ -60,7 +60,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   useEffect(() => {
     if (articleEntity && articleEntity.statement) {
       props.getStatementSourcesByStatement(articleEntity.statement.id);
-      props.getResourcesByStatement(articleEntity.statement.id);
+      props.getLatestResourcesByStatement(articleEntity.statement.id);
     }
   }, [articleEntity.statement])
 
@@ -324,7 +324,7 @@ const mapDispatchToProps = {
   setBlob,
   createEntity,
   getStatement,
-  getResourcesByStatement,
+  getLatestResourcesByStatement,
   getStatementSourcesByStatement,
   reset,
   statementSourcesReset,

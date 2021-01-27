@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -106,5 +107,11 @@ public class ResourceService {
     public Page<Resource> findAllByStatementId(Long statement_id, Pageable pageable) {
         log.debug("Request to get all Resources by statement id: {}", statement_id);
         return resourceRepository.findAllByStatementId(statement_id, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Resource> findAllLatestByStatementId(Long statement_id) {
+        log.debug("Request to get all Resources with max harvestIteration by Statement : {}", statement_id);
+        return resourceRepository.findAllLatestByStatementId(statement_id);
     }
 }
