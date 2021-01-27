@@ -7,15 +7,11 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, b
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { ITopic } from 'app/shared/model/topic.model';
 import { getEntities as getTopics } from 'app/entities/topic/topic.reducer';
-import { ISubTopic } from 'app/shared/model/sub-topic.model';
 import { getEntities as getSubTopics } from 'app/entities/sub-topic/sub-topic.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './statement.reducer';
-import { IStatement } from 'app/shared/model/statement.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
-import { getResourcesByStatement } from "app/entities/resource/resource.reducer";
 import { getStatementSourcesByStatement } from "app/entities/statement-source/statement-source.reducer";
 
 export interface IStatementUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
@@ -25,7 +21,7 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
   const [topicId, setTopicId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { statementEntity, topics, subTopics, loading, updating, resources, statementSources } = props;
+  const { statementEntity, topics, subTopics, loading, updating, statementSources } = props;
 
   const { text, mainArticleText, mainArticleUrl } = statementEntity;
 
@@ -38,7 +34,6 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
       props.reset();
     } else {
       props.getEntity(props.match.params.id);
-      props.getResourcesByStatement(props.match.params.id);
       props.getStatementSourcesByStatement(props.match.params.id);
     }
 
@@ -76,7 +71,6 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
       } else {
         props.updateEntity({
           ...entity,
-          resources,
           statementSources
         });
       }
@@ -224,7 +218,6 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
 const mapStateToProps = (storeState: IRootState) => ({
   topics: storeState.topic.entities,
   subTopics: storeState.subTopic.entities,
-  resources: storeState.resource.entities,
   statementSources: storeState.statementSource.entities,
   statementEntity: storeState.statement.entity,
   loading: storeState.statement.loading,
@@ -235,7 +228,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   getTopics,
   getSubTopics,
-  getResourcesByStatement,
   getStatementSourcesByStatement,
   getEntity,
   updateEntity,
