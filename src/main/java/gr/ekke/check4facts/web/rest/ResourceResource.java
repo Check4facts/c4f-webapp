@@ -157,4 +157,10 @@ public class ResourceResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
+    @GetMapping("/resources/latest/statement/{statement_id}")
+    public ResponseEntity<List<Resource>> getAllLatestByStatementId(@PathVariable Long statement_id) {
+        log.debug("Request to get all Resources with max harvestIteration by Statement : {}", statement_id);
+        return ResponseEntity.ok().body(resourceService.findAllLatestByStatementId(statement_id));
+    }
 }

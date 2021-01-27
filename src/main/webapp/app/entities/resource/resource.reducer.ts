@@ -10,6 +10,7 @@ export const ACTION_TYPES = {
   SEARCH_RESOURCES: 'resource/SEARCH_RESOURCES',
   FETCH_RESOURCE_LIST: 'resource/FETCH_RESOURCE_LIST',
   FETCH_RESOURCE_LIST_BY_STATEMENT: 'resource/FETCH_RESOURCE_LIST_BY_STATEMENT',
+  FETCH_LATEST_RESOURCE_LIST_BY_STATEMENT: 'resource/FETCH_LATEST_RESOURCE_LIST_BY_STATEMENT',
   FETCH_RESOURCE: 'resource/FETCH_RESOURCE',
   CREATE_RESOURCE: 'resource/CREATE_RESOURCE',
   UPDATE_RESOURCE: 'resource/UPDATE_RESOURCE',
@@ -37,6 +38,7 @@ export default (state: ResourceState = initialState, action): ResourceState => {
     case REQUEST(ACTION_TYPES.SEARCH_RESOURCES):
     case REQUEST(ACTION_TYPES.FETCH_RESOURCE_LIST):
     case REQUEST(ACTION_TYPES.FETCH_RESOURCE_LIST_BY_STATEMENT):
+    case REQUEST(ACTION_TYPES.FETCH_LATEST_RESOURCE_LIST_BY_STATEMENT):
     case REQUEST(ACTION_TYPES.FETCH_RESOURCE):
       return {
         ...state,
@@ -56,6 +58,7 @@ export default (state: ResourceState = initialState, action): ResourceState => {
     case FAILURE(ACTION_TYPES.SEARCH_RESOURCES):
     case FAILURE(ACTION_TYPES.FETCH_RESOURCE_LIST):
     case FAILURE(ACTION_TYPES.FETCH_RESOURCE_LIST_BY_STATEMENT):
+    case FAILURE(ACTION_TYPES.FETCH_LATEST_RESOURCE_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.FETCH_RESOURCE):
     case FAILURE(ACTION_TYPES.CREATE_RESOURCE):
     case FAILURE(ACTION_TYPES.UPDATE_RESOURCE):
@@ -75,6 +78,13 @@ export default (state: ResourceState = initialState, action): ResourceState => {
         loading: false,
         entities: action.payload.data,
         totalItems: parseInt(action.payload.headers['x-total-count'], 10),
+      };
+    case SUCCESS(ACTION_TYPES.FETCH_LATEST_RESOURCE_LIST_BY_STATEMENT):
+      return {
+        ...state,
+        loading: false,
+        entities: action.payload.data,
+        totalItems: action.payload.data.length,
       };
     case SUCCESS(ACTION_TYPES.FETCH_RESOURCE):
       return {
@@ -142,6 +152,11 @@ export const getResourcesByStatement = (statementId, page?: number, size?: numbe
     payload: axios.get<IResource>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
   };
 };
+
+export const getLatestResourcesByStatement = statementId => ({
+  type: ACTION_TYPES.FETCH_LATEST_RESOURCE_LIST_BY_STATEMENT,
+  payload: axios.get<IResource>(`${apiUrl}/latest/statement/${statementId}`),
+});
 
 export const getEntity: ICrudGetAction<IResource> = id => {
   const requestUrl = `${apiUrl}/${id}`;
