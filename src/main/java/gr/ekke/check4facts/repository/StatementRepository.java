@@ -26,4 +26,8 @@ public interface StatementRepository extends JpaRepository<Statement, Long> {
 
     @Query("select statement from Statement statement left join fetch statement.subTopics where statement.id =:id")
     Optional<Statement> findOneWithEagerRelationships(@Param("id") Long id);
+
+    @Modifying
+    @Query("update Statement s set s.factCheckerLabel = :label where s.id = :id")
+    Integer setFactCheckerLabel(@Param(value = "id") Long id, @Param(value = "label") Boolean label);
 }

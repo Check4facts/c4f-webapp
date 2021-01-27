@@ -101,5 +101,11 @@ public class StatementService {
     @Transactional(readOnly = true)
     public Page<Statement> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Statements for query {}", query);
-        return statementSearchRepository.search(queryStringQuery(query), pageable);    }
+        return statementSearchRepository.search(queryStringQuery(query), pageable);
+    }
+
+    public Integer setFactCheckerLabel(Long id, Boolean label) {
+        log.debug("Request to set factCheckerLabel of Statement: {} to : {}", id, label);
+        return statementRepository.setFactCheckerLabel(id, label);
+    }
 }

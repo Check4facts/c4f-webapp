@@ -12,6 +12,7 @@ export const ACTION_TYPES = {
   FETCH_STATEMENT: 'statement/FETCH_STATEMENT',
   CREATE_STATEMENT: 'statement/CREATE_STATEMENT',
   UPDATE_STATEMENT: 'statement/UPDATE_STATEMENT',
+  SET_FACT_CHECKER_LABEL: 'statement/SET_FACT_CHECKER_LABEL',
   DELETE_STATEMENT: 'statement/DELETE_STATEMENT',
   SET_BLOB: 'statement/SET_BLOB',
   RESET: 'statement/RESET',
@@ -24,6 +25,7 @@ const initialState = {
   entity: defaultValue,
   updating: false,
   totalItems: 0,
+  rowsUpdated: 0,
   updateSuccess: false,
 };
 
@@ -45,6 +47,7 @@ export default (state: StatementState = initialState, action): StatementState =>
     case REQUEST(ACTION_TYPES.CREATE_STATEMENT):
     case REQUEST(ACTION_TYPES.UPDATE_STATEMENT):
     case REQUEST(ACTION_TYPES.DELETE_STATEMENT):
+    case REQUEST(ACTION_TYPES.SET_FACT_CHECKER_LABEL):
       return {
         ...state,
         errorMessage: null,
@@ -57,6 +60,7 @@ export default (state: StatementState = initialState, action): StatementState =>
     case FAILURE(ACTION_TYPES.CREATE_STATEMENT):
     case FAILURE(ACTION_TYPES.UPDATE_STATEMENT):
     case FAILURE(ACTION_TYPES.DELETE_STATEMENT):
+    case FAILURE(ACTION_TYPES.SET_FACT_CHECKER_LABEL):
       return {
         ...state,
         loading: false,
@@ -85,6 +89,13 @@ export default (state: StatementState = initialState, action): StatementState =>
         updating: false,
         updateSuccess: true,
         entity: action.payload.data,
+      };
+    case SUCCESS(ACTION_TYPES.SET_FACT_CHECKER_LABEL):
+      return {
+        ...state,
+        updating: false,
+        updateSuccess: true,
+        rowsUpdated: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.DELETE_STATEMENT):
       return {
@@ -154,6 +165,13 @@ export const updateEntity: ICrudPutAction<IStatement> = entity => async dispatch
     payload: axios.put(apiUrl, cleanEntity(entity)),
   });
   return result;
+};
+
+export const setFactCheckerLabel = (id: number, label: boolean) => {
+  return {
+    type: ACTION_TYPES.SET_FACT_CHECKER_LABEL,
+    payload: axios.put(`${apiUrl}/${id}/${label}`),
+  };
 };
 
 export const deleteEntity: ICrudDeleteAction<IStatement> = id => async dispatch => {
