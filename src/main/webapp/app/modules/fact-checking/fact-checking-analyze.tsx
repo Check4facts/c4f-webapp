@@ -204,8 +204,17 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
               <Col className="d-flex justify-content-center align-self-center">
                 <h5 className="mb-0">Συνολικές Αναλύσεις : <span className="text-info">{featureStatementCount}</span></h5>
               </Col>
-              <Col className="d-flex justify-content-center align-self-center">
-                <h5 className="mb-0">Κάντε κλικ για νέα ανάλυση</h5>
+              <Col>
+                <Row>
+                  <Col>
+                    <h5 className="text-center mb-0">Τελευταία {translate("check4FactsApp.statement.registrationDate")}</h5>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="text-center text-info">
+                    {moment.locale(currentLocale) && moment(statement.registrationDate).format("DD/MM/YY-HH:mm")}
+                  </Col>
+                </Row>
               </Col>
               <Col className="d-flex justify-content-center align-self-center">
                 <Button
