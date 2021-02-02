@@ -47,7 +47,7 @@ export const Home = (props: IHomeProp) => {
   const slides = () => carouselItems.map((article, idx) => ({
     src: article.previewImage ? `data:${article.previewImageContentType};base64,${article.previewImage}` : null,
     altText: `Slide ${idx}`,
-    caption: <p className="slider-text container-fluid d-none d-md-block">{article.previewText}</p>,
+    caption: <span className="slider-text container-fluid d-none d-md-block">{article.previewText}</span>,
     header: <>
               <Link className="slider-header container-fluid" to={`/article/${article.id}/display`}>{article.previewTitle}</Link><br/>
               <span className={`fact-checker-label ${article.statement && article.statement.factCheckerLabel ? 'label-true' : 'label-false'}`}>
@@ -56,8 +56,6 @@ export const Home = (props: IHomeProp) => {
             </>,
     key: `${idx}`
   }));
-
-  const { isAuthenticated } = props;
 
   return (
     <Container fluid className="my-5">
