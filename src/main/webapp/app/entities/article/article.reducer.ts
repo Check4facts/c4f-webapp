@@ -219,7 +219,7 @@ export const deleteEntity: ICrudDeleteAction<IArticle> = id => async dispatch =>
     type: ACTION_TYPES.DELETE_ARTICLE,
     payload: axios.delete(requestUrl),
   });
-  dispatch(getEntities());
+  // dispatch(getEntities());
   return result;
 };
 
