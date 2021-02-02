@@ -61,14 +61,14 @@ export const SubMenus = (props: ISubMenusProps) => {
 
   const handleSearch = event => setSearch(event.target.value);
 
-  const clear = () => {
-    setSearch('');
-    setPaginationState({
-      ...paginationState,
-      activePage: 1,
-    });
-    props.getArticlesByPublishedAndCategoryName(!props.isAuthenticated, props.match.params.id);
-  };
+  // const clear = () => {
+  //   setSearch('');
+  //   setPaginationState({
+  //     ...paginationState,
+  //     activePage: 1,
+  //   });
+  //   props.getArticlesByPublishedAndCategoryName(!props.isAuthenticated, props.match.params.id);
+  // };
 
   useEffect(() => {
     sortEntities();
@@ -129,15 +129,15 @@ export const SubMenus = (props: ISubMenusProps) => {
                 <Button className="input-group-addon">
                   <FontAwesomeIcon icon="search" />
                 </Button>
-                <Button type="reset" className="input-group-addon" onClick={clear}>
-                  <FontAwesomeIcon icon="trash" />
-                </Button>
+                {/* <Button type="reset" className="input-group-addon" onClick={clear}>*/}
+                {/*  <FontAwesomeIcon icon="trash" />*/}
+                {/* </Button>*/}
               </InputGroup>
             </AvGroup>
           </AvForm>
         </Col>
        </Row>
-      <ArticlesFeed />
+      <ArticlesFeed showButtons />
       {props.totalItems ? (
         <div className={articlesByCategory && articlesByCategory.length > 0 ? '' : 'd-none'}>
           <Row className="justify-content-center">

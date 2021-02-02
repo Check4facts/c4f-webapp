@@ -194,33 +194,22 @@ export const getEntity: ICrudGetAction<IArticle> = id => {
   };
 };
 
-export const createEntity: ICrudPutAction<IArticle> = entity => async dispatch => {
-  const result = await dispatch({
-    type: ACTION_TYPES.CREATE_ARTICLE,
-    payload: axios.post(apiUrl, cleanEntity(entity)),
-  });
-  dispatch(getEntities());
-  return result;
-};
+export const createEntity: ICrudPutAction<IArticle> = entity => ({
+  type: ACTION_TYPES.CREATE_ARTICLE,
+  payload: axios.post(apiUrl, cleanEntity(entity)),
+});
 
-export const updateEntity: ICrudPutAction<IArticle> = entity => async dispatch => {
-  const result = await dispatch({
-    type: ACTION_TYPES.UPDATE_ARTICLE,
-    payload: axios.put(apiUrl, cleanEntity(entity)),
-  });
-  const paginationState = getSortState(location, ITEMS_PER_PAGE);
-  dispatch(getEntities(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`));
-  return result;
-};
+export const updateEntity: ICrudPutAction<IArticle> = entity => ({
+  type: ACTION_TYPES.UPDATE_ARTICLE,
+  payload: axios.put(apiUrl, cleanEntity(entity)),
+});
 
-export const deleteEntity: ICrudDeleteAction<IArticle> = id => async dispatch => {
+export const deleteEntity: ICrudDeleteAction<IArticle> = id => {
   const requestUrl = `${apiUrl}/${id}`;
-  const result = await dispatch({
+  return {
     type: ACTION_TYPES.DELETE_ARTICLE,
     payload: axios.delete(requestUrl),
-  });
-  // dispatch(getEntities());
-  return result;
+  };
 };
 
 export const setBlob = (name, data, contentType?) => ({
