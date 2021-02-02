@@ -1,5 +1,5 @@
 export interface IModalContent {
-  header: string;
-  body: string;
+  header: any;
+  body: any;
   action: () => void;
 }
