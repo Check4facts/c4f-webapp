@@ -10,6 +10,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
@@ -35,9 +36,11 @@ public class Statement implements Serializable {
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "text", nullable = false)
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String text;
 
     @Column(name = "author")
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String author;
 
     @Column(name = "statement_date")
@@ -49,6 +52,7 @@ public class Statement implements Serializable {
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "main_article_text")
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String mainArticleText;
 
     @Lob
