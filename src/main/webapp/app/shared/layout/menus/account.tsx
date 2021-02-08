@@ -6,17 +6,12 @@ import {Link} from "react-router-dom";
 
 const accountMenuItemsAuthenticated = (isAdmin)  => (
   <>
-    {
-      isAdmin && (
-      <>
-        <MenuItem icon="wrench" to="/account/settings">
-          <Translate contentKey="global.menu.account.settings">Settings</Translate>
-        </MenuItem>
-        <MenuItem icon="lock" to="/account/password">
-          <Translate contentKey="global.menu.account.password">Password</Translate>
-        </MenuItem>
-      </>
-    )}
+    <MenuItem icon="wrench" to="/account/settings">
+      <Translate contentKey="global.menu.account.settings">Settings</Translate>
+    </MenuItem>
+    <MenuItem icon="lock" to="/account/password">
+      <Translate contentKey="global.menu.account.password">Password</Translate>
+    </MenuItem>
     <MenuItem icon="sign-out-alt" to="/logout">
       <Translate contentKey="global.menu.account.logout">Sign out</Translate>
     </MenuItem>

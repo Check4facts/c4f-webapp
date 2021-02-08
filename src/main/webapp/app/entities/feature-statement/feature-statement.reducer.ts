@@ -126,13 +126,11 @@ export const getLatestFeatureStatementByStatementId: ICrudGetAction<IFeatureStat
   payload: axios.get<IFeatureStatement>(`${apiUrl}/latest/statement/${statementId}`),
 });
 
-export const setTrueLabel = (id: number, label: boolean) => dispatch => {
-  const result = dispatch({
+export const setTrueLabel = (id: number, label: boolean) => {
+  return {
     type: ACTION_TYPES.SET_TRUE_LABEL_FEATURESTATMENT,
     payload: axios.put(`${apiUrl}/${id}/${label}`),
-  });
-  dispatch(getEntity(`${id}`));
-  return result;
+  };
 };
 
 export const reset = () => ({

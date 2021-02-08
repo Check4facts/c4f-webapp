@@ -38,12 +38,6 @@
       "relationshipName": "statementSources"
     },
     {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "resource",
-      "otherEntityRelationshipName": "statement",
-      "relationshipName": "resources"
-    },
-    {
       "relationshipName": "topic",
       "otherEntityName": "topic",
       "relationshipType": "many-to-one",

@@ -12,7 +12,7 @@ import { getEntities as getCategories } from 'app/entities/category/category.red
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
 import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
-import { getResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
+import { getLatestResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
 import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
 import ArticleContentEditor from "app/entities/article/article-content-editor";
 
@@ -36,10 +36,14 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const { previewImage, previewImageContentType } = articleEntity;
 
   const handleClose = () => {
-    props.factReset();
     props.statementSourcesReset();
     props.resourcesReset();
-    props.history.push('/article' + props.location.search);
+    if (statementId !== '' || articleEntity.statement) {
+      props.history.push(`/fact-checking/sub-menu/${categories.find(cat => cat.id === parseInt(categoryId, 10)).name}?page=1&sort=articleDate,desc`)
+    } else {
+      props.history.push('/article' + props.location.search);
+    }
+    props.factReset();
   };
 
   useEffect(() => {
@@ -51,16 +55,22 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
     if (statementId !== '') {
       props.getStatement(statementId);
       props.getStatementSourcesByStatement(statementId);
-      props.getResourcesByStatement(statementId);
+      props.getLatestResourcesByStatement(statementId);
     }
 
     props.getCategories();
   }, []);
 
   useEffect(() => {
+    if (articleEntity.category) {
+      setCategoryId(`${articleEntity.category.id}`);
+    }
+  }, [articleEntity]);
+
+  useEffect(() => {
     if (articleEntity && articleEntity.statement) {
       props.getStatementSourcesByStatement(articleEntity.statement.id);
-      props.getResourcesByStatement(articleEntity.statement.id);
+      props.getLatestResourcesByStatement(articleEntity.statement.id);
     }
   }, [articleEntity.statement])
 
@@ -108,7 +118,12 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
       <Row className="justify-content-center">
         <Col className="text-center" md="8">
           <h2 id="check4FactsApp.article.home.createOrEditLabel">
-            <Translate contentKey="check4FactsApp.article.home.createOrEditLabel">Create or edit a Article</Translate>
+            <Translate
+              contentKey="check4FactsApp.article.home.createOrEditLabel"
+              interpolate={{
+                type: (statementId !== '' || articleEntity.statement) ? 'μία Έκθεση Επαλήθευσης' : 'ένα Άρθρο'
+              }}
+            >Create or edit</Translate>
           </h2>
         </Col>
       </Row>
@@ -175,8 +190,10 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         onChange={ event => setCategoryId(event.target.value)}
                         required
                       >
+                        <option value="" key="0" />
                         {categories
-                          ? categories.map(otherEntity => (
+                          ? categories.filter(cat => (statementId !== '' || articleEntity.statement) ?
+                            (cat.name === 'immigration' || cat.name === 'crime'): true).map(otherEntity => (
                             <option value={otherEntity.id} key={otherEntity.id}>
                               {translate(`check4FactsApp.category.${otherEntity.name}`)}
                             </option>
@@ -188,9 +205,15 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                       </AvFeedback>
                     </AvGroup>
                     <AvGroup>
-                      <Label id="authorLabel" for="article-author">
-                        <Translate contentKey="check4FactsApp.article.author">Author</Translate>
-                      </Label>
+                        {(statementId !== '' || articleEntity.statement) ? (
+                          <Label id="authorLabel" for="article-author">
+                            Όνομα Υπευθύνου Επαλήθευσης
+                          </Label>
+                        ) : (
+                          <Label id="authorLabel" for="article-author">
+                            <Translate contentKey="check4FactsApp.article.author">Author</Translate>
+                          </Label>
+                        )}
                       <AvField
                         id="article-author"
                         type="text"
@@ -242,12 +265,12 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.articleEntity.articleDate)}
                       />
                     </AvGroup>
-                    <Button tag={Link} id="cancel-save" to="/article" replace color="danger">
-                      <FontAwesomeIcon icon="arrow-left" />
-                      &nbsp;
-                      <Translate contentKey="entity.action.back">Back</Translate>
-                    </Button>
-                    &nbsp;
+                    {/* <Button tag={Link} id="cancel-save" to="/article" replace color="danger">*/}
+                    {/*  <FontAwesomeIcon icon="arrow-left" />*/}
+                    {/*  &nbsp;*/}
+                    {/*  <Translate contentKey="entity.action.back">Back</Translate>*/}
+                    {/* </Button>*/}
+                    {/* &nbsp;*/}
                     <Button className="float-right" color="primary" type="button" onClick={() => toggle('2')}>
                       <FontAwesomeIcon icon="arrow-right" />
                       &nbsp;
@@ -267,12 +290,12 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                   />
                   <Row>
                     <Col md={{ size: 8, offset: 2 }}>
-                      <Button tag={Link} id="cancel-save" to="/article" replace color="danger">
-                        <FontAwesomeIcon icon="arrow-left" />
-                        &nbsp;
-                        <Translate contentKey="entity.action.back">Back</Translate>
-                      </Button>
-                      &nbsp;
+                      {/* <Button tag={Link} id="cancel-save" to="/article" replace color="danger">*/}
+                      {/*  <FontAwesomeIcon icon="arrow-left" />*/}
+                      {/*  &nbsp;*/}
+                      {/*  <Translate contentKey="entity.action.back">Back</Translate>*/}
+                      {/* </Button>*/}
+                      {/* &nbsp;*/}
                       <div className="float-right">
                         <Button color="info" type="button" onClick={() => toggle('1')}>
                           <FontAwesomeIcon icon="arrow-left" />
@@ -324,7 +347,7 @@ const mapDispatchToProps = {
   setBlob,
   createEntity,
   getStatement,
-  getResourcesByStatement,
+  getLatestResourcesByStatement,
   getStatementSourcesByStatement,
   reset,
   statementSourcesReset,

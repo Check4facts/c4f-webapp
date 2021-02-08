@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
@@ -30,6 +31,7 @@ public class Article implements Serializable {
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     @Column(name = "preview_title", nullable = false)
     private String previewTitle;
 
@@ -53,12 +55,14 @@ public class Article implements Serializable {
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "content", nullable = false)
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String content;
 
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "preview_text", nullable = false)
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String previewText;
 
     @ManyToOne(optional = false)

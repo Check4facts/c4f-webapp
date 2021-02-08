@@ -28,9 +28,9 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
 
   const { isNew, content, currentLocale, statement, statementSources, resources, editorRef } = props;
 
-  const quoteLink = url =>
+  const quoteLink = (url, title) =>
     editorRef.current.editor.setData(
-      `${editorRef.current.editor.getData()}<blockquote>${url}</blockquote>`
+      `${editorRef.current.editor.getData()}<h4 style="text-align: center">${title}</h4><p style="text-align: center"><a href="${url}">${url}</a></p>`
     );
 
   const openStatementSourceInfoModal = (statementSource: IStatementSource) => {
@@ -100,7 +100,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
                 <Row className="my-1">
                   <Col>
                     <a
-                      onClick={() => quoteLink(statementSource.url)}
+                      onClick={() => quoteLink(statementSource.url, statementSource.title)}
                       style={{
                         display: 'inline-block',
                         width: '15vw',
@@ -137,7 +137,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
                 <Row className="my-1">
                   <Col>
                     <a
-                      onClick={() => quoteLink(resource.url)}
+                      onClick={() => quoteLink(resource.url, resource.title)}
                       style={{
                         display: 'inline-block',
                         width: '15vw',

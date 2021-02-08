@@ -79,14 +79,14 @@ export const FactChecking = (props: IFactCheckingProps) => {
           <h1 className="text-center text-primary">
             {translate('fact-checking.title')}
           </h1><br/>
-          <p className="text-info">
+          <div className="text-info">
             <Translate contentKey="fact-checking.page-guide.main" /><br/>
             <ul style={{ fontWeight: 'bold', marginBottom: '0' }}>
               <li><Translate contentKey="fact-checking.page-guide.one" /></li>
               <li><Link className="text-info" to={'/statement'}><Translate contentKey="fact-checking.page-guide.two"/></Link></li>
             </ul>
             <Translate contentKey="fact-checking.page-guide.rest" />
-          </p>
+          </div>
         </Col>
       </Row>
       <Row className="my-5">

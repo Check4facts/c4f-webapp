@@ -7,7 +7,7 @@ import { Navbar, Nav, NavbarToggler, Collapse, Row, Col } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
 import { Brand } from './header-components';
-import {AdminMenu, EntitiesMenu, AccountMenu, LogIn} from '../menus';
+import { AdminMenu, EntitiesMenu, AccountMenu, LogIn } from '../menus';
 import { Social } from 'app/shared/layout/menus/social';
 import { AboutMenu } from 'app/shared/layout/menus/about';
 import { DisseminationMenu } from 'app/shared/layout/menus/dissemination';
@@ -63,7 +63,6 @@ const Header = (props: IHeaderProps) => {
                   {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
                   <NavLink to="/" exact className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink>
                   {props.isAuthenticated && <NavLink to="/fact-checking" className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink>}
-                  {props.isAuthenticated && <NavLink to="/article" className="d-flex align-items-center nav-link">{translate(('check4FactsApp.article.home.title'))}</NavLink>}
                   <TopicsMenu />
                   <DisseminationMenu />
                   <AboutMenu />

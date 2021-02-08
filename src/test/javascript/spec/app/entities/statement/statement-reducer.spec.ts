@@ -33,6 +33,7 @@ describe('Entities reducer tests', () => {
     entities: [] as ReadonlyArray<IStatement>,
     entity: defaultValue,
     totalItems: 0,
+    rowsUpdated: 0,
     updating: false,
     updateSuccess: false,
   };

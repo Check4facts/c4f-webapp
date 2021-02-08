@@ -4,7 +4,7 @@
       "home": {
         "title": "Articles",
         "createLabel": "Create a new Article",
-        "createOrEditLabel": "Create or edit a Article",
+        "createOrEditLabel": "Create or edit {{ type }}",
         "search": "Search for Article",
         "notFound": "No Articles found"
       },

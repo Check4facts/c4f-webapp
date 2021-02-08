@@ -1,11 +1,12 @@
 import './fact-checking.scss'
 import moment from "moment";
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { Translate, translate } from 'react-jhipster';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Row, Col, Table, Button, Container, Spinner } from 'reactstrap';
+import { IModalContent } from 'app/shared/model/util.model';
+import { Row, Col, Table, Button, Container, Spinner, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { setFact, analyzeStatement } from "app/modules/fact-checking/fact-checking.reducer";
 import { getEntity as getStatement, updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
 import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
@@ -16,6 +17,14 @@ import { APP_LOCAL_DATETIME_FORMAT } from 'app/config/constants';
 export interface IFactCheckAnalyzeProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [reAnalyze, setReAnalyze] = useState(false);
+  const [modalContent, setModalContent] = useState({} as IModalContent);
+
+  const openModal = (content: IModalContent) => {
+    setModalContent(content);
+    setModalOpen(true);
+  };
 
   useEffect(() => {
     props.setFact(props.match.params.id);
@@ -27,19 +36,18 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
   const { currentLocale, statement, sLoading, ssLoading, statementSources, analyzeLoading, featureStatementCount } = props;
 
   const analyze = () => {
+    setReAnalyze(true);
     // FIXME Remove those ugly ignores when got the time.
     const entity = {
       ...statement,
       registrationDate: convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT)),
-      statementSources: [...statementSources],
-      resources: []
+      statementSources: [...statementSources]
     };
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     props.analyzeStatement({
       ...entity,
       statementSources: null,
-      resources: null,
       subTopics: null
     });
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -47,6 +55,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
     props.updateStatement({
       ...entity
     });
+    setModalOpen(false);
   };
 
 
@@ -189,6 +198,48 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
             )
           }
         </Row>
+        {
+          featureStatementCount >= 1 ? (
+            <Row className="my-3 p-3 border-top border-left border-right border-bottom border-danger">
+              <Col className="d-flex justify-content-center align-self-center">
+                <h5 className="mb-0">Συνολικές Αναλύσεις : <span className="text-info">{featureStatementCount}</span></h5>
+              </Col>
+              <Col>
+                <Row>
+                  <Col>
+                    <h5 className="text-center mb-0">Τελευταία {translate("check4FactsApp.statement.registrationDate")}</h5>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="text-center text-info">
+                    {moment.locale(currentLocale) && moment(statement.registrationDate).format("DD/MM/YY-HH:mm")}
+                  </Col>
+                </Row>
+              </Col>
+              <Col className="d-flex justify-content-center align-self-center">
+                <Button
+                  color="danger"
+                  onClick={() => openModal({
+                    header: 'Νέα Ανάλυση',
+                    body: 'Είστε σίγουροι ότι θέλετε να κάνετε μία νέα ανάλυση;',
+                    action: analyze
+                  })}
+                  disabled={reAnalyze}
+                >
+                  Νέα Ανάλυση
+                </Button>
+              </Col>
+            </Row>
+          ) : null
+        }
+        <Modal size="md" isOpen={modalOpen} toggle={() => setModalOpen(false)}>
+          <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>
+          <ModalBody>{modalContent.body}</ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={() => setModalOpen(false)}>Όχι</Button>
+            <Button color="primary" onClick={() => modalContent.action()}>Ναι</Button>
+          </ModalFooter>
+        </Modal>
       </Container>
     </>
   );

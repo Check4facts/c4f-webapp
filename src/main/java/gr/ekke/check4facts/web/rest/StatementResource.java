@@ -147,5 +147,11 @@ public class StatementResource {
         Page<Statement> page = statementService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-        }
+    }
+
+    @PutMapping("/statements/{id}/{label}")
+    public Integer setFactCheckerLabel(@PathVariable Long id, @PathVariable Boolean label) {
+        log.debug("Rest request to set factCheckerLabel of Statement: {} to : {}", id, label);
+        return statementService.setFactCheckerLabel(id, label);
+    }
 }

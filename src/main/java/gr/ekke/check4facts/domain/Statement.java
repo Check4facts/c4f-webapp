@@ -10,6 +10,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
@@ -35,9 +36,11 @@ public class Statement implements Serializable {
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "text", nullable = false)
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String text;
 
     @Column(name = "author")
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String author;
 
     @Column(name = "statement_date")
@@ -49,6 +52,7 @@ public class Statement implements Serializable {
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "main_article_text")
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String mainArticleText;
 
     @Lob
@@ -64,12 +68,6 @@ public class Statement implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonManagedReference
     private Set<StatementSource> statementSources = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "statement_id")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonManagedReference
-    private Set<Resource> resources = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "statements", allowSetters = true)
@@ -206,33 +204,6 @@ public class Statement implements Serializable {
     public void setStatementSources(Set<StatementSource> statementSources) {
         if (statementSources != null) {
             this.statementSources.addAll(statementSources);
-        }
-    }
-
-    public Set<Resource> getResources() {
-        return resources;
-    }
-
-    public Statement resources(Set<Resource> resources) {
-        this.resources.addAll(resources);
-        return this;
-    }
-
-    public Statement addResources(Resource resource) {
-        this.resources.add(resource);
-        resource.setStatement(this);
-        return this;
-    }
-
-    public Statement removeResources(Resource resource) {
-        this.resources.remove(resource);
-        resource.setStatement(null);
-        return this;
-    }
-
-    public void setResources(Set<Resource> resources) {
-        if (resources != null) {
-            this.resources.addAll(resources);
         }
     }
 
