@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import {Translate} from 'react-jhipster';
 import { IRootState } from 'app/shared/reducers';
 import { IModalContent } from 'app/shared/model/util.model';
-import { trainModel} from 'app/modules/fact-checking/fact-checking.reducer';
+import { trainModel, dummy, updateActiveTasks } from 'app/modules/fact-checking/fact-checking.reducer';
 import { Button, Row, Col, Container, Spinner, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 export interface IToolsProps extends StateProps, DispatchProps {}
@@ -12,6 +12,13 @@ export interface IToolsProps extends StateProps, DispatchProps {}
 export const Tools = (props: IToolsProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({} as IModalContent);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      props.updateActiveTasks();
+    }, 15000);
+    return (() => clearInterval(interval));
+  }, [])
 
   const openModal = (content: IModalContent) => {
     setModalContent(content);
@@ -28,7 +35,7 @@ export const Tools = (props: IToolsProps) => {
     setModalOpen(false);
   };
 
-  const { training, trainingLoading } = props;
+  const { training, trainingLoading, activeTasks, dummyLoading } = props;
 
   return (
     <Container>
@@ -81,6 +88,28 @@ export const Tools = (props: IToolsProps) => {
           )
         }
       </Row>
+      <Row className="mt-3 p-3 border border-info">
+        <Col>
+          <h4 className="text-center">Dummy Task</h4>
+        </Col>
+        <Col className="d-flex justify-content-center">
+          <Button onClick={() => props.dummy()} color="primary">Start</Button>
+        </Col>
+        <Col>
+          <h4 className="text-center">Dummy Status</h4>
+        </Col>
+        <Col>
+          <h5 className="text-center">
+            {activeTasks.length > 0 ? (
+              <ul>
+                {activeTasks.map((task, index) => (
+                  <li key={index}>{task}</li>
+                ))}
+              </ul>
+            ) : 'No tasks are running.'}
+          </h5>
+        </Col>
+      </Row>
       <Modal size="md" isOpen={modalOpen} toggle={() => setModalOpen(false)}>
         <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>
         <ModalBody>{modalContent.body}</ModalBody>
@@ -95,11 +124,15 @@ export const Tools = (props: IToolsProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   trainingLoading: storeState.factChecking.trainingLoading,
-  training: storeState.factChecking.training
+  training: storeState.factChecking.training,
+  dummyLoading: storeState.factChecking.dummyLoading,
+  activeTasks: storeState.factChecking.activeTasks
 });
 
 const mapDispatchToProps = {
-  trainModel
+  trainModel,
+  dummy,
+  updateActiveTasks
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

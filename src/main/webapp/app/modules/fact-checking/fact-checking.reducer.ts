@@ -1,14 +1,17 @@
 import axios from 'axios';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { IStatement } from 'app/shared/model/statement.model';
+import { ITaskStatus } from 'app/shared/model/util.model';
 
 export const ACTION_TYPES = {
   SET_FACT: 'fact-checking/SET_FACT',
   SET_URLS: 'fact-checking/SET_URLS',
   ANALYZE_TASK: 'fact-checking/ANALYZE_TASK',
+  DUMMY_TASK: 'fact-checking/DUMMY_TASK',
   TRAIN_TASK: 'fact-checking/TRAIN_TASK',
   GET_ACTIVE_TASKS: 'fact-checking/GET_ACTIVE_TASKS',
   GET_TASK_STATUS: 'fact-checking/GET_TASK_STATUS',
+  UPDATE_ACTIVE_TASKS: 'fact-checking/UPDATE_ACTIVE_TASKS',
   RESET: 'fact-checking/RESET',
 };
 
@@ -18,6 +21,7 @@ const initialState = {
   urls: [] as string[],
   training: false,
   analyzeLoading: false,
+  dummyLoading: false,
   trainingLoading: false,
   taskStatusLoading: false,
   activeTasks: [] as string[],
@@ -41,10 +45,27 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
         analyzeLoading: false,
         errorMessage: action.payload,
       };
-    case SUCCESS(ACTION_TYPES.ANALYZE_TASK):
+    case SUCCESS(ACTION_TYPES.DUMMY_TASK):
       return {
         ...state,
         analyzeLoading: false,
+        activeTasks: [...state.activeTasks, action.payload.data.taskId],
+      };
+    case REQUEST(ACTION_TYPES.DUMMY_TASK):
+      return {
+        ...state,
+        dummyLoading: true,
+      };
+    case FAILURE(ACTION_TYPES.DUMMY_TASK):
+      return {
+        ...state,
+        dummyLoading: false,
+        errorMessage: action.payload,
+      };
+    case SUCCESS(ACTION_TYPES.ANALYZE_TASK):
+      return {
+        ...state,
+        dummyLoading: false,
         activeTasks: [...state.activeTasks, action.payload.data.taskId],
       };
     case REQUEST(ACTION_TYPES.TRAIN_TASK):
@@ -98,6 +119,11 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
         ...state,
         taskStatusLoading: false,
       };
+    case ACTION_TYPES.UPDATE_ACTIVE_TASKS:
+      return {
+        ...state,
+        activeTasks: action.payload,
+      };
     case ACTION_TYPES.SET_FACT:
       return {
         ...state,
@@ -136,6 +162,33 @@ export const trainModel = () => (dispatch, getState) => {
   return dispatch({
     type: ACTION_TYPES.TRAIN_TASK,
     payload: axios.post(requestUrl),
+  });
+};
+
+export const dummy = () => (dispatch, getState) => {
+  const { inProduction } = getState().applicationProfile;
+  const requestUrl = `${inProduction ? '/ml' : pythonUrl}/dummy-task`;
+  return dispatch({
+    type: ACTION_TYPES.DUMMY_TASK,
+    payload: axios.get(requestUrl),
+  });
+};
+
+export const updateActiveTasks = () => (dispatch, getState) => {
+  const { inProduction } = getState().applicationProfile;
+  const { activeTasks } = getState().factChecking;
+  const newActiveTasks = [];
+  for (const activeTask of activeTasks) {
+    axios.get<ITaskStatus>(`${inProduction ? '/ml' : pythonUrl}/task-status/${activeTask}`).then(response => {
+      const { data } = response;
+      if (data.status === 'PROGRESS') {
+        newActiveTasks.push(data.taskId);
+      }
+    });
+  }
+  return dispatch({
+    type: ACTION_TYPES.UPDATE_ACTIVE_TASKS,
+    payload: newActiveTasks,
   });
 };
 
