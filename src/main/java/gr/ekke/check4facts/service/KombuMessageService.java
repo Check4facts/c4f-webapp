@@ -5,6 +5,7 @@ import gr.ekke.check4facts.repository.KombuMessageRepository;
 import gr.ekke.check4facts.service.dto.CeleryTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class KombuMessageService {
     private final Logger log = LoggerFactory.getLogger(KombuMessage.class);
 
     private final KombuMessageRepository kombuMessageRepository;
+
+    @Value("${spring.profiles.active}")
+    private List<String> activeProfiles;
 
     public KombuMessageService(KombuMessageRepository kombuMessageRepository) {
         this.kombuMessageRepository = kombuMessageRepository;
@@ -49,12 +53,20 @@ public class KombuMessageService {
         log.debug("Request to get CeleryTasks in last 24 hours");
         List<KombuMessage> kombuMessages = kombuMessageRepository.findAllInLast24Hours();
         List<CeleryTask> celeryTasks = new ArrayList<>();
+        // FIXME change that to a proper properties on application.properties file
+        boolean isInDevelopment = activeProfiles.contains("dev");
+        String baseUrlTemplate = isInDevelopment ? "http://localhost:9090/task-status/%s" : "http://localhost:8080/ml/task-status/%s";
         for (KombuMessage kombuMessage : kombuMessages) {
             JSONObject jsonObject = new JSONObject(kombuMessage.getPayload());
             JSONObject header = jsonObject.getJSONObject("headers");
             String taskId = header.getString("id");
             JSONObject kwargsrepr = new JSONObject(header.getString("kwargsrepr"));
             String statementId = kwargsrepr.isNull("statement") ? null : kwargsrepr.getJSONObject("statement").getString("id");
+            // FIXME Implement check of status here so front end receives only the active tasks. Use WebClient from spring boot.
+//            RestTemplate restTemplate = new RestTemplate();
+//            ResponseEntity<TaskStatus> response = restTemplate.exchange(
+//                String.format(baseUrlTemplate, taskId), HttpMethod.GET, null,
+//            );
             celeryTasks.add(new CeleryTask(taskId, statementId));
         }
         return celeryTasks;
