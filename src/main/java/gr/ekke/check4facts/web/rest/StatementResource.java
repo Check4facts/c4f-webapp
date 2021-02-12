@@ -1,6 +1,8 @@
 package gr.ekke.check4facts.web.rest;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import gr.ekke.check4facts.domain.Statement;
+import gr.ekke.check4facts.repository.TopicRepository;
 import gr.ekke.check4facts.service.StatementService;
 import gr.ekke.check4facts.web.rest.errors.BadRequestAlertException;
 
@@ -13,19 +15,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link gr.ekke.check4facts.domain.Statement}.
@@ -43,8 +45,11 @@ public class StatementResource {
 
     private final StatementService statementService;
 
-    public StatementResource(StatementService statementService) {
+    private final TopicRepository topicRepository;
+
+    public StatementResource(StatementService statementService, TopicRepository topicRepository) {
         this.statementService = statementService;
+        this.topicRepository = topicRepository;
     }
 
     /**
@@ -153,5 +158,30 @@ public class StatementResource {
     public Integer setFactCheckerLabel(@PathVariable Long id, @PathVariable Boolean label) {
         log.debug("Rest request to set factCheckerLabel of Statement: {} to : {}", id, label);
         return statementService.setFactCheckerLabel(id, label);
+    }
+
+    @PostMapping("/statements/import-csv")
+    public ResponseEntity<Void> importCSV(@RequestParam("file") MultipartFile multipartFile) {
+        log.debug("REST Import statements from CSV");
+
+        if(multipartFile.isEmpty()) {
+            throw new BadRequestAlertException("The csv file is empty.", ENTITY_NAME, "csvempty");
+        } else {
+            try (Reader csvReader = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()))) {
+                List<Statement> statements = new CsvToBeanBuilder<Statement>(csvReader)
+                    .withType(Statement.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withSkipLines(1)
+                    .withIgnoreEmptyLine(true)
+                    .build()
+                    .parse();
+                statements.forEach(statement -> statement.setTopic(topicRepository.getOne(1L)));
+                statements.forEach(statementService::save);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, "CSV")).build();
     }
 }
