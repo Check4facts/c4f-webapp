@@ -3,6 +3,7 @@ package gr.ekke.check4facts.web.rest;
 import gr.ekke.check4facts.domain.KombuMessage;
 import gr.ekke.check4facts.service.KombuMessageService;
 import gr.ekke.check4facts.service.dto.CeleryTask;
+import gr.ekke.check4facts.service.dto.TaskStatus;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,9 +55,9 @@ public class KombuMessageResource {
         return ResponseUtil.wrapOrNotFound(kombuMessage);
     }
 
-    @GetMapping("/kombu-messages/celery-task/latest")
-    public List<CeleryTask> getAllInLast24Hours() throws JSONException {
-        log.debug("REST request to get CeleryTasks in last 24 hours");
-        return kombuMessageService.findAllCeleryTasksInLast24Hours();
+    @GetMapping("/kombu-messages/celery-task/active")
+    public List<TaskStatus> getAllActiveInLast24Hours() throws JSONException {
+        log.debug("REST request to get TaskStatus of active CeleryTasks in last 24 hours");
+        return kombuMessageService.findAllActiveTasksInLast24Hours();
     }
 }
