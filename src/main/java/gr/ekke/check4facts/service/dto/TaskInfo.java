@@ -6,15 +6,15 @@ public class TaskInfo {
 
     private Integer total;
 
-    private String status;
+    private String type;
 
     public TaskInfo() {
     }
 
-    public TaskInfo(Integer current, Integer total, String status) {
+    public TaskInfo(Integer current, Integer total, String type) {
         this.current = current;
         this.total = total;
-        this.status = status;
+        this.type = type;
     }
 
     public Integer getCurrent() {
@@ -33,12 +33,12 @@ public class TaskInfo {
         this.total = total;
     }
 
-    public String getStatus() {
-        return status;
+    public String getType() {
+        return type;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class TaskInfo {
         return "TaskInfo{" +
             "current=" + current +
             ", total=" + total +
-            ", status='" + status + '\'' +
+            ", type='" + type + '\'' +
             '}';
     }
 }

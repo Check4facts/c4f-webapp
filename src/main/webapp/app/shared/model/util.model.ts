@@ -7,11 +7,11 @@ export interface IModalContent {
 export type TaskInfo = {
   current: number;
   total: number;
-  status: string;
+  type: string;
 };
 
 export interface ITaskStatus {
-  info: TaskInfo;
+  taskInfo: TaskInfo;
   status: string;
   taskId: string;
 }
