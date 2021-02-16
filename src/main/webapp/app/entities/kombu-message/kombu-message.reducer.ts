@@ -1,21 +1,17 @@
 import axios from 'axios';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
-import { ICeleryTask } from 'app/shared/model/celery-task.model';
+import { ITaskStatus } from 'app/shared/model/util.model';
 
 export const ACTION_TYPES = {
-  FETCH_KOMBUMESSAGE_LIST: 'kombuMessage/FETCH_KOMBUMESSAGE_LIST',
-  FETCH_LATEST_CELERY_TASKS: 'kombuMessage/FETCH_LATEST_CELERY_TASKS',
-  FETCH_KOMBUMESSAGE: 'kombuMessage/FETCH_KOMBUMESSAGE',
-  FETCH_KOMBUMESSAGE_TASK_ID: 'kombuMessage/FETCH_KOMBUMESSAGE_TASK_ID',
+  FETCH_ACTIVE_CELERY_TASKS: 'kombuMessage/FETCH_ACTIVE_CELERY_TASKS',
   RESET: 'kombuMessage/RESET',
 };
 
 const initialState = {
   loading: false,
   errorMessage: null,
-  entities: [],
-  entity: {},
+  activeStatuses: [] as ReadonlyArray<ITaskStatus>,
 };
 
 export type KombuMessageState = Readonly<typeof initialState>;
@@ -24,37 +20,23 @@ export type KombuMessageState = Readonly<typeof initialState>;
 
 export default (state: KombuMessageState = initialState, action): KombuMessageState => {
   switch (action.type) {
-    case REQUEST(ACTION_TYPES.FETCH_KOMBUMESSAGE):
-    case REQUEST(ACTION_TYPES.FETCH_KOMBUMESSAGE_TASK_ID):
-    case REQUEST(ACTION_TYPES.FETCH_KOMBUMESSAGE_LIST):
-    case REQUEST(ACTION_TYPES.FETCH_LATEST_CELERY_TASKS):
+    case REQUEST(ACTION_TYPES.FETCH_ACTIVE_CELERY_TASKS):
       return {
         ...state,
         errorMessage: null,
         loading: true,
       };
-    case FAILURE(ACTION_TYPES.FETCH_KOMBUMESSAGE):
-    case FAILURE(ACTION_TYPES.FETCH_KOMBUMESSAGE_TASK_ID):
-    case FAILURE(ACTION_TYPES.FETCH_KOMBUMESSAGE_LIST):
-    case FAILURE(ACTION_TYPES.FETCH_LATEST_CELERY_TASKS):
+    case FAILURE(ACTION_TYPES.FETCH_ACTIVE_CELERY_TASKS):
       return {
         ...state,
         errorMessage: action.payload,
         loading: false,
       };
-    case SUCCESS(ACTION_TYPES.FETCH_KOMBUMESSAGE):
-    case SUCCESS(ACTION_TYPES.FETCH_KOMBUMESSAGE_TASK_ID):
+    case SUCCESS(ACTION_TYPES.FETCH_ACTIVE_CELERY_TASKS):
       return {
         ...state,
         loading: false,
-        entity: action.payload.data,
-      };
-    case SUCCESS(ACTION_TYPES.FETCH_KOMBUMESSAGE_LIST):
-    case SUCCESS(ACTION_TYPES.FETCH_LATEST_CELERY_TASKS):
-      return {
-        ...state,
-        loading: false,
-        entities: action.payload.data,
+        activeStatuses: action.payload.data,
       };
     case ACTION_TYPES.RESET:
       return {
@@ -68,24 +50,10 @@ export default (state: KombuMessageState = initialState, action): KombuMessageSt
 const apiUrl = 'api/kombu-messages';
 
 // Actions
-export const getEntity = id => ({
-  type: ACTION_TYPES.FETCH_KOMBUMESSAGE,
-  payload: axios.get(`${apiUrl}/${id}`),
-});
 
-export const getEntityByTaskId = taskId => ({
-  type: ACTION_TYPES.FETCH_KOMBUMESSAGE_TASK_ID,
-  payload: axios.get(`${apiUrl}/task_id/${taskId}`),
-});
-
-export const getEntities = () => ({
-  type: ACTION_TYPES.FETCH_KOMBUMESSAGE_LIST,
-  payload: axios.get(apiUrl),
-});
-
-export const getLatestCeleryTasks = () => ({
-  type: ACTION_TYPES.FETCH_LATEST_CELERY_TASKS,
-  payload: axios.get<ICeleryTask>(`${apiUrl}/celery-task/latest`),
+export const getActiveCeleryTasks = () => ({
+  type: ACTION_TYPES.FETCH_ACTIVE_CELERY_TASKS,
+  payload: axios.get<ITaskStatus>(`${apiUrl}/celery-task/active`),
 });
 
 export const reset = () => ({
