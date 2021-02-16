@@ -11,7 +11,7 @@ export type TaskInfo = {
 };
 
 export interface ITaskStatus {
-  taskInfo: TaskInfo;
-  status: string;
-  taskId: string;
+  taskInfo?: TaskInfo;
+  status?: string;
+  taskId?: string;
 }
