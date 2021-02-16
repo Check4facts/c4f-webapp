@@ -1,5 +1,6 @@
 import pick from 'lodash/pick';
 import { IPaginationBaseState } from 'react-jhipster';
+import { ITaskStatus } from 'app/shared/model/util.model';
 
 /**
  * Removes fields with an 'id' field that equals ''.
@@ -35,4 +36,14 @@ export const overridePaginationStateWithQueryParams = (paginationBaseState: IPag
     paginationBaseState.order = sortSplit[1];
   }
   return paginationBaseState;
+};
+
+export const upsertTaskStatus = (array: ITaskStatus[], item: ITaskStatus) => {
+  const index = array.findIndex(value => value.taskId === item.taskId);
+  if (index === -1) {
+    array.push(item);
+  } else {
+    array[index] = item;
+  }
+  return array;
 };
