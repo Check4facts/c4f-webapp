@@ -110,7 +110,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
     setModalOpen(false);
   };
 
-  return sLoading || ssLoading ? (
+  return sLoading || ssLoading || kLoading ? (
     <div>
       <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
     </div>
