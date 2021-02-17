@@ -1,18 +1,12 @@
 package gr.ekke.check4facts.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.opencsv.bean.CsvBindByPosition;
-import com.opencsv.bean.CsvCustomBindByPosition;
-import com.opencsv.bean.CsvDate;
-import gr.ekke.check4facts.domain.utils.CustomInstantConverter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -41,16 +35,13 @@ public class Statement implements Serializable {
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "text", nullable = false)
     @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
-    @CsvBindByPosition(position = 1)
     private String text;
 
     @Column(name = "author")
     @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
-    @CsvBindByPosition(position = 8)
     private String author;
 
     @Column(name = "statement_date")
-    @CsvCustomBindByPosition(position = 10, converter = CustomInstantConverter.class)
     private Instant statementDate;
 
     @Column(name = "registration_date")
@@ -60,13 +51,11 @@ public class Statement implements Serializable {
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "main_article_text")
     @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
-    @CsvBindByPosition(position = 2)
     private String mainArticleText;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "main_article_url")
-    @CsvBindByPosition(position = 3)
     private String mainArticleUrl;
 
     @Column(name = "fact_checker_label")
