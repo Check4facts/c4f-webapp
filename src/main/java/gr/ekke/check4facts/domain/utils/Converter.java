@@ -53,9 +53,9 @@ public class Converter {
         String[] split = s.split("/");
 
         Set<SubTopic> subTopics = new HashSet<>();
-        for (int index = 0; index < split.length; index++) {
+        for (String value : split) {
             for (SubTopic subTopic : existing) {
-                if (subTopic.getName().equals(split[index])) {
+                if (subTopic.getName().equals(value)) {
                     subTopics.add(subTopic);
                     break;
                 }
