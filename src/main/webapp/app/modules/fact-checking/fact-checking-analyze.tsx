@@ -1,25 +1,38 @@
 import './fact-checking.scss'
+import _ from 'lodash';
 import moment from "moment";
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { Translate, translate } from 'react-jhipster';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { IModalContent } from 'app/shared/model/util.model';
-import { Row, Col, Table, Button, Container, Spinner, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { setFact, analyzeStatement } from "app/modules/fact-checking/fact-checking.reducer";
+import {IModalContent, ITaskStatus} from 'app/shared/model/util.model';
+import { Row, Col, Table, Button, Container, Spinner, Modal, ModalHeader, ModalBody, ModalFooter, Progress } from 'reactstrap';
+import { setFact, analyzeStatement, getTaskStatus, removeTaskStatus } from "app/modules/fact-checking/fact-checking.reducer";
 import { getEntity as getStatement, updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
 import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
 import { countFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
 import { convertDateTimeToServer } from 'app/shared/util/date-utils';
+import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.reducer';
 import { APP_LOCAL_DATETIME_FORMAT } from 'app/config/constants';
+
+export const progressBar = (message: string, task: ITaskStatus) => (
+  task.taskInfo &&
+  <Col md={{ size: 4, offset: 4 }}>
+    <div className="text-center">{message}</div>
+    <Progress animated color="info" value={task.taskInfo.current * (100/task.taskInfo.total)} />
+    <div className="text-center">Βήμα <span className="text-info">{task.taskInfo.current}</span> από <span className="text-success">{task.taskInfo.total}</span></div>
+  </Col>
+);
 
 export interface IFactCheckAnalyzeProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
+  const statusInterval = useRef(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [reAnalyze, setReAnalyze] = useState(false);
   const [modalContent, setModalContent] = useState({} as IModalContent);
+  const [analyzeStatus, setAnalyzeStatus] = useState({} as ITaskStatus);
 
   const openModal = (content: IModalContent) => {
     setModalContent(content);
@@ -27,13 +40,52 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
   };
 
   useEffect(() => {
+    props.getActiveCeleryTasks();
     props.setFact(props.match.params.id);
     props.getStatement(props.match.params.id);
     props.getStatementSourcesByStatement(props.match.params.id);
     props.countFeatureStatementsByStatement(props.match.params.id);
   }, []);
 
-  const { currentLocale, statement, sLoading, ssLoading, statementSources, analyzeLoading, featureStatementCount } = props;
+  const { currentLocale, statement, sLoading, ssLoading, statementSources, analyzeLoading, featureStatementCount, activeStatuses, taskStatuses, kLoading } = props;
+
+  useEffect(() => {
+    taskStatuses.forEach(task => {
+      if (_.isEmpty(analyzeStatus) && task.taskInfo !== null && task.taskInfo.type === props.match.params.id) {
+        setAnalyzeStatus(task);
+      } else if (task.taskId === analyzeStatus.taskId) {
+        setAnalyzeStatus(task);
+      }
+    });
+  }, [taskStatuses]);
+
+  useEffect(() => {
+    // Hook to set analyze status from active statuses.
+    activeStatuses.forEach(value => {
+      if (value.taskInfo !== null && value.taskInfo.type === props.match.params.id) {
+        setAnalyzeStatus(value);
+      }
+    });
+  }, [activeStatuses]);
+
+  useEffect(() => {
+    if (analyzeStatus) {
+      // Hook to set interval for calling getTaskStatus to update status of analyze.
+      if (!_.isEmpty(analyzeStatus) && statusInterval.current === null) {
+        statusInterval.current = setInterval(() => {
+          props.getTaskStatus(analyzeStatus.taskId);
+        }, 10000);
+      }
+      // When analyze task is finished stop interval and fetch FeatureStatements count to display results button.
+      if (analyzeStatus.status === 'SUCCESS') {
+        props.removeTaskStatus(analyzeStatus.taskId);
+        setAnalyzeStatus({});
+        setReAnalyze(false);
+        clearInterval(statusInterval.current);
+        props.countFeatureStatementsByStatement(props.match.params.id);
+      }
+    }
+  }, [analyzeStatus]);
 
   const analyze = () => {
     setReAnalyze(true);
@@ -58,8 +110,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
     setModalOpen(false);
   };
 
-
-  return sLoading || ssLoading ? (
+  return sLoading || ssLoading || kLoading ? (
     <div>
       <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
     </div>
@@ -190,16 +241,14 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
                     </Button>
                   </Col>
                 )
-              ) : (
-                <Col className="d-flex justify-content-center alert alert-info py-3" md={{ size: 4, offset: 4 }} style={{ borderRadius: '30px' }}>
-                  Το αίτημα ανάλυσης είναι υπό επεξεργασία
-                </Col>
+              ) : analyzeStatus.taskInfo && (
+                progressBar('Διαδικασία ανάλυσης δήλωσης...', analyzeStatus)
               )
             )
           }
         </Row>
         {
-          featureStatementCount >= 1 ? (
+          featureStatementCount >= 1 && !reAnalyze ? (
             <Row className="my-3 p-3 border-top border-left border-right border-bottom border-danger">
               <Col className="d-flex justify-content-center align-self-center">
                 <h5 className="mb-0">Συνολικές Αναλύσεις : <span className="text-info">{featureStatementCount}</span></h5>
@@ -230,7 +279,11 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
                 </Button>
               </Col>
             </Row>
-          ) : null
+          ) : featureStatementCount !== 0 && reAnalyze && analyzeStatus.taskInfo && (
+            <Row className="my-3 p-3 border-top border-left border-right border-bottom border-danger">
+              {progressBar("Διαδικασία για νέα ανάλυση δήλωσης...", analyzeStatus)}
+            </Row>
+          )
         }
         <Modal size="md" isOpen={modalOpen} toggle={() => setModalOpen(false)}>
           <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>
@@ -253,7 +306,10 @@ const mapStateToProps = (storeState: IRootState) => ({
   sLoading: storeState.statement.loading,
   ssLoading: storeState.statementSource.loading,
   featureStatementCount: storeState.featureStatement.count,
-  analyzeLoading: storeState.factChecking.analyzeLoading
+  analyzeLoading: storeState.factChecking.analyzeLoading,
+  taskStatuses: storeState.factChecking.taskStatuses,
+  kLoading: storeState.kombuMessage.loading,
+  activeStatuses: storeState.kombuMessage.activeStatuses
 });
 
 const mapDispatchToProps = {
@@ -262,7 +318,10 @@ const mapDispatchToProps = {
   updateStatement,
   getStatementSourcesByStatement,
   countFeatureStatementsByStatement,
-  analyzeStatement
+  analyzeStatement,
+  getActiveCeleryTasks,
+  getTaskStatus,
+  removeTaskStatus
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
