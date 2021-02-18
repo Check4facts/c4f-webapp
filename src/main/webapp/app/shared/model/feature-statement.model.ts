@@ -13,6 +13,7 @@ export interface IFeatureStatement {
   sEmotionHappiness?: number[];
   sEmotionSadness?: number[];
   sEmotionSurprise?: number[];
+  sPgPolarityCounts?: number[];
   rTitleFertileTerms?: number;
   rTitleSimilarity?: number;
   rTitleSubjectivity?: number;
@@ -25,6 +26,7 @@ export interface IFeatureStatement {
   rTitleEmotionHappiness?: number[];
   rTitleEmotionSadness?: number[];
   rTitleEmotionSurprise?: number[];
+  rTitlePgPolarityCounts?: number[];
   rBodySimilarity?: number;
   rBodySubjectivity?: number;
   rBodySubjectivityCounts?: number[];
@@ -36,6 +38,7 @@ export interface IFeatureStatement {
   rBodyEmotionHappiness?: number[];
   rBodyEmotionSadness?: number[];
   rBodyEmotionSurprise?: number[];
+  rBodyPgPolarityCounts?: number[];
   rSimParFertileTerms?: number;
   rSimParSimilarity?: number;
   rSimParSubjectivity?: number;
@@ -48,6 +51,7 @@ export interface IFeatureStatement {
   rSimParEmotionHappiness?: number[];
   rSimParEmotionSadness?: number[];
   rSimParEmotionSurprise?: number[];
+  rSimParPgPolarityCounts?: number[];
   rSimSentFertileTerms?: number;
   rSimSentSimilarity?: number;
   rSimSentSubjectivity?: number;
@@ -60,6 +64,7 @@ export interface IFeatureStatement {
   rSimSentEmotionHappiness?: number[];
   rSimSentEmotionSadness?: number[];
   rSimSentEmotionSurprise?: number[];
+  rSimSentPgPolarityCounts?: number[];
   predictLabel?: boolean;
   predictProba?: number;
   trueLabel?: boolean;

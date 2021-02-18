@@ -74,6 +74,11 @@ public class FeatureStatement implements Serializable {
     @Column(name = "s_emotion_surprise", columnDefinition = "float8[]")
     private List<Double> sEmotionSurprise;
 
+    @Basic
+    @Type(type = "list-array")
+    @Column(name = "s_pg_polarity_counts", columnDefinition = "int[]")
+    private List<Integer> sPgPolarityCounts;
+
     @Column(name = "r_title_fertile_terms")
     private Integer rTitleFertileTerms;
 
@@ -118,6 +123,11 @@ public class FeatureStatement implements Serializable {
     @Column(name = "r_title_emotion_surprise", columnDefinition = "float8[]")
     private List<Double> rTitleEmotionSurprise;
 
+    @Basic
+    @Type(type = "list-array")
+    @Column(name = "r_title_pg_polarity_counts", columnDefinition = "int[]")
+    private List<Integer> rTitlePgPolarityCounts;
+
     @Column(name = "r_body_similarity")
     private Double rBodySimilarity;
 
@@ -158,6 +168,11 @@ public class FeatureStatement implements Serializable {
     @Type(type = "list-array")
     @Column(name = "r_body_emotion_surprise", columnDefinition = "float8[]")
     private List<Double> rBodyEmotionSurprise;
+
+    @Basic
+    @Type(type = "list-array")
+    @Column(name = "r_body_pg_polarity_counts", columnDefinition = "int[]")
+    private List<Integer> rBodyPgPolarityCounts;
 
     @Column(name = "r_sim_par_fertile_terms")
     private Integer rSimParFertileTerms;
@@ -203,6 +218,11 @@ public class FeatureStatement implements Serializable {
     @Column(name = "r_sim_par_emotion_surprise", columnDefinition = "float8[]")
     private List<Double> rSimParEmotionSurprise;
 
+    @Basic
+    @Type(type = "list-array")
+    @Column(name = "r_sim_par_pg_polarity_counts", columnDefinition = "int[]")
+    private List<Integer> rSimParPgPolarityCounts;
+
     @Column(name = "r_sim_sent_fertile_terms")
     private Integer rSimSentFertileTerms;
 
@@ -247,6 +267,10 @@ public class FeatureStatement implements Serializable {
     @Column(name = "r_sim_sent_emotion_surprise", columnDefinition = "float8[]")
     private List<Double> rSimSentEmotionSurprise;
 
+    @Basic
+    @Type(type = "list-array")
+    @Column(name = "r_sim_sent_pg_polarity_counts", columnDefinition = "int[]")
+    private List<Integer> rSimSentPgPolarityCounts;
 
     @Column(name = "predict_label")
     private Boolean predictLabel;
@@ -276,7 +300,7 @@ public class FeatureStatement implements Serializable {
         return sFertileTerms;
     }
 
-    FeatureStatement sFertileTerms(Integer sFertileTerms) {
+    public FeatureStatement sFertileTerms(Integer sFertileTerms) {
         this.sFertileTerms = sFertileTerms;
         return this;
     }
@@ -413,6 +437,19 @@ public class FeatureStatement implements Serializable {
 
     public void setsEmotionSurprise(List<Double> sEmotionSurprise) {
         this.sEmotionSurprise = sEmotionSurprise;
+    }
+
+    public List<Integer> getsPgPolarityCounts() {
+        return sPgPolarityCounts;
+    }
+
+    public FeatureStatement sPgPolarityCounts(List<Integer> sPgPolarityCounts) {
+        this.sPgPolarityCounts = sPgPolarityCounts;
+        return this;
+    }
+
+    public void setsPgPolarityCounts(List<Integer> sPgPolarityCounts) {
+        this.sPgPolarityCounts = sPgPolarityCounts;
     }
 
     public Integer getrTitleFertileTerms() {
@@ -571,6 +608,19 @@ public class FeatureStatement implements Serializable {
         this.rTitleEmotionSurprise = rTitleEmotionSurprise;
     }
 
+    public List<Integer> getrTitlePgPolarityCounts() {
+        return rTitlePgPolarityCounts;
+    }
+
+    public FeatureStatement rTitlePgPolartiyCounts(List<Integer> rTitlePgPolarityCounts) {
+        this.rTitlePgPolarityCounts = rTitlePgPolarityCounts;
+        return this;
+    }
+
+    public void setrTitlePgPolarityCounts(List<Integer> rTitlePgPolarityCounts) {
+        this.rTitlePgPolarityCounts = rTitlePgPolarityCounts;
+    }
+
     public Double getrBodySimilarity() {
         return rBodySimilarity;
     }
@@ -712,6 +762,19 @@ public class FeatureStatement implements Serializable {
 
     public void setrBodyEmotionSurprise(List<Double> rBodyEmotionSurprise) {
         this.rBodyEmotionSurprise = rBodyEmotionSurprise;
+    }
+
+    public List<Integer> getrBodyPgPolarityCounts() {
+        return rBodyPgPolarityCounts;
+    }
+
+    public FeatureStatement rBodyPgPolartiyCounts(List<Integer> rBodyPgPolarityCounts) {
+        this.rBodyPgPolarityCounts = rBodyPgPolarityCounts;
+        return this;
+    }
+
+    public void setrBodyPgPolarityCounts(List<Integer> rBodyPgPolarityCounts) {
+        this.rBodyPgPolarityCounts = rBodyPgPolarityCounts;
     }
 
     public Integer getrSimParFertileTerms() {
@@ -870,6 +933,19 @@ public class FeatureStatement implements Serializable {
         this.rSimParEmotionSurprise = rSimParEmotionSurprise;
     }
 
+    public List<Integer> getrSimParPgPolarityCounts() {
+        return rSimParPgPolarityCounts;
+    }
+
+    public FeatureStatement rSimParPolarityCounts(List<Integer> rSimParPgPolarityCounts) {
+        this.rSimParPgPolarityCounts = rSimParPgPolarityCounts;
+        return this;
+    }
+
+    public void setrSimParPgPolarityCounts(List<Integer> rSimParPgPolarityCounts) {
+        this.rSimParPgPolarityCounts = rSimParPgPolarityCounts;
+    }
+
     public Integer getrSimSentFertileTerms() {
         return rSimSentFertileTerms;
     }
@@ -1026,6 +1102,19 @@ public class FeatureStatement implements Serializable {
         this.rSimSentEmotionSurprise = rSimSentEmotionSurprise;
     }
 
+    public List<Integer> getrSimSentPgPolarityCounts() {
+        return rSimSentPgPolarityCounts;
+    }
+
+    public FeatureStatement rSimSentPgPolarityCounts(List<Integer> rSimSentPgPolarityCounts) {
+        this.rSimSentPgPolarityCounts = rSimSentPgPolarityCounts;
+        return this;
+    }
+
+    public void setrSimSentPgPolarityCounts(List<Integer> rSimSentPgPolarityCounts) {
+        this.rSimSentPgPolarityCounts = rSimSentPgPolarityCounts;
+    }
+
     public Boolean getPredictLabel() {
         return predictLabel;
     }
@@ -1118,6 +1207,7 @@ public class FeatureStatement implements Serializable {
             ", sEmotionHappiness=" + sEmotionHappiness +
             ", sEmotionSadness=" + sEmotionSadness +
             ", sEmotionSurprise=" + sEmotionSurprise +
+            ", sPgPolarityCounts=" + sPgPolarityCounts +
             ", rTitleFertileTerms=" + rTitleFertileTerms +
             ", rTitleSimilarity=" + rTitleSimilarity +
             ", rTitleSubjectivity=" + rTitleSubjectivity +
@@ -1130,6 +1220,7 @@ public class FeatureStatement implements Serializable {
             ", rTitleEmotionHappiness=" + rTitleEmotionHappiness +
             ", rTitleEmotionSadness=" + rTitleEmotionSadness +
             ", rTitleEmotionSurprise=" + rTitleEmotionSurprise +
+            ", rTitlePgPolarityCounts=" + rTitlePgPolarityCounts +
             ", rBodySimilarity=" + rBodySimilarity +
             ", rBodySubjectivity=" + rBodySubjectivity +
             ", rBodySubjectivityCounts=" + rBodySubjectivityCounts +
@@ -1141,6 +1232,7 @@ public class FeatureStatement implements Serializable {
             ", rBodyEmotionHappiness=" + rBodyEmotionHappiness +
             ", rBodyEmotionSadness=" + rBodyEmotionSadness +
             ", rBodyEmotionSurprise=" + rBodyEmotionSurprise +
+            ", rBodyPgPolarityCounts=" + rBodyPgPolarityCounts +
             ", rSimParFertileTerms=" + rSimParFertileTerms +
             ", rSimParSimilarity=" + rSimParSimilarity +
             ", rSimParSubjectivity=" + rSimParSubjectivity +
@@ -1153,6 +1245,7 @@ public class FeatureStatement implements Serializable {
             ", rSimParEmotionHappiness=" + rSimParEmotionHappiness +
             ", rSimParEmotionSadness=" + rSimParEmotionSadness +
             ", rSimParEmotionSurprise=" + rSimParEmotionSurprise +
+            ", rSimParPgPolarityCounts=" + rSimParPgPolarityCounts +
             ", rSimSentFertileTerms=" + rSimSentFertileTerms +
             ", rSimSentSimilarity=" + rSimSentSimilarity +
             ", rSimSentSubjectivity=" + rSimSentSubjectivity +
@@ -1165,6 +1258,7 @@ public class FeatureStatement implements Serializable {
             ", rSimSentEmotionHappiness=" + rSimSentEmotionHappiness +
             ", rSimSentEmotionSadness=" + rSimSentEmotionSadness +
             ", rSimSentEmotionSurprise=" + rSimSentEmotionSurprise +
+            ", rSimSentPgPolarityCounts=" + rSimSentPgPolarityCounts +
             ", predictLabel=" + predictLabel +
             ", predictProba=" + predictProba +
             ", trueLabel=" + trueLabel +

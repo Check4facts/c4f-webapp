@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="20210218140930-1" author="asteris">
+        <addColumn tableName="feature_statement">
+            <column afterColumn="s_emotion_surprise" name="s_pg_polarity_counts" type="int[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column afterColumn="r_title_emotion_surprise" name="r_title_pg_polarity_counts" type="int[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column afterColumn="r_body_emotion_surprise" name="r_body_pg_polarity_counts" type="int[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column afterColumn="r_sim_par_emotion_surprise" name="r_sim_par_pg_polarity_counts" type="int[2]">
+                <constraints nullable="true"/>
+            </column>
+            <column afterColumn="r_sim_sent_emotion_surprise" name="r_sim_sent_pg_polarity_counts" type="int[2]">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
