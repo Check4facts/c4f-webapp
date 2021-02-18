@@ -1,6 +1,12 @@
 package gr.ekke.check4facts.web.rest;
 
+import com.opencsv.CSVReader;
 import gr.ekke.check4facts.domain.Statement;
+import gr.ekke.check4facts.domain.SubTopic;
+import gr.ekke.check4facts.domain.Topic;
+import gr.ekke.check4facts.domain.utils.Converter;
+import gr.ekke.check4facts.repository.SubTopicRepository;
+import gr.ekke.check4facts.repository.TopicRepository;
 import gr.ekke.check4facts.service.StatementService;
 import gr.ekke.check4facts.web.rest.errors.BadRequestAlertException;
 
@@ -13,19 +19,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link gr.ekke.check4facts.domain.Statement}.
@@ -43,8 +48,14 @@ public class StatementResource {
 
     private final StatementService statementService;
 
-    public StatementResource(StatementService statementService) {
+    private final TopicRepository topicRepository;
+
+    private final SubTopicRepository subTopicRepository;
+
+    public StatementResource(StatementService statementService, TopicRepository topicRepository, SubTopicRepository subTopicRepository) {
         this.statementService = statementService;
+        this.topicRepository = topicRepository;
+        this.subTopicRepository = subTopicRepository;
     }
 
     /**
@@ -153,5 +164,41 @@ public class StatementResource {
     public Integer setFactCheckerLabel(@PathVariable Long id, @PathVariable Boolean label) {
         log.debug("Rest request to set factCheckerLabel of Statement: {} to : {}", id, label);
         return statementService.setFactCheckerLabel(id, label);
+    }
+
+    @PostMapping("/statements/import-csv")
+    public ResponseEntity<Void> importCSV(@RequestParam("file") MultipartFile multipartFile) {
+        log.debug("REST Import statements from CSV");
+
+        if(multipartFile.isEmpty()) {
+            throw new BadRequestAlertException("The csv file is empty.", ENTITY_NAME, "csvempty");
+        } else {
+            try (CSVReader csvReader = new CSVReader(new InputStreamReader(multipartFile.getInputStream()))) {
+                csvReader.skip(1); // Skip header.
+                Converter converter = new Converter();
+                List<Statement> statements = new ArrayList<>();
+                Topic topic = topicRepository.getOne(1L); // Immigration Topic.
+                List<SubTopic> subTopics = subTopicRepository.findAll();
+                for (String[] nextLine : csvReader) {
+                    if (nextLine[0].isEmpty()) break; // Stop if empty line.
+                    Statement statement = new Statement();
+                    statement.setText(nextLine[1]);
+                    statement.setMainArticleText(nextLine[2]);
+                    statement.setMainArticleUrl(nextLine[3]);
+                    statement.setAuthor(nextLine[8]);
+                    statement.setStatementDate(converter.stringToInstant(nextLine[10]));
+                    statement.setTopic(topic);
+                    statement.setSubTopics(converter.stringToSubTopics(nextLine[14], subTopics));
+                    statement.setStatementSources(converter.stringsToStatementSources(nextLine[15], nextLine[17]));
+                    statements.add(statement);
+                }
+                // FIXME Set a url parameter to distinguish new insertions VS update
+                statements.forEach(statementService::save);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, "CSV")).build();
     }
 }
