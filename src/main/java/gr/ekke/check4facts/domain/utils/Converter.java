@@ -55,12 +55,22 @@ public class Converter {
         Set<SubTopic> subTopics = new HashSet<>();
         for (String value : split) {
             for (SubTopic subTopic : existing) {
-                if (subTopic.getName().equals(value)) {
+                if (subTopic.getName().equalsIgnoreCase(value)) {
                     subTopics.add(subTopic);
                     break;
                 }
             }
         }
         return subTopics;
+    }
+
+    public Boolean stringToFactCheckerLabel(String s) {
+        if (s.equalsIgnoreCase("true")) {
+            return true;
+        } else if (s.equalsIgnoreCase("false")) {
+            return false;
+        } else {
+            return null;
+        }
     }
 }

@@ -190,6 +190,8 @@ public class StatementResource {
                     statement.setTopic(topic);
                     statement.setSubTopics(converter.stringToSubTopics(nextLine[14], subTopics));
                     statement.setStatementSources(converter.stringsToStatementSources(nextLine[15], nextLine[17]));
+                    statement.setFactCheckerLabel(converter.stringToFactCheckerLabel(nextLine[18]));
+                    statement.setFactCheckerAccuracy(Integer.parseInt(nextLine[19]));
                     statements.add(statement);
                 }
                 // FIXME Set a url parameter to distinguish new insertions VS update
