@@ -61,6 +61,9 @@ public class Statement implements Serializable {
     @Column(name = "fact_checker_label")
     private Boolean factCheckerLabel;
 
+    @Column(name = "fact_checker_accuracy")
+    private Integer factCheckerAccuracy;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "statement_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -178,6 +181,19 @@ public class Statement implements Serializable {
         this.factCheckerLabel = factCheckerLabel;
     }
 
+    public Integer getFactCheckerAccuracy() {
+        return factCheckerAccuracy;
+    }
+
+    public Statement factCheckerAccuracy(Integer factCheckerAccuracy) {
+        this.factCheckerAccuracy = factCheckerAccuracy;
+        return this;
+    }
+
+    public void setFactCheckerAccuracy(Integer factCheckerAccuracy) {
+        this.factCheckerAccuracy = factCheckerAccuracy;
+    }
+
     public Set<StatementSource> getStatementSources() {
         return statementSources;
     }
@@ -271,6 +287,8 @@ public class Statement implements Serializable {
             ", registrationDate='" + getRegistrationDate() + "'" +
             ", mainArticleText='" + getMainArticleText() + "'" +
             ", mainArticleUrl='" + getMainArticleUrl() + "'" +
+            ", factCheckerLabel='" + getFactCheckerLabel() + "'" +
+            ", factCheckerAccuracy='" + getFactCheckerAccuracy() + "'" +
             "}";
     }
 }

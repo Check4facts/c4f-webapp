@@ -12,6 +12,7 @@ export interface IStatement {
   mainArticleText?: any;
   mainArticleUrl?: any;
   factCheckerLabel?: boolean;
+  factCheckerAccuracy?: number;
   statementSources?: IStatementSource[];
   topic?: ITopic;
   subTopics?: ISubTopic[];
