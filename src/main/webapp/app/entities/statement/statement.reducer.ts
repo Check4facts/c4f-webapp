@@ -14,6 +14,7 @@ export const ACTION_TYPES = {
   UPDATE_STATEMENT: 'statement/UPDATE_STATEMENT',
   SET_FACT_CHECKER_LABEL: 'statement/SET_FACT_CHECKER_LABEL',
   DELETE_STATEMENT: 'statement/DELETE_STATEMENT',
+  IMPORT_CSV: 'statement/IMPORT_CSV',
   SET_BLOB: 'statement/SET_BLOB',
   RESET: 'statement/RESET',
 };
@@ -27,6 +28,7 @@ const initialState = {
   totalItems: 0,
   rowsUpdated: 0,
   updateSuccess: false,
+  importSuccess: null,
 };
 
 export type StatementState = Readonly<typeof initialState>;
@@ -38,6 +40,7 @@ export default (state: StatementState = initialState, action): StatementState =>
     case REQUEST(ACTION_TYPES.SEARCH_STATEMENTS):
     case REQUEST(ACTION_TYPES.FETCH_STATEMENT_LIST):
     case REQUEST(ACTION_TYPES.FETCH_STATEMENT):
+    case REQUEST(ACTION_TYPES.IMPORT_CSV):
       return {
         ...state,
         errorMessage: null,
@@ -61,6 +64,7 @@ export default (state: StatementState = initialState, action): StatementState =>
     case FAILURE(ACTION_TYPES.UPDATE_STATEMENT):
     case FAILURE(ACTION_TYPES.DELETE_STATEMENT):
     case FAILURE(ACTION_TYPES.SET_FACT_CHECKER_LABEL):
+    case FAILURE(ACTION_TYPES.IMPORT_CSV):
       return {
         ...state,
         loading: false,
@@ -103,6 +107,12 @@ export default (state: StatementState = initialState, action): StatementState =>
         updating: false,
         updateSuccess: true,
         entity: {},
+      };
+    case SUCCESS(ACTION_TYPES.IMPORT_CSV):
+      return {
+        ...state,
+        loading: false,
+        importSuccess: action.payload,
       };
     case ACTION_TYPES.SET_BLOB: {
       const { name, data, contentType } = action.payload;
@@ -182,6 +192,20 @@ export const deleteEntity: ICrudDeleteAction<IStatement> = id => async dispatch 
   });
   dispatch(getEntities());
   return result;
+};
+
+export const importFromCSV = file => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  };
+  return {
+    type: ACTION_TYPES.IMPORT_CSV,
+    payload: axios.post(`${apiUrl}/import-csv`, formData, config),
+  };
 };
 
 export const setBlob = (name, data, contentType?) => ({

@@ -36,6 +36,7 @@ describe('Entities reducer tests', () => {
     rowsUpdated: 0,
     updating: false,
     updateSuccess: false,
+    importSuccess: null,
   };
 
   function testInitialState(state) {
