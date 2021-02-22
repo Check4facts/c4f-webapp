@@ -5,20 +5,23 @@ import { connect } from 'react-redux';
 import { Translate } from 'react-jhipster';
 import { IRootState } from 'app/shared/reducers';
 import { IModalContent, ITaskStatus } from 'app/shared/model/util.model';
+import { importFromCSV } from 'app/entities/statement/statement.reducer';
 import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.reducer';
 import { trainModel, getTaskStatus, removeTaskStatus } from 'app/modules/fact-checking/fact-checking.reducer';
 import { Button, Row, Col, Container, Spinner, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { progressBar } from 'app/modules/fact-checking/fact-checking-analyze';
 
 export interface IToolsProps extends StateProps, DispatchProps {}
 
 export const Tools = (props: IToolsProps) => {
   const trainStatusInterval = useRef(null);
+  const [csvFile, setCsvFile] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [trainStatus, setTrainStatus] = useState({} as ITaskStatus);
 
-  const { trainingLoading, activeStatuses, taskStatuses, kLoading } = props;
+  const { trainingLoading, activeStatuses, taskStatuses, kLoading, importing } = props;
 
   useEffect(() => {
     props.getActiveCeleryTasks();
@@ -72,6 +75,10 @@ export const Tools = (props: IToolsProps) => {
     props.trainModel();
     setModalOpen(false);
   };
+
+  const onFileChange = event => (
+    setCsvFile(event.target.files[0])
+  );
 
   return kLoading ? (
     <div>
@@ -136,6 +143,25 @@ export const Tools = (props: IToolsProps) => {
           )
         )
       }
+      <Row className="my-3">
+        <Col>
+          <h4 className="text-center">Import Statements from CSV</h4>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="d-flex justify-content-center">
+          {importing ? (
+            <div>
+              <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
+            </div>
+          ) : (
+            <AvForm onSubmit={() => props.importFromCSV(csvFile)}>
+              <AvField type="file" accept=".csv" name="csvFile" label="Upload your CSV" onChange={onFileChange}/>
+              <Button>Submit</Button>
+            </AvForm>
+          )}
+        </Col>
+      </Row>
       <Modal size="md" isOpen={modalOpen} toggle={() => setModalOpen(false)}>
         <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>
         <ModalBody>{modalContent.body}</ModalBody>
@@ -152,14 +178,16 @@ const mapStateToProps = (storeState: IRootState) => ({
   trainingLoading: storeState.factChecking.trainingLoading,
   taskStatuses: storeState.factChecking.taskStatuses,
   kLoading: storeState.kombuMessage.loading,
-  activeStatuses: storeState.kombuMessage.activeStatuses
+  activeStatuses: storeState.kombuMessage.activeStatuses,
+  importing: storeState.statement.loading
 });
 
 const mapDispatchToProps = {
   trainModel,
   getActiveCeleryTasks,
   getTaskStatus,
-  removeTaskStatus
+  removeTaskStatus,
+  importFromCSV
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
