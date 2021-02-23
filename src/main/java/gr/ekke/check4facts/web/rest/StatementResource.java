@@ -181,6 +181,7 @@ public class StatementResource {
                 List<SubTopic> subTopics = subTopicRepository.findAll();
                 for (String[] nextLine : csvReader) {
                     if (nextLine[0].isEmpty()) break; // Stop if empty line.
+                    if (nextLine[18].equals("UNKNOWN")) continue;
                     Statement statement = new Statement();
                     statement.setText(nextLine[1]);
                     statement.setMainArticleText(nextLine[2]);
