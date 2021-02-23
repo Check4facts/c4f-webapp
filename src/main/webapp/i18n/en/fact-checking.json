@@ -47,7 +47,14 @@
         "probability": "Model Decision Trust",
         "retrieved": "Retrieved Results",
         "emotions": "Emotion Results",
-        "rest": "More Characterization Results"
+        "rest": "More Characterization Results",
+        "accuracy": {
+          "1": "Very Inaccurate",
+          "2": "Inaccurate",
+          "3": "Neutral",
+          "4": "Accurate",
+          "5": "Very Accurate"
+        }
       }
     },
     "sub-menus": {

@@ -51,7 +51,7 @@ export const Home = (props: IHomeProp) => {
     header: <>
               <Link className="slider-header container-fluid" to={`/article/${article.id}/display`}>{article.previewTitle}</Link><br/>
               <span className={`fact-checker-label ${article.statement && article.statement.factCheckerLabel ? 'label-true' : 'label-false'}`}>
-                {article.statement && article.statement.factCheckerLabel ? 'Αληθής' : 'Ψευδής'}
+                {article.statement ?( article.statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής') : null}
               </span>
             </>,
     key: `${idx}`

@@ -48,7 +48,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
             <Col md={{ size: 10, offset: 1 }}>
               <h2 className="text-center"><Link to={`/article/${article.id}/display`} className="text-primary">{article.previewTitle}</Link></h2>
               { article.statement &&
-                <p className={`text-right mb-0 fact-checker-label ${article.statement.factCheckerLabel ? 'label-true' : 'label-false'}`}>{article.statement.factCheckerLabel ? 'Αληθής' : 'Ψευδής'}</p>
+                <p className={`text-right mb-0 fact-checker-label ${article.statement.factCheckerLabel ? 'label-true' : 'label-false'}`}>{article.statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</p>
               }
             </Col>
           </Row>
