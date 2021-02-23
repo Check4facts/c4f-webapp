@@ -30,4 +30,8 @@ public interface StatementRepository extends JpaRepository<Statement, Long> {
     @Modifying
     @Query("update Statement s set s.factCheckerLabel = :label where s.id = :id")
     Integer setFactCheckerLabel(@Param(value = "id") Long id, @Param(value = "label") Boolean label);
+
+    @Modifying
+    @Query("update Statement s set s.factCheckerAccuracy = :accuracy where s.id = :id")
+    Integer setFactCheckerAccuracy(@Param(value = "id") Long id, @Param(value = "accuracy") Integer accuracy);
 }

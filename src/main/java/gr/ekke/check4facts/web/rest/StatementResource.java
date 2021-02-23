@@ -160,10 +160,16 @@ public class StatementResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    @PutMapping("/statements/{id}/{label}")
+    @PutMapping("/statements/label/{id}/{label}")
     public Integer setFactCheckerLabel(@PathVariable Long id, @PathVariable Boolean label) {
-        log.debug("Rest request to set factCheckerLabel of Statement: {} to : {}", id, label);
+        log.debug("REST request to set factCheckerLabel of Statement: {} to : {}", id, label);
         return statementService.setFactCheckerLabel(id, label);
+    }
+
+    @PutMapping("/statements/accuracy/{id}/{accuracy}")
+    public Integer setFactCheckerAccuracy(@PathVariable Long id, @PathVariable Integer accuracy) {
+        log.debug("REST request to set factCheckerAccuracy of Statement: {} tp : {}", id, accuracy);
+        return statementService.setFactCheckerAccuracy(id, accuracy);
     }
 
     @PostMapping("/statements/import-csv")

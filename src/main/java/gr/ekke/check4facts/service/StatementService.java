@@ -108,4 +108,9 @@ public class StatementService {
         log.debug("Request to set factCheckerLabel of Statement: {} to : {}", id, label);
         return statementRepository.setFactCheckerLabel(id, label);
     }
+
+    public Integer setFactCheckerAccuracy(Long id, Integer accuracy) {
+        log.debug("Request to set factCheckerAccuracy of Statement: {} to : {}", id, accuracy);
+        return statementRepository.setFactCheckerAccuracy(id, accuracy);
+    }
 }
