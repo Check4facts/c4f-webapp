@@ -191,7 +191,16 @@ export const Statement = (props: IStatementProps) => {
                     ) : null}
                   </td>
                   {/* <td>{statement.mainArticleText}</td>*/}
-                  <td><a href={statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">{statement.mainArticleUrl}</a></td>
+                  <td style={{
+                    MozHyphens: "auto",
+                    msHyphens: "auto",
+                    msWordBreak: "break-all",
+                    WebkitHyphens: "auto",
+                    hyphens: "auto",
+                    overflowWrap: "break-word",
+                    wordBreak: "break-word",
+                    wordWrap: "break-word"
+                  }}><a href={statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">{statement.mainArticleUrl}</a></td>
                   <td>{statement.topic ? translate(`fact-checking.sub-menus.${statement.topic.name}`) : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
