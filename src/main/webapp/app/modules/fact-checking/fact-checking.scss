@@ -14,3 +14,14 @@
   cursor: pointer;
   font-weight: bold;
 }
+
+.accuracy label {
+  display: inline-block;
+  text-align: center;
+  margin: 0 0.5em;
+}
+
+.accuracy label input[type='radio'] {
+  display: block;
+  margin: 0.5em auto;
+}

@@ -5,7 +5,7 @@ import { IRootState } from 'app/shared/reducers';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Table, Button, Container, Spinner, Collapse } from 'reactstrap';
 import { setFact } from 'app/modules/fact-checking/fact-checking.reducer';
-import { getEntity as getStatement, setFactCheckerLabel } from 'app/entities/statement/statement.reducer';
+import { getEntity as getStatement, setFactCheckerLabel, setFactCheckerAccuracy } from 'app/entities/statement/statement.reducer';
 import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
 import { getLatestResourcesByStatement } from 'app/entities/resource/resource.reducer';
 import { defaultValue } from 'app/shared/model/feature-statement.model';
@@ -40,6 +40,11 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     props.setFactCheckerLabel(statement.id, !statement.factCheckerLabel);
     props.setTrueLabel(featureStatement.id, !statement.factCheckerLabel);
   }
+
+  const changeFactCheckerAccuracy = event => {
+    props.setFactCheckerAccuracy(statement.id, event.target.value);
+    // TODO Add corresponding call for FeatureStatement when column is added to table.
+  };
 
   return sLoading || rLoading || (featureStatement === defaultValue) ? (
     <div>
@@ -96,9 +101,9 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         <Row className="text-center my-3">
           <Col>
             {featureStatement.predictLabel ? (
-              <h5 className="text-success">Αληθής</h5>
+              <h5 className="text-success">Ακριβής</h5>
             ) : (
-              <h5 className="text-danger">Ψευδής</h5>
+              <h5 className="text-danger">Ανακριβής</h5>
             )}
           </Col>
           <Col>
@@ -217,32 +222,85 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
             </Col>
           </Row>
         </Collapse>
-        <Row className="text-center py-3">
-          <Col>
-            <h4 className="text-info">Απόφαση Ελεγκτή</h4>
-          </Col>
-          <Col>
-            <h4 className={statement.factCheckerLabel ? 'text-success' : 'text-danger'}>{statement.factCheckerLabel ? 'Αληθής' : 'Ψευδής'}</h4>
-          </Col>
-          <Col className="d-flex justify-content-center">
-            {
-              sUpdating ? (
-                <Button color="primary">
-                  <Spinner size="sm" color="dark" />
-                </Button>
-              ) : (
-                <Button color="info" onClick={toggleFactCheckerLabel}>
-                  Αλλαγή
-                </Button>
-              )
-            }
-          </Col>
-        </Row>
-        <Row className="text-center">
-          <Col>
-            <p>Με βάση τα παραπάνω στοιχεία μπορείτε να αλλάξετε την κατάσταση της δήλωσης αυτής</p>
-          </Col>
-        </Row>
+        <div className="border">
+          <Row className="text-center py-3">
+            <Col>
+              <h4 className="text-info">Απόφαση Ελεγκτή</h4>
+            </Col>
+          </Row>
+          <Row className="text-center pb-3 align-items-center">
+            <Col>
+              <h4 className="m-0">Κατάσταση:</h4>
+            </Col>
+            <Col>
+              <h5 className={`m-0 ${statement.factCheckerLabel ? 'text-success' : 'text-danger'}`}>{statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</h5>
+            </Col>
+            <Col className="d-flex justify-content-center">
+              {
+                sUpdating ? (
+                  <Button color="primary">
+                    <Spinner size="sm" color="dark" />
+                  </Button>
+                ) : (
+                  <Button color="info" onClick={toggleFactCheckerLabel}>
+                    Αλλαγή
+                  </Button>
+                )
+              }
+            </Col>
+          </Row>
+          <Row className="text-center pb-3 align-items-center">
+            <Col>
+              <h4 className="m-0">Βαθμός Ακρίβειας:</h4>
+            </Col>
+            <Col md="8">
+              <div className="accuracy" onChange={changeFactCheckerAccuracy}>
+                <label>
+                  <input type="radio" value={1} checked={statement.factCheckerAccuracy === 1} name="accuracy"/>
+                  {translate('fact-checking.results.model.accuracy.1')}
+                </label>
+                <label>
+                  <input type="radio" value={2} checked={statement.factCheckerAccuracy === 2} name="accuracy"/>
+                  {translate('fact-checking.results.model.accuracy.2')}
+                </label>
+                <label>
+                  <input type="radio" value={3} checked={statement.factCheckerAccuracy === 3} name="accuracy"/>
+                  {translate('fact-checking.results.model.accuracy.3')}
+                </label>
+                <label>
+                  <input type="radio" value={4} checked={statement.factCheckerAccuracy === 4} name="accuracy"/>
+                  {translate('fact-checking.results.model.accuracy.4')}
+                </label>
+                <label>
+                  <input type="radio" value={5} checked={statement.factCheckerAccuracy === 5} name="accuracy"/>
+                  {translate('fact-checking.results.model.accuracy.5')}
+                </label>
+              </div>
+            </Col>
+            {/* <Col>*/}
+            {/*  <h5 className={`m-0 ${statement.factCheckerAccuracy === 3 ? 'text-info' : (statement.factCheckerAccuracy > 3 ? 'text-success' : 'text-danger')}`}>{statement.factCheckerAccuracy}</h5>*/}
+            {/*  <p className="m-0">{translate(`fact-checking.results.model.accuracy.${statement.factCheckerAccuracy}`)}</p>*/}
+            {/* </Col>*/}
+            {/* <Col className="d-flex justify-content-center">*/}
+            {/*  {*/}
+            {/*    sUpdating ? (*/}
+            {/*      <Button color="primary">*/}
+            {/*        <Spinner size="sm" color="dark" />*/}
+            {/*      </Button>*/}
+            {/*    ) : (*/}
+            {/*      <Button color="info" onClick={toggleFactCheckerLabel}>*/}
+            {/*        Αλλαγή*/}
+            {/*      </Button>*/}
+            {/*    )*/}
+            {/*  }*/}
+            {/* </Col>*/}
+          </Row>
+          <Row className="text-center">
+            <Col>
+              <p>Με βάση τα παραπάνω στοιχεία μπορείτε να αλλάξετε την κατάσταση της δήλωσης αυτής</p>
+            </Col>
+          </Row>
+        </div>
         <Row className="my-3">
           <Col className="d-flex justify-content-center" md={{ size: 4, offset: 4 }}>
             <Button tag={Link} to="/article/new" color="primary">
@@ -308,6 +366,7 @@ const mapDispatchToProps = {
   setFact,
   getStatement,
   setFactCheckerLabel,
+  setFactCheckerAccuracy,
   getStatementSourcesByStatement,
   getLatestResourcesByStatement,
   getLatestFeatureStatementByStatementId,
