@@ -220,7 +220,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
         </Row>
         <Row className="my-3">
           {
-             featureStatementCount > 0 ? (
+            statement.registrationDate !== null && featureStatementCount > 0 ? (
               <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
                 <Button tag={Link} to={`/fact-checking/results/${statement.id}`} color="info">
                   {translate("fact-checking.results.title")}
@@ -248,7 +248,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
           }
         </Row>
         {
-          featureStatementCount >= 1 && !reAnalyze ? (
+          statement.registrationDate !== null && featureStatementCount >= 1 && !reAnalyze ? (
             <Row className="my-3 p-3 border-top border-left border-right border-bottom border-danger">
               <Col className="d-flex justify-content-center align-self-center">
                 <h5 className="mb-0">Συνολικές Αναλύσεις : <span className="text-info">{featureStatementCount}</span></h5>
