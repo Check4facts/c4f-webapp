@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { Translate, translate } from 'react-jhipster';
@@ -10,14 +10,15 @@ import { TabContent, TabPane, Table, Row, Col, Label, Button, Container } from '
 import { createEntity as createStatement } from 'app/entities/statement/statement.reducer';
 import { getEntities as getTopics } from "app/entities/topic/topic.reducer";
 import { reset } from "app/modules/fact-checking/fact-checking.reducer";
-import {IStatementSource} from "app/shared/model/statement-source.model";
-import {mapIdList} from "app/shared/util/entity-utils";
+import { IStatementSource } from 'app/shared/model/statement-source.model';
 
 export interface IFactCheckingProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const FactChecking = (props: IFactCheckingProps) => {
   const statementSourceFormRef = useRef(AvForm);
+  const subTopicsFormRef = useRef(AvForm);
   const [activeTab, setActiveTab] = useState('1');
+  const [subTopics, setSubTopics] = useState([] as string[]);
   const [statementSources, setStatementSources] = useState([] as IStatementSource[]);
 
   const toggle = tab => {
@@ -56,13 +57,25 @@ export const FactChecking = (props: IFactCheckingProps) => {
     setStatementSources(statementSources.filter(ss => ss !== statementSources[index]));
   }
 
+  const addSubTopic = (event, errors, values) => {
+    if (errors.length === 0) {
+      setSubTopics(subTopics.concat([values.text]));
+      subTopicsFormRef.current.reset();
+    }
+  };
+
+  const removeSubTopic = index => {
+    setSubTopics(subTopics.filter(st => st !== subTopics[index]));
+  };
+
   const saveStatement = (event, errors, values) => {
     values.statementDate = convertDateTimeToServer(values.statementDate);
 
     if (errors.length === 0) {
       const entity = {
         ...values,
-        statementSources
+        statementSources,
+        subTopics
       };
 
       props.createStatement(entity);
@@ -126,6 +139,12 @@ export const FactChecking = (props: IFactCheckingProps) => {
                     />
                   </AvGroup>
                   <AvGroup>
+                    <Label id="mainArticleTitleLabel" for="statement-mainArticleTitle">
+                      <Translate contentKey="check4FactsApp.statement.mainArticleTitle">Main Article Title</Translate>
+                    </Label>
+                    <AvInput id="statement-mainArticleTitle" type="textarea" name="mainArticleTitle" />
+                  </AvGroup>
+                  <AvGroup>
                     <Label id="mainArticleTextLabel" for="statement-mainArticleText">
                       <Translate contentKey="check4FactsApp.statement.mainArticleText">Main Article Text</Translate>
                     </Label>
@@ -152,6 +171,58 @@ export const FactChecking = (props: IFactCheckingProps) => {
                         : null}
                     </AvInput>
                   </AvGroup>
+                  <Col md={{ size: 4, offset: 4 }} className="text-center">
+                    <Label>
+                      <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
+                    </Label>
+                    {subTopics && subTopics.length > 0 && (
+                      <Table responsive>
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>
+                              <Translate contentKey="check4FactsApp.statement.subTopic">Sub Topic</Translate>
+                            </th>
+                            <th/>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {subTopics.map((subTopic, i) => (
+                            <tr key={`st-${i}`}>
+                              <td>{i+1}</td>
+                              <td>{subTopic}</td>
+                              <td className="text-right">
+                                <Button color="danger" onClick={() => removeSubTopic(i)}>
+                                  <FontAwesomeIcon icon="trash" />
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    )}
+                    <AvForm
+                      model={{}}
+                      beforeSubmitValidation={beforeAdd}
+                      onSubmit={addSubTopic}
+                      ref={subTopicsFormRef}
+                    >
+                      <AvGroup>
+                        <AvInput
+                          id="sub-topic-text"
+                          type="text"
+                          name="text"
+                        />
+                      </AvGroup>
+                      <Col className="text-center">
+                        <Button color="primary" id="add-sub-topic" type="submit">
+                          <FontAwesomeIcon icon="plus" />
+                          &nbsp;
+                          Προσθήκη
+                        </Button>
+                      </Col>
+                    </AvForm>
+                  </Col>
                   <Button className="float-right" color="primary" type="button" onClick={() => toggle('2')}>
                     <FontAwesomeIcon icon="arrow-right" />
                     &nbsp;
