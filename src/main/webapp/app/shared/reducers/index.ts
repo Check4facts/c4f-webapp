@@ -34,10 +34,6 @@ import statementSource, {
   StatementSourceState
 } from 'app/entities/statement-source/statement-source.reducer';
 // prettier-ignore
-import subTopic, {
-  SubTopicState
-} from 'app/entities/sub-topic/sub-topic.reducer';
-// prettier-ignore
 import topic, {
   TopicState
 } from 'app/entities/topic/topic.reducer';
@@ -62,7 +58,6 @@ export interface IRootState {
   readonly resource: ResourceState;
   readonly statement: StatementState;
   readonly statementSource: StatementSourceState;
-  readonly subTopic: SubTopicState;
   readonly topic: TopicState;
   readonly featureStatement: FeatureStatementState;
   readonly kombuMessage: KombuMessageState;
@@ -87,7 +82,6 @@ const rootReducer = combineReducers<IRootState>({
   resource,
   statement,
   statementSource,
-  subTopic,
   topic,
   featureStatement,
   kombuMessage,

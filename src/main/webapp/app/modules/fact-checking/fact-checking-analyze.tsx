@@ -99,8 +99,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
     // @ts-ignore
     props.analyzeStatement({
       ...entity,
-      statementSources: null,
-      subTopics: null
+      statementSources: null
     });
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
@@ -150,11 +149,9 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
         </Row>
         <Row className="text-center my-3 text-info">
           <Col><h4>{translate("check4FactsApp.statement.topic")}</h4></Col>
-          <Col><h4>{translate("check4FactsApp.statement.subTopics")}</h4></Col>
         </Row>
         <Row  className="text-center my-3">
           <Col><h5>{statement.topic && translate(`fact-checking.sub-menus.${statement.topic.name}`)}</h5></Col>
-          <Col><h5>{statement.subTopics && statement.subTopics.map(subTopic => subTopic.name).join(",")}</h5></Col>
         </Row>
         <Row className="text-center my-3 text-info">
           <Col>

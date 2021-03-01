@@ -43,14 +43,6 @@
       "relationshipType": "many-to-one",
       "otherEntityField": "name",
       "otherEntityRelationshipName": "statement"
-    },
-    {
-      "relationshipName": "subTopics",
-      "otherEntityName": "subTopic",
-      "relationshipType": "many-to-many",
-      "otherEntityField": "name",
-      "ownerSide": true,
-      "otherEntityRelationshipName": "statements"
     }
   ],
   "changelogDate": "20201021125622",

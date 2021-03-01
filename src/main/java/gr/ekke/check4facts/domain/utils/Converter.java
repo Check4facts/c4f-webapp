@@ -1,7 +1,6 @@
 package gr.ekke.check4facts.domain.utils;
 
 import gr.ekke.check4facts.domain.StatementSource;
-import gr.ekke.check4facts.domain.SubTopic;
 import org.apache.commons.validator.GenericValidator;
 
 import java.text.ParseException;
@@ -49,20 +48,20 @@ public class Converter {
         return statementSources;
     }
 
-    public Set<SubTopic> stringToSubTopics(String s, List<SubTopic> existing) {
-        String[] split = s.split("/");
-
-        Set<SubTopic> subTopics = new HashSet<>();
-        for (String value : split) {
-            for (SubTopic subTopic : existing) {
-                if (subTopic.getName().equalsIgnoreCase(value)) {
-                    subTopics.add(subTopic);
-                    break;
-                }
-            }
-        }
-        return subTopics;
-    }
+//    public Set<SubTopic> stringToSubTopics(String s, List<SubTopic> existing) {
+//        String[] split = s.split("/");
+//
+//        Set<SubTopic> subTopics = new HashSet<>();
+//        for (String value : split) {
+//            for (SubTopic subTopic : existing) {
+//                if (subTopic.getName().equalsIgnoreCase(value)) {
+//                    subTopics.add(subTopic);
+//                    break;
+//                }
+//            }
+//        }
+//        return subTopics;
+//    }
 
     public Boolean stringToFactCheckerLabel(String s) {
         if (s.equalsIgnoreCase("true")) {

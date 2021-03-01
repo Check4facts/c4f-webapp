@@ -9,7 +9,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { TabContent, TabPane, Table, Row, Col, Label, Button, Container } from 'reactstrap';
 import { createEntity as createStatement } from 'app/entities/statement/statement.reducer';
 import { getEntities as getTopics } from "app/entities/topic/topic.reducer";
-import { getEntities as getSubTopics } from "app/entities/sub-topic/sub-topic.reducer";
 import { reset } from "app/modules/fact-checking/fact-checking.reducer";
 import {IStatementSource} from "app/shared/model/statement-source.model";
 import {mapIdList} from "app/shared/util/entity-utils";
@@ -25,7 +24,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
     if(activeTab !== tab) setActiveTab(tab);
   }
 
-  const { topics, subTopics } = props;
+  const { topics } = props;
 
   const handleClose = () => {
     props.history.push('/fact-checking/analyze/' + props.statement.id);
@@ -34,7 +33,6 @@ export const FactChecking = (props: IFactCheckingProps) => {
   useEffect(() => {
     props.reset();
     props.getTopics();
-    props.getSubTopics();
   }, []);
 
   useEffect(() => {
@@ -64,8 +62,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
     if (errors.length === 0) {
       const entity = {
         ...values,
-        statementSources,
-        subTopics: mapIdList(values.subTopics)
+        statementSources
       };
 
       props.createStatement(entity);
@@ -150,27 +147,6 @@ export const FactChecking = (props: IFactCheckingProps) => {
                         ? topics.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
                             {translate(`fact-checking.sub-menus.${otherEntity.name}`)}
-                          </option>
-                        ))
-                        : null}
-                    </AvInput>
-                  </AvGroup>
-                  <AvGroup>
-                    <Label for="statement-subTopics">
-                      <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
-                    </Label>
-                    <AvInput
-                      id="statement-subTopics"
-                      type="select"
-                      multiple
-                      className="form-control"
-                      name="subTopics"
-                    >
-                      <option value="" key="0" />
-                      {subTopics
-                        ? subTopics.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.name}
                           </option>
                         ))
                         : null}
@@ -292,7 +268,6 @@ export const FactChecking = (props: IFactCheckingProps) => {
 const mapStateToProps = (storeState: IRootState) => ({
   isAuthenticated: storeState.authentication.isAuthenticated,
   topics: storeState.topic.entities,
-  subTopics: storeState.subTopic.entities,
   updateStatementSuccess: storeState.statement.updateSuccess,
   statement: storeState.statement.entity
 });
@@ -300,7 +275,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   createStatement,
   getTopics,
-  getSubTopics,
   reset
 };
 

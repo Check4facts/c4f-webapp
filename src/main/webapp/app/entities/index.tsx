@@ -10,7 +10,6 @@ import PageNotFound from 'app/shared/error/page-not-found';
 import Resource from './resource';
 import Statement from './statement';
 import StatementSource from './statement-source';
-import SubTopic from './sub-topic';
 import Topic from './topic';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
@@ -23,7 +22,6 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}resource`} component={Resource} />
       <ErrorBoundaryRoute path={`${match.url}statement`} component={Statement} />
       <ErrorBoundaryRoute path={`${match.url}statement-source`} component={StatementSource} />
-      <ErrorBoundaryRoute path={`${match.url}sub-topic`} component={SubTopic} />
       <ErrorBoundaryRoute path={`${match.url}topic`} component={Topic} />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       <ErrorBoundaryRoute component={PageNotFound} />

@@ -73,19 +73,6 @@ export const StatementDetail = (props: IStatementDetailProps) => {
             <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate>
           </dt>
           <dd>{statementEntity.topic ? translate(`fact-checking.sub-menus.${statementEntity.topic.name}`) : ''}</dd>
-          <dt>
-            <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
-          </dt>
-          <dd>
-            {statementEntity.subTopics
-              ? statementEntity.subTopics.map((val, i) => (
-                  <span key={val.id}>
-                    <a>{val.name}</a>
-                    {statementEntity.subTopics && i === statementEntity.subTopics.length - 1 ? '' : ', '}
-                  </span>
-                ))
-              : null}
-          </dd>
         </dl>
         <Button tag={Link} to="/statement" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

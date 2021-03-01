@@ -194,26 +194,6 @@ public class StatementResourceIT {
             .andExpect(jsonPath("$.[*].mainArticleText").value(hasItem(DEFAULT_MAIN_ARTICLE_TEXT.toString())))
             .andExpect(jsonPath("$.[*].mainArticleUrl").value(hasItem(DEFAULT_MAIN_ARTICLE_URL.toString())));
     }
-    
-    @SuppressWarnings({"unchecked"})
-    public void getAllStatementsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(statementServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restStatementMockMvc.perform(get("/api/statements?eagerload=true"))
-            .andExpect(status().isOk());
-
-        verify(statementServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({"unchecked"})
-    public void getAllStatementsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(statementServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restStatementMockMvc.perform(get("/api/statements?eagerload=true"))
-            .andExpect(status().isOk());
-
-        verify(statementServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
 
     @Test
     @Transactional

@@ -79,10 +79,6 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
         <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.topic")}</Col>
         <Col>{statement.topic && translate(`fact-checking.sub-menus.${statement.topic.name}`)}</Col>
       </Row>
-      <Row className="my-1 py-1 border-bottom">
-        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.subTopics")}</Col>
-        <Col>{statement.subTopics && statement.subTopics.map(subTopic => subTopic.name).join(",")}</Col>
-      </Row>
       {
         statementSources.length > 0 &&
           <>

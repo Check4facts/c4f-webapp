@@ -2,10 +2,8 @@ package gr.ekke.check4facts.web.rest;
 
 import com.opencsv.CSVReader;
 import gr.ekke.check4facts.domain.Statement;
-import gr.ekke.check4facts.domain.SubTopic;
 import gr.ekke.check4facts.domain.Topic;
 import gr.ekke.check4facts.domain.utils.Converter;
-import gr.ekke.check4facts.repository.SubTopicRepository;
 import gr.ekke.check4facts.repository.TopicRepository;
 import gr.ekke.check4facts.service.StatementService;
 import gr.ekke.check4facts.web.rest.errors.BadRequestAlertException;
@@ -50,12 +48,9 @@ public class StatementResource {
 
     private final TopicRepository topicRepository;
 
-    private final SubTopicRepository subTopicRepository;
-
-    public StatementResource(StatementService statementService, TopicRepository topicRepository, SubTopicRepository subTopicRepository) {
+    public StatementResource(StatementService statementService, TopicRepository topicRepository) {
         this.statementService = statementService;
         this.topicRepository = topicRepository;
-        this.subTopicRepository = subTopicRepository;
     }
 
     /**
@@ -102,18 +97,12 @@ public class StatementResource {
      * {@code GET  /statements} : get all the statements.
      *
      * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of statements in body.
      */
     @GetMapping("/statements")
-    public ResponseEntity<List<Statement>> getAllStatements(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Statement>> getAllStatements(Pageable pageable) {
         log.debug("REST request to get a page of Statements");
-        Page<Statement> page;
-        if (eagerload) {
-            page = statementService.findAllWithEagerRelationships(pageable);
-        } else {
-            page = statementService.findAll(pageable);
-        }
+        Page<Statement> page = statementService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -184,7 +173,6 @@ public class StatementResource {
                 Converter converter = new Converter();
                 List<Statement> statements = new ArrayList<>();
                 Topic topic = topicRepository.getOne(1L); // Immigration Topic.
-                List<SubTopic> subTopics = subTopicRepository.findAll();
                 for (String[] nextLine : csvReader) {
                     if (nextLine[0].isEmpty()) break; // Stop if empty line.
                     if (nextLine[18].equals("UNKNOWN")) continue;
@@ -195,7 +183,7 @@ public class StatementResource {
                     statement.setAuthor(nextLine[8]);
                     statement.setStatementDate(converter.stringToInstant(nextLine[10]));
                     statement.setTopic(topic);
-                    statement.setSubTopics(converter.stringToSubTopics(nextLine[14], subTopics));
+//                    statement.setSubTopics(converter.stringToSubTopics(nextLine[14], subTopics));
                     statement.setStatementSources(converter.stringsToStatementSources(nextLine[15], nextLine[17]));
                     statement.setFactCheckerLabel(converter.stringToFactCheckerLabel(nextLine[18]));
                     statement.setFactCheckerAccuracy(Integer.parseInt(nextLine[19]));
