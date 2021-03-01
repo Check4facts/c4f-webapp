@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label } from 'reactstrap';
+import { Button, Row, Col, Label, Table } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 import { Translate, translate, ICrudGetAction, ICrudGetAllAction, setFileData, byteSize, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +16,8 @@ import { getStatementSourcesByStatement } from "app/entities/statement-source/st
 export interface IStatementUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const StatementUpdate = (props: IStatementUpdateProps) => {
+  const subTopicsFormRef = useRef(AvForm);
+  const [subTopics, setSubTopics] = useState([] as string[]);
   const [topicId, setTopicId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
@@ -37,6 +39,25 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
 
     props.getTopics();
   }, []);
+
+  useEffect(() => {
+    setSubTopics(statementEntity.subTopics);
+  }, [statementEntity]);
+
+  const beforeAdd = event => {
+    event.stopPropagation();
+  };
+
+  const addSubTopic = (event, errors, values) => {
+    if (errors.length === 0) {
+      setSubTopics(subTopics.concat([values.text]));
+      subTopicsFormRef.current.reset();
+    }
+  };
+
+  const removeSubTopic = index => {
+    setSubTopics(subTopics.filter(st => st !== subTopics[index]));
+  };
 
   const onBlobChange = (isAnImage, name) => event => {
     setFileData(event, (contentType, data) => props.setBlob(name, data, contentType), isAnImage);
@@ -63,10 +84,14 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
       };
 
       if (isNew) {
-        props.createEntity(entity);
+        props.createEntity({
+          ...entity,
+          subTopics
+        });
       } else {
         props.updateEntity({
           ...entity,
+          subTopics,
           statementSources
         });
       }
@@ -142,6 +167,12 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
+                <Label id="mainArticleTitleLabel" for="statement-mainArticleTitle">
+                  <Translate contentKey="check4FactsApp.statement.mainArticleTitle">Main Article Title</Translate>
+                </Label>
+                <AvInput id="statement-mainArticleTitle" type="textarea" name="mainArticleTitle" />
+              </AvGroup>
+              <AvGroup>
                 <Label id="mainArticleTextLabel" for="statement-mainArticleText">
                   <Translate contentKey="check4FactsApp.statement.mainArticleText">Main Article Text</Translate>
                 </Label>
@@ -162,12 +193,64 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
                   {topics
                     ? topics.map(otherEntity => (
                         <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.name}
+                          {translate(`fact-checking.sub-menus.${otherEntity.name}`)}
                         </option>
                       ))
                     : null}
                 </AvInput>
               </AvGroup>
+              <Col md={{ size: 4, offset: 4 }} className="text-center">
+                <Label>
+                  <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
+                </Label>
+                {subTopics && subTopics.length > 0 && (
+                  <Table responsive>
+                    <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>
+                        <Translate contentKey="check4FactsApp.statement.subTopic">Sub Topic</Translate>
+                      </th>
+                      <th/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {subTopics.map((subTopic, i) => (
+                      <tr key={`st-${i}`}>
+                        <td>{i+1}</td>
+                        <td>{subTopic}</td>
+                        <td className="text-right">
+                          <Button color="danger" onClick={() => removeSubTopic(i)}>
+                            <FontAwesomeIcon icon="trash" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                    </tbody>
+                  </Table>
+                )}
+                <AvForm
+                  model={{}}
+                  beforeSubmitValidation={beforeAdd}
+                  onSubmit={addSubTopic}
+                  ref={subTopicsFormRef}
+                >
+                  <AvGroup>
+                    <AvInput
+                      id="sub-topic-text"
+                      type="text"
+                      name="text"
+                    />
+                  </AvGroup>
+                  <Col className="text-center">
+                    <Button color="primary" id="add-sub-topic" type="submit">
+                      <FontAwesomeIcon icon="plus" />
+                      &nbsp;
+                      Προσθήκη
+                    </Button>
+                  </Col>
+                </AvForm>
+              </Col>
               <Button tag={Link} id="cancel-save" to="/statement" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

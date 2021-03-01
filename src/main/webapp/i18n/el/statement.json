@@ -21,12 +21,14 @@
       "author": "Δηλών",
       "statementDate": "Ημερομηνία Δήλωσης",
       "registrationDate": "Ημερομηνία Ανάλυσης",
+      "mainArticleTitle": "Τίτλος Κυρίως Άρθρου",
       "mainArticleText": "Κείμενο Κυρίως Άρθρου",
       "mainArticleUrl": "Σύνδεσμος Κυρίως Άρθρου",
       "statementSources": "Πηγές Δήλωσης",
       "resources": "Resources",
       "topic": "Θεματική",
-      "subTopics": "Υπο-θεματικές"
+      "subTopic": "Υποθεματική",
+      "subTopics": "Υποθεματικές"
     }
   }
 }

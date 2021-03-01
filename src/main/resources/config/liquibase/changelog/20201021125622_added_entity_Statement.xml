@@ -27,6 +27,9 @@
             <column name="registration_date" type="datetime">
                 <constraints nullable="true" />
             </column>
+            <column name="main_article_title" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
             <column name="main_article_text" type="${clobType}">
                 <constraints nullable="true" />
             </column>
@@ -37,6 +40,9 @@
                 <constraints nullable="true" />
             </column>
             <column name="topic_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="sub_topics" type="varchar(255) []">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

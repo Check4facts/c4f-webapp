@@ -8,12 +8,14 @@ export interface IStatement {
   author?: string;
   statementDate?: string;
   registrationDate?: string;
+  mainArticleTitle?: any;
   mainArticleText?: any;
   mainArticleUrl?: any;
   factCheckerLabel?: boolean;
   factCheckerAccuracy?: number;
   statementSources?: IStatementSource[];
   topic?: ITopic;
+  subTopics?: string[];
 }
 
 export const defaultValue: Readonly<IStatement> = {};

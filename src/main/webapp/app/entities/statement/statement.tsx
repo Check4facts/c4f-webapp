@@ -169,6 +169,9 @@ export const Statement = (props: IStatementProps) => {
                 <th>
                   <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -202,6 +205,7 @@ export const Statement = (props: IStatementProps) => {
                     wordWrap: "break-word"
                   }}><a href={statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">{statement.mainArticleUrl}</a></td>
                   <td>{statement.topic ? translate(`fact-checking.sub-menus.${statement.topic.name}`) : ''}</td>
+                  <td>{statement.subTopics.join(', ')}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       {isAdmin ? (

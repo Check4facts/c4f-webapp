@@ -58,6 +58,12 @@ export const StatementDetail = (props: IStatementDetailProps) => {
             ) : null}
           </dd>
           <dt>
+            <span id="mainArticleTitle">
+              <Translate contentKey="check4FactsApp.statement.mainArticleTitle">Main Article Title</Translate>
+            </span>
+          </dt>
+          <dd>{statementEntity.mainArticleTitle}</dd>
+          <dt>
             <span id="mainArticleText">
               <Translate contentKey="check4FactsApp.statement.mainArticleText">Main Article Text</Translate>
             </span>
@@ -73,6 +79,10 @@ export const StatementDetail = (props: IStatementDetailProps) => {
             <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate>
           </dt>
           <dd>{statementEntity.topic ? translate(`fact-checking.sub-menus.${statementEntity.topic.name}`) : ''}</dd>
+          <dt>
+            <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
+          </dt>
+          <dd>{statementEntity.subTopics ? statementEntity.subTopics.join(', ') : ''}</dd>
         </dl>
         <Button tag={Link} to="/statement" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}
