@@ -7,9 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Converter {
 
@@ -48,20 +46,11 @@ public class Converter {
         return statementSources;
     }
 
-//    public Set<SubTopic> stringToSubTopics(String s, List<SubTopic> existing) {
-//        String[] split = s.split("/");
-//
-//        Set<SubTopic> subTopics = new HashSet<>();
-//        for (String value : split) {
-//            for (SubTopic subTopic : existing) {
-//                if (subTopic.getName().equalsIgnoreCase(value)) {
-//                    subTopics.add(subTopic);
-//                    break;
-//                }
-//            }
-//        }
-//        return subTopics;
-//    }
+    public List<String> stringToSubTopics(String s) {
+        String[] split = s.split("/");
+
+        return new ArrayList<>(Arrays.asList(split));
+    }
 
     public Boolean stringToFactCheckerLabel(String s) {
         if (s.equalsIgnoreCase("true")) {

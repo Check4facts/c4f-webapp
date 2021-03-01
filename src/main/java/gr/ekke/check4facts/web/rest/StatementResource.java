@@ -175,15 +175,16 @@ public class StatementResource {
                 Topic topic = topicRepository.getOne(1L); // Immigration Topic.
                 for (String[] nextLine : csvReader) {
                     if (nextLine[0].isEmpty()) break; // Stop if empty line.
-                    if (nextLine[18].equals("UNKNOWN")) continue;
+                    if (nextLine[18].equalsIgnoreCase("unknown")) continue;
                     Statement statement = new Statement();
                     statement.setText(nextLine[1]);
+                    statement.setMainArticleTitle(nextLine[1]);
                     statement.setMainArticleText(nextLine[2]);
                     statement.setMainArticleUrl(nextLine[3]);
                     statement.setAuthor(nextLine[8]);
                     statement.setStatementDate(converter.stringToInstant(nextLine[10]));
                     statement.setTopic(topic);
-//                    statement.setSubTopics(converter.stringToSubTopics(nextLine[14], subTopics));
+                    statement.setSubTopics(converter.stringToSubTopics(nextLine[14]));
                     statement.setStatementSources(converter.stringsToStatementSources(nextLine[15], nextLine[17]));
                     statement.setFactCheckerLabel(converter.stringToFactCheckerLabel(nextLine[18]));
                     statement.setFactCheckerAccuracy(Integer.parseInt(nextLine[19]));
