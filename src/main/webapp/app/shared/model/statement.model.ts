@@ -18,4 +18,7 @@ export interface IStatement {
   subTopics?: string[];
 }
 
-export const defaultValue: Readonly<IStatement> = {};
+export const defaultValue: Readonly<IStatement> = {
+  subTopics: [],
+  statementSources: [],
+};
