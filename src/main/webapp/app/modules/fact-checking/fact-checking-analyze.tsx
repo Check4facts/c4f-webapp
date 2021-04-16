@@ -98,8 +98,9 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     props.analyzeStatement({
-      ...entity,
-      statementSources: null
+      // Only pass entity fields that we need.
+      id: entity.id,
+      text: entity.text
     });
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
