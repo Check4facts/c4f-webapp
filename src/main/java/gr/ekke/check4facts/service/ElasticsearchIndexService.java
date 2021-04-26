@@ -68,10 +68,6 @@ public class ElasticsearchIndexService {
 
     private final StatementSourceSearchRepository statementSourceSearchRepository;
 
-    private final SubTopicRepository subTopicRepository;
-
-    private final SubTopicSearchRepository subTopicSearchRepository;
-
     private final TopicRepository topicRepository;
 
     private final TopicSearchRepository topicSearchRepository;
@@ -89,8 +85,6 @@ public class ElasticsearchIndexService {
         StatementSearchRepository statementSearchRepository,
         StatementSourceRepository statementSourceRepository,
         StatementSourceSearchRepository statementSourceSearchRepository,
-        SubTopicRepository subTopicRepository,
-        SubTopicSearchRepository subTopicSearchRepository,
         TopicRepository topicRepository,
         TopicSearchRepository topicSearchRepository,
         FeatureStatementRepository featureStatementRepository,
@@ -108,8 +102,6 @@ public class ElasticsearchIndexService {
         this.statementSearchRepository = statementSearchRepository;
         this.statementSourceRepository = statementSourceRepository;
         this.statementSourceSearchRepository = statementSourceSearchRepository;
-        this.subTopicRepository = subTopicRepository;
-        this.subTopicSearchRepository = subTopicSearchRepository;
         this.topicRepository = topicRepository;
         this.topicSearchRepository = topicSearchRepository;
         this.featureStatementRepository = featureStatementRepository;
@@ -127,7 +119,6 @@ public class ElasticsearchIndexService {
                 reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
                 reindexForClass(Statement.class, statementRepository, statementSearchRepository);
                 reindexForClass(StatementSource.class, statementSourceRepository, statementSourceSearchRepository);
-                reindexForClass(SubTopic.class, subTopicRepository, subTopicSearchRepository);
                 reindexForClass(Topic.class, topicRepository, topicSearchRepository );
                 reindexForClass(User.class, userRepository, userSearchRepository);
                 log.info("Elasticsearch: Successfully performed reindexing");

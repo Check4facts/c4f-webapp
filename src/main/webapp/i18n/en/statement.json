@@ -21,11 +21,13 @@
       "author": "Author",
       "statementDate": "Statement Date",
       "registrationDate": "Registration Date",
+      "mainArticleTitle": "Main Article Title",
       "mainArticleText": "Main Article Text",
       "mainArticleUrl": "Main Article Url",
       "statementSources": "Statement Sources",
       "resources": "Resources",
       "topic": "Topic",
+      "subTopic": "Sub Topic",
       "subTopics": "Sub Topics"
     }
   }

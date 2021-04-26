@@ -1,16 +1,13 @@
 package gr.ekke.check4facts.domain.utils;
 
 import gr.ekke.check4facts.domain.StatementSource;
-import gr.ekke.check4facts.domain.SubTopic;
 import org.apache.commons.validator.GenericValidator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Converter {
 
@@ -49,19 +46,10 @@ public class Converter {
         return statementSources;
     }
 
-    public Set<SubTopic> stringToSubTopics(String s, List<SubTopic> existing) {
+    public List<String> stringToSubTopics(String s) {
         String[] split = s.split("/");
 
-        Set<SubTopic> subTopics = new HashSet<>();
-        for (String value : split) {
-            for (SubTopic subTopic : existing) {
-                if (subTopic.getName().equalsIgnoreCase(value)) {
-                    subTopics.add(subTopic);
-                    break;
-                }
-            }
-        }
-        return subTopics;
+        return new ArrayList<>(Arrays.asList(split));
     }
 
     public Boolean stringToFactCheckerLabel(String s) {

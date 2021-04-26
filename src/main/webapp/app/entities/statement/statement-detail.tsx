@@ -58,6 +58,12 @@ export const StatementDetail = (props: IStatementDetailProps) => {
             ) : null}
           </dd>
           <dt>
+            <span id="mainArticleTitle">
+              <Translate contentKey="check4FactsApp.statement.mainArticleTitle">Main Article Title</Translate>
+            </span>
+          </dt>
+          <dd>{statementEntity.mainArticleTitle}</dd>
+          <dt>
             <span id="mainArticleText">
               <Translate contentKey="check4FactsApp.statement.mainArticleText">Main Article Text</Translate>
             </span>
@@ -76,16 +82,7 @@ export const StatementDetail = (props: IStatementDetailProps) => {
           <dt>
             <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
           </dt>
-          <dd>
-            {statementEntity.subTopics
-              ? statementEntity.subTopics.map((val, i) => (
-                  <span key={val.id}>
-                    <a>{val.name}</a>
-                    {statementEntity.subTopics && i === statementEntity.subTopics.length - 1 ? '' : ', '}
-                  </span>
-                ))
-              : null}
-          </dd>
+          <dd>{statementEntity.subTopics ? statementEntity.subTopics.join(', ') : ''}</dd>
         </dl>
         <Button tag={Link} to="/statement" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

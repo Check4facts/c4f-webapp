@@ -2,17 +2,20 @@ package gr.ekke.check4facts.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.TypeDef;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,6 +25,10 @@ import java.util.Set;
 @Table(name = "statement")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "statement")
+@TypeDef(
+    name = "list-array",
+    typeClass = ListArrayType.class
+)
 public class Statement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +53,12 @@ public class Statement implements Serializable {
 
     @Column(name = "registration_date")
     private Instant registrationDate;
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "main_article_title")
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
+    private String mainArticleTitle;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -74,12 +87,10 @@ public class Statement implements Serializable {
     @JsonIgnoreProperties(value = "statements", allowSetters = true)
     private Topic topic;
 
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JoinTable(name = "statement_sub_topics",
-               joinColumns = @JoinColumn(name = "statement_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "sub_topics_id", referencedColumnName = "id"))
-    private Set<SubTopic> subTopics = new HashSet<>();
+    @Basic
+    @Type(type = "list-array")
+    @Column(name = "sub_topics", columnDefinition = "varchar(255)[]")
+    private List<String> subTopics;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -140,6 +151,19 @@ public class Statement implements Serializable {
 
     public void setRegistrationDate(Instant registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public String getMainArticleTitle() {
+        return mainArticleTitle;
+    }
+
+    public Statement mainArticleTitle(String mainArticleTitle) {
+        this.mainArticleTitle = mainArticleTitle;
+        return this;
+    }
+
+    public void setMainArticleTitle(String mainArticleTitle) {
+        this.mainArticleTitle = mainArticleTitle;
     }
 
     public String getMainArticleText() {
@@ -234,30 +258,19 @@ public class Statement implements Serializable {
         this.topic = topic;
     }
 
-    public Set<SubTopic> getSubTopics() {
+    public List<String> getSubTopics() {
         return subTopics;
     }
 
-    public Statement subTopics(Set<SubTopic> subTopics) {
+    public Statement subTopics(List<String> subTopics) {
         this.subTopics = subTopics;
         return this;
     }
 
-    public Statement addSubTopics(SubTopic subTopic) {
-        this.subTopics.add(subTopic);
-        subTopic.getStatements().add(this);
-        return this;
-    }
-
-    public Statement removeSubTopics(SubTopic subTopic) {
-        this.subTopics.remove(subTopic);
-        subTopic.getStatements().remove(this);
-        return this;
-    }
-
-    public void setSubTopics(Set<SubTopic> subTopics) {
+    public void setSubTopics(List<String> subTopics) {
         this.subTopics = subTopics;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -285,10 +298,12 @@ public class Statement implements Serializable {
             ", author='" + getAuthor() + "'" +
             ", statementDate='" + getStatementDate() + "'" +
             ", registrationDate='" + getRegistrationDate() + "'" +
+            ", mainArticleTitle='" + getMainArticleTitle() + "'" +
             ", mainArticleText='" + getMainArticleText() + "'" +
             ", mainArticleUrl='" + getMainArticleUrl() + "'" +
             ", factCheckerLabel='" + getFactCheckerLabel() + "'" +
             ", factCheckerAccuracy='" + getFactCheckerAccuracy() + "'" +
+            ", subTopics='" + getSubTopics() + "'" +
             "}";
     }
 }

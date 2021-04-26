@@ -1,7 +1,6 @@
 import { Moment } from 'moment';
 import { IStatementSource } from 'app/shared/model/statement-source.model';
 import { ITopic } from 'app/shared/model/topic.model';
-import { ISubTopic } from 'app/shared/model/sub-topic.model';
 
 export interface IStatement {
   id?: number;
@@ -9,13 +8,17 @@ export interface IStatement {
   author?: string;
   statementDate?: string;
   registrationDate?: string;
+  mainArticleTitle?: any;
   mainArticleText?: any;
   mainArticleUrl?: any;
   factCheckerLabel?: boolean;
   factCheckerAccuracy?: number;
   statementSources?: IStatementSource[];
   topic?: ITopic;
-  subTopics?: ISubTopic[];
+  subTopics?: string[];
 }
 
-export const defaultValue: Readonly<IStatement> = {};
+export const defaultValue: Readonly<IStatement> = {
+  subTopics: [],
+  statementSources: [],
+};

@@ -14,17 +14,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="topic"/>
 
-        <addForeignKeyConstraint baseColumnNames="statement_id"
-                                 baseTableName="statement_sub_topics"
-                                 constraintName="fk_statement_sub_topics_statement_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="statement"/>
-
-        <addForeignKeyConstraint baseColumnNames="sub_topics_id"
-                                 baseTableName="statement_sub_topics"
-                                 constraintName="fk_statement_sub_topics_sub_topics_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="sub_topic"/>
-
     </changeSet>
 </databaseChangeLog>

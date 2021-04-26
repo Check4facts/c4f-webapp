@@ -27,6 +27,9 @@
             <column name="registration_date" type="datetime">
                 <constraints nullable="true" />
             </column>
+            <column name="main_article_title" type="${clobType}">
+                <constraints nullable="true" />
+            </column>
             <column name="main_article_text" type="${clobType}">
                 <constraints nullable="true" />
             </column>
@@ -39,25 +42,13 @@
             <column name="topic_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="sub_topics" type="varchar(255) []">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="statement" columnName="statement_date" columnDataType="datetime"/>
         <dropDefaultValue tableName="statement" columnName="registration_date" columnDataType="datetime"/>
-    </changeSet>
-
-    <changeSet id="20201021125622-1-relations" author="jhipster">
-
-        <createTable tableName="statement_sub_topics">
-            <column name="sub_topics_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="statement_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="statement_id, sub_topics_id" tableName="statement_sub_topics"/>
-
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
@@ -82,16 +73,6 @@
 <!--            <column name="main_article_url" type="clob"/>-->
 <!--            <column name="topic_id" type="numeric"/>-->
 <!--            &lt;!&ndash; jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here &ndash;&gt;-->
-<!--        </loadData>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="20201021125622-1-statement_subTopics_data" author="jhipster" context="faker">-->
-<!--        <loadData-->
-<!--                  file="config/liquibase/fake-data/statement_sub_topic.csv"-->
-<!--                  separator=";"-->
-<!--                  tableName="statement_sub_topics">-->
-<!--            <column name="sub_topics_id" type="numeric"/>-->
-<!--            <column name="statement_id" type="numeric"/>-->
 <!--        </loadData>-->
 <!--    </changeSet>-->
 
