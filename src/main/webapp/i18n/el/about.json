@@ -17,6 +17,7 @@
     },
     "project": {
       "sideMenu": {
+        "project": "Έργο",
         "team": "Ομάδα",
         "funding": "Χρηματοδότηση",
         "collaborating": "Συνεργαζόμενοι Φορείς",

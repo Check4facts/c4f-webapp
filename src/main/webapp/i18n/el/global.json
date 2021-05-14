@@ -51,14 +51,14 @@
       },
       "more": {
         "main": "Περισσότερα",
-        "ethics": "Μεθοδολογία/Δεοντολογία",
+        "ethics": "Δεοντολογία/Μεθοδολογία",
         "third-party": "Σύνδεσμοι Τρίτων"
       },
       "language": "Γλώσσα"
     },
     "form": {
       "username.label": "Όνομα Χρήστη",
-      "username.placeholder": "Το όνομα χρηστη σας",
+      "username.placeholder": "Το όνομα χρήστη σας",
       "currentpassword.label": "Current password",
       "currentpassword.placeholder": "Current password",
       "newpassword.label": "New password",
