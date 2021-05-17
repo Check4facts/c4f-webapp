@@ -9,7 +9,7 @@ export const Project = () => {
     {
       id: "project",
       title: translate("about.project.sideMenu.project"),
-      content: <div data-class="text-justify">
+      content: <div className="text-justify">
         <p>Το παρόν έργο ανταποκρίνεται στην ανάγκη να υπάρξει επιστημονική γνώση και διάλογος για τον έλεγχο της αξιοπιστίας του δημόσιου λόγου στην Ελλάδα. Πιο συγκεκριμένα, η ιστοσελίδα check4facts εστιάζει σε δύο ιδιαίτερα σημαντικές θεματικές ενότητες του πολιτικού λόγου: το προσφυγικό/μεταναστευτικό ζήτημα, και την εγκληματικότητα. Οι δύο αυτές θεματικές συχνά συνδέονται και χαρακτηρίζονται από αξιοσημείωτη και διαρκή παρουσία στη δημόσια σφαίρα.</p>
         <p>Η αποξένωση των πολιτών από το πολιτικό σύστημα, η δυσπιστία απέναντι στους ειδικούς, η θεώρηση της πολιτικής ως παιχνίδι εξουσίας/στρατηγικής, που επωφελείται από την περιορισμένη γνώση των πολιτών σε σχέση με την πολιτική σφαίρα και τα δικαιώματά τους, ενισχύουν αυτό που ονομάζεται «οικονομία της προσοχής» (‘attention economy’), η οποία περιλαμβάνει την εφαρμογή μεθόδων “neuro marketing” και προπαγανδιστικών πρακτικών που αποσκοπούν να επηρεάσουν τα συναισθήματα και τις συμπεριφορές των πολιτών.</p>
         <p>Μακριά από πολιτικές, μηντιακές σκοπιμότητες και εντυπωσιοθηρικές- εμπορευματοποιημένες λογικές, η πλατφόρμα check4facts.gr προσφέρει ένα χρήσιμο εργαλείο ουσιαστικής συμμετοχής των πολιτών στο δημόσιο διάλογο. Την κύρια ευθύνη για τη μεθοδολογία εξακρίβωσης της εγκυρότητας των δημόσια εκφερόμενων πληροφοριών έχει η επιστημονική ομάδα της πλατφόρμας, της οποίας πυρήνας είναι επιστήμονες με μακροχρόνια πείρα στην καταγραφή και ανάλυση του δημόσια εκφερόμενου λόγου, προερχόμενοι από το Εθνικό Κέντρο Κοινωνικών Ερευνών, το Ερευνητικό Κέντρο «Αθηνά» και το Τμήμα Επικοινωνίας και ΜΜΕ του Εθνικού και Καποδιστριακού Πανεπιστημίου Αθηνών.</p>
@@ -27,7 +27,7 @@ export const Project = () => {
     {
       id: "team",
       title: translate("about.project.sideMenu.team"),
-      content: <div>
+      content: <div className="text-justify">
         <p>Το πρόγραμμα Check4Facts έχει το προνόμιο να αποκομίζει οφέλη από τη συνεργασία διεθνούς φήμης επιστημόνων με ευρύ έργο περί fake news, περί λαϊκισμού και πολιτικής, περί Μέσων Μαζικής Επικοινωνίας και δημοσιογραφίας.</p>
         <p>Η κεντρική ομάδα αποτελείται από τους εξής επιστήμονες:</p>
         <ul>
@@ -47,14 +47,14 @@ export const Project = () => {
     {
       id: "funding",
       title: translate("about.project.sideMenu.funding"),
-      content: <div>
+      content: <div className="text-justify">
         <p>Το έργο συγχρηματοδοτήθηκε από το Ελληνικό Ίδρυμα Έρευνας και Καινοτομίας και τη Γενική Γραμματεία Έρευνας και Καινοτομίας (grant agreement HFRI-FM17-2283).</p>
       </div>
     },
     {
       id: "collaborating",
       title: translate("about.project.sideMenu.collaborating"),
-      content: <div>
+      content: <div className="text-justify">
         <ul>
           <li><p>Εθνικό Κέντρο Κοινωνικών Ερευνών</p></li>
           <li><p>Εργαστήριο Κοινωνικής Έρευνας στα ΜΜΕ- Τμήμα Επικοινωνίας και ΜΜΕ- Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών</p></li>
@@ -65,10 +65,8 @@ export const Project = () => {
     {
       id: "experts",
       title: translate("about.project.sideMenu.experts"),
-      content: <div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate posuere lorem eu sodales. Aliquam vel justo nulla. Ut finibus dolor ac placerat molestie. Praesent eget ipsum metus. Sed eget lectus convallis nisl sodales consequat. Aenean interdum urna dolor, ultricies fermentum dui iaculis sed. Morbi non lorem porttitor, ullamcorper nisi laoreet, pellentesque nibh. Pellentesque nec aliquet mauris. Phasellus eu tortor sagittis justo rutrum lobortis sed ut risus. Nullam ipsum libero, ultricies et ligula ac, placerat rutrum lorem. Sed urna urna, vestibulum eget purus eget, interdum suscipit nisl. Cras a sapien libero. Mauris magna risus, congue eu molestie in, luctus id lorem. Donec eget tempor lorem. Praesent varius vitae est non tempus. Donec condimentum purus ex, tempus hendrerit massa dictum et.</p>
-        <p>Curabitur consectetur scelerisque arcu, vel eleifend lorem molestie quis. Suspendisse fringilla pellentesque tincidunt. Phasellus aliquam varius placerat. Morbi ac finibus elit. Sed vel porttitor ante. Morbi ac lacinia purus. Mauris accumsan, lectus sit amet tincidunt facilisis, dui metus pellentesque justo, id dapibus libero ex eu libero. Mauris est felis, bibendum vel ligula eu, aliquam gravida felis. Duis laoreet pellentesque diam eget placerat. Vestibulum eleifend ac erat nec volutpat. Vivamus luctus lobortis orci vel sollicitudin. Nunc porttitor sagittis ante maximus rhoncus. Etiam molestie est in accumsan elementum.</p>
-        <p>Nulla sit amet vestibulum eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur facilisis sollicitudin arcu nec hendrerit. Phasellus dapibus enim cursus purus lobortis, quis aliquam lacus feugiat. Maecenas augue libero, laoreet sit amet convallis ac, fermentum eu tellus. Sed sed cursus quam. Nulla a ultrices mauris. Pellentesque viverra dolor felis, nec tristique risus hendrerit vitae. Donec et diam eros. Donec egestas id urna vitae varius. Donec justo neque, imperdiet vel rutrum eget, scelerisque id massa. Integer ullamcorper vitae risus ac placerat. Suspendisse potenti. Proin quis consequat ipsum.</p>
+      content: <div className="text-justify">
+        <p> </p>
       </div>
     }
   ];
