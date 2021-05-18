@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export const Brand = () => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
     <span className="brand-title">
-      <Translate contentKey="global.title">Check4facts</Translate>
+      {/*<Translate contentKey="global.title">Check4facts</Translate>*/}
+      <img src='../../../../content/images/CHECK 4 FACTS MAIN BRAND DARK STRIPE.png' alt="Check4Facts" />
     </span>
   </NavbarBrand>
 );
