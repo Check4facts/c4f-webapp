@@ -107,7 +107,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
             )}
           </Col>
           <Col>
-            <h5 className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{featureStatement.predictProba * 100}%</h5>
+            <h5 className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{Math.round(featureStatement.predictProba * 100)}%</h5>
           </Col>
         </Row>
         <Row className="text-center my-3 text-info">
