@@ -19,6 +19,7 @@
       "about": {
         "main": "Σχετικά",
         "project": "Έργο",
+        "ethics": "Δεοντολογία/Μεθοδολογία",
         "contact": "Επικοινωνία"
       },
       "account": {
@@ -38,7 +39,7 @@
         "health": "Υγεία",
         "configuration": "Διαμόρφωση",
         "logs": "Καταγραφές",
-        "audits": "'Ελεγχει",
+        "audits": "'Ελεγχοι",
         "tools": "Εργαλεία",
         "apidocs": "API",
         "database": "Βάση Δεδομένων",
@@ -51,7 +52,6 @@
       },
       "more": {
         "main": "Περισσότερα",
-        "ethics": "Δεοντολογία/Μεθοδολογία",
         "third-party": "Σύνδεσμοι Τρίτων"
       },
       "language": "Γλώσσα"
@@ -109,7 +109,7 @@
     "ribbon": {
       "dev": "Development"
     },
-    "item-count": "Εμφάνιση {{first}} - {{second}} του {{total}} αντικείμενα."
+    "item-count": "Εμφάνιση {{first}} - {{second}} από {{total}} αντικείμενα."
   },
   "entity": {
     "action": {

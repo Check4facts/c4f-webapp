@@ -19,6 +19,7 @@
       "about": {
         "main": "About",
         "project": "Project",
+        "ethics": "Methodology/Ethics",
         "contact": "Contact"
       },
       "account": {
@@ -51,7 +52,6 @@
       },
       "more": {
         "main": "More",
-        "ethics": "Methodology/Ethics",
         "third-party": "Third Party Links"
       },
       "language": "Language"

@@ -9,9 +9,6 @@ export const MoreMenu = () => (
     id="entity-menu"
     style={{ maxHeight: '80vh', overflow: 'auto' }}
   >
-    <MenuItem icon="asterisk" to="/more/ethics">
-      <Translate contentKey="global.menu.more.ethics" />
-    </MenuItem>
     <MenuItem icon="asterisk" to="/more/third-party">
       <Translate contentKey="global.menu.more.third-party" />
     </MenuItem>

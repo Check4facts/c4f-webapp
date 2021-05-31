@@ -15,7 +15,7 @@ export const Contact = () => (
       <Col className="text-center"><span className="font-weight-bold">{translate("about.contact.phone")}</span><br/><br/>
         <span className="text-info">210 7491613-614</span></Col>
       <Col className="text-center"><span className="font-weight-bold">{translate("about.contact.email")}</span><br/><br/>
-        <span className="text-info">something@ekke.gr</span></Col>
+        <span className="text-info">check4facts@ekke.gr</span></Col>
       <Col className="text-center"><span className="font-weight-bold">{translate("about.contact.address")}</span><br/><br/>
         <span className="text-info">Κρατίνου 9 και Αθηνάς, Πλατεία Κοτζιά, 105 52 Αθήνα</span></Col>
     </Row>

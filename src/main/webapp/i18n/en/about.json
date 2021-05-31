@@ -17,11 +17,17 @@
     },
     "project": {
       "sideMenu": {
+        "project": "Project",
         "team": "Team",
         "funding": "Funding",
         "collaborating": "Collaborating Organizations",
         "experts": "Experts"
       }
+    },
+    "ethics": {
+      "main": "Methodology and Code of Ethics",
+      "code": "Code of Ethics",
+      "meth": "Methodology"
     }
   }
 }

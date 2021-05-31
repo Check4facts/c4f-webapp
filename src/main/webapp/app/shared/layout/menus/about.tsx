@@ -12,6 +12,9 @@ export const AboutMenu = () => (
     <MenuItem icon="clipboard-list" to="/about/project">
       <Translate contentKey="global.menu.about.project" />
     </MenuItem>
+    <MenuItem icon="asterisk" to="/about/ethics">
+      <Translate contentKey="global.menu.about.ethics" />
+    </MenuItem>
     <MenuItem icon="phone-alt" to="/about/contact">
       <Translate contentKey="global.menu.about.contact" />
     </MenuItem>

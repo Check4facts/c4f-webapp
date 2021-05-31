@@ -7,7 +7,7 @@ export const Ethics = () => (
     <Row className="my-5">
       <Col sm="12" md={{ size: 6, offset: 3 }} className="text-justify">
         <h1 className="text-center">
-          <Translate contentKey="fact-checking.ethics.code" />
+          <Translate contentKey="about.ethics.code" />
         </h1>
         <br/>
         <p>Ως πλατφόρμα, η οποία δημοσιεύει σε τακτική βάση εκθέσεις αναφορικά με την ακρίβεια/εγκυρότητα των δηλώσεων δημοσίων προσώπων ή θεσμών/οργανισμών επί των θεματικών πεδίων του προσφυγικού/μεταναστευτικού ζητήματος και της εγκληματικότητας, οφείλουμε να ακολουθούμε έναν κώδικα δεοντολογίας, ο οποίος συμπυκνώνει τις αρχές που διέπουν τον έλεγχο αξιοπιστίας [1] των δημόσιων δηλώσεων που διεξάγεται μέσω της ιστοσελίδας check4facts, πάντα με βασικό γνώμονα τη βελτίωση της δημόσιας συζήτησης αναφορικά με (επίδικα) ζητήματα δημόσιου ενδιαφέροντος.</p>
@@ -50,7 +50,7 @@ export const Ethics = () => (
     <Row className="my-5">
       <Col sm="12" md={{ size: 6, offset: 3 }} className="text-justify">
         <h1 className="text-center">
-          <Translate contentKey="fact-checking.ethics.meth" />
+          <Translate contentKey="about.ethics.meth" />
         </h1>
         <br/>
         <p>Ο έλεγχος εγκυρότητας/ακρίβειας δηλώσεων είναι μια περίπλοκη διαδικασία που αποτελείται από διάφορα βήματα που μπορούν να ομαδοποιηθούν σε τρεις κύριες κατηγορίες:</p>
