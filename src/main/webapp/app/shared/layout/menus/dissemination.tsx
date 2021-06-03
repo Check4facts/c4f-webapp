@@ -11,8 +11,8 @@ export const DisseminationMenu = () => (
     <MenuItem icon="file" to="/dissemination/publications">
       <Translate contentKey="global.menu.dissemination.publications" />
     </MenuItem>
-    <MenuItem icon="file" to="/dissemination/reports">
-      <Translate contentKey="global.menu.dissemination.reports" />
+    <MenuItem icon="file" to="/dissemination/videos">
+      <Translate contentKey="global.menu.dissemination.videos" />
     </MenuItem>
   </NavDropdown>
 );

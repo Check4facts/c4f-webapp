@@ -2,9 +2,9 @@ import React from 'react';
 import {translate} from "react-jhipster";
 import SideMenuTemplate from "app/shared/layout/templates/side-menu-template";
 
-export const Reports = () => {
+export const Videos = () => {
 
-  const reportsItems = [
+  const videosItems = [
     {
       id: 'fact',
       title: translate('dissemination.category.fact'),
@@ -35,8 +35,8 @@ export const Reports = () => {
   ];
 
   return (
-    <SideMenuTemplate items={reportsItems} />
+    <SideMenuTemplate items={videosItems} />
   );
 }
 
-export default Reports;
+export default Videos;

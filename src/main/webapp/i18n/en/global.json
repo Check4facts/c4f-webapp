@@ -47,8 +47,8 @@
       },
       "dissemination": {
         "main": "Knowledge Dissemination",
-        "publications": "Scientific Publications",
-        "reports": "Technical Reports"
+        "publications": "Scientific Publications/Reports",
+        "videos": "Video Tutorials"
       },
       "more": {
         "main": "More",
