@@ -38,6 +38,7 @@ import { faFile } from '@fortawesome/free-solid-svg-icons/faFile';
 import { faTools } from '@fortawesome/free-solid-svg-icons/faTools';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faLink } from '@fortawesome/free-solid-svg-icons/faLink';
 
 export const loadIcons = () => {
   library.add(
@@ -78,6 +79,7 @@ export const loadIcons = () => {
     faCloud,
     faTimesCircle,
     faSearch,
-    faTools
+    faTools,
+    faLink
   );
 };

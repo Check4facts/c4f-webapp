@@ -1,14 +1,14 @@
 import './templates.scss';
-import React, { useState } from 'react';
-import { Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Translate, translate } from "react-jhipster";
+import React, {useState} from 'react';
+import {Badge, Button, ButtonGroup, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row} from 'reactstrap';
+import {Translate, translate} from "react-jhipster";
 import {IRootState} from 'app/shared/reducers';
-import { connect } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Link, useHistory} from 'react-router-dom';
 import moment from 'moment';
-import { deleteEntity as deleteArticle } from 'app/entities/article/article.reducer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IModalContent } from "app/shared/model/util.model";
+import {deleteEntity as deleteArticle} from 'app/entities/article/article.reducer';
+import {IModalContent} from "app/shared/model/util.model";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export interface IArticlesFeedProps extends StateProps, DispatchProps {
   showButtons?: boolean
@@ -31,84 +31,67 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
     history.go(0);
   };
 
-  const { articles, loading, isAuthenticated, currentLocale, showButtons } = props;
+  const {articles, loading, isAuthenticated, currentLocale, showButtons} = props;
 
   return (
-    <>
+    <Row className="mb-5">
       {articles && articles.length > 0 ? articles.map(article => (
-        <div className="my-5 py-3 article-feed-entry" key={article.id} >
+        <Col sm="6" lg="4" className="mb-5 mb-sm-2 grid-margin" key={article.id}>
           {isAuthenticated && !article.published &&
-          <Row>
-            <Col md={{ size: 3, offset: 6 }}>
-              <p className="text-danger text-uppercase">{translate('check4FactsApp.article.unpublished')}</p>
-            </Col>
-          </Row>
+          <Badge color="danger">
+            <span className="text-uppercase">{translate('check4FactsApp.article.unpublished')}</span>
+          </Badge>
           }
-          <Row>
-            <Col md={{ size: 10, offset: 1 }}>
-              <h2 className="text-center"><Link to={`/article/${article.id}/display`} className="text-primary">{article.previewTitle}</Link></h2>
-              { article.statement &&
-                <p className={`text-right mb-0 fact-checker-label ${article.statement.factCheckerLabel ? 'label-true' : 'label-false'}`}>{article.statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</p>
-              }
-            </Col>
-          </Row>
-          <Row className="py-2">
-            <Col md={{ size: 3, offset: 1 }}>
-              {article.previewImage
-                ? <Link to={`/article/${article.id}/display`}><img className="img-fluid" src={`data:${article.previewImageContentType};base64,${article.previewImage}`} alt="previewImage" style={{ display: 'block', margin: 'auto' }} /></Link>
-                : null
-              }
-            </Col>
-            <Col md="7" className="border-left pt-2">
-              <h5 className="text-muted">{moment.locale(currentLocale) && moment(article.articleDate).format("LL")}</h5>
-              <p className="article-feed-entry-content">{article.previewText}</p>
-            </Col>
-            {showButtons && isAuthenticated && (
-              <Col md="1">
-                <Row className="mt-5 d-flex">
-                  <Col className="d-flex justify-content-center">
-                    <Button
-                      color="info"
-                      tag={Link}
-                      to={`/article/${article.id}/edit`}
-                    >
-                      <FontAwesomeIcon icon="pencil-alt" />
-                    </Button>
-                  </Col>
-                </Row>
-                <Row className="mt-1 d-flex">
-                  <Col className="d-flex justify-content-center">
-                    <Button
-                      color="danger"
-                      onClick={() => openModal({
-                        header: 'Διαγραφή Περιεχομένου',
-                        body: <p>Είστε σίγουροι ότι θέλετε να διαγράψετε το περιεχόμενο με τίτλο : <br/><strong>{article.previewTitle}</strong></p>,
-                        action: confirmDelete(article.id)
-                      })}
-                    >
-                      <FontAwesomeIcon icon="trash" />
-                    </Button>
-                  </Col>
-                </Row>
-              </Col>
-            )}
-          </Row>
-          <Row>
-            <Col md={{ size: 10, offset: 1 }}>
-              <p className="text-info text-right">
-                {translate('check4FactsApp.statement.author')}: {article.statement && article.statement.author} <br/>
-                <a
-                  className="text-info"
-                  href={article.statement && article.statement.mainArticleUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Πηγή
-                </a>
-              </p>
-            </Col>
-          </Row>
-        </div>
+          {article.statement && <Badge color={`${article.statement.factCheckerLabel ? 'success' : 'danger'}`}>
+            <span className="text-uppercase">{article.statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</span>
+          </Badge>}
+          <div className="position-relative image-hover">
+            {article.previewImage
+              ? <Link to={`/article/${article.id}/display`}><img
+                src={`data:${article.previewImageContentType};base64,${article.previewImage}`}
+                className="img-fluid"
+                alt="previewImage"
+              /></Link> : null}
+            <span className="thumb-title">{article.category.name}</span>
+          </div>
+          <Link to={`/article/${article.id}/display`}>
+            <h5 className="font-weight-600 mt-3">
+              {article.previewTitle}
+            </h5>
+          </Link>
+          <h5
+            className="text-muted font-weight-bold pt-2">{moment.locale(currentLocale) && moment(article.articleDate).format("LL")}</h5>
+          <p className="fs-15 font-weight-normal">
+            {article.previewText}
+          </p>
+          <div className="d-flex justify-content-between mb-3">
+            <div><span
+              className="fs-12 mr-1 text-muted">{translate('check4FactsApp.statement.author')}: {(article.statement && article.statement.author) || 'N/A'}</span>
+            </div>
+            <div><a className="fs-12 mr-1 text-muted" href={article.statement && article.statement.mainArticleUrl}
+                    target="_blank" rel="noopener noreferrer"> Πηγή <FontAwesomeIcon icon="link"/>
+            </a></div>
+          </div>
+          <ButtonGroup size="xs">
+            <Button
+            color="info"
+            tag={Link}
+            to={`/article/${article.id}/edit`}
+          >
+            <FontAwesomeIcon icon="pencil-alt"/>
+          </Button><Button
+            color="danger"
+            onClick={() => openModal({
+              header: 'Διαγραφή Περιεχομένου',
+              body: <p>Είστε σίγουροι ότι θέλετε να διαγράψετε το περιεχόμενο με τίτλο
+                : <br/><strong>{article.previewTitle}</strong></p>,
+              action: confirmDelete(article.id)
+            })}
+          >
+            <FontAwesomeIcon icon="trash"/>
+          </Button>
+          </ButtonGroup>
+        </Col>
       )) : (
         !loading && (
           <div className="alert alert-warning">
@@ -124,7 +107,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
           <Button color="primary" onClick={() => modalContent.action()}>Ναι</Button>
         </ModalFooter>
       </Modal>
-    </>
+    </Row>
   )
 };
 

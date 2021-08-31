@@ -1,18 +1,18 @@
 import './header.scss';
 
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { translate } from 'react-jhipster';
-import { Navbar, Nav, NavbarToggler, Collapse, Row, Col } from 'reactstrap';
+import React, {useState} from 'react';
+import {NavLink} from 'react-router-dom';
+import {translate} from 'react-jhipster';
+import {Collapse, Container, Nav, NavbarToggler, NavItem} from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
-import { Brand } from './header-components';
-import { AdminMenu, EntitiesMenu, AccountMenu, LogIn } from '../menus';
-import { Social } from 'app/shared/layout/menus/social';
-import { AboutMenu } from 'app/shared/layout/menus/about';
-import { DisseminationMenu } from 'app/shared/layout/menus/dissemination';
-import { TopicsMenu } from 'app/shared/layout/menus/topics-menu';
-import { MoreMenu } from "app/shared/layout/menus/more";
+import {Brand} from './header-components';
+import {AccountMenu, AdminMenu, EntitiesMenu, LogIn} from '../menus';
+import {Social} from 'app/shared/layout/menus/social';
+import {AboutMenu} from 'app/shared/layout/menus/about';
+import {DisseminationMenu} from 'app/shared/layout/menus/dissemination';
+import {TopicsMenu} from 'app/shared/layout/menus/topics-menu';
+import {MoreMenu} from "app/shared/layout/menus/more";
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -38,43 +38,45 @@ const Header = (props: IHeaderProps) => {
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
   return (
-    <div id="app-header" className="bg-dark fixed-top">
+    <header id="app-header" className="">
       <div className="ribbon dev">
         <a href="">
           Πειραματική<br/>Εφαρμογή
         </a>
       </div>
-      <LoadingBar className="loading-bar" />
-        <Row xs="2">
-          <Col className="d-flex justify-content-center" md={{ size:3, offset: 3 }} sm="6" >
-            <Brand />
-          </Col>
-          <Col className="d-flex justify-content-center" sm="6" md="3" >
-            <Social />
-          </Col>
-        </Row>
-        <Row>
-          <Col className="d-flex justify-content-center" md={{ size: 8, offset: 2 }} >
-            <Navbar className="pt-0" dark expand="sm" style={{ borderStyle: 'none' }}>
-              <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
-              <Collapse isOpen={menuOpen} navbar>
-                <Nav id="header-tabs" className="ml-auto" navbar>
-                  {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
-                  {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
-                  <NavLink to="/" exact className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink>
-                  {props.isAuthenticated && <NavLink to="/fact-checking" className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink>}
-                  <TopicsMenu />
-                  <DisseminationMenu />
-                  <AboutMenu />
-                  <MoreMenu />
-                  {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn />}
-                  {/* <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />*/}
-                </Nav>
-              </Collapse>
-            </Navbar>
-          </Col>
-        </Row>
-    </div>
+      <LoadingBar className="loading-bar"/>
+      <Container>
+        <nav className="navbar navbar-expand-lg">
+          <div className="d-flex justify-content-between align-items-center navbar-top">
+{/*            <ul className="navbar-left">
+            </ul>*/ }
+            <Brand/>
+            <div className="d-flex">
+              <Social/>
+            </div>
+          </div>
+          <div className="navbar-bottom-menu">
+            <NavbarToggler aria-label="Menu" onClick={toggleMenu}/>
+            <Collapse isOpen={menuOpen} className="justify-content-center" navbar>
+              <Nav id="header-tabs" navbar>
+                {props.isAuthenticated && props.isAdmin && <EntitiesMenu/>}
+                {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled}/>}
+                <NavItem><NavLink to="/" exact
+                                  className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink></NavItem>
+                {props.isAuthenticated && <NavLink to="/fact-checking"
+                                                   className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink>}
+                <TopicsMenu/>
+                <DisseminationMenu/>
+                <AboutMenu/>
+                <MoreMenu/>
+                {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn/>}
+                {/* <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />*/}
+              </Nav>
+            </Collapse>
+          </div>
+        </nav>
+      </Container>
+    </header>
   );
 };
 

@@ -2,10 +2,11 @@ import './footer.scss';
 
 import React from 'react';
 import { Translate } from 'react-jhipster';
-import { Col, Row } from 'reactstrap';
+import { Col, Row, Container } from 'reactstrap';
 
 const Footer = () => (
-  <div className="footer border-top border-primary">
+  <div className="footer border-top">
+    <Container>
     <Row>
       <Col className="py-2" md="12">
         <p className="text-center text-info my-0">
@@ -15,6 +16,7 @@ const Footer = () => (
         </p>
       </Col>
     </Row>
+    </Container>
   </div>
 );
 

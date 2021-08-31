@@ -1,8 +1,32 @@
-// Override Boostrap variables
-@import '~bootswatch/dist/simplex/variables';
-// Import Bootstrap source files from node_modules
+/*-------------------------------------------------------------------*/
+/* === Import Bootstrap functions and variables === */
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+
+/*-------------------------------------------------------------------*/
+/* === Import template variables === */
+@import 'src/main/webapp/app/bootstrap-variables';
+
+/*-------------------------------------------------------------------*/
+/* === Boostrap Main SCSS === */
 @import 'node_modules/bootstrap/scss/bootstrap';
-@import '~bootswatch/dist/simplex/bootswatch';
+
+/*-------------------------------------------------------------------*/
+
+/* === Core Styles === */
+@import 'cards';
+@import 'fonts';
+@import 'typography';
+@import 'pagination';
+@import './mixins/buttons';
+@import 'buttons';
+@import './navbar';
+@import './wrapper';
+@import './news-post';
+@import './contact';
+@import './footer';
+@import './error';
+
 body {
   margin: 0;
 }
