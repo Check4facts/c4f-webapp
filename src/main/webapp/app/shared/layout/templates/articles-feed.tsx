@@ -72,25 +72,24 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
                     target="_blank" rel="noopener noreferrer"> Πηγή <FontAwesomeIcon icon="link"/>
             </a></div>
           </div>
-          <ButtonGroup size="xs">
+          {showButtons && isAuthenticated && <ButtonGroup size="xs">
             <Button
-            color="info"
-            tag={Link}
-            to={`/article/${article.id}/edit`}
-          >
-            <FontAwesomeIcon icon="pencil-alt"/>
-          </Button><Button
-            color="danger"
-            onClick={() => openModal({
-              header: 'Διαγραφή Περιεχομένου',
-              body: <p>Είστε σίγουροι ότι θέλετε να διαγράψετε το περιεχόμενο με τίτλο
-                : <br/><strong>{article.previewTitle}</strong></p>,
-              action: confirmDelete(article.id)
-            })}
-          >
-            <FontAwesomeIcon icon="trash"/>
-          </Button>
-          </ButtonGroup>
+              color="info"
+              tag={Link}
+              to={`/article/${article.id}/edit`}
+            > <FontAwesomeIcon icon="pencil-alt"/>
+            </Button>
+            <Button
+              color="danger"
+              onClick={() => openModal({
+                header: 'Διαγραφή Περιεχομένου',
+                body: <p>Είστε σίγουροι ότι θέλετε να διαγράψετε το περιεχόμενο με τίτλο
+                  : <br/><strong>{article.previewTitle}</strong></p>,
+                action: confirmDelete(article.id)
+              })}>
+              <FontAwesomeIcon icon="trash"/>
+            </Button>
+          </ButtonGroup>}
         </Col>
       )) : (
         !loading && (
