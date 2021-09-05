@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export interface IMenuItem {
-  icon: IconProp;
+  icon?: IconProp;
   to: string;
   id?: string;
 }

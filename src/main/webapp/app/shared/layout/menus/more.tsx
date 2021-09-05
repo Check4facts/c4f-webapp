@@ -9,7 +9,7 @@ export const MoreMenu = () => (
     id="entity-menu"
     style={{ maxHeight: '80vh', overflow: 'auto' }}
   >
-    <MenuItem icon="asterisk" to="/more/third-party">
+    <MenuItem to="/more/third-party">
       <Translate contentKey="global.menu.more.third-party" />
     </MenuItem>
   </NavDropdown>

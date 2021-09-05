@@ -8,10 +8,10 @@ export const DisseminationMenu = () => (
     name={translate('global.menu.dissemination.main')}
     style={{ maxHeight: '80vh', overflow: 'auto' }}
   >
-    <MenuItem icon="file" to="/dissemination/publications">
+    <MenuItem to="/dissemination/publications">
       <Translate contentKey="global.menu.dissemination.publications" />
     </MenuItem>
-    <MenuItem icon="file" to="/dissemination/videos">
+    <MenuItem to="/dissemination/videos">
       <Translate contentKey="global.menu.dissemination.videos" />
     </MenuItem>
   </NavDropdown>
