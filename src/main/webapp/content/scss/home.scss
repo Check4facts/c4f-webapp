@@ -1,17 +1,11 @@
+@import 'brand_colors';
+
 /* ==========================================================================
 Main page styles
 ========================================================================== */
-.hipster {
-  display: inline-block;
-  width: 100%;
-  height: 497px;
-  background: url('../../../content/images/jhipster_family_member_1.svg') no-repeat center top;
-  background-size: contain;
-}
-
 .check-4-fact {
   font-variant: small-caps;
-  color: #ff3c00;
+  color: $brand-secondary-color;
 }
 
 .carousel-caption {

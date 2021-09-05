@@ -5,7 +5,7 @@
 
 /*-------------------------------------------------------------------*/
 /* === Import template variables === */
-@import 'src/main/webapp/app/bootstrap-variables';
+@import 'src/main/webapp/content/scss/bootstrap-variables';
 
 /*-------------------------------------------------------------------*/
 /* === Boostrap Main SCSS === */
@@ -15,6 +15,7 @@
 
 /* === Core Styles === */
 @import 'cards';
+@import 'brand_colors';
 @import 'fonts';
 @import 'typography';
 @import 'pagination';
@@ -26,6 +27,7 @@
 @import './contact';
 @import './footer';
 @import './error';
+@import './home';
 
 body {
   margin: 0;

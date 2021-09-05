@@ -1,3 +1,11 @@
+@import 'brand_colors';
+/*
+* Bootstrap overrides https://v4-alpha.getbootstrap.com/getting-started/options/
+* All values defined in bootstrap source
+* https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss can be overwritten here
+* Make sure not to add !default to values here
+*/
+
 ////////// COLOR SYSTEM //////////
 
 $blue: #5e50f9;
@@ -45,7 +53,7 @@ $theme-colors: (
   warning: #f5a623,
   danger: #fc5661,
   light: #f8f9fa,
-  dark: #000,
+  dark: $brand-primary-color,
 );
 
 // $theme-gradient-colors: (
@@ -86,7 +94,7 @@ $border-color: #f3f3f3;
 
 ////////// FONTS//
 
-$type1: 'Roboato', sans-serif;
+$type1: 'Roboto', sans-serif;
 
 $default-font-size: 1rem; // 16px as base font size
 

@@ -1,4 +1,4 @@
-import './home.scss';
+import '../../../content/scss/home.scss';
 
 import React, {useEffect, useState} from 'react';
 import {JhiItemCount, JhiPagination, Translate} from 'react-jhipster';
