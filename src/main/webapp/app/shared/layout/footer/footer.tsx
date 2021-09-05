@@ -1,23 +1,31 @@
-import './footer.scss';
-
 import React from 'react';
-import { Translate } from 'react-jhipster';
-import { Col, Row, Container } from 'reactstrap';
+import {Translate} from "react-jhipster";
+import {Container, Row, Col} from 'reactstrap';
 
 const Footer = () => (
-  <div className="footer border-top">
+  <footer>
     <Container>
-    <Row>
-      <Col className="py-2" md="12">
-        <p className="text-center text-info my-0">
-          <Translate contentKey="footer.project"/>
-          <br/>
-          © Copyright 2020 check4facts.gr ®
-        </p>
-      </Col>
-    </Row>
+      <Row>
+        <Col sm="12">
+          <div className="d-lg-flex justify-content-between align-items-center border-top mt-5 footer-bottom">
+            {/* <ul className="footer-horizontal-menu">
+              <li><a href="#">Terms of Use.</a></li>
+              <li><a href="#">Privacy Policy.</a></li>
+              <li><a href="#">Accessibility & CC.</a></li>
+              <li><a href="#">AdChoices.</a></li>
+              <li><a href="#">Advertise with us Transcripts.</a></li>
+              <li><a href="#">License.</a></li>
+              <li><a href="#">Sitemap</a></li>
+            </ul> */}
+            <p><Translate contentKey="footer.project"/></p>
+            <p className="font-weight-medium">
+              © Copyright 2020 <a href="https://www.check4facts.gr/" className="text-dark">check4facts.gr</a> ®
+            </p>
+          </div>
+        </Col>
+      </Row>
     </Container>
-  </div>
+  </footer>
 );
 
 export default Footer;
