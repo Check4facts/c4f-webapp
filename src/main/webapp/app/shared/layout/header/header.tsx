@@ -13,6 +13,7 @@ import {AboutMenu} from 'app/shared/layout/menus/about';
 import {DisseminationMenu} from 'app/shared/layout/menus/dissemination';
 import {TopicsMenu} from 'app/shared/layout/menus/topics-menu';
 import {MoreMenu} from "app/shared/layout/menus/more";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -48,8 +49,8 @@ const Header = (props: IHeaderProps) => {
       <Container>
         <nav className="navbar navbar-expand-lg">
           <div className="d-flex justify-content-between align-items-center navbar-top">
-{/*            <ul className="navbar-left">
-            </ul>*/ }
+            {/*            <ul className="navbar-left">
+            </ul>*/}
             <Brand/>
             <div className="d-flex">
               <Social/>
@@ -64,13 +65,16 @@ const Header = (props: IHeaderProps) => {
                 <NavItem><NavLink to="/" exact
                                   className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink></NavItem>
                 {props.isAuthenticated && <NavItem><NavLink to="/fact-checking"
-                                                   className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink></NavItem>}
+                                                            className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink></NavItem>}
                 <TopicsMenu/>
                 <DisseminationMenu/>
                 <AboutMenu/>
                 <MoreMenu/>
                 {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn/>}
                 {/* <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />*/}
+                <NavItem>
+                  <NavLink to="#" exact className="nav-link"><FontAwesomeIcon size="xs" icon="search"/></NavLink>
+                </NavItem>
               </Nav>
             </Collapse>
           </div>
