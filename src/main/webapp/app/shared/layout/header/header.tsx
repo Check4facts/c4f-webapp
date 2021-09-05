@@ -63,8 +63,8 @@ const Header = (props: IHeaderProps) => {
                 {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled}/>}
                 <NavItem><NavLink to="/" exact
                                   className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink></NavItem>
-                {props.isAuthenticated && <NavLink to="/fact-checking"
-                                                   className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink>}
+                {props.isAuthenticated && <NavItem><NavLink to="/fact-checking"
+                                                   className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink></NavItem>}
                 <TopicsMenu/>
                 <DisseminationMenu/>
                 <AboutMenu/>
