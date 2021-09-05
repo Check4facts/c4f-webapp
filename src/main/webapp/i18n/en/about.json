@@ -9,7 +9,8 @@
           "fullName": "Full Name",
           "email": "Email",
           "comment": "Comment"
-        }
+        },
+        "submit": "Submit"
       },
       "phone": "Phone",
       "email": "E-mail",
