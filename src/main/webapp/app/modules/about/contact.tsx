@@ -1,6 +1,6 @@
 import React from 'react';
-import { Row, Col, Container, Input } from 'reactstrap';
-import { translate } from 'react-jhipster';
+import {Col, Container, Row} from 'reactstrap';
+import {translate} from 'react-jhipster';
 
 export const Contact = () => (
   <Container>
@@ -29,7 +29,7 @@ export const Contact = () => (
                     className="form-control"
                     id="name"
                     aria-describedby="name"
-                    placeholder={translate("about.contact.feedback.fields.fullName")+  ' *'}
+                    placeholder={translate("about.contact.feedback.fields.fullName") + ' *'}
                   />
                 </div>
               </div>
@@ -40,7 +40,7 @@ export const Contact = () => (
                     className="form-control"
                     id="email"
                     aria-describedby="email"
-                    placeholder={translate("about.contact.feedback.fields.email")+  ' *'}
+                    placeholder={translate("about.contact.feedback.fields.email") + ' *'}
                   />
                 </div>
               </div>
@@ -50,7 +50,7 @@ export const Contact = () => (
                 <div className="form-group">
                       <textarea
                         className="form-control textarea"
-                        placeholder={translate("about.contact.feedback.fields.comment")+  ' *'}
+                        placeholder={translate("about.contact.feedback.fields.comment") + ' *'}
                         id="comment"
                       ></textarea>
                 </div>
@@ -60,9 +60,8 @@ export const Contact = () => (
             <div className="row">
               <div className="col-sm-12">
                 <div className="form-group">
-                  <a href="#" className="btn btn-lg btn-dark font-weight-bold"
-                  >{translate("about.contact.feedback.submit")}</a
-                  >
+                  <a href="#"
+                     className="btn btn-lg btn-dark font-weight-bold">{translate("about.contact.feedback.submit")}</a>
                 </div>
               </div>
             </div>
