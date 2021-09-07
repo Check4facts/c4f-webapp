@@ -11,7 +11,7 @@ export const ThirdParty = () => (
         <ul style={{ listStyleType: 'none', padding: 0 }} >
           {
             THIRD_PARTY_LINK.map((item, index) => (
-              <li key={index} className="mb-4">
+              <li key={index} className="mb-3">
                 <a href={item.link} target="_blank"  rel="noopener noreferrer">{item.name}</a>
               </li>
             ))
