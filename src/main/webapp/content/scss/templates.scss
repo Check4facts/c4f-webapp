@@ -1,21 +1,25 @@
+@import 'brand_colors';
+
 .side-menu {
-  position: fixed;
+  /* position: fixed;
   z-index: 1;
   top: 200px;
   left: 5vw;
   width: auto;
-  background: #eee;
+  // background: #eee;
   overflow-x: hidden;
-  padding: 8px 0;
-  .menu-link {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 1.3vw;
-    color: #d9230f;
-    display: block;
-  }
-  .menu-link:hover {
-    color: #ba1e0d;
+  padding: 8px 0; */
+
+  .nav-item {
+    a {
+      text-decoration: none;
+      font-size: 16px;
+      color: #000;
+      font-weight: bold;
+    }
+    a:hover {
+      color: $brand-secondary-color;
+    }
   }
 }
 

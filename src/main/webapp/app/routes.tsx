@@ -10,13 +10,13 @@ import PasswordResetFinish from 'app/modules/account/password-reset/finish/passw
 import Logout from 'app/modules/login/logout';
 import Home from 'app/modules/home/home';
 import About from 'app/modules/about';
-import Dissemination from 'app/modules/dissemination';
 import FactChecking from 'app/modules/fact-checking';
 import More from 'app/modules/more';
 import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import { AUTHORITIES } from 'app/config/constants';
+import Dissemination from "app/modules/dissemination/dissemination";
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),

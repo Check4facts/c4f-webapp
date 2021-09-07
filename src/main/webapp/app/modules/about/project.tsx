@@ -1,6 +1,7 @@
 import React from 'react';
-import { translate } from 'react-jhipster';
+import {Translate, translate} from 'react-jhipster';
 import SideMenuTemplate from "app/shared/layout/templates/side-menu-template";
+import {Col, Container, Row} from 'reactstrap';
 
 
 export const Project = () => {
@@ -72,7 +73,19 @@ export const Project = () => {
   ];
 
   return (
-    <SideMenuTemplate items={projectItems} />
+    <Container>
+      <Row>
+        <Col sm="12">
+          <div className="text-center">
+            <h1 className="text-center mt-5">
+              <Translate contentKey="about.project.title"/>
+            </h1>
+            <p className="text-secondary fs-15 mb-5 pb-3"></p>
+          </div>
+        </Col>
+      </Row>
+      <SideMenuTemplate items={projectItems} />
+    </Container>
   );
 }
 

@@ -1,4 +1,5 @@
 @import 'brand_colors';
+
 /*
 * Bootstrap overrides https://v4-alpha.getbootstrap.com/getting-started/options/
 * All values defined in bootstrap source
@@ -281,3 +282,6 @@ $custom-card-color: #e1e1e1;
 $custom-primary-color: #0a4ded;
 $footer-custom-bg: #d2e0ff;
 $carousel-border-color: #979797;
+
+$link-color: $black;
+$link-hover-color: $brand-secondary-color;

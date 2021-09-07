@@ -17,8 +17,9 @@
       "address": "Διεύθυνση"
     },
     "project": {
+      "title": "Σχετικά",
       "sideMenu": {
-        "project": "Έργο",
+        "project": "Το Έργο",
         "team": "Ομάδα",
         "funding": "Χρηματοδότηση",
         "collaborating": "Συνεργαζόμενοι Φορείς",

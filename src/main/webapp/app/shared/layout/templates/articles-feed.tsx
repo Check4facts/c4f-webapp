@@ -1,4 +1,4 @@
-import './templates.scss';
+import '../../../../content/scss/templates.scss';
 import React, {useState} from 'react';
 import {Badge, Button, ButtonGroup, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row} from 'reactstrap';
 import {Translate, translate} from "react-jhipster";

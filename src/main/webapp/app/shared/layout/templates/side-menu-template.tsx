@@ -1,7 +1,7 @@
-import './templates.scss';
+import '../../../../content/scss/templates.scss';
 import React from 'react';
-import { Row, Col, Container } from 'reactstrap';
-import { NavHashLink } from 'react-router-hash-link';
+import {Col, Container, Nav, NavItem, Row} from 'reactstrap';
+import {NavHashLink} from 'react-router-hash-link';
 
 type sideMenuTemplateItem = {
   id: string,
@@ -16,29 +16,34 @@ export interface ISideMenuTemplateProps {
 
 export const SideMenuTemplate = (props: ISideMenuTemplateProps) => {
 
-  const { items, className } = props;
+  const {items, className} = props;
 
   // only consider an event active if its event id is an odd number
   const isActive = hash => (match, location) => location.hash === hash;
 
   return (
-    <div>
+    <Container>
       <Row>
-        <Col md={3}>
-          <div className={`d-none d-sm-block side-menu ${className}`}>
-            {items.map((linkItem, index) => (
-              <NavHashLink key={`link_${index}`} className="menu-link" isActive={isActive(`#${linkItem.id}`)} to={`#${linkItem.id}`} smooth replace={false}>
-                {linkItem.title}
-              </NavHashLink>
-            ))}
+        <Col lg={4} className="mb-5 mb-sm-2">
+          <div className="author-box side-menu border p-5">
+            <Nav vertical>
+              {items.map((linkItem, index) => (
+                <NavItem key={`link_${index}`}  className="pt-3">
+                  <NavHashLink isActive={isActive(`#${linkItem.id}`)}
+                               to={`#${linkItem.id}`} smooth replace={true}>
+                    {linkItem.title}
+                  </NavHashLink>
+                </NavItem>
+              ))}
+            </Nav>
           </div>
         </Col>
-        <Col md={9}>
+        <Col lg={8}>
           <Container>
             {items.map((rowItem, index) => (
-              <Row key={`row_${index}`} className="my-5" id={rowItem.id}>
+              <Row key={`row_${index}`} className="mb-4 mt-4" id={rowItem.id}>
                 <Col>
-                  <h1 className="text-center side-menu-template-header">{rowItem.title}</h1>
+                  <h2 className="mb-4">{rowItem.title}</h2>
                   {rowItem.content}
                 </Col>
               </Row>
@@ -46,7 +51,7 @@ export const SideMenuTemplate = (props: ISideMenuTemplateProps) => {
           </Container>
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 };
 
