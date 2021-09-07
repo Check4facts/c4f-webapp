@@ -34,7 +34,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
   const {articles, loading, isAuthenticated, currentLocale, showButtons} = props;
 
   return (
-    <Row className="mb-5">
+    <Row className="mt-5">
       {articles && articles.length > 0 ? articles.map(article => (
         <Col sm="6" lg="4" className="mb-5 mb-sm-2 grid-margin" key={article.id}>
           {isAuthenticated && !article.published &&
