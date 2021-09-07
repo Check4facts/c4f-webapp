@@ -1,20 +1,22 @@
 /* tslint:disable:jsx-no-lambda */
-import './article-display.scss';
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
-import { getEntity, reset } from 'app/entities/article/article.reducer';
-import { defaultValue } from 'app/shared/model/article.model';
-import { Container } from 'reactstrap';
-import { Spinner } from 'reactstrap';
-import { IRootState } from 'app/shared/reducers';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
+import {RouteComponentProps} from 'react-router-dom';
+import {getEntity, reset} from 'app/entities/article/article.reducer';
+import {defaultValue} from 'app/shared/model/article.model';
+import {Col, Container, Row, Spinner, Badge, Alert} from 'reactstrap';
+import {IRootState} from 'app/shared/reducers';
+import {translate} from "react-jhipster";
+import moment from "moment";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
-export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
+}
 
 export const ArticleDisplay = (props: IArticleDisplayProps) => {
 
-  useEffect(() =>{
+  useEffect(() => {
     props.getEntity(props.match.params.id);
   }, []);
 
@@ -44,18 +46,54 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
     return body;
   };
 
-  const { article, loading, errorMessage } = props;
+  const {article, loading, errorMessage, currentLocale} = props;
 
   return loading || article === defaultValue ? (
     <div>
-      <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
+      <Spinner style={{width: '5rem', height: '5rem', margin: '10% 0 10% 45%'}} color="dark"/>
     </div>
   ) : errorMessage === null ? (
-    <div className="article-display-page">
-      <Container>
-        <div className="ck-content" dangerouslySetInnerHTML={{ __html: handleEmbedTags(article.content) }} />
-      </Container>
-    </div>
+    <Container>
+      <Row>
+        <Col sm="12">
+          <div className="article-wrapper">
+            <div className="article-wrapper-sm ">
+              <h1 className="text-center">
+                {article.previewTitle}
+              </h1>
+              <div className="text-center">
+                <a href="#"
+                   className="btn btn-dark font-weight-bold mb-4">{translate(`check4FactsApp.category.${article.category.name}`)}</a>
+              </div>
+              <p
+                className="fs-15 d-flex justify-content-center align-items-center m-0 text-muted"
+              >
+                {translate('check4FactsApp.statement.author')}: {(article.statement && article.statement.author) || 'N/A '} | {moment.locale(currentLocale) && moment(article.articleDate).format("LL")}
+              </p>
+              {article.previewImage
+                ? <div className="text-center mt-3">
+                  <img
+                    src={`data:${article.previewImageContentType};base64,${article.previewImage}`}
+                    className="img-fluid mb-4"
+                    alt="previewImage"
+                  /></div> : null}
+              <p className="pt-4 pb-4">
+                {article.previewText}
+                <p className="text-right"><a className="fs-12 mr-1 text-muted"
+                                             href={article.statement && article.statement.mainArticleUrl}
+                                             target="_blank" rel="noopener noreferrer"> Πηγή <FontAwesomeIcon
+                  icon="link"/>
+                </a></p>
+              </p>
+              <Alert color={article.statement && (article.statement.factCheckerLabel ? 'success' : 'danger') || 'secondary'} className="px-4 py-3 mt-4">
+                <div className="ck-content"
+                     dangerouslySetInnerHTML={{__html: handleEmbedTags(article.content)}}/>
+              </Alert>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   ) : (
     <div>
       <h1 className="text-center">{errorMessage}</h1>
@@ -66,7 +104,8 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
 const mapStateToProps = (storeState: IRootState) => ({
   article: storeState.article.entity,
   loading: storeState.article.loading,
-  errorMessage: storeState.article.errorMessage
+  errorMessage: storeState.article.errorMessage,
+  currentLocale: storeState.locale.currentLocale,
 });
 
 const mapDispatchToProps = {
