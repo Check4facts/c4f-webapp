@@ -36,15 +36,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
   return (
     <Row className="mt-5">
       {articles && articles.length > 0 ? articles.map(article => (
-        <Col sm="6" lg="4" className="mb-5 mb-sm-2 grid-margin" key={article.id}>
-          {isAuthenticated && !article.published &&
-          <Badge color="danger">
-            <span className="text-uppercase">{translate('check4FactsApp.article.unpublished')}</span>
-          </Badge>
-          }
-          {article.statement && <Badge color={`${article.statement.factCheckerLabel ? 'success' : 'danger'}`}>
-            <span className="text-uppercase">{article.statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</span>
-          </Badge>}
+        <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={article.id}>
           <div className="position-relative image-hover">
             {article.previewImage
               ? <Link to={`/article/${article.id}/display`}><img
@@ -61,6 +53,14 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
               {article.previewTitle}
             </h5>
           </Link>
+          {article.statement && <Badge className="mr-1" color={`${article.statement.factCheckerLabel ? 'success' : 'danger'}`}>
+            <span className="text-uppercase">{article.statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</span>
+          </Badge>}
+          {isAuthenticated && !article.published &&
+          <Badge color="danger">
+            <span className="text-uppercase">{translate('check4FactsApp.article.unpublished')}</span>
+          </Badge>
+          }
           <h5
             className="text-muted font-weight-bold pt-2">{moment.locale(currentLocale) && moment(article.articleDate).format("LL")}</h5>
           <p className="fs-15 font-weight-normal">

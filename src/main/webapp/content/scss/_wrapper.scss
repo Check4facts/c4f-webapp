@@ -138,6 +138,12 @@
   position: absolute;
   bottom: 0;
   left: 0;
+  &.danger {
+    background: theme-color(danger);
+  }
+  &.success {
+    background: theme-color(success);
+  }
 }
 .video-thumb {
   position: absolute;
