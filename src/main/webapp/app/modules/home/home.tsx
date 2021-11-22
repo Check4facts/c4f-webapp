@@ -1,17 +1,17 @@
 import '../../../content/scss/home.scss';
 
-import React, {useEffect, useState} from 'react';
-import {JhiItemCount, JhiPagination, Translate} from 'react-jhipster';
-import {connect} from 'react-redux';
-import {IRootState} from 'app/shared/reducers';
-import {Col, Row} from 'reactstrap';
-import {getAllPublishedArticles} from 'app/entities/article/article.reducer';
-import {RouteComponentProps} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { JhiItemCount, JhiPagination, Translate } from 'react-jhipster';
+import { connect } from 'react-redux';
+import { IRootState } from 'app/shared/reducers';
+import { Col, Row } from 'reactstrap';
+import { getAllPublishedArticles } from 'app/entities/article/article.reducer';
+import { RouteComponentProps } from 'react-router-dom';
 import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
-import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
+import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import HomeCarousel from 'app/entities/homeCarousel/HomeCarousel';
 
-export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {
-}
+export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Home = (props: IHomeProp) => {
   // const { carouselItems } = props;
@@ -19,16 +19,20 @@ export const Home = (props: IHomeProp) => {
     activePage: 1,
     itemsPerPage: ITEMS_PER_PAGE,
     sort: 'articleDate',
-    order: 'desc'
+    order: 'desc',
   });
 
   const getPublishedEntities = () => {
-    props.getAllPublishedArticles(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+    props.getAllPublishedArticles(
+      paginationState.activePage - 1,
+      paginationState.itemsPerPage,
+      `${paginationState.sort},${paginationState.order}`
+    );
     const endURL = `?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`;
     if (props.location.search !== endURL) {
       props.history.push(`${props.location.pathname}${endURL}`);
     }
-  }
+  };
 
   useEffect(() => {
     // props.getCarouselArticles(5);
@@ -67,21 +71,27 @@ export const Home = (props: IHomeProp) => {
           <Col sm="12">
             <div className="text-center">
               <h1 className="text-center mt-5">
-                <Translate contentKey="home.title"/><span className="check-4-fact">Check4Facts.gr</span>
+                <Translate contentKey="home.title" />
+                <span className="check-4-fact">Check4Facts.gr</span>
               </h1>
               <p className="text-secondary fs-15">
-                <Translate contentKey="home.subtitle"/>
+                <Translate contentKey="home.subtitle" />
               </p>
             </div>
           </Col>
         </Row>
       </div>
-      <ArticlesFeed/>
+      <HomeCarousel />
+      <ArticlesFeed />
       {props.totalItems ? (
         <div className={props.totalItems > 0 ? '' : 'd-none'}>
           <Row className="justify-content-center">
-            <JhiItemCount page={paginationState.activePage} total={props.totalItems}
-                          itemsPerPage={paginationState.itemsPerPage} i18nEnabled/>
+            <JhiItemCount
+              page={paginationState.activePage}
+              total={props.totalItems}
+              itemsPerPage={paginationState.itemsPerPage}
+              i18nEnabled
+            />
           </Row>
           <Row className="justify-content-center">
             <JhiPagination
@@ -109,7 +119,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   // getCarouselArticles,
-  getAllPublishedArticles
+  getAllPublishedArticles,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
