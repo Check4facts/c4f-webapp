@@ -12,18 +12,23 @@ const HomeCarousel = () => {
   const items = [
     {
       caption: 'Sample Caption One',
-      src: '../../../content/images/CHECK 4 FACTS MAIN BRAND DARK STRIPE.png',
+      src: '../../../content/images/carousel1.jpg',
       altText: 'Slide One',
     },
     {
       caption: 'Sample Caption Two',
-      src: '../../../content/images/CHECK 4 FACTS MAIN BRAND DARK STRIPE.png',
+      src: '../../../content/images/carousel2.jpg',
       altText: 'Slide Two',
     },
     {
       caption: 'Sample Caption Three',
-      src: '../../../content/images/CHECK 4 FACTS MAIN BRAND DARK STRIPE.png',
+      src: '../../../content/images/carousel3.jpg',
       altText: 'Slide Three',
+    },
+    {
+      caption: 'Sample Caption Four',
+      src: '../../../content/images/carousel4.jpg',
+      altText: 'Slide Four',
     },
   ];
 
@@ -65,8 +70,6 @@ const HomeCarousel = () => {
           }}
         />
         {carouselItemData}
-        <CarouselControl directionText="Prev" direction="prev" onClickHandler={previousButton} />
-        <CarouselControl directionText="Next" direction="next" onClickHandler={nextButton} />
       </Carousel>
     </div>
   );
