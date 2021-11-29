@@ -30,6 +30,11 @@ const HomeCarousel = () => {
       src: '../../../content/images/carousel4.jpg',
       altText: 'Slide Four',
     },
+    {
+      caption: 'Sample Caption Five',
+      src: '../../../content/images/carousel5.jpg',
+      altText: 'Slide Five',
+    },
   ];
 
   // Items array length
@@ -60,7 +65,7 @@ const HomeCarousel = () => {
 
   return (
     <div className="carousel-div">
-      <Carousel previous={previousButton} next={nextButton} activeIndex={activeIndex} dark className="vertical">
+      <Carousel previous={previousButton} next={nextButton} activeIndex={activeIndex} dark className="vertical" interval={5000}>
         <CarouselIndicators
           items={items}
           activeIndex={activeIndex}

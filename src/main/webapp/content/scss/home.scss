@@ -14,6 +14,7 @@ Main page Carousel transition css
 
 .carousel-div {
   text-align: center;
+  height: 150px;
 }
 
 .carousel-indicators li {
@@ -25,46 +26,43 @@ Main page Carousel transition css
   filter: invert(1);
 }
 
-.vertical {
-  margin: auto;
-}
+// .vertical {
+//   margin: auto;
+// }
 
-.vertical .carousel-inner {
-  height: 150px;
-}
+// .vertical .item {
+//   transition: 1s ease-in-out bottom;
+// }
 
-.vertical .item {
-  transition: 1s ease-in-out bottom;
-}
+// .vertical .active {
+//   bottom: 0;
+// }
 
-.vertical .active {
-  bottom: 0;
-}
+// .vertical .carousel-item-next {
+//   bottom: 150px;
+// }
 
-.vertical .carousel-item-next {
-  bottom: 400px;
-}
+// .vertical .carousel-item-prev {
+//   bottom: -150px;
+// }
 
-.vertical .carousel-item-prev {
-  bottom: -400px;
-}
+// .vertical .carousel-item-next.carousel-item-left,
+// .vertical .carousel-item-prev.carousel-item-right {
+//   bottom: 0;
+// }
 
-.vertical .carousel-item-next.carousel-item-left,
-.vertical .carousel-item-prev.carousel-item-right {
-  bottom: 0;
-}
+// .vertical .item.carousel-item.active.carousel-item-left {
+//   bottom: -150px;
+//   transform: translateX(0);
+// }
 
-.vertical .item.carousel-item.active.carousel-item-left {
-  bottom: -400px;
-  transform: translateX(0);
-}
-
-.vertical .active.carousel-item-right {
-  bottom: 400px;
-}
+// .vertical .active.carousel-item-right {
+//   bottom: 150px;
+// }
 
 .vertical .carousel-item img {
   width: 100%;
+  height: 150px;
   object-fit: cover;
 }
 

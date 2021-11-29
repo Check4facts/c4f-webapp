@@ -72,7 +72,6 @@ export const Home = (props: IHomeProp) => {
             <div className="text-center">
               <h1 className="text-center mt-5">
                 <Translate contentKey="home.title" />
-                <span className="check-4-fact">Check4Facts.gr</span>
               </h1>
               <p className="text-secondary fs-15">
                 <Translate contentKey="home.subtitle" />
