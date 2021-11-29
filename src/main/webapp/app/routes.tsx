@@ -54,7 +54,7 @@ const Routes = () => (
     <Switch>
       <Container fluid className="entities-page">
         <ErrorBoundary>
-          <ErrorBoundaryRoute path="/" component={Entities} />
+          <ErrorBoundaryRoute path="/entities" component={Entities} />
         </ErrorBoundary>
       </Container>
     </Switch>
