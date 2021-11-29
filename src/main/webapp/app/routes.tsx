@@ -41,7 +41,6 @@ const Routes = () => (
           <ErrorBoundaryRoute path="/account/activate/:key?" component={Activate} />
           <ErrorBoundaryRoute path="/account/reset/request" component={PasswordResetInit} />
           <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish} />
-          <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
           <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
           <ErrorBoundaryRoute path="/about" component={About} />
           <ErrorBoundaryRoute path="/dissemination" component={Dissemination} />
@@ -54,7 +53,8 @@ const Routes = () => (
     <Switch>
       <Container fluid className="entities-page">
         <ErrorBoundary>
-          <ErrorBoundaryRoute path="/" component={Entities} />
+          <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
+          <ErrorBoundaryRoute path="/entities" component={Entities} />
         </ErrorBoundary>
       </Container>
     </Switch>

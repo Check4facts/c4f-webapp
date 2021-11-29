@@ -17,12 +17,12 @@ const Routes = ({ match }) => (
   <div>
     <Switch>
       {/* prettier-ignore */}
-      <ErrorBoundaryRoute path={`${match.url}article`} component={Article} />
-      <ErrorBoundaryRoute path={`${match.url}category`} component={Category} />
-      <ErrorBoundaryRoute path={`${match.url}resource`} component={Resource} />
-      <ErrorBoundaryRoute path={`${match.url}statement`} component={Statement} />
-      <ErrorBoundaryRoute path={`${match.url}statement-source`} component={StatementSource} />
-      <ErrorBoundaryRoute path={`${match.url}topic`} component={Topic} />
+      <ErrorBoundaryRoute path={`/entities/article`} component={Article} />
+      <ErrorBoundaryRoute path={`/entities/category`} component={Category} />
+      <ErrorBoundaryRoute path={`/entities/resource`} component={Resource} />
+      <ErrorBoundaryRoute path={`/entities/statement`} component={Statement} />
+      <ErrorBoundaryRoute path={`/entities/statement-source`} component={StatementSource} />
+      <ErrorBoundaryRoute path={`/entities/topic`} component={Topic} />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       <ErrorBoundaryRoute component={PageNotFound} />
     </Switch>
