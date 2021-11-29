@@ -38,12 +38,16 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
       {articles && articles.length > 0 ? articles.map(article => (
         <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={article.id}>
           <div className="position-relative image-hover">
-            {article.previewImage
-              ? <Link to={`/article/${article.id}/display`}><img
-                src={`data:${article.previewImageContentType};base64,${article.previewImage}`}
-                className="" style={{height: 200, width: "100%", objectFit: 'cover'}}
-                alt="previewImage"
-              /></Link> : null}
+            <Link to={`/article/${article.id}/display`}>
+              {article.previewImage ?
+                <img src={`data:${article.previewImageContentType};base64,${article.previewImage}`}
+                     className="" style={{height: 200, width: "100%", objectFit: 'cover'}}
+                     alt="previewImage"
+                /> : <img src={`/content/images/carousel4.jpg`}
+                          className="" style={{height: 200, width: "100%", objectFit: 'cover', filter: 'blur(2px)'}}
+                          alt="previewImage"
+                />}
+            </Link>
             <span className="thumb-title">
               {translate(`check4FactsApp.category.${article.category.name}`)}
             </span>
@@ -53,7 +57,8 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
               {article.previewTitle}
             </h5>
           </Link>
-          {article.statement && <Badge className="mr-1" color={`${article.statement.factCheckerLabel ? 'success' : 'danger'}`}>
+          {article.statement &&
+          <Badge className="mr-1" color={`${article.statement.factCheckerLabel ? 'success' : 'danger'}`}>
             <span className="text-uppercase">{article.statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</span>
           </Badge>}
           {isAuthenticated && !article.published &&
