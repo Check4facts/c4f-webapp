@@ -8,33 +8,71 @@ Main page styles
   color: $brand-secondary-color;
 }
 
-.carousel-caption {
-  display: block !important; // Caption is visible on mobile.
-  background: rgba(0, 0, 0, 0.6);
-  right: 0;
-  bottom: 0;
-  left: 0;
+/* ==========================================================================
+Main page Carousel transition css
+========================================================================== */
+
+.carousel-div {
+  text-align: center;
+  height: 150px;
+}
+
+.carousel-indicators li {
+  background-color: black;
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-image: none;
+  filter: invert(1);
 }
 
-@media (min-width: 768px) {
-  // Arrows not visible on mobile.
-  .carousel-control-next-icon:after {
-    content: '>';
-    font-size: 55px;
-    color: #ba1e0d;
-  }
+// .vertical {
+//   margin: auto;
+// }
 
-  .carousel-control-prev-icon:after {
-    content: '<';
-    font-size: 55px;
-    color: #ba1e0d;
-  }
+// .vertical .item {
+//   transition: 1s ease-in-out bottom;
+// }
+
+// .vertical .active {
+//   bottom: 0;
+// }
+
+// .vertical .carousel-item-next {
+//   bottom: 150px;
+// }
+
+// .vertical .carousel-item-prev {
+//   bottom: -150px;
+// }
+
+// .vertical .carousel-item-next.carousel-item-left,
+// .vertical .carousel-item-prev.carousel-item-right {
+//   bottom: 0;
+// }
+
+// .vertical .item.carousel-item.active.carousel-item-left {
+//   bottom: -150px;
+//   transform: translateX(0);
+// }
+
+// .vertical .active.carousel-item-right {
+//   bottom: 150px;
+// }
+
+.vertical .carousel-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
 }
+
+.vertical .carousel-indicators {
+  display: none;
+}
+
+/* ===============================================
+
+================================================== */
 
 .slider-header {
   color: #fff;

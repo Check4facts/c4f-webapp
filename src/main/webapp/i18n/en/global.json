@@ -47,6 +47,8 @@
       },
       "dissemination": {
         "main": "Knowledge Dissemination",
+        "main-sub1": "The check4facts project endeavours -among other things- to develop a framework of interdisciplinary dialogue and analysis, towards the production and dissemination of valid knowledge in society. It aims to educate the public about how information is managed (via the analysis of public discourse as it is set by political actors), about the pattern of function of the mass media, and about the ways in which one can trace and recognise false or falsified information. The disseminated knowledge will contribute to the enhancement of media and news literacy in society, an essential qualification for the age of interactive media.",
+        "main-sub2": "In this menu one can find scientific and journalistic texts, as well as audiovisual material on &quot;fake news&quot; and the fact-checking process.",
         "publications": "Scientific Publications/Reports",
         "videos": "Video Tutorials"
       },

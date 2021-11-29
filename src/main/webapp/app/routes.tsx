@@ -16,7 +16,9 @@ import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import { AUTHORITIES } from 'app/config/constants';
-import Dissemination from "app/modules/dissemination/dissemination";
+import Dissemination from 'app/modules/dissemination/dissemination';
+import ErrorBoundary from 'app/shared/error/error-boundary';
+import { Container } from 'reactstrap';
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -31,20 +33,30 @@ const Admin = Loadable({
 const Routes = () => (
   <div className="view-routes">
     <Switch>
-      <ErrorBoundaryRoute path="/login" component={Login} />
-      <ErrorBoundaryRoute path="/logout" component={Logout} />
-      <ErrorBoundaryRoute path="/account/register" component={Register} />
-      <ErrorBoundaryRoute path="/account/activate/:key?" component={Activate} />
-      <ErrorBoundaryRoute path="/account/reset/request" component={PasswordResetInit} />
-      <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish} />
-      <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
-      <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
-      <ErrorBoundaryRoute path="/about" component={About} />
-      <ErrorBoundaryRoute path="/dissemination" component={Dissemination} />
-      <ErrorBoundaryRoute path="/fact-checking" component={FactChecking} />
-      <ErrorBoundaryRoute path="/more" component={More} />
-      <ErrorBoundaryRoute path="/" exact component={Home} />
-      <ErrorBoundaryRoute path="/" component={Entities} />
+      <Container>
+        <ErrorBoundary>
+          <ErrorBoundaryRoute path="/login" component={Login} />
+          <ErrorBoundaryRoute path="/logout" component={Logout} />
+          <ErrorBoundaryRoute path="/account/register" component={Register} />
+          <ErrorBoundaryRoute path="/account/activate/:key?" component={Activate} />
+          <ErrorBoundaryRoute path="/account/reset/request" component={PasswordResetInit} />
+          <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish} />
+          <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
+          <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
+          <ErrorBoundaryRoute path="/about" component={About} />
+          <ErrorBoundaryRoute path="/dissemination" component={Dissemination} />
+          <ErrorBoundaryRoute path="/fact-checking" component={FactChecking} />
+          <ErrorBoundaryRoute path="/more" component={More} />
+          <ErrorBoundaryRoute path="/" exact component={Home} />
+        </ErrorBoundary>
+      </Container>
+    </Switch>
+    <Switch>
+      <Container fluid className="entities-page">
+        <ErrorBoundary>
+          <ErrorBoundaryRoute path="/" component={Entities} />
+        </ErrorBoundary>
+      </Container>
     </Switch>
   </div>
 );
