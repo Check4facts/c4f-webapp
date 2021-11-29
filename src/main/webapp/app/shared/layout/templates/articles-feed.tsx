@@ -41,7 +41,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
             {article.previewImage
               ? <Link to={`/article/${article.id}/display`}><img
                 src={`data:${article.previewImageContentType};base64,${article.previewImage}`}
-                className="img-fluid"
+                className="" style={{height: 200, width: "100%", objectFit: 'cover'}}
                 alt="previewImage"
               /></Link> : null}
             <span className="thumb-title">
