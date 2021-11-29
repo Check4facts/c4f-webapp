@@ -55,7 +55,9 @@
     "sub-menus": {
       "main": "Topics",
       "immigration": "Immigration",
-      "crime": "Crime"
+      "crime": "Crime",
+      "immigration-details": "Immigration",
+      "crime-details": "Crime"
     },
     "third-party": "Third Party Links"
   }

@@ -114,6 +114,12 @@ export const Dissemination = () => {
             <h1 className="text-center mt-5">
               <Translate contentKey="global.menu.dissemination.main" />
             </h1>
+            <p>
+              <Translate contentKey="global.menu.dissemination.main-sub1" />
+            </p>
+            <p>
+              <Translate contentKey="global.menu.dissemination.main-sub2" />
+            </p>
             <p className="text-secondary fs-15 mb-5 pb-3"></p>
           </div>
         </Col>

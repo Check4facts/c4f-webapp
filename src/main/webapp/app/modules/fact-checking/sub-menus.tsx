@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Container, Col, Button, InputGroup } from 'reactstrap';
 import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
-import {getSortState, JhiItemCount, JhiPagination, translate, Translate} from "react-jhipster";
+import { getSortState, JhiItemCount, JhiPagination, translate, Translate } from 'react-jhipster';
 import { getArticlesByPublishedAndCategoryName, getSearchEntitiesInCategory } from 'app/entities/article/article.reducer';
-import {overridePaginationStateWithQueryParams} from "app/shared/util/entity-utils";
-import {ITEMS_PER_PAGE} from "app/shared/util/pagination.constants";
+import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ArticlesFeed from "app/shared/layout/templates/articles-feed";
+import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
 
 export interface ISubMenusProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -30,9 +30,15 @@ export const SubMenus = (props: ISubMenusProps) => {
         `${paginationState.sort},${paginationState.order}`
       );
     } else {
-      props.getArticlesByPublishedAndCategoryName(!props.isAuthenticated, props.match.params.id, paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+      props.getArticlesByPublishedAndCategoryName(
+        !props.isAuthenticated,
+        props.match.params.id,
+        paginationState.activePage - 1,
+        paginationState.itemsPerPage,
+        `${paginationState.sort},${paginationState.order}`
+      );
     }
-  }
+  };
 
   const sortEntities = () => {
     getAllEntities();
@@ -75,7 +81,7 @@ export const SubMenus = (props: ISubMenusProps) => {
   }, [props.isAuthenticated, paginationState.activePage, paginationState.order, paginationState.sort, props.match.params.id]);
 
   useEffect(() => {
-    if(search === '') {
+    if (search === '') {
       sortEntities();
     }
   }, [search]);
@@ -110,11 +116,19 @@ export const SubMenus = (props: ISubMenusProps) => {
           <h1 className="text-center">
             <Translate contentKey={`fact-checking.sub-menus.${props.match.params.id}`} />
           </h1>
-          <br/>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate posuere lorem eu sodales. Aliquam vel justo nulla. Ut finibus dolor ac placerat molestie. Praesent eget ipsum metus. Sed eget lectus convallis nisl sodales consequat. Aenean interdum urna dolor, ultricies fermentum dui iaculis sed. Morbi non lorem porttitor, ullamcorper nisi laoreet, pellentesque nibh. Pellentesque nec aliquet mauris. Phasellus eu tortor sagittis justo rutrum lobortis sed ut risus. Nullam ipsum libero, ultricies et ligula ac, placerat rutrum lorem. Sed urna urna, vestibulum eget purus eget, interdum suscipit nisl. Cras a sapien libero. Mauris magna risus, congue eu molestie in, luctus id lorem. Donec eget tempor lorem. Praesent varius vitae est non tempus. Donec condimentum purus ex, tempus hendrerit massa dictum et.</p>
+          <br />
+          {props.match.params.id === 'immigration' ? (
+            <p>
+              <Translate contentKey={`fact-checking.sub-menus.immigration-details`} />
+            </p>
+          ) : (
+            <p>
+              <Translate contentKey={`fact-checking.sub-menus.crime-details`} />
+            </p>
+          )}
         </Col>
       </Row>
-       <Row>
+      <Row>
         <Col sm="12">
           <AvForm onSubmit={startSearching}>
             <AvGroup>
@@ -136,12 +150,17 @@ export const SubMenus = (props: ISubMenusProps) => {
             </AvGroup>
           </AvForm>
         </Col>
-       </Row>
+      </Row>
       <ArticlesFeed showButtons />
       {props.totalItems ? (
         <div className={articlesByCategory && articlesByCategory.length > 0 ? '' : 'd-none'}>
           <Row className="justify-content-center">
-            <JhiItemCount page={paginationState.activePage} total={props.totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
+            <JhiItemCount
+              page={paginationState.activePage}
+              total={props.totalItems}
+              itemsPerPage={paginationState.itemsPerPage}
+              i18nEnabled
+            />
           </Row>
           <Row className="justify-content-center">
             <JhiPagination
@@ -164,12 +183,12 @@ const mapStateToProps = (storeState: IRootState) => ({
   isAuthenticated: storeState.authentication.isAuthenticated,
   articlesByCategory: storeState.article.entities,
   loading: storeState.article.loading,
-  totalItems: storeState.article.totalItems
+  totalItems: storeState.article.totalItems,
 });
 
 const mapDispatchToProps = {
   getArticlesByPublishedAndCategoryName,
-  getSearchEntitiesInCategory
+  getSearchEntitiesInCategory,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
