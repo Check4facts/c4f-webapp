@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Converter {
 
@@ -29,8 +30,8 @@ public class Converter {
     }
 
     public Set<StatementSource> stringsToStatementSources(String s1, String s2) {
-        String[] split1 = s1.split(", ");
-        String[] split2 = s2.split(", ");
+        String[] split1 = s1.split(",");
+        String[] split2 = s2.split(",");
         // FIXME Urge EKKE to properly define via comma-space separator their inputs
         if (split1.length != split2.length) return new HashSet<>();
 
@@ -48,14 +49,13 @@ public class Converter {
 
     public List<String> stringToSubTopics(String s) {
         String[] split = s.split("/");
-
-        return new ArrayList<>(Arrays.asList(split));
+        return Arrays.stream(split).map(v -> v.trim()).collect(Collectors.toList());
     }
 
     public Boolean stringToFactCheckerLabel(String s) {
-        if (s.equalsIgnoreCase("true")) {
+        if (s.trim().equalsIgnoreCase("true")) {
             return true;
-        } else if (s.equalsIgnoreCase("false")) {
+        } else if (s.trim().equalsIgnoreCase("false")) {
             return false;
         } else {
             return null;
