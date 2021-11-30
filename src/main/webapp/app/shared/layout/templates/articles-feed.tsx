@@ -38,7 +38,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
       {articles && articles.length > 0 ? articles.map(article => (
         <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={article.id}>
           <div className="position-relative image-hover">
-            <Link to={`/article/${article.id}/display`}>
+            <Link to={`/entities/article/${article.id}/display`}>
               {article.previewImage ?
                 <img src={`data:${article.previewImageContentType};base64,${article.previewImage}`}
                      className="" style={{height: 200, width: "100%", objectFit: 'cover'}}
@@ -52,7 +52,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
               {translate(`check4FactsApp.category.${article.category.name}`)}
             </span>
           </div>
-          <Link to={`/article/${article.id}/display`}>
+          <Link to={`/entities/article/${article.id}/display`}>
             <h5 className="font-weight-600 mt-3">
               {article.previewTitle}
             </h5>
@@ -83,7 +83,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
             <Button
               color="info"
               tag={Link}
-              to={`/article/${article.id}/edit`}
+              to={`/entities/article/${article.id}/edit`}
             > <FontAwesomeIcon icon="pencil-alt"/>
             </Button>
             <Button
