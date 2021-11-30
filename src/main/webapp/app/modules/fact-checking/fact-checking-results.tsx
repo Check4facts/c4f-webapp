@@ -271,10 +271,6 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
                   <input type="radio" value={4} checked={statement.factCheckerAccuracy === 4} name="accuracy"/>
                   {translate('fact-checking.results.model.accuracy.4')}
                 </label>
-                <label>
-                  <input type="radio" value={5} checked={statement.factCheckerAccuracy === 5} name="accuracy"/>
-                  {translate('fact-checking.results.model.accuracy.5')}
-                </label>
               </div>
             </Col>
             {/* <Col>*/}
