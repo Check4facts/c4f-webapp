@@ -46,9 +46,8 @@
         "accuracy": {
           "1": "Very Inaccurate",
           "2": "Inaccurate",
-          "3": "Neutral",
-          "4": "Accurate",
-          "5": "Very Accurate"
+          "3": "Accurate",
+          "4": "Very Accurate"
         }
       }
     },

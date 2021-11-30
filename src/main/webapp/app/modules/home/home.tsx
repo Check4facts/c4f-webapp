@@ -66,6 +66,7 @@ export const Home = (props: IHomeProp) => {
 
   return (
     <div>
+      <HomeCarousel />
       <div className={`${paginationState.activePage > 1 && 'd-none'}`}>
         <Row className="mb-5">
           <Col sm="12">
@@ -80,7 +81,6 @@ export const Home = (props: IHomeProp) => {
           </Col>
         </Row>
       </div>
-      <HomeCarousel />
       <ArticlesFeed />
       {props.totalItems ? (
         <div className={props.totalItems > 0 ? '' : 'd-none'}>
