@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { JhiItemCount, JhiPagination, Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
-import { Col, Row } from 'reactstrap';
+import { Col, Row, Container } from 'reactstrap';
 import { getAllPublishedArticles } from 'app/entities/article/article.reducer';
 import { RouteComponentProps } from 'react-router-dom';
 import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
@@ -67,7 +67,7 @@ export const Home = (props: IHomeProp) => {
   return (
     <div>
       <HomeCarousel />
-      <div className={`${paginationState.activePage > 1 && 'd-none'}`}>
+      {/* <div className={`${paginationState.activePage > 1 && 'd-none'}`}>
         <Row className="mb-5">
           <Col sm="12">
             <div className="text-center">
@@ -80,7 +80,8 @@ export const Home = (props: IHomeProp) => {
             </div>
           </Col>
         </Row>
-      </div>
+      </div> */}
+      <Container >  
       <ArticlesFeed />
       {props.totalItems ? (
         <div className={props.totalItems > 0 ? '' : 'd-none'}>
@@ -105,6 +106,7 @@ export const Home = (props: IHomeProp) => {
       ) : (
         ''
       )}
+       </Container>
     </div>
   );
 };

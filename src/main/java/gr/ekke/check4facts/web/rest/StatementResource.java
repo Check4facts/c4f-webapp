@@ -179,7 +179,7 @@ public class StatementResource {
         if (multipartFile.isEmpty()) {
             throw new BadRequestAlertException("The csv file is empty.", ENTITY_NAME, "csvempty");
         } else {
-            CSVReader csvReader = new CSVReader(new InputStreamReader(multipartFile.getInputStream()));
+            CSVReader csvReader = new CSVReader(new InputStreamReader(multipartFile.getInputStream(), "UTF-8"));
             Topic immigrationTopic = topicRepository.getOne(1L); // immigration Topic.
             Topic crimeTopic = topicRepository.getOne(1L); // crime Topic.
             Category immigrationCategory = categoryRepository.getOne(2L); // immigration Topic.
@@ -188,8 +188,7 @@ public class StatementResource {
             csvReader.skip(1); // Skip header.
             Converter converter = new Converter();
             for (String[] nextLine : csvReader) {
-                if (nextLine[0].isEmpty()) break; // Stop if empty line.
-
+                if (nextLine[0].isEmpty()) continue; // Stop if empty line.
                 Statement statement = new Statement();
                 statement.setText(nextLine[1]);
                 statement.setMainArticleTitle(nextLine[2]);
@@ -229,7 +228,7 @@ public class StatementResource {
                     statement.setTopic(crimeTopic);
                     article.setCategory(crimeCategory);
                 } else
-                    break;
+                    continue;
 
                 if (!statement.getMainArticleUrl().isEmpty()) {
                     try {

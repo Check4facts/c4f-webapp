@@ -2,7 +2,7 @@ import './header.scss';
 
 import React, {useState} from 'react';
 import {NavLink} from 'react-router-dom';
-import {translate} from 'react-jhipster';
+import {Translate, translate} from 'react-jhipster';
 import {Collapse, Container, Nav, NavbarToggler, NavItem} from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
@@ -51,9 +51,15 @@ const Header = (props: IHeaderProps) => {
             {/*            <ul className="navbar-left">
             </ul>*/}
             <Brand/>
-            <div className="d-flex">
-              <Social/>
-            </div>
+            <div className="d-flex align-items-center">
+                {/* <Nav className="login-drop" id="header-tabs" navbar>
+                {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn/>}
+              </Nav> */}
+                <Social/>
+              <div className="ekke-logo">
+                <img src="../../../../content/images/ekke-logo.png" alt="Ekke logo"></img>
+              </div>
+            </div>      
           </div>
           <div className="navbar-bottom-menu">
             <NavbarToggler aria-label="Menu" onClick={toggleMenu}/>
@@ -69,12 +75,12 @@ const Header = (props: IHeaderProps) => {
                 <NavItem><NavLink to="/dissemination" exact
                                   className="d-flex align-items-center nav-link">{translate('global.menu.dissemination.main')}</NavLink></NavItem>
                 <AboutMenu/>
-                <MoreMenu/>
+                {/* <MoreMenu/> */}
+                <NavItem>
+                  <NavLink to="/more/third-party" exact className="nav-link"><Translate contentKey="global.menu.more.main" /></NavLink>
+                </NavItem>
                 {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn/>}
                 {/* <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />*/}
-                <NavItem>
-                  <NavLink to="#" exact className="nav-link"><FontAwesomeIcon size="xs" icon="search"/></NavLink>
-                </NavItem>
               </Nav>
             </Collapse>
           </div>

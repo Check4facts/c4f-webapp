@@ -47,11 +47,11 @@ export const App = (props: IAppProps) => {
             isSwaggerEnabled={props.isSwaggerEnabled}
           />
         </ErrorBoundary>
-        <Container fluid className="view-container">
+        {/* <Container fluid className="view-container"> */}
           <ErrorBoundary>
             <AppRoutes/>
           </ErrorBoundary>
-        </Container>
+        {/* </Container> */}
         <Footer />
       </div>
     </Router>

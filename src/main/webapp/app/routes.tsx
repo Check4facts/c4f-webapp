@@ -38,8 +38,7 @@ const Admin = Loadable({
 
 const NonFluidContainerRoutes = () => (
   <Container>
-    <Switch>
-      <ErrorBoundaryRoute path="/" exact component={Home}/>
+    <Switch>     
       <ErrorBoundaryRoute path="/login" component={Login}/>
       <ErrorBoundaryRoute path="/logout" component={Logout}/>
       <ErrorBoundaryRoute path="/account/register" component={Register}/>
@@ -61,6 +60,7 @@ const Routes = () => (
   <div className="view-routes">
       <ErrorBoundary>
         <Switch>
+          <ErrorBoundaryRoute path="/" exact component={Home}/>
           <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]}/>
           <ErrorBoundaryRoute path={`/article`} component={Article}/>
           <ErrorBoundaryRoute path={`/category`} component={Category}/>

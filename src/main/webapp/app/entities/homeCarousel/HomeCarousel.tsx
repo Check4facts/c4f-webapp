@@ -1,5 +1,6 @@
 import React from 'react';
-import { Carousel, CarouselIndicators, CarouselItem, CarouselControl, UncontrolledCarousel } from 'reactstrap';
+import { Carousel, CarouselIndicators, CarouselItem, CarouselControl, UncontrolledCarousel, CarouselCaption } from 'reactstrap';
+import { JhiItemCount, JhiPagination, Translate } from 'react-jhipster';
 
 const HomeCarousel = () => {
   // State for Active index
@@ -66,6 +67,7 @@ const HomeCarousel = () => {
   return (
     <div className="carousel-div">
       <Carousel previous={previousButton} next={nextButton} activeIndex={activeIndex} dark className="vertical" interval={5000}>
+      
         <CarouselIndicators
           items={items}
           activeIndex={activeIndex}
@@ -75,6 +77,11 @@ const HomeCarousel = () => {
           }}
         />
         {carouselItemData}
+        <CarouselCaption
+        captionHeader={<Translate contentKey="home.title" />}
+        captionText={<Translate contentKey="home.subtitle" />}
+        className="caption-text"
+      />
       </Carousel>
     </div>
   );
