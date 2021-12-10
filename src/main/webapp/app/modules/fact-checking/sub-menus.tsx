@@ -111,6 +111,7 @@ export const SubMenus = (props: ISubMenusProps) => {
 
   return (
     <Container>
+      {console.log(articlesByCategory)}
       <Row className="my-5">
         <Col sm="12" md={{ size: 6, offset: 3 }}>
           <h1 className="text-center">

@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -135,15 +137,9 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public Page<Article> searchInCategory(String category, Boolean published, String query, Pageable pageable) {
         log.debug("REST request to search for a page of Articles of category {} for query {}", category, query);
-        return published
-            ? articleSearchRepository.search(
-                boolQuery()
-                    .must(termQuery("published", true))
-                    .must(termQuery("category.name", category))
-                    .must(queryStringQuery(query)), pageable)
-            : articleSearchRepository.search(
-                boolQuery()
-                    .must(termQuery("category.name", category))
-                    .must(queryStringQuery(query)), pageable);
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+   .withFilter(termQuery("published", true)).withFilter(termQuery("category.name", category)).withFilter(queryStringQuery(query))
+   .build();
+        return articleSearchRepository.search(searchQuery);
     }
 }

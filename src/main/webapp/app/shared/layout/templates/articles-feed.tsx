@@ -35,7 +35,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
 
   return (
     <Row className="mt-5">
-      {articles && articles.length > 0 ? articles.map(article => (
+      {articles && loading !== true && articles.length > 0 ? articles.map(article => (
         <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={article.id}>
           <div className="position-relative image-hover">
             <Link to={`/article/${article.id}/display`}>
@@ -48,9 +48,9 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
                           alt="previewImage"
                 />}
             </Link>
-            <span className="thumb-title">
+            {/* <span className="thumb-title">
               {translate(`check4FactsApp.category.${article.category.name}`)}
-            </span>
+            </span> */}
           </div>
           <Link to={`/article/${article.id}/display`}>
             <h5 className="font-weight-600 mt-3">

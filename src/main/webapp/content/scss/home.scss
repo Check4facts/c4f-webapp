@@ -14,7 +14,7 @@ Main page Carousel transition css
 
 .carousel-div {
   text-align: center;
-  height: 250px;
+  height: 300px;
   width: 100%;
 }
 
@@ -71,9 +71,9 @@ Main page Carousel transition css
 
 .vertical .carousel-item img {
   width: 100%;
-  height: 250px;
+  height: 300px;
   object-fit: cover;
-  filter: blur(4px);
+  filter: blur(5px) grayscale(60%);
 }
 
 .vertical .carousel-indicators {
@@ -121,5 +121,45 @@ Main page Carousel transition css
   }
   svg {
     color: theme-color(dark);
+  }
+}
+
+// SEARCH BAR
+
+.search-group {
+  // all:initial;
+  display: inline-flex;
+  #search:focus,
+  #search {
+    font-size: 24px;
+    background: transparent;
+    color: #ffff;
+    border: none;
+    border-bottom: 3px solid #ffff;
+    box-shadow: none !important;
+    &::placeholder {
+      color: #ffff;
+    }
+  }
+  button,
+  button:hover,
+  button:focus,
+  button:active {
+    all: initial;
+    color: #ffff;
+    background: transparent !important;
+    font-size: 20px;
+    border: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-bottom: 3px solid #ffff !important;
+    box-shadow: none !important;
+  }
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: #ffff;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
   }
 }

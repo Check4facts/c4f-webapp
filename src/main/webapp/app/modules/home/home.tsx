@@ -22,6 +22,9 @@ export const Home = (props: IHomeProp) => {
     order: 'desc',
   });
 
+  const [search, setSearch] = React.useState('');
+
+
   const getPublishedEntities = () => {
     props.getAllPublishedArticles(
       paginationState.activePage - 1,
@@ -36,11 +39,16 @@ export const Home = (props: IHomeProp) => {
 
   useEffect(() => {
     // props.getCarouselArticles(5);
-    getPublishedEntities();
+   search === '' && getPublishedEntities();
   }, []);
 
   useEffect(() => {
-    getPublishedEntities();
+    // props.getCarouselArticles(5);
+   search === '' && getPublishedEntities();
+  }, [search]);
+
+  useEffect(() => {
+  search === '' && getPublishedEntities();
   }, [paginationState.activePage]);
 
   const handlePagination = currentPage =>
@@ -66,7 +74,7 @@ export const Home = (props: IHomeProp) => {
 
   return (
     <div>
-      <HomeCarousel />
+      <HomeCarousel search={search} setSearch={setSearch} paginationState={paginationState} setPaginationState={setPaginationState}/>
       {/* <div className={`${paginationState.activePage > 1 && 'd-none'}`}>
         <Row className="mb-5">
           <Col sm="12">
