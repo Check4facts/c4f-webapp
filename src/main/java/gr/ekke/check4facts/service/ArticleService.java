@@ -100,9 +100,15 @@ public class ArticleService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Article> search(String query, Pageable pageable) {
+    public Page<Article> search(String query, Pageable pageable, Boolean published) {
         log.debug("Request to search for a page of Articles for query {}", query);
-        return articleSearchRepository.search(queryStringQuery(query), pageable);
+        return published
+            ? articleSearchRepository.search(
+                boolQuery()
+                    .must(termQuery("published", true))
+                    .must(queryStringQuery(query)), pageable)
+            : articleSearchRepository.search(
+                boolQuery().must(queryStringQuery(query)), pageable);
     }
 
     /**
@@ -143,9 +149,15 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public Page<Article> searchInCategory(String category, Boolean published, String query, Pageable pageable) {
         log.debug("REST request to search for a page of Articles of category {} for query {}", category, query);
-        SearchQuery searchQuery = new NativeSearchQueryBuilder()
-   .withQuery(matchQuery("published", published)).withFilter(termQuery("category.name", category)).withQuery(queryStringQuery(query))
-   .build();
-        return articleSearchRepository.search(searchQuery);
+        return published
+            ? articleSearchRepository.search(
+                boolQuery()
+                    .must(termQuery("published", true))
+                    .must(termQuery("category.name", category))
+                    .must(queryStringQuery(query)), pageable)
+            : articleSearchRepository.search(
+                boolQuery()
+                    .must(termQuery("category.name", category))
+                    .must(queryStringQuery(query)), pageable);
     }
 }

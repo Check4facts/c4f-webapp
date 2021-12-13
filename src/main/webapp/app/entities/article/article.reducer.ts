@@ -141,9 +141,9 @@ const apiSearchUrl = 'api/_search/articles';
 
 // Actions
 
-export const getSearchEntities: ICrudSearchAction<IArticle> = (query, page, size, sort) => ({
+export const getSearchEntities = (query, page, size, sort, bool) => ({
   type: ACTION_TYPES.SEARCH_ARTICLES,
-  payload: axios.get<IArticle>(`${apiSearchUrl}?query=${query}${sort ? `&page=${page}&size=${size}&sort=${sort}` : ''}`),
+  payload: axios.get<IArticle>(`${apiSearchUrl}/${bool}?query=${query}${sort ? `&page=${page}&size=${size}&sort=${sort}` : ''}`),
 });
 
 export const getSearchEntitiesInCategory = (query, published, category, page?: number, size?: number, sort?: string) => {

@@ -80,7 +80,8 @@ const HomeCarousel = props => {
         props.search,
         props.paginationState.activePage - 1,
         props.paginationState.itemsPerPage,
-        `${props.paginationState.sort},${props.paginationState.order}`
+        `${props.paginationState.sort},${props.paginationState.order}`,
+        true
       );
     }
   };

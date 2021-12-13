@@ -137,10 +137,10 @@ public class ArticleResource {
      * @param pageable the pagination information.
      * @return the result of the search.
      */
-    @GetMapping("/_search/articles")
-    public ResponseEntity<List<Article>> searchArticles(@RequestParam String query, Pageable pageable) {
+    @GetMapping("/_search/articles/{published}")
+    public ResponseEntity<List<Article>> searchArticles(@PathVariable Boolean published, @RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Articles for query {}", query);
-        Page<Article> page = articleService.search(query, pageable);
+        Page<Article> page = articleService.search(query, pageable, published);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

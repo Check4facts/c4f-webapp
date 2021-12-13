@@ -39,7 +39,8 @@ export const Article = (props: IArticleProps) => {
         search,
         paginationState.activePage - 1,
         paginationState.itemsPerPage,
-        `${paginationState.sort},${paginationState.order}`
+        `${paginationState.sort},${paginationState.order}`,
+        false
       );
     } else {
       props.getEntities(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
@@ -56,7 +57,8 @@ export const Article = (props: IArticleProps) => {
         search,
         paginationState.activePage - 1,
         paginationState.itemsPerPage,
-        `${paginationState.sort},${paginationState.order}`
+        `${paginationState.sort},${paginationState.order}`,
+        false
       );
     }
   };
