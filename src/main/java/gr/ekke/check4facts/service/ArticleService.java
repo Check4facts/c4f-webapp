@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -30,11 +32,14 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
+    private final EntityManager em;
+
     private final ArticleSearchRepository articleSearchRepository;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleSearchRepository articleSearchRepository) {
+    public ArticleService(ArticleRepository articleRepository, ArticleSearchRepository articleSearchRepository, EntityManager em) {
         this.articleRepository = articleRepository;
         this.articleSearchRepository = articleSearchRepository;
+        this.em = em;
     }
 
     /**
@@ -45,7 +50,8 @@ public class ArticleService {
      */
     public Article save(Article article) {
         log.debug("Request to save Article : {}", article);
-        Article result = articleRepository.save(article);
+        Article result = articleRepository.saveAndFlush(article);
+        em.refresh(result);
         articleSearchRepository.save(result);
         return result;
     }
@@ -138,7 +144,7 @@ public class ArticleService {
     public Page<Article> searchInCategory(String category, Boolean published, String query, Pageable pageable) {
         log.debug("REST request to search for a page of Articles of category {} for query {}", category, query);
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
-   .withFilter(termQuery("published", true)).withFilter(termQuery("category.name", category)).withFilter(queryStringQuery(query))
+   .withQuery(matchQuery("published", published)).withFilter(termQuery("category.name", category)).withQuery(queryStringQuery(query))
    .build();
         return articleSearchRepository.search(searchQuery);
     }

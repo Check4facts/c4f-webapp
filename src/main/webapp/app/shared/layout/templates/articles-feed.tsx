@@ -48,9 +48,9 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
                           alt="previewImage"
                 />}
             </Link>
-            {/* <span className="thumb-title">
+            <span className="thumb-title">
               {translate(`check4FactsApp.category.${article.category.name}`)}
-            </span> */}
+            </span>
           </div>
           <Link to={`/article/${article.id}/display`}>
             <h5 className="font-weight-600 mt-3">

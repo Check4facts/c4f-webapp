@@ -1,0 +1,285 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Renders a Header component in dev profile with LoadingBar, Navbar, Nav and dev ribbon. 1`] = `
+<header
+  className=""
+  id="app-header"
+>
+  <div
+    className="ribbon dev"
+  >
+    <a
+      href=""
+    >
+      Πειραματική
+      <br />
+      Εφαρμογή
+    </a>
+  </div>
+  <Connect(LoadingBar)
+    className="loading-bar"
+  />
+  <Container
+    tag="div"
+  >
+    <nav
+      className="navbar navbar-expand-lg"
+    >
+      <div
+        className="d-flex justify-content-between align-items-center navbar-top"
+      >
+        <Component />
+        <div
+          className="d-flex"
+        >
+          <Component />
+        </div>
+      </div>
+      <div
+        className="navbar-bottom-menu"
+      >
+        <NavbarToggler
+          aria-label="Menu"
+          onClick={[Function]}
+          tag="button"
+          type="button"
+        />
+        <Collapse
+          appear={false}
+          className="justify-content-center"
+          enter={true}
+          exit={true}
+          in={false}
+          isOpen={false}
+          mountOnEnter={false}
+          navbar={true}
+          onEnter={[Function]}
+          onEntered={[Function]}
+          onEntering={[Function]}
+          onExit={[Function]}
+          onExited={[Function]}
+          onExiting={[Function]}
+          tag="div"
+          timeout={350}
+          unmountOnExit={false}
+        >
+          <Nav
+            id="header-tabs"
+            navbar={true}
+            tag="ul"
+            vertical={false}
+          >
+            <Component />
+            <Component
+              showSwagger={true}
+            />
+            <NavItem
+              tag="li"
+            >
+              <NavLink
+                className="d-flex align-items-center nav-link"
+                exact={true}
+                to="/"
+              />
+            </NavItem>
+            <NavItem
+              tag="li"
+            >
+              <NavLink
+                className="d-flex align-items-center nav-link"
+                to="/fact-checking"
+              />
+            </NavItem>
+            <Component />
+            <NavItem
+              tag="li"
+            >
+              <NavLink
+                className="d-flex align-items-center nav-link"
+                exact={true}
+                to="/dissemination"
+              />
+            </NavItem>
+            <Component />
+            <Component />
+            <Component
+              isAdmin={true}
+            />
+            <NavItem
+              tag="li"
+            >
+              <NavLink
+                className="nav-link"
+                exact={true}
+                to="#"
+              >
+                <FontAwesomeIcon
+                  border={false}
+                  className=""
+                  fixedWidth={false}
+                  flip={null}
+                  icon="search"
+                  inverse={false}
+                  listItem={false}
+                  mask={null}
+                  pull={null}
+                  pulse={false}
+                  rotation={null}
+                  size="xs"
+                  spin={false}
+                  swapOpacity={false}
+                  symbol={false}
+                  title=""
+                  transform={null}
+                />
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </div>
+    </nav>
+  </Container>
+</header>
+`;
+
+exports[`Header Renders a Header component in prod profile with LoadingBar, Navbar, Nav. 1`] = `
+<header
+  className=""
+  id="app-header"
+>
+  <div
+    className="ribbon dev"
+  >
+    <a
+      href=""
+    >
+      Πειραματική
+      <br />
+      Εφαρμογή
+    </a>
+  </div>
+  <Connect(LoadingBar)
+    className="loading-bar"
+  />
+  <Container
+    tag="div"
+  >
+    <nav
+      className="navbar navbar-expand-lg"
+    >
+      <div
+        className="d-flex justify-content-between align-items-center navbar-top"
+      >
+        <Component />
+        <div
+          className="d-flex"
+        >
+          <Component />
+        </div>
+      </div>
+      <div
+        className="navbar-bottom-menu"
+      >
+        <NavbarToggler
+          aria-label="Menu"
+          onClick={[Function]}
+          tag="button"
+          type="button"
+        />
+        <Collapse
+          appear={false}
+          className="justify-content-center"
+          enter={true}
+          exit={true}
+          in={false}
+          isOpen={false}
+          mountOnEnter={false}
+          navbar={true}
+          onEnter={[Function]}
+          onEntered={[Function]}
+          onEntering={[Function]}
+          onExit={[Function]}
+          onExited={[Function]}
+          onExiting={[Function]}
+          tag="div"
+          timeout={350}
+          unmountOnExit={false}
+        >
+          <Nav
+            id="header-tabs"
+            navbar={true}
+            tag="ul"
+            vertical={false}
+          >
+            <Component />
+            <Component
+              showSwagger={false}
+            />
+            <NavItem
+              tag="li"
+            >
+              <NavLink
+                className="d-flex align-items-center nav-link"
+                exact={true}
+                to="/"
+              />
+            </NavItem>
+            <NavItem
+              tag="li"
+            >
+              <NavLink
+                className="d-flex align-items-center nav-link"
+                to="/fact-checking"
+              />
+            </NavItem>
+            <Component />
+            <NavItem
+              tag="li"
+            >
+              <NavLink
+                className="d-flex align-items-center nav-link"
+                exact={true}
+                to="/dissemination"
+              />
+            </NavItem>
+            <Component />
+            <Component />
+            <Component
+              isAdmin={true}
+            />
+            <NavItem
+              tag="li"
+            >
+              <NavLink
+                className="nav-link"
+                exact={true}
+                to="#"
+              >
+                <FontAwesomeIcon
+                  border={false}
+                  className=""
+                  fixedWidth={false}
+                  flip={null}
+                  icon="search"
+                  inverse={false}
+                  listItem={false}
+                  mask={null}
+                  pull={null}
+                  pulse={false}
+                  rotation={null}
+                  size="xs"
+                  spin={false}
+                  swapOpacity={false}
+                  symbol={false}
+                  title=""
+                  transform={null}
+                />
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </div>
+    </nav>
+  </Container>
+</header>
+`;
