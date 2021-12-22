@@ -23,7 +23,7 @@ import java.time.Instant;
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "article")
 @JsonIdentityInfo(
     generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id")
+    property = "id", scope = Article.class)
 public class Article implements Serializable {
 
     private static final long serialVersionUID = 1L;

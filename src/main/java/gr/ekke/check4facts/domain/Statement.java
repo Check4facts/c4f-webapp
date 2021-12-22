@@ -32,7 +32,7 @@ import java.util.Set;
 )
 @JsonIdentityInfo(
     generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id")
+    property = "id", scope = Statement.class)
 public class Statement implements Serializable {
 
     private static final long serialVersionUID = 1L;
