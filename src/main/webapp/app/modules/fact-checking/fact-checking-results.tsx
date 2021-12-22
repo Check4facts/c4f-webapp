@@ -1,19 +1,27 @@
 import './fact-checking.scss'
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { IRootState } from 'app/shared/reducers';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Row, Col, Table, Button, Container, Spinner, Collapse } from 'reactstrap';
-import { setFact } from 'app/modules/fact-checking/fact-checking.reducer';
-import { getEntity as getStatement, setFactCheckerLabel, setFactCheckerAccuracy } from 'app/entities/statement/statement.reducer';
-import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
-import { getLatestResourcesByStatement } from 'app/entities/resource/resource.reducer';
-import { defaultValue } from 'app/shared/model/feature-statement.model';
-import { setTrueLabel, getLatestFeatureStatementByStatementId } from 'app/entities/feature-statement/feature-statement.reducer';
-import { translate, Translate } from 'react-jhipster';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {IRootState} from 'app/shared/reducers';
+import {Link, RouteComponentProps} from 'react-router-dom';
+import {Button, Col, Collapse, Container, Row, Spinner, Table} from 'reactstrap';
+import {setFact} from 'app/modules/fact-checking/fact-checking.reducer';
+import {
+  getEntity as getStatement,
+  setFactCheckerAccuracy,
+  setFactCheckerLabel
+} from 'app/entities/statement/statement.reducer';
+import {getStatementSourcesByStatement} from 'app/entities/statement-source/statement-source.reducer';
+import {getLatestResourcesByStatement} from 'app/entities/resource/resource.reducer';
+import {defaultValue} from 'app/shared/model/feature-statement.model';
+import {
+  getLatestFeatureStatementByStatementId,
+  setTrueLabel
+} from 'app/entities/feature-statement/feature-statement.reducer';
+import {translate, Translate} from 'react-jhipster';
 import moment from "moment";
 
-export interface IFactCheckingResultsProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IFactCheckingResultsProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
+}
 
 export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
 
@@ -28,7 +36,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     props.getLatestResourcesByStatement(props.match.params.id);
   }, []);
 
-  const { currentLocale, statement, sUpdating, sUpdateSuccess, sLoading, resources, rLoading, featureStatement } = props;
+  const {currentLocale, statement, sUpdating, sUpdateSuccess, sLoading, resources, rLoading, featureStatement} = props;
 
   useEffect(() => {
     if (sUpdateSuccess) {
@@ -48,7 +56,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
 
   return sLoading || rLoading || (featureStatement === defaultValue) ? (
     <div>
-      <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
+      <Spinner style={{width: '5rem', height: '5rem', margin: '10% 0 10% 45%'}} color="dark"/>
     </div>
   ) : (
     <>
@@ -107,12 +115,14 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
             )}
           </Col>
           <Col>
-            <h5 className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{Math.round(featureStatement.predictProba * 100)}%</h5>
+            <h5
+              className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{Math.round(featureStatement.predictProba * 100)}%</h5>
           </Col>
         </Row>
         <Row className="text-center my-3 text-info">
           <Col>
-            <h4 className="result-collapse" onClick={() => setEmotionCollapse(!emotionCollapse)}>{translate("fact-checking.results.model.emotions")}</h4>
+            <h4 className="result-collapse"
+                onClick={() => setEmotionCollapse(!emotionCollapse)}>{translate("fact-checking.results.model.emotions")}</h4>
           </Col>
         </Row>
         <Collapse isOpen={emotionCollapse}>
@@ -128,11 +138,15 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           <Row className="text-center">
             <Col><p>Δήλωση</p></Col>
             <Col><p>{((featureStatement.sEmotionAnger[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((featureStatement.sEmotionDisgust[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
+            <Col><p>{((featureStatement.sEmotionDisgust[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p>
+            </Col>
             <Col><p>{((featureStatement.sEmotionFear[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((featureStatement.sEmotionHappiness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((featureStatement.sEmotionSadness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((featureStatement.sEmotionSurprise[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
+            <Col><p>{((featureStatement.sEmotionHappiness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p>
+            </Col>
+            <Col><p>{((featureStatement.sEmotionSadness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p>
+            </Col>
+            <Col><p>{((featureStatement.sEmotionSurprise[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p>
+            </Col>
           </Row>
           <Row className="text-center">
             <Col><p>Τίτλοι</p></Col>
@@ -173,7 +187,8 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         </Collapse>
         <Row className="text-center mt-5 mb-3 text-info">
           <Col>
-            <h4 className="result-collapse" onClick={() => setRestCollapse(!restCollapse)}>{translate("fact-checking.results.model.rest")}</h4>
+            <h4 className="result-collapse"
+                onClick={() => setRestCollapse(!restCollapse)}>{translate("fact-checking.results.model.rest")}</h4>
           </Col>
         </Row>
         <Collapse isOpen={restCollapse}>
@@ -216,8 +231,14 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           <Row className="my-3">
             <Col>
               <ul className="text-muted">
-                <li>Οι τιμές που αφορούν το πεδίο «Δήλωση» αναφέρονται στο ποσοστό των όρων που ταυτοποιήθηκαν με το εκάστοτε χαρακτηριστικό.</li>
-                <li>Tα πεδία «Τίτλοι», «Κείμενα», «Αντιπροσωπ/τερες Παράγραφοι» και «Αντιπροσωπ/τερες Προτάσεις» αναφέρονται στο σύνολο των αντίστοιχων πεδίων που προκύπτουν από τις πηγές που ανακτήθηκαν. Οι τιμές των πεδίων αυτών αναφέρονται στο ποσοστό των προτάσεων που ταυτοποιήθηκαν με το εκάστοτε χαρακτηριστικό.</li>
+                <li>Οι τιμές που αφορούν το πεδίο «Δήλωση» αναφέρονται στο ποσοστό των όρων που ταυτοποιήθηκαν με το
+                  εκάστοτε χαρακτηριστικό.
+                </li>
+                <li>Tα πεδία «Τίτλοι», «Κείμενα», «Αντιπροσωπ/τερες Παράγραφοι» και «Αντιπροσωπ/τερες Προτάσεις»
+                  αναφέρονται στο σύνολο των αντίστοιχων πεδίων που προκύπτουν από τις πηγές που ανακτήθηκαν. Οι τιμές
+                  των πεδίων αυτών αναφέρονται στο ποσοστό των προτάσεων που ταυτοποιήθηκαν με το εκάστοτε
+                  χαρακτηριστικό.
+                </li>
               </ul>
             </Col>
           </Row>
@@ -233,13 +254,14 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
               <h4 className="m-0">Κατάσταση:</h4>
             </Col>
             <Col>
-              <h5 className={`m-0 ${statement.factCheckerLabel ? 'text-success' : 'text-danger'}`}>{statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</h5>
+              <h5
+                className={`m-0 ${statement.factCheckerLabel ? 'text-success' : 'text-danger'}`}>{statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</h5>
             </Col>
             <Col className="d-flex justify-content-center">
               {
                 sUpdating ? (
                   <Button color="primary">
-                    <Spinner size="sm" color="dark" />
+                    <Spinner size="sm" color="dark"/>
                   </Button>
                 ) : (
                   <Button color="info" onClick={toggleFactCheckerLabel}>
@@ -298,9 +320,10 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           </Row>
         </div>
         <Row className="my-3">
-          <Col className="d-flex justify-content-center" md={{ size: 4, offset: 4 }}>
-            <Button tag={Link} to="/article/new" color="primary">
-              {translate("fact-checking.analyze.action.createArticle")}
+          <Col className="d-flex justify-content-center" md={{size: 4, offset: 4}}>
+            <Button tag={Link} to={statement.article == null ? "/article/new" : `/article/${statement.article.id}/edit`}
+                    color="primary">
+              {statement.article == null ? translate("fact-checking.analyze.action.createArticle") : translate("fact-checking.analyze.action.updateArticle")}
             </Button>
           </Col>
         </Row>
@@ -330,13 +353,16 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           </tr>
           </thead>
           <tbody>
-          {resources.filter(filRes => filRes.title !==null && filRes.body !== null).map((response, i) => (
+          {resources.filter(filRes => filRes.title !== null && filRes.body !== null).map((response, i) => (
             <tr key={`entity-${i}`}>
-              <td>{i +1}</td>
-              <td style={{ maxWidth: '8vw' }}><a href={response.url} target="_blank" rel="noopener noreferrer">{response.url}</a></td>
-              <td style={{ maxWidth: '8vw' }}>{response.title}</td>
-              <td style={{ maxWidth: '12vw' }}>{response.simSentence}</td>
-              <td style={{ maxWidth: '15vw' }}><div className="ellipsis">{response.simParagraph}</div></td>
+              <td>{i + 1}</td>
+              <td style={{maxWidth: '8vw'}}><a href={response.url} target="_blank"
+                                               rel="noopener noreferrer">{response.url}</a></td>
+              <td style={{maxWidth: '8vw'}}>{response.title}</td>
+              <td style={{maxWidth: '12vw'}}>{response.simSentence}</td>
+              <td style={{maxWidth: '15vw'}}>
+                <div className="ellipsis">{response.simParagraph}</div>
+              </td>
             </tr>
           ))}
           </tbody>
@@ -366,7 +392,7 @@ const mapDispatchToProps = {
   getStatementSourcesByStatement,
   getLatestResourcesByStatement,
   getLatestFeatureStatementByStatementId,
-  setTrueLabel
+  setTrueLabel,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

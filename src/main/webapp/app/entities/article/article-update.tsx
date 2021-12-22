@@ -1,24 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { TabContent, TabPane, Button, Row, Col, Label } from 'reactstrap';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
-import { Translate, translate, setFileData, openFile, byteSize } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IRootState } from 'app/shared/reducers';
+import React, {useEffect, useRef, useState} from 'react';
+import {connect} from 'react-redux';
+import {RouteComponentProps} from 'react-router-dom';
+import {Button, Col, Label, Row, TabContent, TabPane} from 'reactstrap';
+import {AvFeedback, AvField, AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
+import {byteSize, openFile, setFileData, translate, Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {IRootState} from 'app/shared/reducers';
 
-import { getEntity, updateEntity, createEntity, setBlob, reset } from './article.reducer';
-import { getEntities as getCategories } from 'app/entities/category/category.reducer';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
-import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
-import { getLatestResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
-import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
+import {createEntity, getEntity, reset, setBlob, updateEntity} from './article.reducer';
+import {getEntities as getCategories} from 'app/entities/category/category.reducer';
+import {convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime} from 'app/shared/util/date-utils';
+import {reset as factReset} from 'app/modules/fact-checking/fact-checking.reducer';
+import {getEntity as getStatement} from 'app/entities/statement/statement.reducer';
+import {getLatestResourcesByStatement, reset as resourcesReset} from 'app/entities/resource/resource.reducer';
+import {
+  getStatementSourcesByStatement,
+  reset as statementSourcesReset
+} from 'app/entities/statement-source/statement-source.reducer';
 import ArticleContentEditor from "app/entities/article/article-content-editor";
 
 import CKEditor from '@ckeditor/ckeditor5-react';
 
-export interface IArticleUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IArticleUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
+}
 
 export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const editorRef = useRef(CKEditor);
@@ -28,12 +32,22 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
   const toggle = tab => {
-    if(activeTab !== tab) setActiveTab(tab);
+    if (activeTab !== tab) setActiveTab(tab);
   }
 
-  const { currentLocale, articleEntity, categories, loading, updating, statementId, statement, statementSources, resources } = props;
+  const {
+    currentLocale,
+    articleEntity,
+    categories,
+    loading,
+    updating,
+    statementId,
+    statement,
+    statementSources,
+    resources
+  } = props;
 
-  const { previewImage, previewImageContentType } = articleEntity;
+  const {previewImage, previewImageContentType} = articleEntity;
 
   const handleClose = () => {
     props.statementSourcesReset();
@@ -95,18 +109,12 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
       const entity = {
         ...articleEntity,
         ...values,
-        published: publishArticle
+        published: publishArticle,
+        statement: statementId !== '' ? {id: statementId} : articleEntity.statement
       };
 
       if (isNew) {
-        if (statementId !== '') {
-          props.createEntity({
-            ...entity,
-            statement: { id: statementId }
-          })
-        } else {
-          props.createEntity(entity);
-        }
+        props.createEntity(entity);
       } else {
         props.updateEntity(entity);
       }
@@ -139,16 +147,16 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? { previewTitle: statement.text } : articleEntity} onSubmit={saveEntity}>
+            <AvForm model={isNew ? {previewTitle: statement.text} : articleEntity} onSubmit={saveEntity}>
               <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
-                  <Col md={{ size: 8, offset: 2 }} className="mt-3">
+                  <Col md={{size: 8, offset: 2}} className="mt-3">
                     {!isNew ? (
                       <AvGroup>
                         <Label for="article-id">
                           <Translate contentKey="global.field.id">ID</Translate>
                         </Label>
-                        <AvInput id="article-id" type="text" className="form-control" name="id" required readOnly />
+                        <AvInput id="article-id" type="text" className="form-control" name="id" required readOnly/>
                       </AvGroup>
                     ) : null}
                     <AvGroup>
@@ -160,7 +168,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         type="textarea"
                         name="previewTitle"
                         validate={{
-                          required: { value: true, errorMessage: translate('entity.validation.required') },
+                          required: {value: true, errorMessage: translate('entity.validation.required')},
                         }}
                       />
                     </AvGroup>
@@ -173,7 +181,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         type="textarea"
                         name="previewText"
                         validate={{
-                          required: { value: true, errorMessage: translate('entity.validation.required') },
+                          required: {value: true, errorMessage: translate('entity.validation.required')},
                         }}
                       />
                     </AvGroup>
@@ -187,13 +195,13 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         className="form-control"
                         name="category.id"
                         value={isNew ? categories[0] && categories[0].id : articleEntity.category?.id}
-                        onChange={ event => setCategoryId(event.target.value)}
+                        onChange={event => setCategoryId(event.target.value)}
                         required
                       >
-                        <option value="" key="0" />
+                        <option value="" key="0"/>
                         {categories
                           ? categories.filter(cat => (statementId !== '' || articleEntity.statement) ?
-                            (cat.name === 'immigration' || cat.name === 'crime'): true).map(otherEntity => (
+                            (cat.name === 'immigration' || cat.name === 'crime') : true).map(otherEntity => (
                             <option value={otherEntity.id} key={otherEntity.id}>
                               {translate(`check4FactsApp.category.${otherEntity.name}`)}
                             </option>
@@ -205,15 +213,15 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                       </AvFeedback>
                     </AvGroup>
                     <AvGroup>
-                        {(statementId !== '' || articleEntity.statement) ? (
-                          <Label id="authorLabel" for="article-author">
-                            Όνομα Υπευθύνου Επαλήθευσης
-                          </Label>
-                        ) : (
-                          <Label id="authorLabel" for="article-author">
-                            <Translate contentKey="check4FactsApp.article.author">Author</Translate>
-                          </Label>
-                        )}
+                      {(statementId !== '' || articleEntity.statement) ? (
+                        <Label id="authorLabel" for="article-author">
+                          Όνομα Υπευθύνου Επαλήθευσης
+                        </Label>
+                      ) : (
+                        <Label id="authorLabel" for="article-author">
+                          <Translate contentKey="check4FactsApp.article.author">Author</Translate>
+                        </Label>
+                      )}
                       <AvField
                         id="article-author"
                         type="text"
@@ -225,15 +233,16 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         <Label id="previewImageLabel" for="previewImage">
                           <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
                         </Label>
-                        <br />
+                        <br/>
                         {previewImage ? (
                           <div>
                             {previewImageContentType ? (
                               <a onClick={openFile(previewImageContentType, previewImage)}>
-                                <img src={`data:${previewImageContentType};base64,${previewImage}`} style={{ maxHeight: '100px' }} alt="previewImage" />
+                                <img src={`data:${previewImageContentType};base64,${previewImage}`}
+                                     style={{maxHeight: '100px'}} alt="previewImage"/>
                               </a>
                             ) : null}
-                            <br />
+                            <br/>
                             <Row>
                               <Col md="11">
                           <span>
@@ -242,14 +251,15 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                               </Col>
                               <Col md="1">
                                 <Button color="danger" onClick={clearBlob('previewImage')}>
-                                  <FontAwesomeIcon icon="times-circle" />
+                                  <FontAwesomeIcon icon="times-circle"/>
                                 </Button>
                               </Col>
                             </Row>
                           </div>
                         ) : null}
-                        <input id="file_previewImage" type="file" onChange={onBlobChange(true, 'previewImage')} accept="image/*" />
-                        <AvInput type="hidden" name="previewImage" value={previewImage} />
+                        <input id="file_previewImage" type="file" onChange={onBlobChange(true, 'previewImage')}
+                               accept="image/*"/>
+                        <AvInput type="hidden" name="previewImage" value={previewImage}/>
                       </AvGroup>
                     </AvGroup>
                     <AvGroup>
@@ -272,9 +282,9 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                     {/* </Button>*/}
                     {/* &nbsp;*/}
                     <Button className="float-right" color="primary" type="button" onClick={() => toggle('2')}>
-                      <FontAwesomeIcon icon="arrow-right" />
+                      <FontAwesomeIcon icon="arrow-right"/>
                       &nbsp;
-                      <Translate contentKey="entity.action.next" />
+                      <Translate contentKey="entity.action.next"/>
                     </Button>
                   </Col>
                 </TabPane>
@@ -289,7 +299,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                     resources={(resources && resources.length > 0) ? [...resources] : []}
                   />
                   <Row>
-                    <Col md={{ size: 8, offset: 2 }}>
+                    <Col md={{size: 8, offset: 2}}>
                       {/* <Button tag={Link} id="cancel-save" to="/article" replace color="danger">*/}
                       {/*  <FontAwesomeIcon icon="arrow-left" />*/}
                       {/*  &nbsp;*/}
@@ -298,19 +308,21 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                       {/* &nbsp;*/}
                       <div className="float-right">
                         <Button color="info" type="button" onClick={() => toggle('1')}>
-                          <FontAwesomeIcon icon="arrow-left" />
+                          <FontAwesomeIcon icon="arrow-left"/>
                           &nbsp;
-                          <Translate contentKey="entity.action.previous" />
+                          <Translate contentKey="entity.action.previous"/>
                         </Button>
                         &nbsp;
-                        <Button color="primary" id="save-entity" type="submit" onClick={() => setPublishArticle(false)} disabled={updating}>
-                          <FontAwesomeIcon icon="save" />
+                        <Button color="primary" id="save-entity" type="submit" onClick={() => setPublishArticle(false)}
+                                disabled={updating}>
+                          <FontAwesomeIcon icon="save"/>
                           &nbsp;
                           <Translate contentKey="entity.action.save">Save</Translate>
                         </Button>
                         &nbsp;
-                        <Button color="success" id="save-entity" type="submit" onClick={() => setPublishArticle(true)} disabled={updating}>
-                          <FontAwesomeIcon icon="save" />
+                        <Button color="success" id="save-entity" type="submit" onClick={() => setPublishArticle(true)}
+                                disabled={updating}>
+                          <FontAwesomeIcon icon="save"/>
                           &nbsp;
                           <Translate contentKey="check4FactsApp.article.publish">Publish</Translate>
                         </Button>

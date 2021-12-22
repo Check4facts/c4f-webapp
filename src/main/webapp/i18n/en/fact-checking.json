@@ -22,6 +22,7 @@
       "action": {
         "main": "Actions",
         "createArticle": "Create an article for the statement",
+        "updateArticle": "Update the article for the statement",
         "saveFact": "Save as Fact"
       },
       "statement": "Statement Under Check",

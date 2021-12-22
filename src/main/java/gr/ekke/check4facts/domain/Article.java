@@ -1,15 +1,16 @@
 package gr.ekke.check4facts.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -20,6 +21,9 @@ import java.time.Instant;
 @Table(name = "article")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "article")
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id")
 public class Article implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,8 +74,8 @@ public class Article implements Serializable {
     @JsonIgnoreProperties(value = "articles", allowSetters = true)
     private Category category;
 
-    @ManyToOne
-    @JsonIgnoreProperties({ "statementSources", "resources" })
+    @OneToOne
+    @JsonIgnoreProperties({"statementSources", "resources"})
     private Statement statement;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -87,17 +91,21 @@ public class Article implements Serializable {
         return previewTitle;
     }
 
+    public void setPreviewTitle(String previewTitle) {
+        this.previewTitle = previewTitle;
+    }
+
     public Article previewTitle(String previewTitle) {
         this.previewTitle = previewTitle;
         return this;
     }
 
-    public void setPreviewTitle(String previewTitle) {
-        this.previewTitle = previewTitle;
-    }
-
     public byte[] getPreviewImage() {
         return previewImage;
+    }
+
+    public void setPreviewImage(byte[] previewImage) {
+        this.previewImage = previewImage;
     }
 
     public Article previewImage(byte[] previewImage) {
@@ -105,12 +113,12 @@ public class Article implements Serializable {
         return this;
     }
 
-    public void setPreviewImage(byte[] previewImage) {
-        this.previewImage = previewImage;
-    }
-
     public String getPreviewImageContentType() {
         return previewImageContentType;
+    }
+
+    public void setPreviewImageContentType(String previewImageContentType) {
+        this.previewImageContentType = previewImageContentType;
     }
 
     public Article previewImageContentType(String previewImageContentType) {
@@ -118,12 +126,12 @@ public class Article implements Serializable {
         return this;
     }
 
-    public void setPreviewImageContentType(String previewImageContentType) {
-        this.previewImageContentType = previewImageContentType;
-    }
-
     public Instant getArticleDate() {
         return articleDate;
+    }
+
+    public void setArticleDate(Instant articleDate) {
+        this.articleDate = articleDate;
     }
 
     public Article articleDate(Instant articleDate) {
@@ -131,21 +139,17 @@ public class Article implements Serializable {
         return this;
     }
 
-    public void setArticleDate(Instant articleDate) {
-        this.articleDate = articleDate;
-    }
-
     public String getAuthor() {
         return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Article author(String author) {
         this.author = author;
         return this;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public Boolean isPublished() {
@@ -165,17 +169,21 @@ public class Article implements Serializable {
         return content;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public Article content(String content) {
         this.content = content;
         return this;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public String getPreviewText() {
         return previewText;
+    }
+
+    public void setPreviewText(String previewText) {
+        this.previewText = previewText;
     }
 
     public Article previewText(String previewText) {
@@ -183,12 +191,12 @@ public class Article implements Serializable {
         return this;
     }
 
-    public void setPreviewText(String previewText) {
-        this.previewText = previewText;
-    }
-
     public Category getCategory() {
         return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Article category(Category category) {
@@ -196,21 +204,17 @@ public class Article implements Serializable {
         return this;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Statement getStatement() {
         return statement;
+    }
+
+    public void setStatement(Statement statement) {
+        this.statement = statement;
     }
 
     public Article statement(Statement statement) {
         this.statement = statement;
         return this;
-    }
-
-    public void setStatement(Statement statement) {
-        this.statement = statement;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

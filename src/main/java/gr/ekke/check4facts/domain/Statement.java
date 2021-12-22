@@ -1,17 +1,18 @@
 package gr.ekke.check4facts.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-
 import org.hibernate.annotations.TypeDef;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -29,6 +30,9 @@ import java.util.Set;
     name = "list-array",
     typeClass = ListArrayType.class
 )
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id")
 public class Statement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -92,6 +96,9 @@ public class Statement implements Serializable {
     @Column(name = "sub_topics", columnDefinition = "varchar(255)[]")
     private List<String> subTopics;
 
+    @OneToOne(mappedBy = "statement")
+    private Article article;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -105,17 +112,21 @@ public class Statement implements Serializable {
         return text;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public Statement text(String text) {
         this.text = text;
         return this;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public String getAuthor() {
         return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Statement author(String author) {
@@ -123,12 +134,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public Instant getStatementDate() {
         return statementDate;
+    }
+
+    public void setStatementDate(Instant statementDate) {
+        this.statementDate = statementDate;
     }
 
     public Statement statementDate(Instant statementDate) {
@@ -136,12 +147,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setStatementDate(Instant statementDate) {
-        this.statementDate = statementDate;
-    }
-
     public Instant getRegistrationDate() {
         return registrationDate;
+    }
+
+    public void setRegistrationDate(Instant registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     public Statement registrationDate(Instant registrationDate) {
@@ -149,12 +160,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setRegistrationDate(Instant registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
     public String getMainArticleTitle() {
         return mainArticleTitle;
+    }
+
+    public void setMainArticleTitle(String mainArticleTitle) {
+        this.mainArticleTitle = mainArticleTitle;
     }
 
     public Statement mainArticleTitle(String mainArticleTitle) {
@@ -162,12 +173,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setMainArticleTitle(String mainArticleTitle) {
-        this.mainArticleTitle = mainArticleTitle;
-    }
-
     public String getMainArticleText() {
         return mainArticleText;
+    }
+
+    public void setMainArticleText(String mainArticleText) {
+        this.mainArticleText = mainArticleText;
     }
 
     public Statement mainArticleText(String mainArticleText) {
@@ -175,12 +186,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setMainArticleText(String mainArticleText) {
-        this.mainArticleText = mainArticleText;
-    }
-
     public String getMainArticleUrl() {
         return mainArticleUrl;
+    }
+
+    public void setMainArticleUrl(String mainArticleUrl) {
+        this.mainArticleUrl = mainArticleUrl;
     }
 
     public Statement mainArticleUrl(String mainArticleUrl) {
@@ -188,12 +199,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setMainArticleUrl(String mainArticleUrl) {
-        this.mainArticleUrl = mainArticleUrl;
-    }
-
     public Boolean getFactCheckerLabel() {
         return factCheckerLabel;
+    }
+
+    public void setFactCheckerLabel(Boolean factCheckerLabel) {
+        this.factCheckerLabel = factCheckerLabel;
     }
 
     public Statement factCheckerLabel(Boolean factCheckerLabel) {
@@ -201,12 +212,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setFactCheckerLabel(Boolean factCheckerLabel) {
-        this.factCheckerLabel = factCheckerLabel;
-    }
-
     public Integer getFactCheckerAccuracy() {
         return factCheckerAccuracy;
+    }
+
+    public void setFactCheckerAccuracy(Integer factCheckerAccuracy) {
+        this.factCheckerAccuracy = factCheckerAccuracy;
     }
 
     public Statement factCheckerAccuracy(Integer factCheckerAccuracy) {
@@ -214,12 +225,14 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setFactCheckerAccuracy(Integer factCheckerAccuracy) {
-        this.factCheckerAccuracy = factCheckerAccuracy;
-    }
-
     public Set<StatementSource> getStatementSources() {
         return statementSources;
+    }
+
+    public void setStatementSources(Set<StatementSource> statementSources) {
+        if (statementSources != null) {
+            this.statementSources.addAll(statementSources);
+        }
     }
 
     public Statement statementSources(Set<StatementSource> statementSources) {
@@ -239,14 +252,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setStatementSources(Set<StatementSource> statementSources) {
-        if (statementSources != null) {
-            this.statementSources.addAll(statementSources);
-        }
-    }
-
     public Topic getTopic() {
         return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
     public Statement topic(Topic topic) {
@@ -254,12 +265,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setTopic(Topic topic) {
-        this.topic = topic;
-    }
-
     public List<String> getSubTopics() {
         return subTopics;
+    }
+
+    public void setSubTopics(List<String> subTopics) {
+        this.subTopics = subTopics;
     }
 
     public Statement subTopics(List<String> subTopics) {
@@ -267,8 +278,12 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public void setSubTopics(List<String> subTopics) {
-        this.subTopics = subTopics;
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

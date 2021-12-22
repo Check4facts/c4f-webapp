@@ -1,31 +1,50 @@
 import './fact-checking.scss'
 import _ from 'lodash';
 import moment from "moment";
-import React, { useEffect, useState, useRef } from 'react';
-import { connect } from 'react-redux';
-import { IRootState } from 'app/shared/reducers';
-import { Translate, translate } from 'react-jhipster';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import React, {useEffect, useRef, useState} from 'react';
+import {connect} from 'react-redux';
+import {IRootState} from 'app/shared/reducers';
+import {Translate, translate} from 'react-jhipster';
+import {Link, RouteComponentProps} from 'react-router-dom';
 import {IModalContent, ITaskStatus} from 'app/shared/model/util.model';
-import { Row, Col, Table, Button, Container, Spinner, Modal, ModalHeader, ModalBody, ModalFooter, Progress } from 'reactstrap';
-import { setFact, analyzeStatement, getTaskStatus, removeTaskStatus } from "app/modules/fact-checking/fact-checking.reducer";
-import { getEntity as getStatement, updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
-import { getStatementSourcesByStatement } from 'app/entities/statement-source/statement-source.reducer';
-import { countFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
-import { convertDateTimeToServer } from 'app/shared/util/date-utils';
-import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.reducer';
-import { APP_LOCAL_DATETIME_FORMAT } from 'app/config/constants';
+import {
+  Button,
+  Col,
+  Container,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Progress,
+  Row,
+  Spinner,
+  Table
+} from 'reactstrap';
+import {
+  analyzeStatement,
+  getTaskStatus,
+  removeTaskStatus,
+  setFact
+} from "app/modules/fact-checking/fact-checking.reducer";
+import {getEntity as getStatement, updateEntity as updateStatement} from 'app/entities/statement/statement.reducer';
+import {getStatementSourcesByStatement} from 'app/entities/statement-source/statement-source.reducer';
+import {countFeatureStatementsByStatement} from 'app/entities/feature-statement/feature-statement.reducer';
+import {convertDateTimeToServer} from 'app/shared/util/date-utils';
+import {getActiveCeleryTasks} from 'app/entities/kombu-message/kombu-message.reducer';
+import {APP_LOCAL_DATETIME_FORMAT} from 'app/config/constants';
 
 export const progressBar = (message: string, task: ITaskStatus) => (
   task.taskInfo &&
-  <Col md={{ size: 4, offset: 4 }}>
+  <Col md={{size: 4, offset: 4}}>
     <div className="text-center">{message}</div>
-    <Progress animated color="info" value={task.taskInfo.current * (100/task.taskInfo.total)} />
-    <div className="text-center">Βήμα <span className="text-info">{task.taskInfo.current}</span> από <span className="text-success">{task.taskInfo.total}</span></div>
+    <Progress animated color="info" value={task.taskInfo.current * (100 / task.taskInfo.total)}/>
+    <div className="text-center">Βήμα <span className="text-info">{task.taskInfo.current}</span> από <span
+      className="text-success">{task.taskInfo.total}</span></div>
   </Col>
 );
 
-export interface IFactCheckAnalyzeProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IFactCheckAnalyzeProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
+}
 
 export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
   const statusInterval = useRef(null);
@@ -47,7 +66,18 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
     props.countFeatureStatementsByStatement(props.match.params.id);
   }, []);
 
-  const { currentLocale, statement, sLoading, ssLoading, statementSources, analyzeLoading, featureStatementCount, activeStatuses, taskStatuses, kLoading } = props;
+  const {
+    currentLocale,
+    statement,
+    sLoading,
+    ssLoading,
+    statementSources,
+    analyzeLoading,
+    featureStatementCount,
+    activeStatuses,
+    taskStatuses,
+    kLoading
+  } = props;
 
   useEffect(() => {
     taskStatuses.forEach(task => {
@@ -112,7 +142,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
 
   return sLoading || ssLoading || kLoading ? (
     <div>
-      <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
+      <Spinner style={{width: '5rem', height: '5rem', margin: '10% 0 10% 45%'}} color="dark"/>
     </div>
   ) : (
     <>
@@ -152,7 +182,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
           <Col><h4>{translate("check4FactsApp.statement.topic")}</h4></Col>
           <Col><h4>{translate("check4FactsApp.statement.subTopics")}</h4></Col>
         </Row>
-        <Row  className="text-center my-3">
+        <Row className="text-center my-3">
           <Col><h5>{statement.topic && translate(`fact-checking.sub-menus.${statement.topic.name}`)}</h5></Col>
           <Col><h5>{statement.subTopics.join(', ')}</h5></Col>
         </Row>
@@ -173,7 +203,8 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
         </Row>
         <Row className="text-center my-3">
           <Col>
-            <h5><a href={statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">{statement.mainArticleUrl}</a></h5>
+            <h5><a href={statement.mainArticleUrl} target="_blank"
+                   rel="noopener noreferrer">{statement.mainArticleUrl}</a></h5>
           </Col>
         </Row>
         <Row className="text-center my-3 text-info">
@@ -203,8 +234,9 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
                 <tbody>
                 {statementSources.map((statementSource, i) => (
                   <tr key={`entity-${i}`}>
-                    <td>{i+1}</td>
-                    <td><a href={statementSource.url} target="_blank" rel="noopener noreferrer">{statementSource.url}</a></td>
+                    <td>{i + 1}</td>
+                    <td><a href={statementSource.url} target="_blank"
+                           rel="noopener noreferrer">{statementSource.url}</a></td>
                     <td>{statementSource.title}</td>
                     <td>{statementSource.snippet}</td>
                   </tr>
@@ -213,78 +245,58 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
               </Table>
             </Col>
           ) : (
-            <Col md={{ size: 4, offset: 4 }} className="alert alert-warning text-center">
+            <Col md={{size: 4, offset: 4}} className="alert alert-warning text-center">
               <Translate contentKey="fact-checking.check.statementSources.notAdded"/>
             </Col>
           )}
         </Row>
-        <Row className="my-3">
-          {
-            statement.registrationDate !== null && featureStatementCount > 0 ? (
-              <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
-                <Button tag={Link} to={`/fact-checking/results/${statement.id}`} color="info">
-                  {translate("fact-checking.results.title")}
-                </Button>
-              </Col>
-            ) : (
-              statement.registrationDate === null ? (
-                !analyzeLoading && !sLoading ? (
-                  <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
-                    <Button color="primary" onClick={analyze}>
-                      {translate("fact-checking.analyze.button")}
-                    </Button>
-                  </Col>
-                ) : (
-                  <Col className="d-flex justify-content-center" md={{ size: 2, offset: 5 }}>
-                    <Button color="primary">
-                      <Spinner size="sm" color="dark" />
-                    </Button>
-                  </Col>
-                )
-              ) : analyzeStatus.taskInfo && (
-                progressBar('Διαδικασία ανάλυσης δήλωσης...', analyzeStatus)
-              )
-            )
-          }
-        </Row>
         {
-          statement.registrationDate !== null && featureStatementCount >= 1 && !reAnalyze ? (
-            <Row className="my-3 p-3 border-top border-left border-right border-bottom border-danger">
-              <Col className="d-flex justify-content-center align-self-center">
-                <h5 className="mb-0">Συνολικές Αναλύσεις : <span className="text-info">{featureStatementCount}</span></h5>
-              </Col>
-              <Col>
-                <Row>
-                  <Col>
-                    <h5 className="text-center mb-0">Τελευταία {translate("check4FactsApp.statement.registrationDate")}</h5>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col className="text-center text-info">
-                    {moment.locale(currentLocale) && moment(statement.registrationDate).format("DD/MM/YY-HH:mm")}
-                  </Col>
-                </Row>
-              </Col>
-              <Col className="d-flex justify-content-center align-self-center">
-                <Button
-                  color="danger"
-                  onClick={() => openModal({
-                    header: 'Νέα Ανάλυση',
-                    body: 'Είστε σίγουροι ότι θέλετε να κάνετε μία νέα ανάλυση;',
-                    action: analyze
-                  })}
-                  disabled={reAnalyze}
-                >
-                  Νέα Ανάλυση
-                </Button>
-              </Col>
-            </Row>
-          ) : featureStatementCount !== 0 && reAnalyze && analyzeStatus.taskInfo && (
-            <Row className="my-3 p-3 border-top border-left border-right border-bottom border-danger">
-              {progressBar("Διαδικασία για νέα ανάλυση δήλωσης...", analyzeStatus)}
-            </Row>
-          )
+          featureStatementCount >= 1 &&
+          <Row className="my-3 p-3 border-top border-left border-right border-bottom border-danger">
+            <Col className="col-4 d-flex justify-content-center align-self-center">
+              <h5 className="mb-0">Συνολικές Αναλύσεις : <span className="text-info">{featureStatementCount}</span>
+              </h5>
+            </Col>
+            <Col className="col-4">
+              <Row>
+                <Col>
+                  <h5
+                    className="text-center mb-0">Τελευταία {translate("check4FactsApp.statement.registrationDate")}</h5>
+                </Col>
+              </Row>
+              <Row>
+                <Col className="text-center text-info">
+                  {moment.locale(currentLocale) && moment(statement.registrationDate).format("DD/MM/YY-HH:mm")}
+                </Col>
+              </Row>
+            </Col>
+            <Col className="col-4  d-flex justify-content-center align-self-center">
+              <Button tag={Link} to={`/fact-checking/results/${statement.id}`}
+                      color="info" disabled={reAnalyze || analyzeStatus.taskInfo}>
+                {translate("fact-checking.results.title")}
+              </Button>
+            </Col>
+          </Row>
         }
+        <Row className="my-3">
+          {analyzeStatus.taskInfo && progressBar('Διαδικασία ανάλυσης δήλωσης...', analyzeStatus)}
+          {!reAnalyze && !analyzeStatus.taskInfo &&
+          <Col className="d-flex justify-content-center" md={{size: 2, offset: 5}}>
+            {featureStatementCount === 0 ? <Button color="primary" onClick={analyze}>
+                {translate("fact-checking.analyze.button")}
+              </Button> :
+              <Button
+                color="danger"
+                onClick={() => openModal({
+                  header: 'Νέα Ανάλυση',
+                  body: 'Είστε σίγουροι ότι θέλετε να κάνετε μία νέα ανάλυση;',
+                  action: analyze
+                })}
+                disabled={reAnalyze}>
+                Νέα Ανάλυση
+              </Button>}
+          </Col>}
+        </Row>
         <Modal size="md" isOpen={modalOpen} toggle={() => setModalOpen(false)}>
           <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>
           <ModalBody>{modalContent.body}</ModalBody>

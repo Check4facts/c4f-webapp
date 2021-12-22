@@ -1,6 +1,6 @@
-import { Moment } from 'moment';
 import { IStatementSource } from 'app/shared/model/statement-source.model';
 import { ITopic } from 'app/shared/model/topic.model';
+import { IArticle } from 'app/shared/model/article.model';
 
 export interface IStatement {
   id?: number;
@@ -16,6 +16,7 @@ export interface IStatement {
   statementSources?: IStatementSource[];
   topic?: ITopic;
   subTopics?: string[];
+  article?: IArticle;
 }
 
 export const defaultValue: Readonly<IStatement> = {
