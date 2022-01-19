@@ -225,14 +225,14 @@ export const Statement = (props: IStatementProps) => {
                         tag={Link}
                         to={`${match.url}/${statement.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
                         color="primary"
-                        size="sm"
+                        size="md"
                       >
                         <FontAwesomeIcon icon="pencil-alt" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.edit">Edit</Translate>
                         </span>
                       </Button>
-                      <Button tag={Link} to={`/fact-checking/analyze/${statement.id}`} color="warning" size="sm">
+                      <Button tag={Link} to={`/fact-checking/analyze/${statement.id}`} color="warning" size="md">
                         <FontAwesomeIcon icon="sync" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="fact-checking.analyze.button"/>
