@@ -1,26 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, InputGroup, Col, Row, Table } from 'reactstrap';
-import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
-import {
-  Translate,
-  translate,
-  TextFormat,
-  getSortState,
-  JhiPagination,
-  JhiItemCount,
-} from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {Link, RouteComponentProps} from 'react-router-dom';
+import {Button, Col, InputGroup, Row, Table} from 'reactstrap';
+import {AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
+import {getSortState, JhiItemCount, JhiPagination, TextFormat, Translate, translate,} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities } from './statement.reducer';
+import {IRootState} from 'app/shared/reducers';
+import {getEntities, getSearchEntities} from './statement.reducer';
 import {APP_DATE_FORMAT, AUTHORITIES} from 'app/config/constants';
-import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
-import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
-import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
+import {overridePaginationStateWithQueryParams} from 'app/shared/util/entity-utils';
+import {hasAnyAuthority} from 'app/shared/auth/private-route';
 
-export interface IStatementProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IStatementProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {
+}
 
 export const Statement = (props: IStatementProps) => {
   const [search, setSearch] = useState('');
@@ -108,7 +102,7 @@ export const Statement = (props: IStatementProps) => {
       activePage: currentPage,
     });
 
-  const { statementList, match, loading, totalItems, isAdmin } = props;
+  const {statementList, match, loading, totalItems, isAdmin} = props;
   return (
     <div>
       <h2 id="statement-heading">
@@ -127,10 +121,10 @@ export const Statement = (props: IStatementProps) => {
                   placeholder={translate('check4FactsApp.statement.home.search')}
                 />
                 <Button className="input-group-addon">
-                  <FontAwesomeIcon icon="search" />
+                  <FontAwesomeIcon icon="search"/>
                 </Button>
                 <Button type="reset" className="input-group-addon" onClick={clear}>
-                  <FontAwesomeIcon icon="backspace" />
+                  <FontAwesomeIcon icon="backspace"/>
                 </Button>
               </InputGroup>
             </AvGroup>
@@ -141,107 +135,120 @@ export const Statement = (props: IStatementProps) => {
         {statementList && statementList.length > 0 ? (
           <Table responsive>
             <thead>
-              <tr>
-                <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('text')}>
-                  <Translate contentKey="check4FactsApp.statement.text">Text</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('author')}>
-                  <Translate contentKey="check4FactsApp.statement.author">Author</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('statementDate')}>
-                  <Translate contentKey="check4FactsApp.statement.statementDate">Statement Date</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('registrationDate')}>
-                  <Translate contentKey="check4FactsApp.statement.registrationDate">Registration Date</Translate>{' '}
-                  <FontAwesomeIcon icon="sort" />
-                </th>
-                {/* <th className="hand" onClick={sort('mainArticleText')}>*/}
-                {/*  <Translate contentKey="check4FactsApp.statement.mainArticleText">Main Article Text</Translate>{' '}*/}
-                {/*  <FontAwesomeIcon icon="sort" />*/}
-                {/* </th>*/}
-                <th className="hand" onClick={sort('mainArticleUrl')}>
-                  <Translate contentKey="check4FactsApp.statement.mainArticleUrl">Main Article Url</Translate>{' '}
-                  <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
-                  <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
-                  <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th />
-              </tr>
+            <tr>
+              <th className="hand" onClick={sort('id')}>
+                <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort"/>
+              </th>
+              <th className="hand" onClick={sort('text')}>
+                <Translate contentKey="check4FactsApp.statement.text">Text</Translate> <FontAwesomeIcon icon="sort"/>
+              </th>
+              <th className="hand" onClick={sort('author')}>
+                <Translate contentKey="check4FactsApp.statement.author">Author</Translate> <FontAwesomeIcon
+                icon="sort"/>
+              </th>
+              <th className="hand" onClick={sort('statementDate')}>
+                <Translate contentKey="check4FactsApp.statement.statementDate">Statement Date</Translate>
+                <FontAwesomeIcon icon="sort"/>
+              </th>
+              <th className="hand" onClick={sort('registrationDate')}>
+                <Translate contentKey="check4FactsApp.statement.registrationDate">Registration Date</Translate>{' '}
+                <FontAwesomeIcon icon="sort"/>
+              </th>
+              {/* <th className="hand" onClick={sort('mainArticleText')}>*/}
+              {/*  <Translate contentKey="check4FactsApp.statement.mainArticleText">Main Article Text</Translate>{' '}*/}
+              {/*  <FontAwesomeIcon icon="sort" />*/}
+              {/* </th>*/}
+              <th className="hand" onClick={sort('mainArticleUrl')}>
+                <Translate contentKey="check4FactsApp.statement.mainArticleUrl">Main Article Url</Translate>{' '}
+                <FontAwesomeIcon icon="sort"/>
+              </th>
+              <th>
+                <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate> <FontAwesomeIcon icon="sort"/>
+              </th>
+              <th>
+                <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate> <FontAwesomeIcon
+                icon="sort"/>
+              </th>
+              <th/>
+            </tr>
             </thead>
             <tbody>
-              {statementList.map((statement, i) => (
-                <tr key={`entity-${i}`}>
-                  <td>
-                    <Button tag={Link} to={`${match.url}/${statement.id}`} color="link" size="sm">
-                      {statement.id}
-                    </Button>
-                  </td>
-                  <td>{statement.text}</td>
-                  <td>{statement.author}</td>
-                  <td>
-                    {statement.statementDate ? <TextFormat type="date" value={statement.statementDate} format={APP_DATE_FORMAT} /> : null}
-                  </td>
-                  <td>
-                    {statement.registrationDate ? (
-                      <TextFormat type="date" value={statement.registrationDate} format={APP_DATE_FORMAT} />
-                    ) : null}
-                  </td>
-                  {/* <td>{statement.mainArticleText}</td>*/}
-                  <td style={{
-                    MozHyphens: "auto",
-                    msHyphens: "auto",
-                    msWordBreak: "break-all",
-                    WebkitHyphens: "auto",
-                    hyphens: "auto",
-                    overflowWrap: "break-word",
-                    wordBreak: "break-word",
-                    wordWrap: "break-word"
-                  }}><a href={statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">{statement.mainArticleUrl}</a></td>
-                  <td>{statement.topic ? translate(`fact-checking.sub-menus.${statement.topic.name}`) : ''}</td>
-                  <td>{statement.subTopics.join(', ')}</td>
-                  <td className="text-right">
-                    <div className="btn-group flex-btn-group-container">
-                      {isAdmin ? (
-                        <Button
-                          tag={Link}
-                          to={`${match.url}/${statement.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                          color="danger"
-                          size="sm"
-                        >
-                          <FontAwesomeIcon icon="trash" />{' '}
-                          <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
-                        </Button>
-                      ) : null}
+            {statementList.map((statement, i) => (
+              <tr key={`entity-${i}`}>
+                <td>
+                  {statement.id}
+                </td>
+                <td>{statement.text}</td>
+                <td>{statement.author}</td>
+                <td>
+                  {statement.statementDate ?
+                    <TextFormat type="date" value={statement.statementDate} format={APP_DATE_FORMAT}/> : null}
+                </td>
+                <td>
+                  {statement.registrationDate ? (
+                    <TextFormat type="date" value={statement.registrationDate} format={APP_DATE_FORMAT}/>
+                  ) : null}
+                </td>
+                {/* <td>{statement.mainArticleText}</td>*/}
+                <td style={{
+                  MozHyphens: "auto",
+                  msHyphens: "auto",
+                  msWordBreak: "break-all",
+                  WebkitHyphens: "auto",
+                  hyphens: "auto",
+                  overflowWrap: "break-word",
+                  wordBreak: "break-word",
+                  wordWrap: "break-word"
+                }}><a href={statement.mainArticleUrl} target="_blank"
+                      rel="noopener noreferrer">{statement.mainArticleUrl}</a></td>
+                <td>{statement.topic ? translate(`fact-checking.sub-menus.${statement.topic.name}`) : ''}</td>
+                <td>{statement.subTopics.join(', ')}</td>
+                <td className="text-right">
+                  <div className="btn-group flex-btn-group-container">
+                    {isAdmin ? (
                       <Button
                         tag={Link}
-                        to={`${match.url}/${statement.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="primary"
-                        size="md"
+                        to={`${match.url}/${statement.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                        color="danger"
+                        size="sm"
                       >
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
+                        <FontAwesomeIcon icon="trash"/>{' '}
                         <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                        </span>
+                      </Button>
+                    ) : null}
+                    <Button
+                      tag={Link}
+                      to={`${match.url}/${statement.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                      color="primary"
+                      size="md"
+                    >
+                      <FontAwesomeIcon icon="pencil-alt"/>{' '}
+                      <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.edit">Edit</Translate>
                         </span>
-                      </Button>
-                      <Button tag={Link} to={`/fact-checking/analyze/${statement.id}`} color="warning" size="md">
-                        <FontAwesomeIcon icon="sync" />{' '}
-                        <span className="d-none d-md-inline">
+                    </Button>
+                    <Button tag={Link} to={`/fact-checking/analyze/${statement.id}`} color="warning" size="md">
+                      <FontAwesomeIcon icon="sync"/>{' '}
+                      <span className="d-none d-md-inline">
                           <Translate contentKey="fact-checking.analyze.button"/>
                         </span>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    </Button>
+                    <Button
+                      tag={Link}
+                      to={`${match.url}/${statement.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                      color="danger"
+                      size="md">
+                      <FontAwesomeIcon icon="trash"/>{' '}
+                      <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                        </span>
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
             </tbody>
           </Table>
         ) : (
@@ -255,7 +262,8 @@ export const Statement = (props: IStatementProps) => {
       {props.totalItems ? (
         <div className={statementList && statementList.length > 0 ? '' : 'd-none'}>
           <Row className="justify-content-center">
-            <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
+            <JhiItemCount page={paginationState.activePage} total={totalItems}
+                          itemsPerPage={paginationState.itemsPerPage} i18nEnabled/>
           </Row>
           <Row className="justify-content-center">
             <JhiPagination
@@ -274,7 +282,7 @@ export const Statement = (props: IStatementProps) => {
   );
 };
 
-const mapStateToProps = ({ statement, authentication }: IRootState) => ({
+const mapStateToProps = ({statement, authentication}: IRootState) => ({
   statementList: statement.entities,
   isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN]),
   loading: statement.loading,
