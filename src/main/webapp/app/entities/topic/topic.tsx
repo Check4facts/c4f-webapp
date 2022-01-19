@@ -60,7 +60,7 @@ export const Topic = (props: ITopicProps) => {
                   <FontAwesomeIcon icon="search" />
                 </Button>
                 <Button type="reset" className="input-group-addon" onClick={clear}>
-                  <FontAwesomeIcon icon="trash" />
+                  <FontAwesomeIcon icon="backspace" />
                 </Button>
               </InputGroup>
             </AvGroup>

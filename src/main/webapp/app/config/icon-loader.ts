@@ -40,6 +40,7 @@ import { faTools } from '@fortawesome/free-solid-svg-icons/faTools';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLink } from '@fortawesome/free-solid-svg-icons/faLink';
+import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace';
 
 export const loadIcons = () => {
   library.add(
@@ -82,6 +83,7 @@ export const loadIcons = () => {
     faSearch,
     faTools,
     faLink,
+    faBackspace,
     faAngleDown
   );
 };

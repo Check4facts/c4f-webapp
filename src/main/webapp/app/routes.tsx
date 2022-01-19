@@ -38,7 +38,7 @@ const Admin = Loadable({
 
 const NonFluidContainerRoutes = () => (
   <Container>
-    <Switch>     
+    <Switch>
       <ErrorBoundaryRoute path="/login" component={Login}/>
       <ErrorBoundaryRoute path="/logout" component={Logout}/>
       <ErrorBoundaryRoute path="/account/register" component={Register}/>
