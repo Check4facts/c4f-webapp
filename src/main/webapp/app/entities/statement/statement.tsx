@@ -146,6 +146,9 @@ export const Statement = (props: IStatementProps) => {
                 <Translate contentKey="check4FactsApp.statement.author">Author</Translate> <FontAwesomeIcon
                 icon="sort"/>
               </th>
+              <th>
+                <Translate contentKey="check4FactsApp.article.author">Author</Translate>
+              </th>
               <th className="hand" onClick={sort('statementDate')}>
                 <Translate contentKey="check4FactsApp.statement.statementDate">Statement Date</Translate>
                 <FontAwesomeIcon icon="sort"/>
@@ -180,6 +183,7 @@ export const Statement = (props: IStatementProps) => {
                 </td>
                 <td>{statement.text}</td>
                 <td>{statement.author}</td>
+                <td>{statement.article? statement.article.author : 'N/A'}</td>
                 <td>
                   {statement.statementDate ?
                     <TextFormat type="date" value={statement.statementDate} format={APP_DATE_FORMAT}/> : null}

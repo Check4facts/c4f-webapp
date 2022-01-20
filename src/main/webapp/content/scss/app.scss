@@ -353,3 +353,19 @@ Entities page styles
   -webkit-box-orient: vertical;
   white-space: normal;
 }
+
+/* ==========================================================================
+Accuraacy level colors
+========================================================================== */
+.accuracy-color-1 {
+  background: theme-color(danger);
+}
+.accuracy-color-2 {
+  background: $pink;
+}
+.accuracy-color-3 {
+  background: $green;
+}
+.accuracy-color-4 {
+  background: theme-color(success);
+}

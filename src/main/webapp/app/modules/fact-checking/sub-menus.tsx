@@ -151,7 +151,7 @@ export const SubMenus = (props: ISubMenusProps) => {
           </AvForm>
         </Col>
       </Row>
-      <ArticlesFeed showButtons />
+      <ArticlesFeed />
       {props.totalItems ? (
         <div className={articlesByCategory && articlesByCategory.length > 0 ? '' : 'd-none'}>
           <Row className="justify-content-center">

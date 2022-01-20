@@ -213,15 +213,9 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                       </AvFeedback>
                     </AvGroup>
                     <AvGroup>
-                      {(statementId !== '' || articleEntity.statement) ? (
-                        <Label id="authorLabel" for="article-author">
-                          Όνομα Υπευθύνου Επαλήθευσης
-                        </Label>
-                      ) : (
-                        <Label id="authorLabel" for="article-author">
-                          <Translate contentKey="check4FactsApp.article.author">Author</Translate>
-                        </Label>
-                      )}
+                      <Label id="authorLabel" for="article-author">
+                        <Translate contentKey="check4FactsApp.article.author">Author</Translate>
+                      </Label>
                       <AvField
                         id="article-author"
                         type="text"
