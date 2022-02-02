@@ -209,19 +209,6 @@ export const Statement = (props: IStatementProps) => {
                 <td>{statement.subTopics.join(', ')}</td>
                 <td className="text-right">
                   <div className="btn-group flex-btn-group-container">
-                    {isAdmin ? (
-                      <Button
-                        tag={Link}
-                        to={`${match.url}/${statement.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="danger"
-                        size="sm"
-                      >
-                        <FontAwesomeIcon icon="trash"/>{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
-                      </Button>
-                    ) : null}
                     <Button
                       tag={Link}
                       to={`${match.url}/${statement.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
