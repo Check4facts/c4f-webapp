@@ -1,6 +1,8 @@
 package gr.ekke.check4facts.service;
 
 import gr.ekke.check4facts.domain.Statement;
+import gr.ekke.check4facts.repository.FeatureStatementRepository;
+import gr.ekke.check4facts.repository.ResourceRepository;
 import gr.ekke.check4facts.repository.StatementRepository;
 import gr.ekke.check4facts.repository.search.StatementSearchRepository;
 import org.slf4j.Logger;
@@ -28,9 +30,15 @@ public class StatementService {
 
     private final StatementSearchRepository statementSearchRepository;
 
-    public StatementService(StatementRepository statementRepository, StatementSearchRepository statementSearchRepository) {
+    private final ResourceRepository resourceRepository;
+
+    private  final FeatureStatementRepository featureStatementRepository;
+
+    public StatementService(StatementRepository statementRepository, StatementSearchRepository statementSearchRepository, ResourceRepository resourceRepository, FeatureStatementRepository featureStatementRepository) {
         this.statementRepository = statementRepository;
         this.statementSearchRepository = statementSearchRepository;
+        this.resourceRepository = resourceRepository;
+        this.featureStatementRepository = featureStatementRepository;
     }
 
     /**
@@ -77,6 +85,8 @@ public class StatementService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Statement : {}", id);
+        resourceRepository.deleteByStatementId(id);
+        featureStatementRepository.deleteByStatementId(id);
         statementRepository.deleteById(id);
         statementSearchRepository.deleteById(id);
     }

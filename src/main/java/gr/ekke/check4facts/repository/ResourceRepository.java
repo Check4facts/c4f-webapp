@@ -18,6 +18,9 @@ import java.util.List;
 public interface ResourceRepository extends JpaRepository<Resource, Long> {
     Page<Resource> findAllByStatementId(Long statement_id, Pageable pageable);
 
+    List<Resource> deleteByStatementId(Long statement_id);
+
+
     @Query("select r from Resource r " +
         "where r.statement.id = :statement_id and r.harvestIteration = " +
         "(select max(re.harvestIteration) from Resource re where re.statement.id = :statement_id)")
