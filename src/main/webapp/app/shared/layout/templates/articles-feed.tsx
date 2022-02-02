@@ -73,7 +73,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
           </p>
           <div className="d-flex justify-content-between mb-3">
             <div><span
-              className="fs-12 mr-1 text-muted">{translate('check4FactsApp.statement.author')}: {(article.statement && article.statement.author) || 'N/A'}</span>
+              className="fs-12 mr-1 text-muted">{(article.statement && article.statement.author) || 'N/A'}</span>
             </div>
             <div><a className="fs-12 mr-1 text-muted" href={article.statement && article.statement.mainArticleUrl}
                     target="_blank" rel="noopener noreferrer"> Πηγή <FontAwesomeIcon icon="link"/>

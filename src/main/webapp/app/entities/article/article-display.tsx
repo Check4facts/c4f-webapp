@@ -68,7 +68,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
               <p
                 className="fs-15 d-flex justify-content-center align-items-center m-0 text-muted"
               >
-                {translate('check4FactsApp.statement.author')}: {(article.statement && article.statement.author) || 'N/A '} | {moment.locale(currentLocale) && moment(article.articleDate).format("LL")}
+                {(article.statement && article.statement.author) || 'N/A '} | {moment.locale(currentLocale) && moment(article.articleDate).format("LL")}
               </p>
               {article.previewImage
                 ? <div className="text-center mt-3">
