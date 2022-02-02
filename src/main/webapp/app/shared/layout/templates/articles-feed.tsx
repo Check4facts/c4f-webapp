@@ -57,7 +57,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
               {article.previewTitle}
             </h5>
           </Link>
-          {article.statement && article.statement.factCheckerAccuracy &&
+          {article.statement && article.statement.factCheckerAccuracy != null &&
           <Badge className={`mr-1 accuracy-color-${article.statement.factCheckerAccuracy}`}>
             <span className="text-uppercase">{translate(`fact-checking.results.model.accuracy.${article.statement.factCheckerAccuracy}`)}</span>
           </Badge>}
