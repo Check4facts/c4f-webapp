@@ -154,6 +154,19 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
+                <Label id="publicationDateLabel" for="statement-publicationDate">
+                  <Translate contentKey="check4FactsApp.statement.publicationDate">Publication Date</Translate>
+                </Label>
+                <AvInput
+                  id="statement-publicationDate"
+                  type="datetime-local"
+                  className="form-control"
+                  name="publicationDate"
+                  placeholder={'YYYY-MM-DD HH:mm'}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.statementEntity.publicationDate)}
+                />
+              </AvGroup>
+              <AvGroup>
                 <Label id="registrationDateLabel" for="statement-registrationDate">
                   <Translate contentKey="check4FactsApp.statement.registrationDate">Registration Date</Translate>
                 </Label>

@@ -57,20 +57,6 @@ export const Home = (props: IHomeProp) => {
       activePage: currentPage,
     });
 
-  /*
-    const slides = () => carouselItems.map((article, idx) => ({
-      src: article.previewImage ? `data:${article.previewImageContentType};base64,${article.previewImage}` : null,
-      altText: `Slide ${idx}`,
-      caption: <span className="slider-text container-fluid d-none d-md-block">{article.previewText}</span>,
-      header: <>
-                <Link className="slider-header container-fluid" to={`/article/${article.id}/display`}>{article.previewTitle}</Link><br/>
-                <span className={`fact-checker-label ${article.statement && article.statement.factCheckerLabel ? 'label-true' : 'label-false'}`}>
-                  {article.statement ?( article.statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής') : null}
-                </span>
-              </>,
-      key: `${idx}`
-    }));
-  */
 
   return (
     <div>
@@ -89,7 +75,7 @@ export const Home = (props: IHomeProp) => {
           </Col>
         </Row>
       </div> */}
-      <Container >  
+      <Container >
       <ArticlesFeed />
       {props.totalItems ? (
         <div className={props.totalItems > 0 ? '' : 'd-none'}>

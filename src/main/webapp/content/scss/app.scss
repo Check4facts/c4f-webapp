@@ -357,14 +357,17 @@ Entities page styles
 /* ==========================================================================
 Accuraacy level colors
 ========================================================================== */
+.accuracy-color-0 {
+  background: color(gray-light);
+}
 .accuracy-color-1 {
   background: theme-color(danger);
 }
 .accuracy-color-2 {
-  background: $pink;
+  background: theme-color(warning);
 }
 .accuracy-color-3 {
-  background: $green;
+  background: #6ebbaf;
 }
 .accuracy-color-4 {
   background: theme-color(success);

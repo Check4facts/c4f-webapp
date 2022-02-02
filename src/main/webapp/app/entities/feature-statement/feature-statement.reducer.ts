@@ -12,7 +12,6 @@ export const ACTION_TYPES = {
   COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT: 'featureStatement/COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT',
   FETCH_FEATURESTATEMENT: 'featureStatement/FETCH_FEATURESTATEMENT',
   FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT: 'featureStatement/FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT',
-  SET_TRUE_LABEL_FEATURESTATMENT: 'featureStatement/SET_TRUE_LABEL_FEATURESTATMENT',
   RESET: 'featureStatement/RESET',
 };
 
@@ -37,7 +36,6 @@ export default (state: FeatureStatementState = initialState, action): FeatureSta
     case REQUEST(ACTION_TYPES.COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT):
     case REQUEST(ACTION_TYPES.FETCH_FEATURESTATEMENT):
     case REQUEST(ACTION_TYPES.FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT):
-    case REQUEST(ACTION_TYPES.SET_TRUE_LABEL_FEATURESTATMENT):
       return {
         ...state,
         errorMessage: null,
@@ -49,7 +47,6 @@ export default (state: FeatureStatementState = initialState, action): FeatureSta
     case FAILURE(ACTION_TYPES.COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.FETCH_FEATURESTATEMENT):
     case FAILURE(ACTION_TYPES.FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT):
-    case FAILURE(ACTION_TYPES.SET_TRUE_LABEL_FEATURESTATMENT):
       return {
         ...state,
         errorMessage: action.payload,
@@ -69,12 +66,6 @@ export default (state: FeatureStatementState = initialState, action): FeatureSta
         ...state,
         loading: false,
         entity: action.payload.data,
-      };
-    case SUCCESS(ACTION_TYPES.SET_TRUE_LABEL_FEATURESTATMENT):
-      return {
-        ...state,
-        loading: false,
-        rowsUpdated: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT):
       return {
@@ -125,13 +116,6 @@ export const getLatestFeatureStatementByStatementId: ICrudGetAction<IFeatureStat
   type: ACTION_TYPES.FETCH_LATEST_FEATURESTATEMENT_BY_STATEMENT,
   payload: axios.get<IFeatureStatement>(`${apiUrl}/latest/statement/${statementId}`),
 });
-
-export const setTrueLabel = (id: number, label: boolean) => {
-  return {
-    type: ACTION_TYPES.SET_TRUE_LABEL_FEATURESTATMENT,
-    payload: axios.put(`${apiUrl}/${id}/${label}`),
-  };
-};
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET,

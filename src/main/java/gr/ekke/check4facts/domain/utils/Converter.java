@@ -51,14 +51,4 @@ public class Converter {
         String[] split = s.split("/");
         return Arrays.stream(split).map(v -> v.trim()).collect(Collectors.toList());
     }
-
-    public Boolean stringToFactCheckerLabel(String s) {
-        if (s.trim().equalsIgnoreCase("true")) {
-            return true;
-        } else if (s.trim().equalsIgnoreCase("false")) {
-            return false;
-        } else {
-            return null;
-        }
-    }
 }

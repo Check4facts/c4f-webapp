@@ -94,11 +94,6 @@ public class StatementService {
         return statementSearchRepository.search(queryStringQuery(query), pageable);
     }
 
-    public Integer setFactCheckerLabel(Long id, Boolean label) {
-        log.debug("Request to set factCheckerLabel of Statement: {} to : {}", id, label);
-        return statementRepository.setFactCheckerLabel(id, label);
-    }
-
     public Integer setFactCheckerAccuracy(Long id, Integer accuracy) {
         log.debug("Request to set factCheckerAccuracy of Statement: {} to : {}", id, accuracy);
         return statementRepository.setFactCheckerAccuracy(id, accuracy);

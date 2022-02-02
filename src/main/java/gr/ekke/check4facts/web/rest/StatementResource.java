@@ -160,12 +160,6 @@ public class StatementResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    @PutMapping("/statements/label/{id}/{label}")
-    public Integer setFactCheckerLabel(@PathVariable Long id, @PathVariable Boolean label) {
-        log.debug("REST request to set factCheckerLabel of Statement: {} to : {}", id, label);
-        return statementService.setFactCheckerLabel(id, label);
-    }
-
     @PutMapping("/statements/accuracy/{id}/{accuracy}")
     public Integer setFactCheckerAccuracy(@PathVariable Long id, @PathVariable Integer accuracy) {
         log.debug("REST request to set factCheckerAccuracy of Statement: {} tp : {}", id, accuracy);
@@ -202,7 +196,6 @@ public class StatementResource {
                 statement.setSubTopics(converter.stringToSubTopics(nextLine[16]));
 
                 statement.setStatementSources(converter.stringsToStatementSources(nextLine[17], nextLine[19]));
-                statement.setFactCheckerLabel(converter.stringToFactCheckerLabel(nextLine[20]));
 
                 try {
                     statement.setFactCheckerAccuracy(Integer.parseInt(nextLine[21]));

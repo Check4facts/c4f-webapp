@@ -7,11 +7,11 @@ export interface IStatement {
   text?: any;
   author?: string;
   statementDate?: string;
+  publicationDate?: string;
   registrationDate?: string;
   mainArticleTitle?: any;
   mainArticleText?: any;
   mainArticleUrl?: any;
-  factCheckerLabel?: boolean;
   factCheckerAccuracy?: number;
   statementSources?: IStatementSource[];
   topic?: ITopic;

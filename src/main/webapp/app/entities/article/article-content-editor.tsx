@@ -64,6 +64,10 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
         <Col>{moment.locale(currentLocale) && moment(statement.statementDate).format("LL")}</Col>
       </Row>
       <Row className="my-1 py-1 border-bottom">
+        <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.publicationDate")}</Col>
+        <Col>{moment.locale(currentLocale) && moment(statement.publicationDate).format("LL")}</Col>
+      </Row>
+      <Row className="my-1 py-1 border-bottom">
         <Col md="3" className="font-weight-bold">{translate("check4FactsApp.statement.registrationDate")}</Col>
         <Col>{moment.locale(currentLocale) && moment(statement.registrationDate).format("LL")}</Col>
       </Row>

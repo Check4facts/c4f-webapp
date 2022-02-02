@@ -153,6 +153,10 @@ export const Statement = (props: IStatementProps) => {
                 <Translate contentKey="check4FactsApp.statement.statementDate">Statement Date</Translate>
                 <FontAwesomeIcon icon="sort"/>
               </th>
+              <th className="hand" onClick={sort('publicationDate')}>
+                <Translate contentKey="check4FactsApp.statement.publicationDate">Publication Date</Translate>
+                <FontAwesomeIcon icon="sort"/>
+              </th>
               <th className="hand" onClick={sort('registrationDate')}>
                 <Translate contentKey="check4FactsApp.statement.registrationDate">Registration Date</Translate>{' '}
                 <FontAwesomeIcon icon="sort"/>
@@ -187,6 +191,10 @@ export const Statement = (props: IStatementProps) => {
                 <td>
                   {statement.statementDate ?
                     <TextFormat type="date" value={statement.statementDate} format={APP_DATE_FORMAT}/> : null}
+                </td>
+                <td>
+                  {statement.publicationDate ?
+                    <TextFormat type="date" value={statement.publicationDate} format={APP_DATE_FORMAT}/> : null}
                 </td>
                 <td>
                   {statement.registrationDate ? (

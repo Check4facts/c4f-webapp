@@ -45,6 +45,7 @@
         "emotions": "Emotion Results",
         "rest": "More Characterization Results",
         "accuracy": {
+          "0": "Non verifiable",
           "1": "Very Inaccurate",
           "2": "Relatively Inaccurate",
           "3": "Relatively Accurate",

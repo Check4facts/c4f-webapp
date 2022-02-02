@@ -8,14 +8,12 @@ import {setFact} from 'app/modules/fact-checking/fact-checking.reducer';
 import {
   getEntity as getStatement,
   setFactCheckerAccuracy,
-  setFactCheckerLabel
 } from 'app/entities/statement/statement.reducer';
 import {getStatementSourcesByStatement} from 'app/entities/statement-source/statement-source.reducer';
 import {getLatestResourcesByStatement} from 'app/entities/resource/resource.reducer';
 import {defaultValue} from 'app/shared/model/feature-statement.model';
 import {
   getLatestFeatureStatementByStatementId,
-  setTrueLabel
 } from 'app/entities/feature-statement/feature-statement.reducer';
 import {translate, Translate} from 'react-jhipster';
 import moment from "moment";
@@ -44,10 +42,6 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     }
   }, [sUpdateSuccess]);
 
-  const toggleFactCheckerLabel = () => {
-    props.setFactCheckerLabel(statement.id, !statement.factCheckerLabel);
-    props.setTrueLabel(featureStatement.id, !statement.factCheckerLabel);
-  }
 
   const changeFactCheckerAccuracy = event => {
     props.setFactCheckerAccuracy(statement.id, event.target.value);
@@ -84,6 +78,9 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
             <h4>{translate("check4FactsApp.statement.statementDate")}</h4>
           </Col>
           <Col>
+            <h4>{translate("check4FactsApp.statement.publicationDate")}</h4>
+          </Col>
+          <Col>
             <h4>{translate("check4FactsApp.statement.registrationDate")}</h4>
           </Col>
         </Row>
@@ -93,6 +90,9 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           </Col>
           <Col>
             <h5>{moment.locale(currentLocale) && moment(statement.statementDate).format("LL")}</h5>
+          </Col>
+          <Col>
+            <h5>{moment.locale(currentLocale) && moment(statement.publicationDate).format("LL")}</h5>
           </Col>
           <Col>
             <h5>{moment.locale(currentLocale) && moment(statement.registrationDate).format("LL")}</h5>
@@ -251,32 +251,14 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           </Row>
           <Row className="text-center pb-3 align-items-center">
             <Col>
-              <h4 className="m-0">Κατάσταση:</h4>
-            </Col>
-            <Col>
-              <h5
-                className={`m-0 ${statement.factCheckerLabel ? 'text-success' : 'text-danger'}`}>{statement.factCheckerLabel ? 'Ακριβής' : 'Ανακριβής'}</h5>
-            </Col>
-            <Col className="d-flex justify-content-center">
-              {
-                sUpdating ? (
-                  <Button color="primary">
-                    <Spinner size="sm" color="dark"/>
-                  </Button>
-                ) : (
-                  <Button color="info" onClick={toggleFactCheckerLabel}>
-                    Αλλαγή
-                  </Button>
-                )
-              }
-            </Col>
-          </Row>
-          <Row className="text-center pb-3 align-items-center">
-            <Col>
-              <h4 className="m-0">Βαθμός Ακρίβειας:</h4>
+              <h4 className="m-0">Ακρίβεια:</h4>
             </Col>
             <Col md="8">
               <div className="accuracy" onChange={changeFactCheckerAccuracy}>
+                <label>
+                  <input type="radio" value={0} checked={statement.factCheckerAccuracy === 0} name="accuracy"/>
+                  {translate('fact-checking.results.model.accuracy.0')}
+                </label>
                 <label>
                   <input type="radio" value={1} checked={statement.factCheckerAccuracy === 1} name="accuracy"/>
                   {translate('fact-checking.results.model.accuracy.1')}
@@ -295,23 +277,6 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
                 </label>
               </div>
             </Col>
-            {/* <Col>*/}
-            {/*  <h5 className={`m-0 ${statement.factCheckerAccuracy === 3 ? 'text-info' : (statement.factCheckerAccuracy > 3 ? 'text-success' : 'text-danger')}`}>{statement.factCheckerAccuracy}</h5>*/}
-            {/*  <p className="m-0">{translate(`fact-checking.results.model.accuracy.${statement.factCheckerAccuracy}`)}</p>*/}
-            {/* </Col>*/}
-            {/* <Col className="d-flex justify-content-center">*/}
-            {/*  {*/}
-            {/*    sUpdating ? (*/}
-            {/*      <Button color="primary">*/}
-            {/*        <Spinner size="sm" color="dark" />*/}
-            {/*      </Button>*/}
-            {/*    ) : (*/}
-            {/*      <Button color="info" onClick={toggleFactCheckerLabel}>*/}
-            {/*        Αλλαγή*/}
-            {/*      </Button>*/}
-            {/*    )*/}
-            {/*  }*/}
-            {/* </Col>*/}
           </Row>
           <Row className="text-center">
             <Col>
@@ -387,12 +352,10 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   setFact,
   getStatement,
-  setFactCheckerLabel,
   setFactCheckerAccuracy,
   getStatementSourcesByStatement,
   getLatestResourcesByStatement,
   getLatestFeatureStatementByStatementId,
-  setTrueLabel,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

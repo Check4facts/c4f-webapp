@@ -12,7 +12,6 @@ export const ACTION_TYPES = {
   FETCH_STATEMENT: 'statement/FETCH_STATEMENT',
   CREATE_STATEMENT: 'statement/CREATE_STATEMENT',
   UPDATE_STATEMENT: 'statement/UPDATE_STATEMENT',
-  SET_FACT_CHECKER_LABEL: 'statement/SET_FACT_CHECKER_LABEL',
   SET_FACT_CHECKER_ACCURACY: 'statement/SET_FACT_CHECKER_ACCURACY',
   DELETE_STATEMENT: 'statement/DELETE_STATEMENT',
   IMPORT_CSV: 'statement/IMPORT_CSV',
@@ -51,7 +50,6 @@ export default (state: StatementState = initialState, action): StatementState =>
     case REQUEST(ACTION_TYPES.CREATE_STATEMENT):
     case REQUEST(ACTION_TYPES.UPDATE_STATEMENT):
     case REQUEST(ACTION_TYPES.DELETE_STATEMENT):
-    case REQUEST(ACTION_TYPES.SET_FACT_CHECKER_LABEL):
     case REQUEST(ACTION_TYPES.SET_FACT_CHECKER_ACCURACY):
       return {
         ...state,
@@ -65,7 +63,6 @@ export default (state: StatementState = initialState, action): StatementState =>
     case FAILURE(ACTION_TYPES.CREATE_STATEMENT):
     case FAILURE(ACTION_TYPES.UPDATE_STATEMENT):
     case FAILURE(ACTION_TYPES.DELETE_STATEMENT):
-    case FAILURE(ACTION_TYPES.SET_FACT_CHECKER_LABEL):
     case FAILURE(ACTION_TYPES.SET_FACT_CHECKER_ACCURACY):
     case FAILURE(ACTION_TYPES.IMPORT_CSV):
       return {
@@ -97,7 +94,6 @@ export default (state: StatementState = initialState, action): StatementState =>
         updateSuccess: true,
         entity: action.payload.data,
       };
-    case SUCCESS(ACTION_TYPES.SET_FACT_CHECKER_LABEL):
     case SUCCESS(ACTION_TYPES.SET_FACT_CHECKER_ACCURACY):
       return {
         ...state,
@@ -179,13 +175,6 @@ export const updateEntity: ICrudPutAction<IStatement> = entity => async dispatch
     payload: axios.put(apiUrl, cleanEntity(entity)),
   });
   return result;
-};
-
-export const setFactCheckerLabel = (id: number, label: boolean) => {
-  return {
-    type: ACTION_TYPES.SET_FACT_CHECKER_LABEL,
-    payload: axios.put(`${apiUrl}/label/${id}/${label}`),
-  };
 };
 
 export const setFactCheckerAccuracy = (id: number, accuracy: number) => {

@@ -48,6 +48,16 @@ export const StatementDetail = (props: IStatementDetailProps) => {
             ) : null}
           </dd>
           <dt>
+            <span id="publicationDate">
+              <Translate contentKey="check4FactsApp.statement.publicationDate">Publication Date</Translate>
+            </span>
+          </dt>
+          <dd>
+            {statementEntity.publicationDate ? (
+              <TextFormat value={statementEntity.publicationDate} type="date" format={APP_DATE_FORMAT} />
+            ) : null}
+          </dd>
+          <dt>
             <span id="registrationDate">
               <Translate contentKey="check4FactsApp.statement.registrationDate">Registration Date</Translate>
             </span>

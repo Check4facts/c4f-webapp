@@ -55,6 +55,9 @@ public class Statement implements Serializable {
     @Column(name = "statement_date")
     private Instant statementDate;
 
+    @Column(name = "publication_date")
+    private Instant publicationDate;
+
     @Column(name = "registration_date")
     private Instant registrationDate;
 
@@ -74,9 +77,6 @@ public class Statement implements Serializable {
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "main_article_url")
     private String mainArticleUrl;
-
-    @Column(name = "fact_checker_label")
-    private Boolean factCheckerLabel;
 
     @Column(name = "fact_checker_accuracy")
     private Integer factCheckerAccuracy;
@@ -199,19 +199,6 @@ public class Statement implements Serializable {
         return this;
     }
 
-    public Boolean getFactCheckerLabel() {
-        return factCheckerLabel;
-    }
-
-    public void setFactCheckerLabel(Boolean factCheckerLabel) {
-        this.factCheckerLabel = factCheckerLabel;
-    }
-
-    public Statement factCheckerLabel(Boolean factCheckerLabel) {
-        this.factCheckerLabel = factCheckerLabel;
-        return this;
-    }
-
     public Integer getFactCheckerAccuracy() {
         return factCheckerAccuracy;
     }
@@ -286,6 +273,14 @@ public class Statement implements Serializable {
         this.article = article;
     }
 
+    public Instant getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(Instant publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -312,11 +307,11 @@ public class Statement implements Serializable {
             ", text='" + getText() + "'" +
             ", author='" + getAuthor() + "'" +
             ", statementDate='" + getStatementDate() + "'" +
+            ", publicationDate='" + getPublicationDate() + "'" +
             ", registrationDate='" + getRegistrationDate() + "'" +
             ", mainArticleTitle='" + getMainArticleTitle() + "'" +
             ", mainArticleText='" + getMainArticleText() + "'" +
             ", mainArticleUrl='" + getMainArticleUrl() + "'" +
-            ", factCheckerLabel='" + getFactCheckerLabel() + "'" +
             ", factCheckerAccuracy='" + getFactCheckerAccuracy() + "'" +
             ", subTopics='" + getSubTopics() + "'" +
             "}";
