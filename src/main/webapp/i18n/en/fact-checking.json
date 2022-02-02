@@ -46,8 +46,8 @@
         "rest": "More Characterization Results",
         "accuracy": {
           "1": "Very Inaccurate",
-          "2": "Inaccurate",
-          "3": "Accurate",
+          "2": "Relatively Inaccurate",
+          "3": "Relatively Accurate",
           "4": "Very Accurate"
         }
       }
