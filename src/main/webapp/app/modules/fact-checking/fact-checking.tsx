@@ -139,6 +139,19 @@ export const FactChecking = (props: IFactCheckingProps) => {
                     />
                   </AvGroup>
                   <AvGroup>
+                    <Label id="publicationDateLabel" for="statement-publicationDate">
+                      <Translate contentKey="check4FactsApp.statement.publicationDate">Publication Date</Translate>{' '}(*)
+                    </Label>
+                    <AvInput
+                      id="statement-publicationDate"
+                      type="datetime-local"
+                      className="form-control"
+                      name="publicationDate"
+                      placeholder={'YYYY-MM-DD HH:mm'}
+                      value={displayDefaultDateTime()}
+                    />
+                  </AvGroup>
+                  <AvGroup>
                     <Label id="mainArticleTitleLabel" for="statement-mainArticleTitle">
                       <Translate contentKey="check4FactsApp.statement.mainArticleTitle">Main Article Title</Translate>
                     </Label>
