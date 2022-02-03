@@ -70,7 +70,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
 
   const saveStatement = (event, errors, values) => {
     values.statementDate = convertDateTimeToServer(values.statementDate);
-
+    values.publicationDate = convertDateTimeToServer(values.publicationDate);
     if (errors.length === 0) {
       const entity = {
         ...values,
