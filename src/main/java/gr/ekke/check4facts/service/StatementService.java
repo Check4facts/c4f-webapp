@@ -1,9 +1,11 @@
 package gr.ekke.check4facts.service;
 
 import gr.ekke.check4facts.domain.Statement;
+import gr.ekke.check4facts.repository.ArticleRepository;
 import gr.ekke.check4facts.repository.FeatureStatementRepository;
 import gr.ekke.check4facts.repository.ResourceRepository;
 import gr.ekke.check4facts.repository.StatementRepository;
+import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
 import gr.ekke.check4facts.repository.search.StatementSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +36,17 @@ public class StatementService {
 
     private  final FeatureStatementRepository featureStatementRepository;
 
-    public StatementService(StatementRepository statementRepository, StatementSearchRepository statementSearchRepository, ResourceRepository resourceRepository, FeatureStatementRepository featureStatementRepository) {
+    private final ArticleRepository articleRepository;
+
+    private final ArticleService articleService;
+
+    public StatementService(StatementRepository statementRepository, StatementSearchRepository statementSearchRepository, ResourceRepository resourceRepository, FeatureStatementRepository featureStatementRepository, ArticleRepository articleRepository, ArticleSearchRepository articleSearchRepository, ArticleService articleService) {
         this.statementRepository = statementRepository;
         this.statementSearchRepository = statementSearchRepository;
         this.resourceRepository = resourceRepository;
         this.featureStatementRepository = featureStatementRepository;
+        this.articleRepository = articleRepository;
+        this.articleService = articleService;
     }
 
     /**
@@ -85,6 +93,9 @@ public class StatementService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Statement : {}", id);
+        articleRepository.findArticleByStatementId(id).ifPresent(article -> {
+            articleService.delete(article.getId());
+        });
         resourceRepository.deleteByStatementId(id);
         featureStatementRepository.deleteByStatementId(id);
         statementRepository.deleteById(id);

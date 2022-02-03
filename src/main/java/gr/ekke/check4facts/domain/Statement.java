@@ -96,7 +96,7 @@ public class Statement implements Serializable {
     @Column(name = "sub_topics", columnDefinition = "varchar(255)[]")
     private List<String> subTopics;
 
-    @OneToOne(mappedBy = "statement", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "statement")
     private Article article;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
