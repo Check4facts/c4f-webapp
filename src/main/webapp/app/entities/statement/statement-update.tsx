@@ -76,6 +76,7 @@ export const StatementUpdate = (props: IStatementUpdateProps) => {
   const saveEntity = (event, errors, values) => {
     values.statementDate = convertDateTimeToServer(values.statementDate);
     values.registrationDate = convertDateTimeToServer(values.registrationDate);
+    values.publicationDate = convertDateTimeToServer(values.publicationDate);
 
     if (errors.length === 0) {
       const entity = {
