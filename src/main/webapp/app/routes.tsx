@@ -47,10 +47,10 @@ const NonFluidContainerRoutes = () => (
       <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish}/>
       <PrivateRoute path="/account" component={Account}
                     hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
-      <ErrorBoundaryRoute path="/about" component={About}/>
-      <ErrorBoundaryRoute path="/dissemination" component={Dissemination}/>
-      <ErrorBoundaryRoute path="/fact-checking" component={FactChecking}/>
-      <ErrorBoundaryRoute path="/more" component={More}/>
+      <PrivateRoute path="/about" component={About} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+      <PrivateRoute path="/dissemination" component={Dissemination} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+      <PrivateRoute path="/fact-checking" component={FactChecking} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+      <PrivateRoute path="/more" component={More} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
       <ErrorBoundaryRoute component={PageNotFound}/>
     </Switch>
   </Container>
@@ -62,12 +62,12 @@ const Routes = () => (
         <Switch>
           <ErrorBoundaryRoute path="/" exact component={Home}/>
           <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]}/>
-          <ErrorBoundaryRoute path={`/article`} component={Article}/>
-          <ErrorBoundaryRoute path={`/category`} component={Category}/>
-          <ErrorBoundaryRoute path={`/resource`} component={Resource}/>
-          <ErrorBoundaryRoute path={`/statement`} component={Statement}/>
-          <ErrorBoundaryRoute path={`/statement-source`} component={StatementSource}/>
-          <ErrorBoundaryRoute path={`/topic`} component={Topic}/>
+          <PrivateRoute path={`/article`} component={Article} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+          <PrivateRoute path={`/category`} component={Category} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+          <PrivateRoute path={`/resource`} component={Resource} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+          <PrivateRoute path={`/statement`} component={Statement} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+          <PrivateRoute path={`/statement-source`} component={StatementSource} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+          <PrivateRoute path={`/topic`} component={Topic} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
           <ErrorBoundaryRoute component={NonFluidContainerRoutes}/>
         </Switch>
       </ErrorBoundary>
