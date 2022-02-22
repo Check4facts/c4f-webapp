@@ -93,30 +93,36 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
             <h5>{moment.locale(currentLocale) && moment(statement.registrationDate).format("LL")}</h5>
           </Col>
         </Row>
-        <Row className="text-center my-3 text-info">
-          <Col>
-            <h4>{translate("fact-checking.results.model.label")}</h4>
-          </Col>
-          <Col>
-            <h4>{translate("fact-checking.results.model.probability")}</h4>
-          </Col>
-        </Row>
-        <Row className="text-center my-3">
-          {featureStatement.predictProba > 0 ? <><Col>
+        {featureStatement.predictProba > 0 ? <><Row className="text-center my-3 text-info">
+            <Col>
+              <h4>{translate("fact-checking.results.model.label")}</h4>
+            </Col>
+            <Col>
+              <h4>{translate("fact-checking.results.model.probability")}</h4>
+            </Col>
+          </Row> <Row className="text-center my-3">
+            <Col>
               {featureStatement.predictLabel ? (
                 <h5 className="text-success">Ακριβής</h5>
               ) : (
                 <h5 className="text-danger">Ανακριβής</h5>
               )}
             </Col>
-              <Col>
-                <h5
-                  className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{Math.round(featureStatement.predictProba * 100)}%</h5>
-              </Col></> :
+            <Col>
+              <h5
+                className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{Math.round(featureStatement.predictProba * 100)}%</h5>
+            </Col></Row></> :
+          <><Row className="text-center my-3 text-info">
+            <Col>
+              <h4>{translate("fact-checking.results.model.label")}</h4>
+            </Col>
+          </Row> <Row className="text-center my-3">
             <Col>
               <h5 className="text-danger">Ανεπαρκή δεδομένα για αυτόματη παραγωγή απόφασης</h5>
-            </Col>}
-        </Row>
+            </Col>
+          </Row></>
+        }
+
         <Row className="text-center my-3 text-info">
           <Col>
             <h4 className="result-collapse"
