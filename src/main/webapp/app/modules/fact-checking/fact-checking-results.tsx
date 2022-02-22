@@ -5,16 +5,11 @@ import {IRootState} from 'app/shared/reducers';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {Button, Col, Collapse, Container, Row, Spinner, Table} from 'reactstrap';
 import {setFact} from 'app/modules/fact-checking/fact-checking.reducer';
-import {
-  getEntity as getStatement,
-  setFactCheckerAccuracy,
-} from 'app/entities/statement/statement.reducer';
+import {getEntity as getStatement, setFactCheckerAccuracy,} from 'app/entities/statement/statement.reducer';
 import {getStatementSourcesByStatement} from 'app/entities/statement-source/statement-source.reducer';
 import {getLatestResourcesByStatement} from 'app/entities/resource/resource.reducer';
 import {defaultValue} from 'app/shared/model/feature-statement.model';
-import {
-  getLatestFeatureStatementByStatementId,
-} from 'app/entities/feature-statement/feature-statement.reducer';
+import {getLatestFeatureStatementByStatementId,} from 'app/entities/feature-statement/feature-statement.reducer';
 import {translate, Translate} from 'react-jhipster';
 import moment from "moment";
 
@@ -107,17 +102,20 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           </Col>
         </Row>
         <Row className="text-center my-3">
-          <Col>
-            {featureStatement.predictLabel ? (
-              <h5 className="text-success">Ακριβής</h5>
-            ) : (
-              <h5 className="text-danger">Ανακριβής</h5>
-            )}
-          </Col>
-          <Col>
-            <h5
-              className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{Math.round(featureStatement.predictProba * 100)}%</h5>
-          </Col>
+          {featureStatement.predictProba > 0 ? <><Col>
+              {featureStatement.predictLabel ? (
+                <h5 className="text-success">Ακριβής</h5>
+              ) : (
+                <h5 className="text-danger">Ανακριβής</h5>
+              )}
+            </Col>
+              <Col>
+                <h5
+                  className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{Math.round(featureStatement.predictProba * 100)}%</h5>
+              </Col></> :
+            <Col>
+              <h5 className="text-danger">Ανεπαρκή δεδομένα για αυτόματη παραγωγή απόφασης</h5>
+            </Col>}
         </Row>
         <Row className="text-center my-3 text-info">
           <Col>
