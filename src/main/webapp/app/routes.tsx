@@ -60,7 +60,7 @@ const Routes = () => (
   <div className="view-routes">
       <ErrorBoundary>
         <Switch>
-          <ErrorBoundaryRoute path="/" exact component={Home}/>
+          <PrivateRoute path="/" exact component={Home} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
           <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]}/>
           <PrivateRoute path={`/article`} component={Article} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
           <PrivateRoute path={`/category`} component={Category} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
