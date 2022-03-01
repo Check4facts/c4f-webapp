@@ -78,7 +78,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                     alt="previewImage"
                   /></div> : null}
               <p className="pt-4 pb-4">
-                {article.previewText}
+                {article.statement.mainArticleText}
                 <p className="text-right"><a className="fs-12 mr-1 text-muted"
                                              href={article.statement && article.statement.mainArticleUrl}
                                              target="_blank" rel="noopener noreferrer"> Πηγή <FontAwesomeIcon
