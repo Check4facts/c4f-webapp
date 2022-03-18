@@ -236,7 +236,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
                       </Col>
                     </AvForm>
                   </Col>
-                  <Button className="float-right" color="primary" type="button" onClick={() => toggle('2')}>
+                  <Button className="float-right mt-4" color="primary" type="button" onClick={() => toggle('2')}>
                     <FontAwesomeIcon icon="arrow-right" />
                     &nbsp;
                     <Translate contentKey="entity.action.next" />
@@ -326,7 +326,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
                       </Button>
                     </Col>
                   </AvForm>
-                  <div className="float-right">
+                  <div className="float-right mt-4">
                     <Button color="info" type="button" onClick={() => toggle('1')}>
                       <FontAwesomeIcon icon="arrow-left" />
                       &nbsp;
