@@ -85,7 +85,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                   icon="link"/>
                 </a></p>
               </p>
-              {article.content && <Alert color={'secondary'} className={`px-4 py-3 mt-4 ${article.statement && article.statement.factCheckerAccuracy != null && 'accuracy-color-' + article.statement.factCheckerAccuracy}`}>
+              {article.content && <Alert color={'secondary'} className={`px-4 py-3 mt-4 article-content ${article.statement && article.statement.factCheckerAccuracy != null && 'accuracy-color-' + article.statement.factCheckerAccuracy}`}>
                 <div className="ck-content"
                      dangerouslySetInnerHTML={{__html: handleEmbedTags(article.content)}}/>
               </Alert>}

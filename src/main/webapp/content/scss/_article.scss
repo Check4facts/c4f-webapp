@@ -1,3 +1,5 @@
+@import 'colors';
+
 .article-wrapper {
   width: 915px;
   margin: 0 auto;
@@ -21,4 +23,28 @@
   .border-radius-6 {
     border-radius: 6px;
   }
+}
+
+.article-content {
+  overflow-wrap: break-word;
+}
+
+.article-content.accuracy-color-0 {
+  background: rgba($accuracy-color-0, 0.4);
+}
+
+.article-content.accuracy-color-1 {
+  background: rgba($accuracy-color-1, 0.4);
+}
+
+.article-content.accuracy-color-2 {
+  background: rgba($accuracy-color-2, 0.4);
+}
+
+.article-content.accuracy-color-3 {
+  background: rgba($accuracy-color-3, 0.4);
+}
+
+.article-content.accuracy-color-4 {
+  background: rgba($accuracy-color-4, 0.4);
 }

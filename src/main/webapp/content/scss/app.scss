@@ -15,7 +15,7 @@
 
 /* === Core Styles === */
 @import 'cards';
-@import 'brand_colors';
+@import 'colors';
 @import 'fonts';
 @import 'typography';
 @import 'pagination';
@@ -355,20 +355,21 @@ Entities page styles
 }
 
 /* ==========================================================================
-Accuraacy level colors
+Accuracy level colors
 ========================================================================== */
+
 .accuracy-color-0 {
-  background: color(gray-light);
+  background: $accuracy-color-0;
 }
 .accuracy-color-1 {
-  background: theme-color(danger);
+  background: $accuracy-color-1;
 }
 .accuracy-color-2 {
-  background: theme-color(warning);
+  background: $accuracy-color-2;
 }
 .accuracy-color-3 {
-  background: #6ebbaf;
+  background: $accuracy-color-3;
 }
 .accuracy-color-4 {
-  background: theme-color(success);
+  background: $accuracy-color-4;
 }
