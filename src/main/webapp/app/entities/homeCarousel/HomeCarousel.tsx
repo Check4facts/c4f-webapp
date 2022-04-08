@@ -24,9 +24,6 @@ const HomeCarousel = props => {
   // State for Animation
   const [animating, setAnimating] = React.useState(false);
 
-  const [paginationState, setPaginationState] = React.useState(
-    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE), location.search)
-  );
 
   // Sample items for Carousel
   const items = [
@@ -74,21 +71,31 @@ const HomeCarousel = props => {
     setActiveIndex(nextIndex);
   };
 
-  const startSearching = () => {
+/*  const startSearching = () => {
     if (props.search) {
       props.getSearchEntities(
-        props.search,
+        props.paginationState.query,
         props.paginationState.activePage - 1,
         props.paginationState.itemsPerPage,
-        `${props.paginationState.sort},${props.paginationState.order}`,
+        `_score,desc`,
         true
       );
     }
+  };*/
+
+  const startSearching = () => {
+    props.setPaginationState({
+      ...props.paginationState,
+      query: props.search,
+      activePage: 1,
+    });
   };
 
+/*
   useEffect(() => {
     startSearching();
   }, [props.paginationState.activePage]);
+*/
 
   const handleSearch = event => props.setSearch(event.target.value);
 
@@ -152,7 +159,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getSearchEntities,
   getEntities,
   getArticlesByPublishedAndCategoryName,
   updateEntity,

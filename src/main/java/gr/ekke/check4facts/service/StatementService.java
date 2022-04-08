@@ -7,6 +7,7 @@ import gr.ekke.check4facts.repository.ResourceRepository;
 import gr.ekke.check4facts.repository.StatementRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
 import gr.ekke.check4facts.repository.search.StatementSearchRepository;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -112,7 +113,8 @@ public class StatementService {
     @Transactional(readOnly = true)
     public Page<Statement> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Statements for query {}", query);
-        return statementSearchRepository.search(queryStringQuery(query), pageable);
+        QueryStringQueryBuilder queryBuilder = queryStringQuery(query).field("mainArticleTitle", 2).field("mainArticleText");
+        return statementSearchRepository.search(queryBuilder, pageable);
     }
 
     public Integer setFactCheckerAccuracy(Long id, Integer accuracy) {

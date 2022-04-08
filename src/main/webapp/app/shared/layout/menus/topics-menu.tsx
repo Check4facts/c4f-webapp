@@ -7,10 +7,10 @@ export const TopicsMenu = () => (
   <NavDropdown
     name={translate('fact-checking.sub-menus.main')}
     style={{ maxHeight: '80vh', overflow: 'auto' }}  >
-    <MenuItem to="/fact-checking/sub-menu/immigration?page=1&sort=articleDate,desc">
+    <MenuItem to="/fact-checking/sub-menu/immigration">
       <Translate contentKey="fact-checking.sub-menus.immigration" />
     </MenuItem>
-    <MenuItem to="/fact-checking/sub-menu/crime?page=1&sort=articleDate,desc">
+    <MenuItem to="/fact-checking/sub-menu/crime">
       <Translate contentKey="fact-checking.sub-menus.crime" />
     </MenuItem>
   </NavDropdown>

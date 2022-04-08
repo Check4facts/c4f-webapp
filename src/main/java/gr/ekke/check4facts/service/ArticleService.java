@@ -3,6 +3,8 @@ package gr.ekke.check4facts.service;
 import gr.ekke.check4facts.domain.Article;
 import gr.ekke.check4facts.repository.ArticleRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.slf4j.Logger;
@@ -102,13 +104,15 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public Page<Article> search(String query, Pageable pageable, Boolean published) {
         log.debug("Request to search for a page of Articles for query {}", query);
+        QueryStringQueryBuilder queryBuilder = queryStringQuery(query).field("previewTitle", 2).field("previewText");
+
         return published
             ? articleSearchRepository.search(
                 boolQuery()
                     .must(termQuery("published", true))
-                    .must(queryStringQuery(query)), pageable)
+                    .must(queryBuilder), pageable)
             : articleSearchRepository.search(
-                boolQuery().must(queryStringQuery(query)), pageable);
+                boolQuery().must(queryBuilder), pageable);
     }
 
     /**
@@ -149,15 +153,16 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public Page<Article> searchInCategory(String category, Boolean published, String query, Pageable pageable) {
         log.debug("REST request to search for a page of Articles of category {} for query {}", category, query);
+        QueryStringQueryBuilder queryBuilder = queryStringQuery(query).field("previewTitle", 2).field("previewText");
         return published
             ? articleSearchRepository.search(
                 boolQuery()
                     .must(termQuery("published", true))
                     .must(termQuery("category.name", category))
-                    .must(queryStringQuery(query)), pageable)
+                    .must(queryBuilder), pageable)
             : articleSearchRepository.search(
                 boolQuery()
                     .must(termQuery("category.name", category))
-                    .must(queryStringQuery(query)), pageable);
+                    .must(queryBuilder), pageable);
     }
 }

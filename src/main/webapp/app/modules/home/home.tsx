@@ -1,14 +1,14 @@
 import '../../../content/scss/home.scss';
 
-import React, { useEffect, useState } from 'react';
-import { JhiItemCount, JhiPagination, Translate } from 'react-jhipster';
-import { connect } from 'react-redux';
-import { IRootState } from 'app/shared/reducers';
-import { Col, Row, Container } from 'reactstrap';
-import { getAllPublishedArticles } from 'app/entities/article/article.reducer';
-import { RouteComponentProps } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {JhiItemCount, JhiPagination} from 'react-jhipster';
+import {connect} from 'react-redux';
+import {IRootState} from 'app/shared/reducers';
+import {Container, Row} from 'reactstrap';
+import {getAllPublishedArticles, getSearchEntities} from 'app/entities/article/article.reducer';
+import {RouteComponentProps} from 'react-router-dom';
 import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
-import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 import HomeCarousel from 'app/entities/homeCarousel/HomeCarousel';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
@@ -16,6 +16,7 @@ export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProp
 export const Home = (props: IHomeProp) => {
   // const { carouselItems } = props;
   const [paginationState, setPaginationState] = useState({
+    query: '',
     activePage: 1,
     itemsPerPage: ITEMS_PER_PAGE,
     sort: 'articleDate',
@@ -25,38 +26,41 @@ export const Home = (props: IHomeProp) => {
   const [search, setSearch] = React.useState('');
 
 
-  const getPublishedEntities = () => {
-    props.getAllPublishedArticles(
-      paginationState.activePage - 1,
-      paginationState.itemsPerPage,
-      `${paginationState.sort},${paginationState.order}`
-    );
-    const endURL = `?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`;
-    if (props.location.search !== endURL) {
-      props.history.push(`${props.location.pathname}${endURL}`);
-    }
+  const getEntities = () => {
+    if (paginationState.query) {
+      props.getSearchEntities(
+        paginationState.query,
+        paginationState.activePage - 1,
+        paginationState.itemsPerPage,
+        `_score,desc`,
+        true
+      );
+    } else
+      props.getAllPublishedArticles(
+        paginationState.activePage - 1,
+        paginationState.itemsPerPage,
+        `${paginationState.sort},${paginationState.order}`
+      );
+
   };
 
+/*
   useEffect(() => {
-    // props.getCarouselArticles(5);
    search === '' && getPublishedEntities();
   }, []);
+*/
 
   useEffect(() => {
-    // props.getCarouselArticles(5);
-   search === '' && getPublishedEntities();
-  }, [search]);
+   getEntities();
+  }, [paginationState.activePage, paginationState.query]);
 
-  useEffect(() => {
-  search === '' && getPublishedEntities();
-  }, [paginationState.activePage]);
-
-  const handlePagination = currentPage =>
+  const handlePagination = currentPage => {
+    setSearch(paginationState.query);
     setPaginationState({
       ...paginationState,
       activePage: currentPage,
     });
-
+  }
 
   return (
     <div>
@@ -113,7 +117,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  // getCarouselArticles,
+  getSearchEntities,
   getAllPublishedArticles,
 };
 

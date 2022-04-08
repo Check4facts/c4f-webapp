@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { IRootState } from 'app/shared/reducers';
-import { RouteComponentProps } from 'react-router-dom';
-import { Row, Container, Col, Button, InputGroup } from 'reactstrap';
-import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
-import { getSortState, JhiItemCount, JhiPagination, translate, Translate } from 'react-jhipster';
-import { getArticlesByPublishedAndCategoryName, getSearchEntitiesInCategory } from 'app/entities/article/article.reducer';
-import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
-import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {IRootState} from 'app/shared/reducers';
+import {RouteComponentProps} from 'react-router-dom';
+import {Button, Col, Container, InputGroup, Row} from 'reactstrap';
+import {AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
+import {JhiItemCount, JhiPagination, translate, Translate} from 'react-jhipster';
+import {getArticlesByPublishedAndCategoryName, getSearchEntitiesInCategory} from 'app/entities/article/article.reducer';
+import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
 
 export interface ISubMenusProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const SubMenus = (props: ISubMenusProps) => {
   const [search, setSearch] = useState('');
-  const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
-  );
+  const [paginationState, setPaginationState] = useState({
+    query: '',
+    activePage: 1,
+    itemsPerPage: ITEMS_PER_PAGE
+  });
 
-  const getAllEntities = () => {
-    if (search) {
+  const getEntities = () => {
+    if (paginationState.query) {
       props.getSearchEntitiesInCategory(
-        search,
+        paginationState.query,
         !props.isAuthenticated,
         props.match.params.id,
         paginationState.activePage - 1,
         paginationState.itemsPerPage,
-        `${paginationState.sort},${paginationState.order}`
+        `_score,desc`
       );
     } else {
       props.getArticlesByPublishedAndCategoryName(
@@ -35,78 +36,35 @@ export const SubMenus = (props: ISubMenusProps) => {
         props.match.params.id,
         paginationState.activePage - 1,
         paginationState.itemsPerPage,
-        `${paginationState.sort},${paginationState.order}`
+        `articleDate,desc`
       );
-    }
-  };
-
-  const sortEntities = () => {
-    getAllEntities();
-    const endURL = `?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`;
-    if (props.location.search !== endURL) {
-      props.history.push(`${props.location.pathname}${endURL}`);
     }
   };
 
   const startSearching = () => {
-    if (search) {
-      setPaginationState({
-        ...paginationState,
-        activePage: 1,
-      });
-      props.getSearchEntitiesInCategory(
-        search,
-        !props.isAuthenticated,
-        props.match.params.id,
-        paginationState.activePage - 1,
-        paginationState.itemsPerPage,
-        `${paginationState.sort},${paginationState.order}`
-      );
-    }
+    setPaginationState({
+      ...paginationState,
+      query: search,
+      activePage: 1,
+    });
   };
 
   const handleSearch = event => setSearch(event.target.value);
 
-  // const clear = () => {
-  //   setSearch('');
-  //   setPaginationState({
-  //     ...paginationState,
-  //     activePage: 1,
-  //   });
-  //   props.getArticlesByPublishedAndCategoryName(!props.isAuthenticated, props.match.params.id);
-  // };
 
   useEffect(() => {
-    sortEntities();
-  }, [props.isAuthenticated, paginationState.activePage, paginationState.order, paginationState.sort, props.match.params.id]);
+    getEntities();
+  }, [props.isAuthenticated, paginationState.activePage, paginationState.query, props.match.params.id]);
 
-  useEffect(() => {
-    if (search === '') {
-      sortEntities();
-    }
-  }, [search]);
 
-  useEffect(() => {
-    const params = new URLSearchParams(props.location.search);
-    const page = params.get('page');
-    const sort = params.get('sort');
-    if (page && sort) {
-      const sortSplit = sort.split(',');
-      setPaginationState({
-        ...paginationState,
-        activePage: +page,
-        sort: sortSplit[0],
-        order: sortSplit[1],
-      });
-    }
-  }, [props.location.search]);
 
-  const handlePagination = currentPage =>
+  const handlePagination = currentPage => {
+    setSearch(paginationState.query);
     setPaginationState({
       ...paginationState,
       activePage: currentPage,
     });
-
+  }
   const { articlesByCategory, isAuthenticated } = props;
 
   return (
