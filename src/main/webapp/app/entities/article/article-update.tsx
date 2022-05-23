@@ -97,7 +97,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   };
 
   useEffect(() => {
-    if (props.updateSuccess) {
+    if (props.updateSuccess && publishArticle) {
       handleClose();
     }
   }, [props.updateSuccess]);
