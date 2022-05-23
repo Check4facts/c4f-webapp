@@ -113,7 +113,13 @@ public class StatementService {
     @Transactional(readOnly = true)
     public Page<Statement> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Statements for query {}", query);
-        QueryStringQueryBuilder queryBuilder = queryStringQuery(query).field("id", 3).field("text", 2).field("mainArticleTitle");
+        QueryStringQueryBuilder queryBuilder;
+        try {
+            Integer.parseInt(query);
+            queryBuilder = queryStringQuery(query).field("id", 3).field("text", 2).field("mainArticleTitle");
+        } catch (NumberFormatException e) {
+            queryBuilder = queryStringQuery(query).field("text", 2).field("mainArticleTitle");
+        }
         return statementSearchRepository.search(queryBuilder, pageable);
     }
 

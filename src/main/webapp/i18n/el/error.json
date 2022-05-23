@@ -6,7 +6,8 @@
       "403": "Δεν έχετε την κατάλληλη εξουσιοδότηση να έχετε πρόσβαση σε αυτήν τη σελίδα.",
       "404": "Η σελίδα δεν υπάρχει.",
       "405": "The HTTP verb you used is not supported for this URL.",
-      "500": "Internal server error."
+      "500": "Internal server error.",
+      "504": "504 (Gateway Timeout error)"
     },
     "concurrencyFailure": "Another user modified this data at the same time as you. Your changes were rejected.",
     "validation": "Validation error on the server."

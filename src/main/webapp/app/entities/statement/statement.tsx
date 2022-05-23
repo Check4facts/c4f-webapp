@@ -45,7 +45,7 @@ export const Statement = (props: IStatementProps) => {
         search,
         paginationState.activePage - 1,
         paginationState.itemsPerPage,
-        `${paginationState.sort},${paginationState.order}`
+        // `${paginationState.sort},${paginationState.order}`
       );
     }
   };
@@ -139,12 +139,11 @@ export const Statement = (props: IStatementProps) => {
               <th className="hand" onClick={sort('id')}>
                 <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort"/>
               </th>
-              <th className="hand" onClick={sort('text')}>
-                <Translate contentKey="check4FactsApp.statement.text">Text</Translate> <FontAwesomeIcon icon="sort"/>
+              <th>
+                <Translate contentKey="check4FactsApp.statement.text">Text</Translate>
               </th>
-              <th className="hand" onClick={sort('author')}>
-                <Translate contentKey="check4FactsApp.statement.author">Author</Translate> <FontAwesomeIcon
-                icon="sort"/>
+              <th>
+                <Translate contentKey="check4FactsApp.statement.author">Author</Translate>
               </th>
               <th>
                 <Translate contentKey="check4FactsApp.article.author">Author</Translate>
@@ -165,16 +164,14 @@ export const Statement = (props: IStatementProps) => {
               {/*  <Translate contentKey="check4FactsApp.statement.mainArticleText">Main Article Text</Translate>{' '}*/}
               {/*  <FontAwesomeIcon icon="sort" />*/}
               {/* </th>*/}
-              <th className="hand" onClick={sort('mainArticleUrl')}>
+              <th className="hand">
                 <Translate contentKey="check4FactsApp.statement.mainArticleUrl">Main Article Url</Translate>{' '}
-                <FontAwesomeIcon icon="sort"/>
               </th>
               <th>
-                <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate> <FontAwesomeIcon icon="sort"/>
+                <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate>
               </th>
               <th>
-                <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate> <FontAwesomeIcon
-                icon="sort"/>
+                <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
               </th>
               <th/>
             </tr>
