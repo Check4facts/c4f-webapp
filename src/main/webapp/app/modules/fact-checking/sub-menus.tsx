@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
 import {IRootState} from 'app/shared/reducers';
 import {RouteComponentProps} from 'react-router-dom';
-import {Button, Col, Container, InputGroup, Row} from 'reactstrap';
+import {Button, Col, Container, InputGroup, Row, Spinner} from 'reactstrap';
 import {AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
 import {JhiItemCount, JhiPagination, translate, Translate} from 'react-jhipster';
 import {getArticlesByPublishedAndCategoryName, getSearchEntitiesInCategory} from 'app/entities/article/article.reducer';
@@ -19,6 +19,19 @@ export const SubMenus = (props: ISubMenusProps) => {
     activePage: 1,
     itemsPerPage: ITEMS_PER_PAGE
   });
+
+  const articleRef = useRef(null);
+  
+  const lastArticleElement = useCallback((node) => {
+    if(props.loading) return;
+    if (articleRef.current) articleRef.current.disconnect();
+    articleRef.current = new IntersectionObserver(entries => {
+      if(entries[0].isIntersecting && paginationState.itemsPerPage <= props.totalItems){
+        setPaginationState(prev => ({...prev, itemsPerPage: prev.itemsPerPage + 12}))
+      }
+    })
+    if(node) articleRef.current.observe(node)
+  }, [props.loading])
 
   const getEntities = () => {
     if (paginationState.query) {
@@ -54,7 +67,7 @@ export const SubMenus = (props: ISubMenusProps) => {
 
   useEffect(() => {
     getEntities();
-  }, [props.isAuthenticated, paginationState.activePage, paginationState.query, props.match.params.id]);
+  }, [props.isAuthenticated, paginationState.activePage, paginationState.query, props.match.params.id, paginationState.itemsPerPage]);
 
 
 
@@ -110,9 +123,10 @@ export const SubMenus = (props: ISubMenusProps) => {
         </Col>
       </Row>
       <ArticlesFeed />
-      {props.totalItems ? (
+      <div ref={lastArticleElement} />
+      {props.totalItems && props.loading === false ? (
         <div className={articlesByCategory && articlesByCategory.length > 0 ? '' : 'd-none'}>
-          <Row className="justify-content-center">
+          {/* <Row className="justify-content-center">
             <JhiItemCount
               page={paginationState.activePage}
               total={props.totalItems}
@@ -128,10 +142,14 @@ export const SubMenus = (props: ISubMenusProps) => {
               itemsPerPage={paginationState.itemsPerPage}
               totalItems={props.totalItems}
             />
-          </Row>
+          </Row> */}
         </div>
       ) : (
-        ''
+        <div className="text-center" >
+        <Spinner size="lg" >
+        Loading...
+        </Spinner>
+        </div>
       )}
     </Container>
   );
