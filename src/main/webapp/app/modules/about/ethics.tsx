@@ -8,10 +8,10 @@ export const Ethics = () => {
   return (
   <Container>
   <div className="container">
-        <h2 className="page-header text-center mt-3 mb-3">Σχετικά με την Δεοντολογία και την Μεθοδολογία του έργου</h2>
+  <br/><br/> <h1 className="page-header text-center mt-3 mb-3">Σχετικά με την Δεοντολογία και την Μεθοδολογία του έργου</h1><br/><br/>
         <a>
-            <Card style={{ marginBottom: '1rem' }} key={1}>
-              <CardHeader className="d-flex align-items-center" onClick={() => {open !== 1 ? setOpen(1) : setOpen(0)}}>
+            <Card style={{ marginBottom: '1rem'  }} key={1}>
+              <CardHeader className="d-flex align-items-center" style={{backgroundColor: "white"}} onClick={() => {open !== 1 ? setOpen(1) : setOpen(0)}}>
                 <h3 className='mb-0 mr-auto'>
                   <Translate contentKey="about.ethics.code"/>
                 </h3>
@@ -180,9 +180,11 @@ export const Ethics = () => {
     </Collapse>
     </Card> 
     </a>
-    <a>   
+    <a> 
+    <br></br> 
+    <br></br> 
             <Card style={{ marginBottom: '1rem' }} key={1}>
-              <CardHeader className="d-flex align-items-center" onClick={() => {open !== 2 ? setOpen(2) : setOpen(0)}} data-event={12}>
+              <CardHeader className="d-flex align-items-center" style={{backgroundColor: "white"}} onClick={() => {open !== 2 ? setOpen(2) : setOpen(0)}} data-event={12}>
                 <h3 className='mb-0 mr-auto'>
                   <Translate contentKey="about.ethics.meth"/>
                   </h3>

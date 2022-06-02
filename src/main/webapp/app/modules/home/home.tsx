@@ -10,6 +10,7 @@ import {RouteComponentProps, useHistory, useLocation} from 'react-router-dom';
 import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
 import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 import HomeCarousel from 'app/entities/homeCarousel/HomeCarousel';
+import { reset } from 'app/entities/article/article.reducer';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -30,8 +31,8 @@ export const Home = (props: IHomeProp) => {
     if(props.loading) return;
     if (articleRef.current) articleRef.current.disconnect();
     articleRef.current = new IntersectionObserver(entries => {
-      if(entries[0].isIntersecting && paginationState.itemsPerPage <= totalItems){
-        setPaginationState(prev => ({...prev, itemsPerPage: prev.itemsPerPage + 12}))
+      if(entries[0].isIntersecting && paginationState.itemsPerPage  * paginationState.activePage <= totalItems){
+        setPaginationState(prev => ({...prev, activePage: prev.activePage + 1}))
       }
     })
     if(node) articleRef.current.observe(node)
@@ -54,6 +55,10 @@ export const Home = (props: IHomeProp) => {
       );
 
   };
+
+  useEffect(() => {
+    props.reset();
+  }, []);
 
   useEffect(() => {
    getEntities();
@@ -125,12 +130,12 @@ const mapStateToProps = (storeState: IRootState) => ({
   totalItems: storeState.article.totalItems,
   articles: storeState.article.entities,
   loading: storeState.article.loading,
-  // carouselItems: storeState.article.carouselItems
 });
 
 const mapDispatchToProps = {
   getSearchEntities,
   getAllPublishedArticles,
+  reset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

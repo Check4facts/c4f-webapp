@@ -36,7 +36,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
   return (
     <Row className="mt-5">
       {articles.length > 0 ? articles.map((article, idx) => (
-        <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={article.id}>
+        <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={`${article.id}-${idx}`}>
           <div className="position-relative image-hover">
             <Link to={`/article/${article.id}/display`}>
               {article.previewImage ?

@@ -5,7 +5,7 @@ import {RouteComponentProps} from 'react-router-dom';
 import {Button, Col, Container, InputGroup, Row, Spinner} from 'reactstrap';
 import {AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
 import {JhiItemCount, JhiPagination, translate, Translate} from 'react-jhipster';
-import {getArticlesByPublishedAndCategoryName, getSearchEntitiesInCategory} from 'app/entities/article/article.reducer';
+import {getArticlesByPublishedAndCategoryName, getSearchEntitiesInCategory, reset} from 'app/entities/article/article.reducer';
 import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
@@ -26,7 +26,7 @@ export const SubMenus = (props: ISubMenusProps) => {
     if(props.loading) return;
     if (articleRef.current) articleRef.current.disconnect();
     articleRef.current = new IntersectionObserver(entries => {
-      if(entries[0].isIntersecting && paginationState.itemsPerPage <= props.totalItems){
+      if(entries[0].isIntersecting && paginationState.itemsPerPage * paginationState.activePage <= props.totalItems){
         setPaginationState(prev => ({...prev, itemsPerPage: prev.itemsPerPage + 12}))
       }
     })
@@ -63,6 +63,14 @@ export const SubMenus = (props: ISubMenusProps) => {
   };
 
   const handleSearch = event => setSearch(event.target.value);
+
+  useEffect(() => {
+    props.reset();
+  }, []);
+  
+  useEffect(() => {
+    props.reset();
+  }, [props.match.params.id]);
 
 
   useEffect(() => {
@@ -165,6 +173,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   getArticlesByPublishedAndCategoryName,
   getSearchEntitiesInCategory,
+  reset
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
