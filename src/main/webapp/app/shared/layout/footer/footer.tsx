@@ -17,10 +17,15 @@ const Footer = () => (
               <li><a href="#">License.</a></li>
               <li><a href="#">Sitemap</a></li>
             </ul> */}
+            <div className='d-flex'>
+            <a href='https://www.ekke.gr/' className="text-dark d-flex align-items-center">
+            <img src="../../../content/images/ekke-logo.png" alt="EKKE logo" width="50" height="50"/>
+            </a>
             <a href='https://www.athenarc.gr/' className="text-dark d-flex align-items-center">
             <img src="../../../content/images/athena-logo.png" alt="athena logo" width="50" height="50"/>
-            <p className="fs-6"><Translate contentKey="footer.project"/></p>
             </a>
+            </div>
+            <p className="fs-6"><Translate contentKey="footer.project"/></p>
             <p className="font-weight-medium">
               © Copyright 2020 <a href="https://www.check4facts.gr/" className="text-dark">check4facts.gr</a> ®
             </p>
