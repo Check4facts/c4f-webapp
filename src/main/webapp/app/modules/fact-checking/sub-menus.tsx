@@ -14,7 +14,6 @@ export interface ISubMenusProps extends StateProps, DispatchProps, RouteComponen
 
 export const SubMenus = (props: ISubMenusProps) => {
   const [search, setSearch] = useState('');
-  const [flag, setFlag] = React.useState(false);
   const [paginationState, setPaginationState] = useState({
     query: '',
     activePage: 1,
@@ -22,21 +21,23 @@ export const SubMenus = (props: ISubMenusProps) => {
   });
 
   const articleRef = useRef(null);
-  
+
   const lastArticleElement = useCallback((node) => {
     if(props.loading) return;
     if (articleRef.current) articleRef.current.disconnect();
     articleRef.current = new IntersectionObserver(entries => {
-      if(entries[0].isIntersecting && paginationState.itemsPerPage * paginationState.activePage <= props.totalItems){
-        setPaginationState(prev => ({...prev, itemsPerPage: prev.itemsPerPage + 12}))
+      if(entries[0].isIntersecting && paginationState.itemsPerPage  * paginationState.activePage <= props.totalItems){
+        setPaginationState(prev => ({...prev, activePage: prev.activePage + 1}))
       }
     })
     if(node) articleRef.current.observe(node)
   }, [props.loading])
 
   const getEntities = () => {
+    if (paginationState.activePage === 1)
+      props.reset();
+
     if (paginationState.query) {
-      setFlag(true);
       props.getSearchEntitiesInCategory(
         paginationState.query,
         !props.isAuthenticated,
@@ -45,17 +46,7 @@ export const SubMenus = (props: ISubMenusProps) => {
         paginationState.itemsPerPage,
         `_score,desc`
       );
-    } else if (flag) {
-      props.reset();
-      props.getArticlesByPublishedAndCategoryName(
-        !props.isAuthenticated,
-        props.match.params.id,
-        paginationState.activePage - 1,
-        paginationState.itemsPerPage,
-        `articleDate,desc`
-      );
-      setFlag(false);
-    } else{ 
+    } else {
       props.getArticlesByPublishedAndCategoryName(
         !props.isAuthenticated,
         props.match.params.id,
@@ -79,7 +70,7 @@ export const SubMenus = (props: ISubMenusProps) => {
   useEffect(() => {
     props.reset();
   }, []);
-  
+
   useEffect(() => {
     props.reset();
   }, [props.match.params.id]);
