@@ -79,6 +79,12 @@ export default (state: ArticleState = initialState, action): ArticleState => {
         errorMessage: action.payload,
       };
     case SUCCESS(ACTION_TYPES.SEARCH_ARTICLES):
+      return {
+        ...state,
+        loading: false,
+        entities: [...action.payload.data],
+        totalItems: parseInt(action.payload.headers['x-total-count'], 10),
+      };
     case SUCCESS(ACTION_TYPES.SEARCH_ARTICLES_IN_CATEGORY):
     case SUCCESS(ACTION_TYPES.FETCH_ARTICLE_LIST):
     case SUCCESS(ACTION_TYPES.FETCH_PUBLISHED_ARTICLE_LIST):
