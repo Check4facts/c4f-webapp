@@ -1,7 +1,7 @@
 import React from 'react';
 import SideMenuTemplate from 'app/shared/layout/templates/side-menu-template';
-import { Translate, translate } from 'react-jhipster';
-import { Col, Container, Row } from 'reactstrap';
+import {Translate, translate} from 'react-jhipster';
+import {Col, Container, Row} from 'reactstrap';
 
 export const Dissemination = () => {
   const publicationsItems = [
@@ -10,31 +10,30 @@ export const Dissemination = () => {
       title: translate('dissemination.category.fact'),
       content: (
         <div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate posuere lorem eu sodales. Aliquam vel justo nulla. Ut
-            finibus dolor ac placerat molestie. Praesent eget ipsum metus. Sed eget lectus convallis nisl sodales consequat. Aenean interdum
-            urna dolor, ultricies fermentum dui iaculis sed. Morbi non lorem porttitor, ullamcorper nisi laoreet, pellentesque nibh.
-            Pellentesque nec aliquet mauris. Phasellus eu tortor sagittis justo rutrum lobortis sed ut risus. Nullam ipsum libero, ultricies
-            et ligula ac, placerat rutrum lorem. Sed urna urna, vestibulum eget purus eget, interdum suscipit nisl. Cras a sapien libero.
-            Mauris magna risus, congue eu molestie in, luctus id lorem. Donec eget tempor lorem. Praesent varius vitae est non tempus. Donec
-            condimentum purus ex, tempus hendrerit massa dictum et.
+          <p><span className="fs-15">Spyridou, Lia - Paschalia & Vatikiotis, Pantelis & Milioni, Dimitra. (2021).</span><br/>
+            <a className="" href="https://ktisis.cut.ac.cy/handle/10488/23719">ΔΗΜΟΣΙΟΓΡΑΦΙΑ, ΨΕΥΔΕΙΣ ΕΙΔΗΣΕΙΣ &
+              ΠΑΡΑΠΛΗΡΟΦΟΡΗΣΗ</a><br/>
+            <span className="fs-15">Εγχειρίδιο Δημοσιογραφικής Εκπαίδευσης και Κατάρτισης (Σειρά της UNESCO για τη Δημοσιογραφική Εκπαίδευση).</span>
+            <br/>
           </p>
-          <p>
-            Curabitur consectetur scelerisque arcu, vel eleifend lorem molestie quis. Suspendisse fringilla pellentesque tincidunt.
-            Phasellus aliquam varius placerat. Morbi ac finibus elit. Sed vel porttitor ante. Morbi ac lacinia purus. Mauris accumsan,
-            lectus sit amet tincidunt facilisis, dui metus pellentesque justo, id dapibus libero ex eu libero. Mauris est felis, bibendum
-            vel ligula eu, aliquam gravida felis. Duis laoreet pellentesque diam eget placerat. Vestibulum eleifend ac erat nec volutpat.
-            Vivamus luctus lobortis orci vel sollicitudin. Nunc porttitor sagittis ante maximus rhoncus. Etiam molestie est in accumsan
-            elementum.
-          </p>
-          <p>
-            Nulla sit amet vestibulum eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
-            Curabitur facilisis sollicitudin arcu nec hendrerit. Phasellus dapibus enim cursus purus lobortis, quis aliquam lacus feugiat.
-            Maecenas augue libero, laoreet sit amet convallis ac, fermentum eu tellus. Sed sed cursus quam. Nulla a ultrices mauris.
-            Pellentesque viverra dolor felis, nec tristique risus hendrerit vitae. Donec et diam eros. Donec egestas id urna vitae varius.
-            Donec justo neque, imperdiet vel rutrum eget, scelerisque id massa. Integer ullamcorper vitae risus ac placerat. Suspendisse
-            potenti. Proin quis consequat ipsum.
-          </p>
+          {/*          <h4 className="mt-5 mb-3">
+            Διάφοροι Σύνδεσμοι
+          </h4>*/}
+          <ul className="mt-4" style={{listStyle: "none", padding: "0px"}}>
+            <li className="mb-3"><a
+              href="https://www.technologyreview.com/2018/07/18/141414/how-to-tell-if-youre-talking-to-a-bot/">How to
+              tell if you’re talking to a bot</a></li>
+            <li className="mb-3"><a
+              href="https://www.technologyreview.com/2018/07/18/141414/how-to-tell-if-youre-talking-to-a-bot/">How to
+              tell if you’re talking to a bot</a></li>
+            <li className="mb-3"><a href="https://shorensteincenter.org/combating-fake-news-agenda-for-research/">Combating
+              Fake News: An Agenda for Research and Action</a></li>
+            <li className="mb-3"><a href="https://hewlett.org/the-effects-of-fact-checking/">The Effects of
+              Fact-Checking</a></li>
+            <li className="mb-3"><a
+              href="https://www.poynter.org/fact-checking/2018/how-do-you-make-fact-checking-viral-make-it-look-like-misinformation/?fbclid=IwAR3QByxEi2J6Uz637u2reujTrqSvXUtkXMHdUJc6nR2sshJt4B34TXaxu20">How
+              do you make fact-checking viral? Make it look like misinformation.</a></li>
+          </ul>
         </div>
       ),
     },
@@ -43,31 +42,24 @@ export const Dissemination = () => {
       title: translate('dissemination.category.media.main'),
       content: (
         <div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate posuere lorem eu sodales. Aliquam vel justo nulla. Ut
-            finibus dolor ac placerat molestie. Praesent eget ipsum metus. Sed eget lectus convallis nisl sodales consequat. Aenean interdum
-            urna dolor, ultricies fermentum dui iaculis sed. Morbi non lorem porttitor, ullamcorper nisi laoreet, pellentesque nibh.
-            Pellentesque nec aliquet mauris. Phasellus eu tortor sagittis justo rutrum lobortis sed ut risus. Nullam ipsum libero, ultricies
-            et ligula ac, placerat rutrum lorem. Sed urna urna, vestibulum eget purus eget, interdum suscipit nisl. Cras a sapien libero.
-            Mauris magna risus, congue eu molestie in, luctus id lorem. Donec eget tempor lorem. Praesent varius vitae est non tempus. Donec
-            condimentum purus ex, tempus hendrerit massa dictum et.
-          </p>
-          <p>
-            Curabitur consectetur scelerisque arcu, vel eleifend lorem molestie quis. Suspendisse fringilla pellentesque tincidunt.
-            Phasellus aliquam varius placerat. Morbi ac finibus elit. Sed vel porttitor ante. Morbi ac lacinia purus. Mauris accumsan,
-            lectus sit amet tincidunt facilisis, dui metus pellentesque justo, id dapibus libero ex eu libero. Mauris est felis, bibendum
-            vel ligula eu, aliquam gravida felis. Duis laoreet pellentesque diam eget placerat. Vestibulum eleifend ac erat nec volutpat.
-            Vivamus luctus lobortis orci vel sollicitudin. Nunc porttitor sagittis ante maximus rhoncus. Etiam molestie est in accumsan
-            elementum.
-          </p>
-          <p>
-            Nulla sit amet vestibulum eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
-            Curabitur facilisis sollicitudin arcu nec hendrerit. Phasellus dapibus enim cursus purus lobortis, quis aliquam lacus feugiat.
-            Maecenas augue libero, laoreet sit amet convallis ac, fermentum eu tellus. Sed sed cursus quam. Nulla a ultrices mauris.
-            Pellentesque viverra dolor felis, nec tristique risus hendrerit vitae. Donec et diam eros. Donec egestas id urna vitae varius.
-            Donec justo neque, imperdiet vel rutrum eget, scelerisque id massa. Integer ullamcorper vitae risus ac placerat. Suspendisse
-            potenti. Proin quis consequat ipsum.
-          </p>
+          <ul style={{listStyle: "none", padding: "0px"}}>
+            <li className="mb-3"><a
+              href="https://www.efsyn.gr/kosmos/327225_megali-pigi-parapliroforisis-youtube-kataggelloyn-dekades-organismoi-fact-checking">Μεγάλη
+              πηγή παραπληροφόρησης το YouTube, καταγγέλλουν δεκάδες οργανισμοί fact checking</a></li>
+            <li className="mb-3"><a
+              href="https://www.kathimerini.gr/opinion/561815104/paraplanitikes-eidiseis-kai-polemos/">Παραπλανητικές
+              ειδήσεις και πόλεμος</a></li>
+            <li className="mb-3"><a
+              href="https://www.dw.com/el/fact-checking-%CE%B5%CE%BD%CE%B1%CE%BD%CF%84%CE%AF%CE%BF%CE%BD-fake-news/a-47007355">Fact
+              Checking εναντίον Fake News
+            </a></li>
+            <li className="mb-3"><a href="https://www.nytimes.com/2016/11/20/business/media/how-fake-news-spreads.html">How
+              Fake News Goes Viral: A Case Study</a></li>
+            <li className="mb-3"><a
+              href="https://www.pewresearch.org/internet/2017/03/29/the-future-of-free-speech-trolls-anonymity-and-fake-news-online">The
+              Future of Free Speech, Trolls, Anonymity and Fake News Online
+            </a></li>
+          </ul>
         </div>
       ),
     },
@@ -76,31 +68,18 @@ export const Dissemination = () => {
       title: translate('dissemination.category.video'),
       content: (
         <div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate posuere lorem eu sodales. Aliquam vel justo nulla. Ut
-            finibus dolor ac placerat molestie. Praesent eget ipsum metus. Sed eget lectus convallis nisl sodales consequat. Aenean interdum
-            urna dolor, ultricies fermentum dui iaculis sed. Morbi non lorem porttitor, ullamcorper nisi laoreet, pellentesque nibh.
-            Pellentesque nec aliquet mauris. Phasellus eu tortor sagittis justo rutrum lobortis sed ut risus. Nullam ipsum libero, ultricies
-            et ligula ac, placerat rutrum lorem. Sed urna urna, vestibulum eget purus eget, interdum suscipit nisl. Cras a sapien libero.
-            Mauris magna risus, congue eu molestie in, luctus id lorem. Donec eget tempor lorem. Praesent varius vitae est non tempus. Donec
-            condimentum purus ex, tempus hendrerit massa dictum et.
-          </p>
-          <p>
-            Curabitur consectetur scelerisque arcu, vel eleifend lorem molestie quis. Suspendisse fringilla pellentesque tincidunt.
-            Phasellus aliquam varius placerat. Morbi ac finibus elit. Sed vel porttitor ante. Morbi ac lacinia purus. Mauris accumsan,
-            lectus sit amet tincidunt facilisis, dui metus pellentesque justo, id dapibus libero ex eu libero. Mauris est felis, bibendum
-            vel ligula eu, aliquam gravida felis. Duis laoreet pellentesque diam eget placerat. Vestibulum eleifend ac erat nec volutpat.
-            Vivamus luctus lobortis orci vel sollicitudin. Nunc porttitor sagittis ante maximus rhoncus. Etiam molestie est in accumsan
-            elementum.
-          </p>
-          <p>
-            Nulla sit amet vestibulum eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
-            Curabitur facilisis sollicitudin arcu nec hendrerit. Phasellus dapibus enim cursus purus lobortis, quis aliquam lacus feugiat.
-            Maecenas augue libero, laoreet sit amet convallis ac, fermentum eu tellus. Sed sed cursus quam. Nulla a ultrices mauris.
-            Pellentesque viverra dolor felis, nec tristique risus hendrerit vitae. Donec et diam eros. Donec egestas id urna vitae varius.
-            Donec justo neque, imperdiet vel rutrum eget, scelerisque id massa. Integer ullamcorper vitae risus ac placerat. Suspendisse
-            potenti. Proin quis consequat ipsum.
-          </p>
+          <div className="embed-responsive embed-responsive-16by9">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/I4IpJRz5xxQ"
+                    title="YouTube video player" frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen></iframe>
+          </div>
+          <div className="embed-responsive embed-responsive-16by9 mt-3">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Kim9ujIU874"
+                    title="YouTube video player" frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen></iframe>
+          </div>
         </div>
       ),
     },
@@ -112,19 +91,19 @@ export const Dissemination = () => {
         <Col sm="12">
           <div className="text-center">
             <h1 className="text-center mt-5">
-              <Translate contentKey="global.menu.dissemination.main" />
+              <Translate contentKey="global.menu.dissemination.main"/>
             </h1>
             <p>
-              <Translate contentKey="global.menu.dissemination.main-sub1" />
+              <Translate contentKey="global.menu.dissemination.main-sub1"/>
             </p>
             <p>
-              <Translate contentKey="global.menu.dissemination.main-sub2" />
+              <Translate contentKey="global.menu.dissemination.main-sub2"/>
             </p>
             <p className="text-secondary fs-15 mb-5 pb-3"></p>
           </div>
         </Col>
       </Row>
-      <SideMenuTemplate items={publicationsItems} />
+      <SideMenuTemplate items={publicationsItems}/>
     </Container>
   );
 };
