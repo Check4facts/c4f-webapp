@@ -86,7 +86,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
       return {
         ...state,
         loading: false,
-        entities: action.payload.data,
+        entities: [...state.entities, ...action.payload.data],
         totalItems: parseInt(action.payload.headers['x-total-count'], 10),
       };
     case SUCCESS(ACTION_TYPES.FETCH_CAROUSEL_ARTICLE_LIST):

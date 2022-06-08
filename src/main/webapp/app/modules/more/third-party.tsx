@@ -7,16 +7,22 @@ export const ThirdParty = () => (
   <Container>
     <Row className="my-5">
       <Col className="text-center" sm="12">
-        <h2><Translate contentKey="global.menu.more.third-party" /></h2><br/><br/>
-        <ul style={{ listStyleType: 'none', padding: 0 }} >
+        <h1><Translate contentKey="global.menu.more.third-party" /></h1><br/><br/>
           {
             THIRD_PARTY_LINK.map((item, index) => (
-              <li key={index} className="mb-3">
-                <a href={item.link} target="_blank"  rel="noopener noreferrer">{item.name}</a>
-              </li>
+              <Row className='my-5' key={`third-party-${index}`}>
+                <Col className="text-center m-auto" sm="2">
+                  <a href={item.link} target="_blank"  rel="noopener noreferrer">
+                    <img src={item.logo} alt="Site Logo" className='img-fluid' width="400" height="400" />
+                  </a>
+                </Col>
+                <Col className="text-center" sm="10">
+                  {/* <a href={item.link} className="text-align-end"><h3>{item.name}</h3></a> */}
+                  <p className='text-justify'><Translate contentKey={`third-party-text.${item.name}`} /></p>
+                </Col>          
+              </Row>
             ))
           }
-        </ul>
       </Col>
     </Row>
   </Container>

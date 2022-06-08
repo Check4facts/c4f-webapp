@@ -1,5 +1,5 @@
 import '../../../../content/scss/templates.scss';
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Badge, Button, ButtonGroup, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row} from 'reactstrap';
 import {Translate, translate} from "react-jhipster";
 import {IRootState} from 'app/shared/reducers';
@@ -35,8 +35,8 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
 
   return (
     <Row className="mt-5">
-      {articles && loading !== true && articles.length > 0 ? articles.map(article => (
-        <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={article.id}>
+      {articles.length > 0 ? articles.map((article, idx) => (
+        <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={`${article.id}-${idx}`}>
           <div className="position-relative image-hover">
             <Link to={`/article/${article.id}/display`}>
               {article.previewImage ?
@@ -48,14 +48,18 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
                           alt="previewImage"
                 />}
             </Link>
+            <Link to={`/fact-checking/sub-menu/${article.category.name}`} >
             <span className="thumb-title">
               {translate(`check4FactsApp.category.${article.category.name}`)}
             </span>
+            </Link>
           </div>
           <Link to={`/article/${article.id}/display`}>
-            <h5 className="font-weight-600 mt-3">
+            <p title={article.previewTitle}>
+            <h5 className="font-weight-600 mt-3 text-truncate text-truncate-4">
               {article.previewTitle}
             </h5>
+            </p>
           </Link>
           {article.statement && article.statement.factCheckerAccuracy != null &&
           <Badge className={`mr-1 accuracy-color-${article.statement.factCheckerAccuracy}`}>
@@ -71,11 +75,11 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
           <p className="fs-15 font-weight-normal text-truncate text-truncate-4">
             {article.previewText}
           </p>
-          <div className="d-flex justify-content-between mb-3">
+          <div className="d-flex justify-content-between mb-3 align-items-center">
             <div><span
               className="fs-12 mr-1 text-muted">{(article.statement && article.statement.author) || 'N/A'}</span>
             </div>
-            <div><a className="fs-12 mr-1 text-muted" href={article.statement && article.statement.mainArticleUrl}
+            <div><a className="fs-12 mr-1 text-muted d-flex" href={article.statement && article.statement.mainArticleUrl}
                     target="_blank" rel="noopener noreferrer"> Πηγή <FontAwesomeIcon icon="link"/>
             </a></div>
           </div>
@@ -121,7 +125,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   currentLocale: storeState.locale.currentLocale,
   isAuthenticated: storeState.authentication.isAuthenticated,
   articles: storeState.article.entities,
-  loading: storeState.article.loading
+  loading: storeState.article.loading,
 });
 
 const mapDispatchToProps = {

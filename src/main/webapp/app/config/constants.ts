@@ -27,50 +27,62 @@ export const THIRD_PARTY_LINK = [
   {
     link: 'https://www.poynter.org/ifcn/',
     name: 'Poynter',
+    logo: '../content/images/poynter-logo.png',
   },
-  {
-    link: 'https://factcheckingday.com',
-    name: 'FactCheckingDay',
-  },
+  // {
+  //   link: 'https://factcheckingday.com',
+  //   name: 'FactCheckingDay',
+  //   logo: '../content/images/ellinikahoaxes-logo.png'
+  // },
   {
     link: 'https://fullfact.org',
     name: 'FullFact',
+    logo: '../content/images/fullfact-logo.png',
   },
   {
     link: 'https://www.politifact.com',
     name: 'Politifact',
+    logo: '../content/images/politifact-logo.png',
   },
-  {
-    link: 'https://www.globalfact6.com',
-    name: 'GlobalFact6',
-  },
+  // {
+  //   link: 'https://www.globalfact6.com',
+  //   name: 'GlobalFact6',
+  //   logo: '../content/images/ellinikahoaxes-logo.png'
+  // },
   {
     link: 'https://reporterslab.org/fact-checking/',
     name: "Reporter's Lab",
+    logo: '../content/images/dukereporterslab-logo.png',
   },
-  {
-    link:
-      'https://vip.politicsmeanspolitics.com/2020/01/24/youre-probably-more-susceptible-to-misinformation-than-you-think/?fbclid=IwAR3Hb0yX1NfOCFCLXPNhKpmydaLc85Lorjf5W0jA8I4i7nDnO_s--ks3xNs',
-    name: 'PMP Magazine',
-  },
+  // {
+  //   link:
+  //     'https://vip.politicsmeanspolitics.com/2020/01/24/youre-probably-more-susceptible-to-misinformation-than-you-think/?fbclid=IwAR3Hb0yX1NfOCFCLXPNhKpmydaLc85Lorjf5W0jA8I4i7nDnO_s--ks3xNs',
+  //   name: 'PMP Magazine',
+  //   logo: '../content/images/ellinikahoaxes-logo.png'
+  // },
   {
     link: 'https://www.snopes.com/fact-check/',
     name: 'Snopes',
+    logo: '../content/images/snopes-logo.png',
   },
   {
     link: 'https://www.factcheck.org',
     name: 'FactCheck.org',
+    logo: '../content/images/factcheck-logo.png',
   },
   {
     link: 'https://www.washingtonpost.com/news/fact-checker/',
     name: 'Washington Post',
+    logo: '../content/images/thewashingtonpost-logo.png',
   },
   {
     link: 'https://www.ellinikahoaxes.gr',
     name: 'Ellinika Hoaxes',
+    logo: '../content/images/ellinikahoaxes-logo.png',
   },
   {
     link: 'https://www.disinfobservatory.org/the-observatory/?fbclid=IwAR3VZr8wCf0-oxH_8GCLf322VZJZqmtUadS0tU_1jtFP8nDy7JWqfOsVJo8',
     name: 'Disinfobservatory.ord',
+    logo: '../content/images/soma-logo.png',
   },
 ];

@@ -1,10 +1,29 @@
-import React from 'react';
-import {Col, Container, Row} from 'reactstrap';
+import React, { useState } from 'react';
+import {Col, Container, Row,  Card, CardHeader, CardBody, Collapse} from 'reactstrap';
 import {Translate} from "react-jhipster";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const Ethics = () => (
+export const Ethics = () => {
+  const [open, setOpen] = useState(0);
+  return (
   <Container>
-    <Row>
+  <div className="container">
+  <br/><br/> <h1 className="page-header text-center mt-3 mb-3">Σχετικά με την Δεοντολογία και την Μεθοδολογία του έργου</h1><br/><br/>
+        <a>
+            <Card style={{ marginBottom: '1rem'  }} key={1}>
+              <CardHeader className="d-flex align-items-center" style={{backgroundColor: "white"}} onClick={() => {open !== 1 ? setOpen(1) : setOpen(0)}}>
+                <h3 className='mb-0 mr-auto'>
+                  <Translate contentKey="about.ethics.code"/>
+                </h3>
+                {open===1 ?
+                <FontAwesomeIcon icon='angle-down' size="1x" rotation={180}/>
+                : 
+                <FontAwesomeIcon icon='angle-down' size="1x" />
+                }
+              </CardHeader>
+            <Collapse isOpen={open === 1}>
+              <CardBody>
+              {/* <Row>
       <Col sm="12">
         <div className="text-center">
           <h1 className="text-center mt-5">
@@ -13,7 +32,7 @@ export const Ethics = () => (
           <p className="text-secondary fs-15 mb-5 pb-3"></p>
         </div>
       </Col>
-    </Row>
+    </Row> */}
     <Row>
       <Col sm="12" className="mb-2 mb-lg-2">
         <p className="mb-4">Ως πλατφόρμα, η οποία δημοσιεύει σε τακτική βάση εκθέσεις αναφορικά με την
@@ -157,7 +176,27 @@ export const Ethics = () => (
           θεωρούνται ως νοηματικά ισοδύναμοι και χρησιμοποιούνται εναλλακτικά.</p>
       </Col>
     </Row>
-    <Row>
+    </CardBody>
+    </Collapse>
+    </Card> 
+    </a>
+    <a> 
+    <br></br> 
+    <br></br> 
+            <Card style={{ marginBottom: '1rem' }} key={1}>
+              <CardHeader className="d-flex align-items-center" style={{backgroundColor: "white"}} onClick={() => {open !== 2 ? setOpen(2) : setOpen(0)}} data-event={12}>
+                <h3 className='mb-0 mr-auto'>
+                  <Translate contentKey="about.ethics.meth"/>
+                  </h3>
+                  {open===2 ?
+                <FontAwesomeIcon icon='angle-down' size="1x" rotation={180}/>
+                : 
+                <FontAwesomeIcon icon='angle-down' size="1x" />
+                }
+                  </CardHeader>
+              <Collapse isOpen={open === 2}>
+              <CardBody>
+              {/* <Row>
       <Col sm="12">
         <div className="text-center">
           <h1 className="text-center mt-5">
@@ -166,7 +205,7 @@ export const Ethics = () => (
           <p className="text-secondary fs-15 mb-5 pb-3"></p>
         </div>
       </Col>
-    </Row>
+    </Row> */}
     <Row>
       <Col sm="12" className="mb-2 mb-lg-2">
         <p>Ο έλεγχος εγκυρότητας/ακρίβειας δηλώσεων είναι μια περίπλοκη διαδικασία που αποτελείται από διάφορα βήματα
@@ -274,7 +313,12 @@ export const Ethics = () => (
         </p>
       </Col>
     </Row>
-  </Container>
-);
+    </CardBody>
+    </Collapse>
+    </Card>  
+    </a>  
+      </div>
+  </Container>)
+};
 
 export default Ethics;

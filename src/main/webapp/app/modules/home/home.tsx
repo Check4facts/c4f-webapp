@@ -1,20 +1,21 @@
 import '../../../content/scss/home.scss';
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {JhiItemCount, JhiPagination} from 'react-jhipster';
 import {connect} from 'react-redux';
 import {IRootState} from 'app/shared/reducers';
-import {Container, Row} from 'reactstrap';
+import {Container, Row, Button, Spinner} from 'reactstrap';
 import {getAllPublishedArticles, getSearchEntities} from 'app/entities/article/article.reducer';
-import {RouteComponentProps} from 'react-router-dom';
+import {RouteComponentProps, useHistory, useLocation} from 'react-router-dom';
 import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
 import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 import HomeCarousel from 'app/entities/homeCarousel/HomeCarousel';
+import { reset } from 'app/entities/article/article.reducer';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Home = (props: IHomeProp) => {
-  // const { carouselItems } = props;
+  const { articles, totalItems } = props;
   const [paginationState, setPaginationState] = useState({
     query: '',
     activePage: 1,
@@ -24,7 +25,18 @@ export const Home = (props: IHomeProp) => {
   });
 
   const [search, setSearch] = React.useState('');
-
+  const articleRef = useRef(null);
+  
+  const lastArticleElement = useCallback((node) => {
+    if(props.loading) return;
+    if (articleRef.current) articleRef.current.disconnect();
+    articleRef.current = new IntersectionObserver(entries => {
+      if(entries[0].isIntersecting && paginationState.itemsPerPage  * paginationState.activePage <= totalItems){
+        setPaginationState(prev => ({...prev, activePage: prev.activePage + 1}))
+      }
+    })
+    if(node) articleRef.current.observe(node)
+  }, [props.loading])
 
   const getEntities = () => {
     if (paginationState.query) {
@@ -44,15 +56,13 @@ export const Home = (props: IHomeProp) => {
 
   };
 
-/*
   useEffect(() => {
-   search === '' && getPublishedEntities();
+    props.reset();
   }, []);
-*/
 
   useEffect(() => {
    getEntities();
-  }, [paginationState.activePage, paginationState.query]);
+  }, [paginationState.activePage, paginationState.query, paginationState.itemsPerPage]);
 
   const handlePagination = currentPage => {
     setSearch(paginationState.query);
@@ -81,9 +91,10 @@ export const Home = (props: IHomeProp) => {
       </div> */}
       <Container >
       <ArticlesFeed />
-      {props.totalItems ? (
+      <div ref={lastArticleElement} />
+      {props.totalItems && props.loading === false ? (
         <div className={props.totalItems > 0 ? '' : 'd-none'}>
-          <Row className="justify-content-center">
+          {/* <Row className="justify-content-center">
             <JhiItemCount
               page={paginationState.activePage}
               total={props.totalItems}
@@ -99,10 +110,14 @@ export const Home = (props: IHomeProp) => {
               itemsPerPage={paginationState.itemsPerPage}
               totalItems={props.totalItems}
             />
-          </Row>
+          </Row> */}
         </div>
       ) : (
-        ''
+        <div className="text-center" >
+        <Spinner size="lg" >
+        Loading...
+        </Spinner>
+        </div>
       )}
        </Container>
     </div>
@@ -113,12 +128,14 @@ const mapStateToProps = (storeState: IRootState) => ({
   account: storeState.authentication.account,
   isAuthenticated: storeState.authentication.isAuthenticated,
   totalItems: storeState.article.totalItems,
-  // carouselItems: storeState.article.carouselItems
+  articles: storeState.article.entities,
+  loading: storeState.article.loading,
 });
 
 const mapDispatchToProps = {
   getSearchEntities,
   getAllPublishedArticles,
+  reset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
