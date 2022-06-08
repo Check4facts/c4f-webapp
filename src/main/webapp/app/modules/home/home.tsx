@@ -1,16 +1,14 @@
 import '../../../content/scss/home.scss';
 
-import React, {useEffect, useRef, useState, useCallback} from 'react';
-import {JhiItemCount, JhiPagination} from 'react-jhipster';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
 import {IRootState} from 'app/shared/reducers';
-import {Container, Row, Button, Spinner} from 'reactstrap';
-import {getAllPublishedArticles, getSearchEntities} from 'app/entities/article/article.reducer';
-import {RouteComponentProps, useHistory, useLocation} from 'react-router-dom';
+import {Container, Spinner} from 'reactstrap';
+import {getAllPublishedArticles, getSearchEntities, reset} from 'app/entities/article/article.reducer';
+import {RouteComponentProps} from 'react-router-dom';
 import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
 import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 import HomeCarousel from 'app/entities/homeCarousel/HomeCarousel';
-import { reset } from 'app/entities/article/article.reducer';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -25,9 +23,8 @@ export const Home = (props: IHomeProp) => {
   });
 
   const [search, setSearch] = React.useState('');
-  const [flag, setFlag] = React.useState(false);
   const articleRef = useRef(null);
-  
+
   const lastArticleElement = useCallback((node) => {
     if(props.loading) return;
     if (articleRef.current) articleRef.current.disconnect();
@@ -40,8 +37,10 @@ export const Home = (props: IHomeProp) => {
   }, [props.loading])
 
   const getEntities = () => {
+    if (paginationState.activePage === 1) {
+      props.reset();
+    }
     if (paginationState.query) {
-      setFlag(true);
       props.getSearchEntities(
         paginationState.query,
         paginationState.activePage - 1,
@@ -49,22 +48,13 @@ export const Home = (props: IHomeProp) => {
         `_score,desc`,
         true
       );
-    } else if(flag){
-      props.reset();
-      props.getAllPublishedArticles(
-        paginationState.activePage - 1,
-        paginationState.itemsPerPage,
-        `${paginationState.sort},${paginationState.order}`
-      );
-      setFlag(false);
-    }else{
+    } else {
       props.getAllPublishedArticles(
         paginationState.activePage - 1,
         paginationState.itemsPerPage,
         `${paginationState.sort},${paginationState.order}`
       );
     }
-
   };
 
   useEffect(() => {
