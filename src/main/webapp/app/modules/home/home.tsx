@@ -25,6 +25,7 @@ export const Home = (props: IHomeProp) => {
   });
 
   const [search, setSearch] = React.useState('');
+  const [flag, setFlag] = React.useState(false);
   const articleRef = useRef(null);
   
   const lastArticleElement = useCallback((node) => {
@@ -40,6 +41,7 @@ export const Home = (props: IHomeProp) => {
 
   const getEntities = () => {
     if (paginationState.query) {
+      setFlag(true);
       props.getSearchEntities(
         paginationState.query,
         paginationState.activePage - 1,
@@ -47,12 +49,21 @@ export const Home = (props: IHomeProp) => {
         `_score,desc`,
         true
       );
-    } else
+    } else if(flag){
+      props.reset();
       props.getAllPublishedArticles(
         paginationState.activePage - 1,
         paginationState.itemsPerPage,
         `${paginationState.sort},${paginationState.order}`
       );
+      setFlag(false);
+    }else{
+      props.getAllPublishedArticles(
+        paginationState.activePage - 1,
+        paginationState.itemsPerPage,
+        `${paginationState.sort},${paginationState.order}`
+      );
+    }
 
   };
 

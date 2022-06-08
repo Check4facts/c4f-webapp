@@ -14,6 +14,7 @@ export interface ISubMenusProps extends StateProps, DispatchProps, RouteComponen
 
 export const SubMenus = (props: ISubMenusProps) => {
   const [search, setSearch] = useState('');
+  const [flag, setFlag] = React.useState(false);
   const [paginationState, setPaginationState] = useState({
     query: '',
     activePage: 1,
@@ -35,6 +36,7 @@ export const SubMenus = (props: ISubMenusProps) => {
 
   const getEntities = () => {
     if (paginationState.query) {
+      setFlag(true);
       props.getSearchEntitiesInCategory(
         paginationState.query,
         !props.isAuthenticated,
@@ -43,7 +45,17 @@ export const SubMenus = (props: ISubMenusProps) => {
         paginationState.itemsPerPage,
         `_score,desc`
       );
-    } else {
+    } else if (flag) {
+      props.reset();
+      props.getArticlesByPublishedAndCategoryName(
+        !props.isAuthenticated,
+        props.match.params.id,
+        paginationState.activePage - 1,
+        paginationState.itemsPerPage,
+        `articleDate,desc`
+      );
+      setFlag(false);
+    } else{ 
       props.getArticlesByPublishedAndCategoryName(
         !props.isAuthenticated,
         props.match.params.id,
