@@ -23,9 +23,6 @@ export const Dissemination = () => {
             <li className="mb-3"><a
               href="https://www.technologyreview.com/2018/07/18/141414/how-to-tell-if-youre-talking-to-a-bot/">How to
               tell if you’re talking to a bot</a></li>
-            <li className="mb-3"><a
-              href="https://www.technologyreview.com/2018/07/18/141414/how-to-tell-if-youre-talking-to-a-bot/">How to
-              tell if you’re talking to a bot</a></li>
             <li className="mb-3"><a href="https://shorensteincenter.org/combating-fake-news-agenda-for-research/">Combating
               Fake News: An Agenda for Research and Action</a></li>
             <li className="mb-3"><a href="https://hewlett.org/the-effects-of-fact-checking/">The Effects of
@@ -89,7 +86,7 @@ export const Dissemination = () => {
     <Container>
       <Row>
         <Col sm="12">
-          <div className="text-center">
+          <div className="text-justify">
             <h1 className="text-center mt-5">
               <Translate contentKey="global.menu.dissemination.main"/>
             </h1>
