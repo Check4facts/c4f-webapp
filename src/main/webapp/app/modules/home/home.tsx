@@ -1,7 +1,7 @@
 import '../../../content/scss/home.scss';
 
 import React, {useEffect, useRef, useState, useCallback} from 'react';
-import {JhiItemCount, JhiPagination} from 'react-jhipster';
+import {JhiItemCount, JhiPagination, translate} from 'react-jhipster';
 import {connect} from 'react-redux';
 import {IRootState} from 'app/shared/reducers';
 import {Container, Row, Button, Spinner} from 'reactstrap';
@@ -11,6 +11,8 @@ import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
 import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 import HomeCarousel from 'app/entities/homeCarousel/HomeCarousel';
 import { reset } from 'app/entities/article/article.reducer';
+import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -83,9 +85,17 @@ export const Home = (props: IHomeProp) => {
     });
   }
 
+  const startSearching = () => {
+    setPaginationState({
+      ...paginationState,
+      query: search,
+      activePage: 1,
+    });
+  };
+
   return (
     <div>
-      {/* <HomeCarousel search={search} setSearch={setSearch} paginationState={paginationState} setPaginationState={setPaginationState}/> */}
+      <HomeCarousel search={search} setSearch={setSearch} paginationState={paginationState} setPaginationState={setPaginationState}/>
       {/* <div className={`${paginationState.activePage > 1 && 'd-none'}`}>
         <Row className="mb-5">
           <Col sm="12">
@@ -101,6 +111,22 @@ export const Home = (props: IHomeProp) => {
         </Row>
       </div> */}
       <Container >
+      <div className="home-mobile-search">
+                <AvForm onSubmit={startSearching} >
+                  <AvGroup style={{display: "flex"}} className="home-search-group">
+                    <AvInput
+                      type="text"
+                      name="search"
+                      value={search}
+                      onChange={(e) => {setSearch(e.target.value)}}
+                      placeholder={translate('check4FactsApp.article.home.search')}
+                    />
+                    <Button>
+                      <FontAwesomeIcon icon="search" color='black' />
+                    </Button>
+                  </AvGroup>
+                </AvForm>
+      </div>
       <ArticlesFeed />
       <div ref={lastArticleElement} />
       {props.totalItems && props.loading === false ? (
