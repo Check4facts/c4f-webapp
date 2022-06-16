@@ -40,7 +40,7 @@ const swaggerItem = (
 );
 
 export const AdminMenu = ({ showSwagger }) => (
-  <NavDropdown name={translate('global.menu.admin.main')} style={{ width: '140%' }} id="admin-menu">
+  <NavDropdown name={translate('global.menu.admin.main')} style={{ maxHeight: '80vh', overflow: 'auto' }} id="admin-menu">
     {adminMenuItems}
     {showSwagger && swaggerItem}
   </NavDropdown>

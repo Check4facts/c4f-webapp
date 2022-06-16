@@ -85,7 +85,7 @@ export const Home = (props: IHomeProp) => {
 
   return (
     <div>
-      <HomeCarousel search={search} setSearch={setSearch} paginationState={paginationState} setPaginationState={setPaginationState}/>
+      {/* <HomeCarousel search={search} setSearch={setSearch} paginationState={paginationState} setPaginationState={setPaginationState}/> */}
       {/* <div className={`${paginationState.activePage > 1 && 'd-none'}`}>
         <Row className="mb-5">
           <Col sm="12">
