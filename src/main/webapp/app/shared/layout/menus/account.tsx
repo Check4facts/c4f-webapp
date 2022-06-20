@@ -28,7 +28,7 @@ export const LogIn = () => (
 );
 
 export const AccountMenu = ({isAdmin = false}) => (
-  <NavDropdown name={translate('global.menu.account.main')} id="account-menu">
+  <NavDropdown style={{ maxHeight: '80vh', overflow: 'auto' }} name={translate('global.menu.account.main')} id="account-menu">
     {accountMenuItemsAuthenticated(isAdmin)}
   </NavDropdown>
 );

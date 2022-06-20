@@ -56,29 +56,30 @@ const Header = (props: IHeaderProps) => {
                 {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn/>}
               </Nav> */}
                 <Social/>
-              <div className="ekke-logo">
+              {/* <div className="ekke-logo">
                 <img src="../../../../content/images/ekke-logo.png" alt="Ekke logo"></img>
-              </div>
+              </div> */}
             </div>      
           </div>
           <div className="navbar-bottom-menu">
-            <NavbarToggler aria-label="Menu" onClick={toggleMenu}/>
+            <NavbarToggler aria-label="Menu" onClick={toggleMenu}><img src="../../../../content/images/bars-solid.svg" width={20}></img></NavbarToggler>
             <Collapse isOpen={menuOpen} className="justify-content-center" navbar>
               <Nav id="header-tabs" navbar>
+                <NavItem>
+                <button className="navbar-close" style={{display: menuOpen ? "block" : "none"}} onClick={toggleMenu}>
+                <img src="../../../../content/images/close-button.webp" className="mdi mdi-close" width={20}></img>
+                </button>
+                </NavItem>
                 {props.isAuthenticated && props.isAdmin && <EntitiesMenu/>}
                 {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled}/>}
-                <NavItem><NavLink to="/" exact
-                                  className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink></NavItem>
-                {props.isAuthenticated && <NavItem><NavLink to="/fact-checking"
-                                                            className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink></NavItem>}
+                <NavItem><NavLink to="/" exact className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink></NavItem>
+                {props.isAuthenticated && 
+                <NavItem><NavLink to="/fact-checking"className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink></NavItem>}
                 <TopicsMenu/>
-                <NavItem><NavLink to="/dissemination" exact
-                                  className="d-flex align-items-center nav-link">{translate('global.menu.dissemination.main')}</NavLink></NavItem>
+                <NavItem><NavLink to="/dissemination" exact className="d-flex align-items-center nav-link">{translate('global.menu.dissemination.main')}</NavLink></NavItem>
                 <AboutMenu/>
                 {/* <MoreMenu/> */}
-                <NavItem>
-                  <NavLink to="/more/third-party" exact className="nav-link"><Translate contentKey="global.menu.more.main" /></NavLink>
-                </NavItem>
+                <NavItem><NavLink to="/more/third-party" exact className="d-flex align-items-center nav-link"><Translate contentKey="global.menu.more.main" /></NavLink></NavItem>
                 {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn/>}
                 {/* <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />*/}
               </Nav>
