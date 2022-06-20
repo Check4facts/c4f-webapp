@@ -1,23 +1,23 @@
 import '../../../content/scss/home.scss';
 
-import React, {useEffect, useRef, useState, useCallback} from 'react';
-import {JhiItemCount, JhiPagination, translate} from 'react-jhipster';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {translate} from 'react-jhipster';
 import {connect} from 'react-redux';
 import {IRootState} from 'app/shared/reducers';
-import {Container, Row, Button, Spinner} from 'reactstrap';
-import {getAllPublishedArticles, getSearchEntities} from 'app/entities/article/article.reducer';
-import {RouteComponentProps, useHistory, useLocation} from 'react-router-dom';
+import {Button, Container, Spinner} from 'reactstrap';
+import {getAllPublishedArticles, getSearchEntities, reset} from 'app/entities/article/article.reducer';
+import {RouteComponentProps} from 'react-router-dom';
 import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
 import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 import HomeCarousel from 'app/entities/homeCarousel/HomeCarousel';
-import { reset } from 'app/entities/article/article.reducer';
-import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {
+}
 
 export const Home = (props: IHomeProp) => {
-  const { articles, totalItems } = props;
+  const {articles, totalItems} = props;
   const [paginationState, setPaginationState] = useState({
     query: '',
     activePage: 1,
@@ -30,14 +30,14 @@ export const Home = (props: IHomeProp) => {
   const articleRef = useRef(null);
 
   const lastArticleElement = useCallback((node) => {
-    if(props.loading) return;
+    if (props.loading) return;
     if (articleRef.current) articleRef.current.disconnect();
     articleRef.current = new IntersectionObserver(entries => {
-      if(entries[0].isIntersecting && paginationState.itemsPerPage  * paginationState.activePage <= totalItems){
+      if (entries[0].isIntersecting && paginationState.itemsPerPage * paginationState.activePage <= totalItems) {
         setPaginationState(prev => ({...prev, activePage: prev.activePage + 1}))
       }
     })
-    if(node) articleRef.current.observe(node)
+    if (node) articleRef.current.observe(node)
   }, [props.loading])
 
   const getEntities = () => {
@@ -67,7 +67,7 @@ export const Home = (props: IHomeProp) => {
   }, []);
 
   useEffect(() => {
-   getEntities();
+    getEntities();
   }, [paginationState.activePage, paginationState.query, paginationState.itemsPerPage]);
 
   const handlePagination = currentPage => {
@@ -88,7 +88,8 @@ export const Home = (props: IHomeProp) => {
 
   return (
     <div>
-      <HomeCarousel search={search} setSearch={setSearch} paginationState={paginationState} setPaginationState={setPaginationState}/>
+      <HomeCarousel search={search} setSearch={setSearch} paginationState={paginationState}
+                    setPaginationState={setPaginationState}/>
       {/* <div className={`${paginationState.activePage > 1 && 'd-none'}`}>
         <Row className="mb-5">
           <Col sm="12">
@@ -103,28 +104,30 @@ export const Home = (props: IHomeProp) => {
           </Col>
         </Row>
       </div> */}
-      <Container >
-      <div className="home-mobile-search">
-                <AvForm onSubmit={startSearching} >
-                  <AvGroup style={{display: "flex"}} className="home-search-group">
-                    <AvInput
-                      type="text"
-                      name="search"
-                      value={search}
-                      onChange={(e) => {setSearch(e.target.value)}}
-                      placeholder={translate('check4FactsApp.article.home.search')}
-                    />
-                    <Button>
-                      <FontAwesomeIcon icon="search" color='black' />
-                    </Button>
-                  </AvGroup>
-                </AvForm>
-      </div>
-      <ArticlesFeed />
-      <div ref={lastArticleElement} />
-      {props.totalItems && props.loading === false ? (
-        <div className={props.totalItems > 0 ? '' : 'd-none'}>
-          {/* <Row className="justify-content-center">
+      <Container>
+        <div className="home-mobile-search">
+          <AvForm onSubmit={startSearching}>
+            <AvGroup style={{display: "flex"}} className="home-search-group">
+              <AvInput
+                type="text"
+                name="search"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value)
+                }}
+                placeholder={translate('check4FactsApp.article.home.search')}
+              />
+              <Button>
+                <FontAwesomeIcon icon="search" color='black'/>
+              </Button>
+            </AvGroup>
+          </AvForm>
+        </div>
+        <ArticlesFeed/>
+        <div ref={lastArticleElement}/>
+        {props.totalItems && props.loading === false ? (
+          <div className={props.totalItems > 0 ? '' : 'd-none'}>
+            {/* <Row className="justify-content-center">
             <JhiItemCount
               page={paginationState.activePage}
               total={props.totalItems}
@@ -141,15 +144,15 @@ export const Home = (props: IHomeProp) => {
               totalItems={props.totalItems}
             />
           </Row> */}
-        </div>
-      ) : (
-        <div className="text-center" >
-        <Spinner size="lg" >
-        Loading...
-        </Spinner>
-        </div>
-      )}
-       </Container>
+          </div>
+        ) : (
+          <div className="text-center">
+            <Spinner size="lg">
+              Loading...
+            </Spinner>
+          </div>
+        )}
+      </Container>
     </div>
   );
 };
