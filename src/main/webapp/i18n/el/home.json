@@ -21,6 +21,10 @@
       "follow": "Ακολουθείστε @jhipster στο Twitter"
     },
     "like": "Άμα σας αρέσει το JHipster, μην ξεχάσετε να μας δώσετε ένα αστέρι",
-    "github": "GitHub"
+    "github": "GitHub",
+    "load-button": {
+      "hasLoad": "Δείτε Περισσότερα",
+      "noLoad": "Δεν βρέθηκαν άλλα αποτελέσματα"
+    }
   }
 }

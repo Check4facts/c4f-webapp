@@ -27,18 +27,24 @@ export const Home = (props: IHomeProp) => {
   });
 
   const [search, setSearch] = React.useState('');
-  const articleRef = useRef(null);
 
-  const lastArticleElement = useCallback((node) => {
-    if (props.loading) return;
-    if (articleRef.current) articleRef.current.disconnect();
-    articleRef.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && paginationState.itemsPerPage * paginationState.activePage <= totalItems) {
-        setPaginationState(prev => ({...prev, activePage: prev.activePage + 1}))
-      }
-    })
-    if (node) articleRef.current.observe(node)
-  }, [props.loading])
+  // INFINITE SCROLLING
+  // const articleRef = useRef(null);
+
+  // const lastArticleElement = useCallback((node) => {
+  //   if (props.loading) return;
+  //   if (articleRef.current) articleRef.current.disconnect();
+  //   articleRef.current = new IntersectionObserver(entries => {
+  //     if (entries[0].isIntersecting && paginationState.itemsPerPage * paginationState.activePage <= totalItems) {
+  //       setPaginationState(prev => ({...prev, activePage: prev.activePage + 1}))
+  //     }
+  //   })
+  //   if (node) articleRef.current.observe(node)
+  // }, [props.loading])
+
+  const handleOnClick = () => {
+    setPaginationState(prev => ({...prev, activePage: prev.activePage + 1}));
+  }
 
   const getEntities = () => {
     if (paginationState.activePage === 1) {
@@ -124,27 +130,39 @@ export const Home = (props: IHomeProp) => {
           </AvForm>
         </div>
         <ArticlesFeed/>
-        <div ref={lastArticleElement}/>
+        {/* INFINITE SCROLLING */}
+        {/* <div ref={lastArticleElement}/> */}
         {props.totalItems && props.loading === false ? (
-          <div className={props.totalItems > 0 ? '' : 'd-none'}>
-            {/* <Row className="justify-content-center">
-            <JhiItemCount
-              page={paginationState.activePage}
-              total={props.totalItems}
-              itemsPerPage={paginationState.itemsPerPage}
-              i18nEnabled
-            />
-          </Row>
-          <Row className="justify-content-center">
-            <JhiPagination
-              activePage={paginationState.activePage}
-              onSelect={handlePagination}
-              maxButtons={5}
-              itemsPerPage={paginationState.itemsPerPage}
-              totalItems={props.totalItems}
-            />
-          </Row> */}
+          <div className="text-center">
+          {paginationState.itemsPerPage * paginationState.activePage <= totalItems ?
+          <>
+          <Button onClick={handleOnClick}>{translate("home.load-button.hasLoad")}</Button>
+          </>
+          :
+          <>
+          {translate("home.load-button.noLoad")}
+          </>
+          }
           </div>
+          // <div className={props.totalItems > 0 ? '' : 'd-none'}>
+          //   <Row className="justify-content-center">
+          //   <JhiItemCount
+          //     page={paginationState.activePage}
+          //     total={props.totalItems}
+          //     itemsPerPage={paginationState.itemsPerPage}
+          //     i18nEnabled
+          //   />
+          // </Row>
+          // <Row className="justify-content-center">
+          //   <JhiPagination
+          //     activePage={paginationState.activePage}
+          //     onSelect={handlePagination}
+          //     maxButtons={5}
+          //     itemsPerPage={paginationState.itemsPerPage}
+          //     totalItems={props.totalItems}
+          //   />
+          // </Row>
+          // </div>
         ) : (
           <div className="text-center">
             <Spinner size="lg">
