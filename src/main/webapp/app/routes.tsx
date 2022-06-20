@@ -47,10 +47,10 @@ const NonFluidContainerRoutes = () => (
       <ErrorBoundaryRoute path="/account/reset/finish/:key?" component={PasswordResetFinish}/>
       <PrivateRoute path="/account" component={Account}
                     hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
-      <PrivateRoute path="/about" component={About} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
-      <PrivateRoute path="/dissemination" component={Dissemination} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
-      <PrivateRoute path="/fact-checking" component={FactChecking} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
-      <PrivateRoute path="/more" component={More} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+      <ErrorBoundaryRoute path="/about" component={About} />
+      <ErrorBoundaryRoute path="/dissemination" component={Dissemination} />
+      <ErrorBoundaryRoute path="/fact-checking" component={FactChecking} />
+      <ErrorBoundaryRoute path="/more" component={More} />
       <ErrorBoundaryRoute component={PageNotFound}/>
     </Switch>
   </Container>
@@ -60,9 +60,9 @@ const Routes = () => (
   <div className="view-routes">
       <ErrorBoundary>
         <Switch>
-          <PrivateRoute path="/" exact component={Home} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+          <ErrorBoundaryRoute path="/" exact component={Home} />
           <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]}/>
-          <PrivateRoute path={`/article`} component={Article} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+          <ErrorBoundaryRoute path={`/article`} component={Article} />
           <PrivateRoute path={`/category`} component={Category} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
           <PrivateRoute path={`/resource`} component={Resource} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
           <PrivateRoute path={`/statement`} component={Statement} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
