@@ -62,7 +62,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                 {article.previewTitle}
               </h1>
               <div className="text-center">
-                <a href="#"
+                <a href={`/fact-checking/sub-menu/${article.category.name}`}
                    className="btn btn-dark font-weight-bold mb-4">{translate(`check4FactsApp.category.${article.category.name}`)}</a>
               </div>
               <p
