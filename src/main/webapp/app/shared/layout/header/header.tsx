@@ -1,7 +1,7 @@
 import './header.scss';
 
-import React, {useState} from 'react';
-import {NavLink} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {NavLink, useLocation} from 'react-router-dom';
 import {Translate, translate} from 'react-jhipster';
 import {Collapse, Container, Nav, NavbarToggler, NavItem} from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
@@ -25,7 +25,13 @@ export interface IHeaderProps {
 }
 
 const Header = (props: IHeaderProps) => {
+  const location = useLocation();
+
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location]);
 
   // const handleLocaleChange = event => {
   //   const langKey = event.target.value;
@@ -59,7 +65,7 @@ const Header = (props: IHeaderProps) => {
               <div className="header-ekke-logo">
                 <img src="../../../../content/images/ekke-logo.png" alt="Ekke logo"></img>
               </div>
-            </div>      
+            </div>
           </div>
           <div className="navbar-bottom-menu">
             <NavbarToggler aria-label="Menu" onClick={toggleMenu}><img src="../../../../content/images/bars-solid.svg" width={20}></img></NavbarToggler>
@@ -73,7 +79,7 @@ const Header = (props: IHeaderProps) => {
                 {props.isAuthenticated && props.isAdmin && <EntitiesMenu/>}
                 {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled}/>}
                 <NavItem><NavLink to="/" exact className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink></NavItem>
-                {props.isAuthenticated && 
+                {props.isAuthenticated &&
                 <NavItem><NavLink to="/fact-checking"className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink></NavItem>}
                 <TopicsMenu/>
                 <NavItem><NavLink to="/dissemination" exact className="d-flex align-items-center nav-link">{translate('global.menu.dissemination.main')}</NavLink></NavItem>
