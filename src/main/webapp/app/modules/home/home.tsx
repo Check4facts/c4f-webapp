@@ -133,7 +133,7 @@ export const Home = (props: IHomeProp) => {
         {/* INFINITE SCROLLING */}
         {/* <div ref={lastArticleElement}/> */}
         {props.totalItems && props.loading === false ? (
-          <div className="text-center">
+          <div className="text-center mt-5">
           {paginationState.itemsPerPage * paginationState.activePage <= totalItems ?
           <>
           <Button onClick={handleOnClick}>{translate("home.load-button.hasLoad")}</Button>
