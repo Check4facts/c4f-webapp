@@ -56,9 +56,9 @@ const Header = (props: IHeaderProps) => {
                 {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn/>}
               </Nav> */}
                 <Social/>
-              {/* <div className="ekke-logo">
+              <div className="header-ekke-logo">
                 <img src="../../../../content/images/ekke-logo.png" alt="Ekke logo"></img>
-              </div> */}
+              </div>
             </div>      
           </div>
           <div className="navbar-bottom-menu">

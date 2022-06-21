@@ -130,7 +130,13 @@ Main page Carousel transition css
   height: calc(2.4em + 0.75rem + 2px);
 }
 
-.ekke-logo {
+@media (max-width: 999px) {
+  .header-ekke-logo {
+    display: none;
+  }
+}
+
+.header-ekke-logo {
   padding-left: 22px;
 }
 
