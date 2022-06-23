@@ -1,6 +1,6 @@
 import '../../../content/scss/home.scss';
 
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {translate} from 'react-jhipster';
 import {connect} from 'react-redux';
 import {IRootState} from 'app/shared/reducers';
@@ -132,44 +132,23 @@ export const Home = (props: IHomeProp) => {
         <ArticlesFeed/>
         {/* INFINITE SCROLLING */}
         {/* <div ref={lastArticleElement}/> */}
-        {props.totalItems && props.loading === false ? (
+        {props.totalItems > 0 && !props.loading &&
           <div className="text-center mt-5">
-          {paginationState.itemsPerPage * paginationState.activePage <= totalItems ?
-          <>
-          <Button onClick={handleOnClick}>{translate("home.load-button.hasLoad")}</Button>
-          </>
-          :
-          <>
-          {translate("home.load-button.noLoad")}
-          </>
-          }
-          </div>
-          // <div className={props.totalItems > 0 ? '' : 'd-none'}>
-          //   <Row className="justify-content-center">
-          //   <JhiItemCount
-          //     page={paginationState.activePage}
-          //     total={props.totalItems}
-          //     itemsPerPage={paginationState.itemsPerPage}
-          //     i18nEnabled
-          //   />
-          // </Row>
-          // <Row className="justify-content-center">
-          //   <JhiPagination
-          //     activePage={paginationState.activePage}
-          //     onSelect={handlePagination}
-          //     maxButtons={5}
-          //     itemsPerPage={paginationState.itemsPerPage}
-          //     totalItems={props.totalItems}
-          //   />
-          // </Row>
-          // </div>
-        ) : (
-          <div className="text-center">
-            <Spinner size="lg">
-              Loading...
-            </Spinner>
-          </div>
-        )}
+            {paginationState.itemsPerPage * paginationState.activePage <= totalItems ?
+              <>
+                <Button onClick={handleOnClick}>{translate("home.load-button.hasLoad")}</Button>
+              </> : <>
+                {translate("home.load-button.noLoad")}
+              </>
+            }
+          </div>}
+        {props.loading &&
+        <div className="text-center">
+          <Spinner size="lg">
+            Loading...
+          </Spinner>
+        </div>
+        }
       </Container>
     </div>
   );
