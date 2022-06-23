@@ -104,7 +104,8 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public Page<Article> search(String query, Pageable pageable, Boolean published) {
         log.debug("Request to search for a page of Articles for query {}", query);
-        QueryStringQueryBuilder queryBuilder = queryStringQuery(query).field("previewTitle", 2).field("previewText");
+        MultiMatchQueryBuilder queryBuilder = multiMatchQuery(query).field("previewTitle", 2).field("previewText");
+        // QueryStringQueryBuilder queryBuilder = queryStringQuery(query).field("previewTitle", 2).field("previewText");
 
         return published
             ? articleSearchRepository.search(
@@ -153,7 +154,8 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public Page<Article> searchInCategory(String category, Boolean published, String query, Pageable pageable) {
         log.debug("REST request to search for a page of Articles of category {} for query {}", category, query);
-        QueryStringQueryBuilder queryBuilder = queryStringQuery(query).field("previewTitle", 2).field("previewText");
+        MultiMatchQueryBuilder queryBuilder = multiMatchQuery(query).field("previewTitle", 2).field("previewText");
+        // QueryStringQueryBuilder queryBuilder = queryStringQuery(query).field("previewTitle", 2).field("previewText");
         return published
             ? articleSearchRepository.search(
                 boolQuery()

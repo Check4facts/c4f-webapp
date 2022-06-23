@@ -7,6 +7,7 @@ import gr.ekke.check4facts.repository.ResourceRepository;
 import gr.ekke.check4facts.repository.StatementRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
 import gr.ekke.check4facts.repository.search.StatementSearchRepository;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,12 +114,12 @@ public class StatementService {
     @Transactional(readOnly = true)
     public Page<Statement> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Statements for query {}", query);
-        QueryStringQueryBuilder queryBuilder;
+        MultiMatchQueryBuilder queryBuilder;
         try {
             Integer.parseInt(query);
-            queryBuilder = queryStringQuery(query).field("id", 3).field("text", 2).field("mainArticleTitle");
+            queryBuilder = multiMatchQuery(query).field("id", 100).field("text", 2).field("mainArticleTitle", 1);
         } catch (NumberFormatException e) {
-            queryBuilder = queryStringQuery(query).field("text", 2).field("mainArticleTitle");
+            queryBuilder = multiMatchQuery(query).field("text", 2).field("mainArticleTitle");
         }
         return statementSearchRepository.search(queryBuilder, pageable);
     }
