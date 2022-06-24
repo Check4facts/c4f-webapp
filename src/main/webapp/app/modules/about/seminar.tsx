@@ -133,7 +133,7 @@ const Seminar = () => {
           </p>
           <br />
           <p>
-            <strong>10.30-11.00:</strong>
+            <strong>10.30-11.00: </strong>
             Προσέλευση (θα προσφέρεται καφές)/Welcome coffee
           </p>
           <p>
@@ -141,7 +141,7 @@ const Seminar = () => {
           </p>
           <br />
           <p>
-            <strong>11.00-11.40:</strong>
+            <strong>11.00-11.40: </strong>
             Χαιρετισμοί/ Introduction-Greetings
           </p>
           <br />
@@ -260,10 +260,10 @@ const Seminar = () => {
           <p>Apostolos Linardis, Grade A Researcher of the Institute for Social Research of the National Centre for Social Research</p>
           <p>Stamatis Poulakidakos, Assistant Professor, Department of Communication and Digital Media, University of Western Macedonia</p>
           <p>
+            <div id="ft2">
             <strong>
               <em>“</em>
             </strong>
-            <div id="ft2">
               <strong>
                 <em>Attitudes and perceptions on the reliability of public information in Greece”</em>
               </strong>
@@ -333,12 +333,12 @@ const Seminar = () => {
           </p>
           <br />
           <p>
-            <strong>14.00-15.00:</strong>
+            <strong>14.00-15.00: </strong>
             Ελαφρύ γεύμα/ Light lunch
           </p>
           <br />
           <p>
-            <strong>15.00-15.30:</strong>
+            <strong>15.00-15.30: </strong>
             <strong>Δεύτερη κεντρική ομιλία/ </strong>
             <strong>Second </strong>
             <strong>keynote </strong>
@@ -367,7 +367,7 @@ const Seminar = () => {
             <strong></strong>
           </p>
           <p>
-            <strong>15.30-17.30:</strong>
+            <strong>15.30-17.30: </strong>
             <strong>Δεύτερη συνεδρία «Η συμβολή Πανεπιστημίων και ερευνητικών κέντρων στο</strong>
             <strong>fact-</strong>
             <strong>checking στην Ελλάδα»</strong>
