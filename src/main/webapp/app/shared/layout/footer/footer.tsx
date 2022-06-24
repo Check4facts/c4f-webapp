@@ -25,7 +25,7 @@ const Footer = () => (
         </Col>
         <Col className='mt-4 mt-md-0' sm="5">
           <p className="mb-2">Το έργο χρηματοδοτήθηκε από το <a href="http://www.elidek.gr/en/homepage/">Ελληνικό Ίδρυμα Έρευνας και Καινοτομίας</a> (grant agreement HFRI-FM17-2283).</p>
-          <a href='http://www.elidek.gr/en/homepage/' className="text-dark d-flex align-items-center">
+          <a href='http://www.elidek.gr/' className="text-dark d-flex align-items-center">
             <img src="../../../content/images/ELIDEK.png" alt="ELIDEK logo" height="50"/>
           </a>
         </Col>
