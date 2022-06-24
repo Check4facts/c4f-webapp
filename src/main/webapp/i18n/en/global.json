@@ -163,8 +163,5 @@
       "could.not.extract": "Could not extract file",
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
-  },
-  "footer": {
-    "project": "A project of the National Centre for Social research and the \"ATHENA\" Research Center."
   }
 }

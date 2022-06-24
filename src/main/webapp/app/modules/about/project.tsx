@@ -56,18 +56,23 @@ export const Project = () => {
       id: "funding",
       title: translate("about.project.sideMenu.funding"),
       content: <div className="text-justify">
-        <p>Το έργο συγχρηματοδοτήθηκε από το Ελληνικό Ίδρυμα Έρευνας και Καινοτομίας και τη Γενική Γραμματεία Έρευνας και Καινοτομίας (grant agreement HFRI-FM17-2283).</p>
+        <p>Το έργο χρηματοδοτήθηκε από το <a href="http://www.elidek.gr/en/homepage/">Ελληνικό Ίδρυμα Έρευνας και Καινοτομίας</a> (grant agreement HFRI-FM17-2283).</p>
       </div>
     },
     {
       id: "collaborating",
       title: translate("about.project.sideMenu.collaborating"),
       content: <div className="text-justify">
-        <ul>
-          <li><img src="../../content/images/ekke-logo.png" alt="ekke logo" width="80" height="80"/><br></br><a href="https://www.ekke.gr">Εθνικό Κέντρο Κοινωνικών Ερευνών</a></li>
-          <li><img src="../../content/images/uoa-logo.png" alt="UOA logo" width="80" height="80"/><br></br><a href="https://www.uoa.gr">Εργαστήριο Κοινωνικής Έρευνας στα ΜΜΕ- Τμήμα Επικοινωνίας και ΜΜΕ- Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών</a></li>
-          <li><img src="../../content/images/athena-logo.png" alt="athena logo" width="80" height="80"/><br></br><a href="https://www.athenarc.gr/">Ερευνητικό Κέντρο Αθηνά</a></li>
-        </ul>
+        <div><img src="../../content/images/ekke-logo.png" alt="ekke logo" width="80" height="80"/>
+          <div className="mt-3"><a href="https://www.ekke.gr">Εθνικό Κέντρο Κοινωνικών Ερευνών</a></div>
+        </div>
+        <div className="mt-4"><img src="../../content/images/uoa-logo.png" alt="UOA logo" width="80" height="80"/>
+          <div className="mt-3"><a href="https://www.uoa.gr">Εργαστήριο Κοινωνικής Έρευνας στα ΜΜΕ- Τμήμα Επικοινωνίας και ΜΜΕ- Εθνικό
+            και Καποδιστριακό Πανεπιστήμιο Αθηνών</a></div>
+        </div>
+        <div className="mt-4"><img src="../../content/images/athena-logo.png" alt="athena logo" width="80" height="80"/>
+          <div className="mt-3"><a href="https://www.athenarc.gr/">Ερευνητικό Κέντρο Αθηνά</a></div>
+        </div>
       </div>
     },
     // {
