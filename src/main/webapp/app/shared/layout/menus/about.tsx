@@ -18,5 +18,8 @@ export const AboutMenu = () => (
     <MenuItem to="/about/contact">
       <Translate contentKey="global.menu.about.contact" />
     </MenuItem>
+    <MenuItem to="/about/seminar">
+      <Translate contentKey="global.menu.about.seminar" />
+    </MenuItem>
   </NavDropdown>
 );

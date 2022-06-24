@@ -20,7 +20,8 @@
         "main": "About",
         "project": "Project",
         "ethics": "Methodology/Ethics",
-        "contact": "Contact"
+        "contact": "Contact",
+        "seminar": "Seminar"
       },
       "account": {
         "main": "Account",
