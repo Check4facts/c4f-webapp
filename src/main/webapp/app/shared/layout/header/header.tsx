@@ -45,11 +45,11 @@ const Header = (props: IHeaderProps) => {
 
   return (
     <header id="app-header" className="">
-      <div className="ribbon dev">
+{/*      <div className="ribbon dev">
         <a href="">
           Πειραματική<br/>Εφαρμογή
         </a>
-      </div>
+      </div>*/}
       <LoadingBar className="loading-bar"/>
       <Container>
         <nav className="navbar navbar-expand-lg">
