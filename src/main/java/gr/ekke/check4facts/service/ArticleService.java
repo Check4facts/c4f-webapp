@@ -3,10 +3,7 @@ package gr.ekke.check4facts.service;
 import gr.ekke.check4facts.domain.Article;
 import gr.ekke.check4facts.repository.ArticleRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
-import org.elasticsearch.index.query.MultiMatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
-import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +14,7 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -102,18 +100,18 @@ public class ArticleService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Article> search(String query, Pageable pageable, Boolean published) {
+    public Page<Article> search(String query, Pageable pageable, Boolean published, List<String> categories) {
         log.debug("Request to search for a page of Articles for query {}", query);
         MultiMatchQueryBuilder queryBuilder = multiMatchQuery(query).field("previewTitle", 2).field("previewText");
         // QueryStringQueryBuilder queryBuilder = queryStringQuery(query).field("previewTitle", 2).field("previewText");
 
-        return published
-            ? articleSearchRepository.search(
-                boolQuery()
-                    .must(termQuery("published", true))
-                    .must(queryBuilder), pageable)
-            : articleSearchRepository.search(
-                boolQuery().must(queryBuilder), pageable);
+        BoolQueryBuilder boolQueryBuilder = boolQuery().must(queryBuilder)
+            .must(termQuery("published", true))
+            .must(termsQuery("category.name", categories));
+        if (published) {
+            boolQueryBuilder = boolQueryBuilder.must(termQuery("published", true));
+        }
+        return articleSearchRepository.search(boolQueryBuilder, pageable);
     }
 
     /**
@@ -140,6 +138,12 @@ public class ArticleService {
     public Page<Article> findAllPublished(Pageable pageable) {
         log.debug("Request to get all published Articles");
         return articleRepository.findAllByPublishedTrue(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Article> findAllPublishedInCategories(List<String> categories, Pageable pageable) {
+        log.debug("Request to get all published Articles in categories");
+        return articleRepository.findAllByPublishedTrueAndCategory_NameIn(categories, pageable);
     }
 
     /**

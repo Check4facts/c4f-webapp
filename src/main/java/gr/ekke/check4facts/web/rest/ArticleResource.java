@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -140,7 +141,7 @@ public class ArticleResource {
     @GetMapping("/_search/articles/{published}")
     public ResponseEntity<List<Article>> searchArticles(@PathVariable Boolean published, @RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Articles for query {}", query);
-        Page<Article> page = articleService.search(query, pageable, published);
+        Page<Article> page = articleService.search(query, pageable, published, Arrays.asList("crime", "immigration"));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -201,7 +202,7 @@ public class ArticleResource {
     @GetMapping("/articles/published")
     public ResponseEntity<List<Article>> getAllPublishedArticles(Pageable pageable) {
         log.debug("REST request to get a page of published Articles");
-        Page<Article> page = articleService.findAllPublished(pageable);
+        Page<Article> page = articleService.findAllPublishedInCategories(Arrays.asList("crime", "immigration"), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
