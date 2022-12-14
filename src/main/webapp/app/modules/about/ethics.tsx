@@ -8,7 +8,7 @@ export const Ethics = () => {
   return (
   <Container>
   <div className="container">
-  <br/><br/> <h1 className="page-header text-center mt-3 mb-3">Σχετικά με την Δεοντολογία και την Μεθοδολογία του έργου</h1><br/><br/>
+  <br/><br/> <h1 className="page-header text-center mt-3 mb-3"><Translate contentKey='ethics-methodology.title'/></h1><br/><br/>
         <a>
             <Card style={{ marginBottom: '1rem'  }} key={1}>
               <CardHeader className="d-flex align-items-center" style={{backgroundColor: "white"}} onClick={() => {open !== 1 ? setOpen(1) : setOpen(0)}}>

@@ -63,7 +63,7 @@ const Header = (props: IHeaderProps) => {
               </Nav> */}
                 <Social/>
               <div className="header-ekke-logo">
-                <img src="../../../../content/images/ekke-logo.png" alt="Ekke logo"></img>
+                <img src="../../../../content/images/ekke-logo.png" alt="Ekke logo" style={{width: "65px"}}></img>
               </div>
             </div>
           </div>

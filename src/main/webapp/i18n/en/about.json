@@ -18,7 +18,19 @@
     },
     "project": {
       "sideMenu": {
-        "project": "Project",
+        "project": {
+          "name": "Project",
+          "project-sub1": "The present project is a response to the need to have scientific knowledge and dialogue about the checks and balances of the reliability of public speech /publicly available information in Greece.  The Check4Facts/Science platform focuses on four particularly important thematic units of public information /political speech: a. the public health issue, b. the climate change issue, c. the refugee/migration issue, and d. issues of breaking the law. The four  thematic units can often be linked, while they have an intense and lasting presence in the public sphere.",
+          "project-sub2": "Citizens’ estrangement from the political system, distrust towards experts, and perception of politics as a strategic game of power is related to the fact that people have a limited knowledge of public policies and of how political institutions operate, as well as about their own rights and public information rights. Such conditions contribute towards the formation of what is called ‘attention economy’, based on methods of ‘neuromarketing’ and on propaganda practices that aim to influence citizens’ emotions and behaviour.",
+          "project-sub3": "Check4Facts.gr is a platform that is positioned far from political and media expediency, as it is far from the logic of the spectacle and of marketisation. Instead, it offers a useful tool for the meaningful participation of citizens in public dialogue. The validity of publicly expressed information is examined by the scientific team supporting the platform, which carries the main responsibility for the outcomes/ verdicts. The core of the scientific team consists of scientists with long experience in recording and analyzing public speech, originating from the National Centre for Social Research (NCSS), the Research Centre “Athena”, and the Department of Communication and Mass Media of the National and Kapodistrian University of Athens.",
+          "project-sub4": "The primary task of the Check4Facts Science webpage is to examine the information and to publish it with the necessary supporting evidence, determining whether it is inaccurate  (which, that is, is more or less distant from what really happened) or whether it is accurate, in which case the platform, based on its sources, verifies its validity.",
+          "project-sub5": "The gathering of political statements / information is done through the continuous monitoring of media content (print and electronic), of political and party webpages, of accounts of public persons in social media and of parliamentary discussions, live and recorded. The statements under check are primarily positioned under processing by the algorithm, which offers a first “estimate” of validity.",
+          "project-sub6": "Check4Facts Science’s checkers of public information follow. They quarry information from available primary and secondary evidence, and they co-operate with expert scientists, functionaries/officers, experts who come from public and private institutions, so that the scrutiny of the information validity will be made through accessing all the available primary and secondary sources. ",
+          "project-sub7": "Examining public utterances of members of parliament and of parties, the program attempts to move along three directions:",
+          "project-sub8": "Development of the digital platform Check4Facts.gr, which will be host to it and will support its actions. ",
+          "project-sub9": "Research of public speech as it is recorded in the media and in other sources, with different degrees of reliability.",
+          "project-sub10": "Training of the public, through expert, freely accessible content, so that citizens will be able to recognize, check and verify or reject political information through the cultivation of digital skills and political intelligence."
+        },
         "team": "Team",
         "funding": "Funding",
         "collaborating": "Collaborating Organizations",
