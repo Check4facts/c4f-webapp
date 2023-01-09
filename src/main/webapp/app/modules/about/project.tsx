@@ -68,12 +68,18 @@ export const Project = () => {
         <div><img src="../../content/images/ekke-logo.png" alt="ekke logo" width="80" height="80"/>
           <div className="mt-3"><a href="https://www.ekke.gr">Εθνικό Κέντρο Κοινωνικών Ερευνών</a></div>
         </div>
-        <div className="mt-4"><img src="../../content/images/uoa-logo.png" alt="UOA logo" width="80" height="80"/>
-          <div className="mt-3"><a href="https://www.uoa.gr">Εργαστήριο Κοινωνικής Έρευνας στα ΜΜΕ- Τμήμα Επικοινωνίας και ΜΜΕ- Εθνικό
-            και Καποδιστριακό Πανεπιστήμιο Αθηνών</a></div>
+        <div className="mt-4"><img src="../../content/images/media-uoa-logo.jpg" alt="uoa media logo" width="150" height="80"/>
+          <div className="mt-3"><a href="https://www.media.uoa.gr/">Τμήμα Επικοινωνίας και Μέσων Μαζικής Ενημέρωσης - ΕΚΠΑ</a></div>
         </div>
         <div className="mt-4"><img src="../../content/images/athena-logo.png" alt="athena logo" width="80" height="80"/>
           <div className="mt-3"><a href="https://www.athenarc.gr/">Ερευνητικό Κέντρο Αθηνά</a></div>
+        </div>
+        <div className="mt-4"><img src="../../content/images/iccs-logo.jpg" alt="iccs logo" width="80" height="80"/>
+          <div className="mt-3"><a href="https://www.iccs.gr/">Ερευνητικό Πανεπιστημιακό Ινστιτούτο
+            Συστημάτων Επικοινωνιών & Υπολογιστών</a></div>
+        </div>
+        <div className="mt-4"><img src="../../content/images/hcmr-logo.jpg" alt="hcmr logo" width="80" height="80"/>
+          <div className="mt-3"><a href="https://www.hcmr.gr/">Ελληνικό Κέντρο Θαλασσίων Ερευνών</a></div>
         </div>
       </div>
     },

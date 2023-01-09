@@ -11,15 +11,21 @@ const Footer = () => (
       <Row className='footer-bottom border-top'>
         <Col className='' sm="4">
           <p className='mb-2'>Με τη συνεργασία των</p>
-          <div className='d-flex'>
-            <a href='https://www.ekke.gr/' className="text-dark d-flex align-items-center">
+            <div className='d-flex'>
+            <a href='https://www.ekke.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3}}>
               <img src="../../../content/images/ekke-logo.png" alt="EKKE logo" height="50"/>
             </a>
-            <a href='https://www.uoa.gr' className="text-dark d-flex align-items-center">
-              <img src="../../../content/images/uoa-logo.png" alt="uoa logo" height="50"/>
+            <a href='https://www.media.uoa.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3}}>
+              <img src="../../../content/images/media-uoa-logo.jpg" alt="media uoa logo" height="50"/>
             </a>
-            <a href='https://www.athenarc.gr/' className="text-dark d-flex align-items-center">
+            <a href='https://www.athenarc.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3}}>
               <img src="../../../content/images/athena-logo.png" alt="athena logo" height="50"/>
+            </a>
+            <a href='https://www.hcmr.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3}}>
+              <img src="../../../content/images/hcmr-logo.jpg" alt="hcmr logo" height="50"/>
+            </a>
+            <a href='https://www.iccs.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3}}>
+              <img src="../../../content/images/iccs-logo.jpg" alt="iccs logo" height="50"/>
             </a>
           </div>
         </Col>
