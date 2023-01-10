@@ -9,7 +9,7 @@ const Footer = () => (
 */}
     <Container>
       <Row className='footer-bottom border-top'>
-        <Col className='' sm="4">
+        <Col className='' lg="5">
           <p className='mb-2'>Με τη συνεργασία των</p>
             <div className='d-flex'>
             <a href='https://www.ekke.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3}}>
@@ -27,15 +27,18 @@ const Footer = () => (
             <a href='https://www.iccs.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3}}>
               <img src="../../../content/images/iccs-logo.jpg" alt="iccs logo" height="50"/>
             </a>
+            <a href='https://www.astro.noa.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3}}>
+              <img src="../../../content/images/logo-noa.jpg" alt="noa logo" height="50"/>
+            </a>
           </div>
         </Col>
-        <Col className='mt-4 mt-md-0' sm="5">
+        <Col className='mt-4 mt-md-0' lg="5">
           <p className="mb-2">Το έργο χρηματοδοτήθηκε από το <a href="http://www.elidek.gr/en/homepage/">Ελληνικό Ίδρυμα Έρευνας και Καινοτομίας</a> (grant agreement HFRI-FM17-2283).</p>
           <a href='http://www.elidek.gr/' className="text-dark d-flex align-items-center">
             <img src="../../../content/images/ELIDEK.png" alt="ELIDEK logo" height="50"/>
           </a>
         </Col>
-        <Col className='mt-4 mt-md-0' sm="3">
+        <Col className='mt-4 mt-md-0' lg="2">
           <p className="font-weight-medium">© Copyright 2020 <a href="https://www.check4facts.gr/" className="text-dark">check4facts.gr</a></p>
         </Col>
       </Row>

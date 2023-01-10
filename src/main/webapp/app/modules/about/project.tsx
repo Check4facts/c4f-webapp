@@ -81,6 +81,9 @@ export const Project = () => {
         <div className="mt-4"><img src="../../content/images/hcmr-logo.jpg" alt="hcmr logo" width="80" height="80"/>
           <div className="mt-3"><a href="https://www.hcmr.gr/">Ελληνικό Κέντρο Θαλασσίων Ερευνών</a></div>
         </div>
+        <div className="mt-4"><img src="../../content/images/logo-noa.jpg" alt="noa logo" width="80" height="80"/>
+          <div className="mt-3"><a href="https://www.astro.noa.gr/">Εθνικό Αστεροσκοπείο Αθηνών</a></div>
+        </div>
       </div>
     },
     // {
