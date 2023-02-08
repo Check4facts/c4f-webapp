@@ -1,7 +1,10 @@
 package gr.ekke.check4facts.service;
 
 import gr.ekke.check4facts.domain.Article;
+import gr.ekke.check4facts.domain.CategorizedArticles;
+import gr.ekke.check4facts.domain.Category;
 import gr.ekke.check4facts.repository.ArticleRepository;
+import gr.ekke.check4facts.repository.CategoryRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
 import org.elasticsearch.index.query.*;
 import org.slf4j.Logger;
@@ -14,6 +17,7 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,9 +40,12 @@ public class ArticleService {
 
     private final ArticleSearchRepository articleSearchRepository;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleSearchRepository articleSearchRepository, EntityManager em) {
+    private final CategoryRepository categoryRepository;
+
+    public ArticleService(ArticleRepository articleRepository, ArticleSearchRepository articleSearchRepository, EntityManager em, CategoryRepository categoryRepository) {
         this.articleRepository = articleRepository;
         this.articleSearchRepository = articleSearchRepository;
+        this.categoryRepository = categoryRepository;
         this.em = em;
     }
 
@@ -66,6 +73,24 @@ public class ArticleService {
     public Page<Article> findAll(Pageable pageable) {
         log.debug("Request to get all Articles");
         return articleRepository.findAll(pageable);
+    }
+
+    /**
+     * Get 8 articles per category.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<CategorizedArticles> findFrontPageArticles() {
+        log.debug("Request to get front Page Articles");
+        List<CategorizedArticles> categorizedArticles = new ArrayList();
+        // Get All categories
+        List<Category> categoryNames = categoryRepository.findAll();
+        // Find first 6 articles of each category and add them to a list
+        categoryNames.forEach(cat -> {
+            categorizedArticles.add(new CategorizedArticles(cat.getName(), articleRepository.findFirst8ByPublishedTrueAndCategory_NameOrderByArticleDateDesc(cat.getName())));
+        });
+        return categorizedArticles;
     }
 
 

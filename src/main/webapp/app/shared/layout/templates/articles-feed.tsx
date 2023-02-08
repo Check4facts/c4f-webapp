@@ -34,14 +34,14 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
   const {articles, loading, isAuthenticated, currentLocale, showButtons} = props;
 
   return (
-    <Row className="mt-5">
+    <Row className="mt-1">
       {articles.length > 0 ? articles.map((article, idx) => (
         <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={`${article.id}-${idx}`}>
           <div className="position-relative image-hover">
             <Link to={`/article/${article.id}/display`}>
               {article.previewImage ?
                 <img src={`data:${article.previewImageContentType};base64,${article.previewImage}`}
-                     className="" style={{height: 200, width: "100%", objectFit: 'cover'}}
+                     className="" style={{height: 200, width: "100%", objectFit: 'cover', border: "1px solid #eeeeee"}}
                      alt="previewImage"
                 /> : <img src={`/content/images/carousel4.jpg`}
                           className="" style={{height: 200, width: "100%", objectFit: 'cover', filter: 'blur(2px)'}}

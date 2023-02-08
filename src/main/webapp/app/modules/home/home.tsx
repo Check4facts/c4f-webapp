@@ -4,20 +4,20 @@ import React, {useEffect, useState} from 'react';
 import {translate} from 'react-jhipster';
 import {connect} from 'react-redux';
 import {IRootState} from 'app/shared/reducers';
-import {Button, Container, Spinner} from 'reactstrap';
-import {getAllPublishedArticles, getSearchEntities, reset} from 'app/entities/article/article.reducer';
+import {Button, Container, Spinner, Row, Col} from 'reactstrap';
+import {getAllPublishedArticles, getFrontPageArticles, getSearchEntities, reset} from 'app/entities/article/article.reducer';
 import {RouteComponentProps} from 'react-router-dom';
-import ArticlesFeed from 'app/shared/layout/templates/articles-feed';
 import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 import HomeCarousel from 'app/entities/homeCarousel/HomeCarousel';
 import {AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import FrontPageFeed from 'app/shared/layout/templates/front-page-feed';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {
 }
 
 export const Home = (props: IHomeProp) => {
-  const {articles, totalItems} = props;
+  const {articles, totalItems, frontPageArticles} = props;
   const [paginationState, setPaginationState] = useState({
     query: '',
     activePage: 1,
@@ -69,6 +69,7 @@ export const Home = (props: IHomeProp) => {
 
 
   useEffect(() => {
+    props.getFrontPageArticles();
     props.reset();
   }, []);
 
@@ -129,10 +130,12 @@ export const Home = (props: IHomeProp) => {
             </AvGroup>
           </AvForm>
         </div>
-        <ArticlesFeed/>
+        <FrontPageFeed />
+        {/* <ArticlesFeed/> */}
+
         {/* INFINITE SCROLLING */}
         {/* <div ref={lastArticleElement}/> */}
-        {props.totalItems > 0 && !props.loading &&
+        {/* {props.totalItems > 0 && !props.loading &&
           <div className="text-center mt-5">
             {paginationState.itemsPerPage * paginationState.activePage <= totalItems ?
               <>
@@ -141,7 +144,7 @@ export const Home = (props: IHomeProp) => {
                 {translate("home.load-button.noLoad")}
               </>
             }
-          </div>}
+          </div>} */}
         {props.loading &&
         <div className="text-center">
           <Spinner size="lg">
@@ -160,11 +163,13 @@ const mapStateToProps = (storeState: IRootState) => ({
   totalItems: storeState.article.totalItems,
   articles: storeState.article.entities,
   loading: storeState.article.loading,
+  frontPageArticles: storeState.article.frontPageArticles
 });
 
 const mapDispatchToProps = {
   getSearchEntities,
   getAllPublishedArticles,
+  getFrontPageArticles,
   reset,
 };
 

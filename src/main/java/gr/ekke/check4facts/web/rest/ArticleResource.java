@@ -1,6 +1,7 @@
 package gr.ekke.check4facts.web.rest;
 
 import gr.ekke.check4facts.domain.Article;
+import gr.ekke.check4facts.domain.CategorizedArticles;
 import gr.ekke.check4facts.service.ArticleService;
 import gr.ekke.check4facts.web.rest.errors.BadRequestAlertException;
 
@@ -205,5 +206,19 @@ public class ArticleResource {
         Page<Article> page = articleService.findAllPublishedInCategories(Arrays.asList("crime", "immigration"), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    
+    /**
+     * {@code GET /articles/frontPage} : get all the published articles.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of articles in body.
+     */
+    @GetMapping("/articles/frontPage")
+    public ResponseEntity<List<CategorizedArticles>> getFrontPageArticles(Pageable pageable) {
+        log.debug("REST request to get a page of published Articles");
+        List<CategorizedArticles> categorizedArticles = articleService.findFrontPageArticles();
+        // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().body(categorizedArticles);
     }
 }

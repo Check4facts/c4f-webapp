@@ -15,6 +15,7 @@ export const ACTION_TYPES = {
   FETCH_CAROUSEL_ARTICLE_LIST: 'article/FETCH_CAROUSEL_ARTICLE_LIST',
   FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME: 'article/FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME',
   FETCH_ARTICLE: 'article/FETCH_ARTICLE',
+  FETCH_FRONT_PAGE_ARTICLES: 'article/FETCH_FRONT_PAGE_ARTICLES',
   CREATE_ARTICLE: 'article/CREATE_ARTICLE',
   UPDATE_ARTICLE: 'article/UPDATE_ARTICLE',
   DELETE_ARTICLE: 'article/DELETE_ARTICLE',
@@ -31,6 +32,7 @@ const initialState = {
   updating: false,
   totalItems: 0,
   updateSuccess: false,
+  frontPageArticles: [],
 };
 
 export type ArticleState = Readonly<typeof initialState>;
@@ -46,6 +48,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
     case REQUEST(ACTION_TYPES.FETCH_CAROUSEL_ARTICLE_LIST):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE):
+    case REQUEST(ACTION_TYPES.FETCH_FRONT_PAGE_ARTICLES):
       return {
         ...state,
         errorMessage: null,
@@ -68,6 +71,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
     case FAILURE(ACTION_TYPES.FETCH_CAROUSEL_ARTICLE_LIST):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE):
+    case FAILURE(ACTION_TYPES.FETCH_FRONT_PAGE_ARTICLES):
     case FAILURE(ACTION_TYPES.CREATE_ARTICLE):
     case FAILURE(ACTION_TYPES.UPDATE_ARTICLE):
     case FAILURE(ACTION_TYPES.DELETE_ARTICLE):
@@ -100,6 +104,12 @@ export default (state: ArticleState = initialState, action): ArticleState => {
         ...state,
         loading: false,
         entity: action.payload.data,
+      };
+    case SUCCESS(ACTION_TYPES.FETCH_FRONT_PAGE_ARTICLES):
+      return {
+        ...state,
+        loading: false,
+        frontPageArticles: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.CREATE_ARTICLE):
     case SUCCESS(ACTION_TYPES.UPDATE_ARTICLE):
@@ -190,6 +200,14 @@ export const getEntity: ICrudGetAction<IArticle> = id => {
   const requestUrl = `${apiUrl}/${id}`;
   return {
     type: ACTION_TYPES.FETCH_ARTICLE,
+    payload: axios.get<IArticle>(requestUrl),
+  };
+};
+
+export const getFrontPageArticles = () => {
+  const requestUrl = `${apiUrl}/frontPage`;
+  return {
+    type: ACTION_TYPES.FETCH_FRONT_PAGE_ARTICLES,
     payload: axios.get<IArticle>(requestUrl),
   };
 };
