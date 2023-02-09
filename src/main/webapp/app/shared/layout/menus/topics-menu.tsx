@@ -13,5 +13,11 @@ export const TopicsMenu = () => (
     <MenuItem to="/fact-checking/sub-menu/crime">
       <Translate contentKey="fact-checking.sub-menus.crime" />
     </MenuItem>
+    <MenuItem to="/fact-checking/sub-menu/climate_change">
+      <Translate contentKey="fact-checking.sub-menus.climate_change" />
+    </MenuItem>
+    <MenuItem to="/fact-checking/sub-menu/pandemic">
+      <Translate contentKey="fact-checking.sub-menus.pandemic" />
+    </MenuItem>
   </NavDropdown>
 );

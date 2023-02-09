@@ -100,20 +100,14 @@ export const SubMenus = (props: ISubMenusProps) => {
   return (
     <Container>
       <Row className="my-5">
-        <Col sm="12" md={{ size: 6, offset: 3 }}>
+        <Col sm="12" md={{size: 6, offset: 3}}>
           <h1 className="text-center">
-            <Translate contentKey={`fact-checking.sub-menus.${props.match.params.id}`} />
+            <Translate contentKey={`fact-checking.sub-menus.${props.match.params.id}`}/>
           </h1>
-          <br />
-          {props.match.params.id === 'immigration' ? (
-            <p>
-              <Translate contentKey={`fact-checking.sub-menus.immigration-details`} />
-            </p>
-          ) : (
-            <p>
-              <Translate contentKey={`fact-checking.sub-menus.crime-details`} />
-            </p>
-          )}
+          <br/>
+          <p>
+            <Translate contentKey={`fact-checking.sub-menus.${props.match.params.id}-details`}/>
+          </p>
         </Col>
       </Row>
       <Row>

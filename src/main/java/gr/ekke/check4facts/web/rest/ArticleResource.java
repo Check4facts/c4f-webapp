@@ -142,7 +142,7 @@ public class ArticleResource {
     @GetMapping("/_search/articles/{published}")
     public ResponseEntity<List<Article>> searchArticles(@PathVariable Boolean published, @RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Articles for query {}", query);
-        Page<Article> page = articleService.search(query, pageable, published, Arrays.asList("crime", "immigration"));
+        Page<Article> page = articleService.search(query, pageable, published, Arrays.asList("crime", "immigration", "climate_change", "pandemic"));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -203,11 +203,11 @@ public class ArticleResource {
     @GetMapping("/articles/published")
     public ResponseEntity<List<Article>> getAllPublishedArticles(Pageable pageable) {
         log.debug("REST request to get a page of published Articles");
-        Page<Article> page = articleService.findAllPublishedInCategories(Arrays.asList("crime", "immigration"), pageable);
+        Page<Article> page = articleService.findAllPublishedInCategories(Arrays.asList("crime", "immigration", "climate_change", "pandemic"), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-    
+
     /**
      * {@code GET /articles/frontPage} : get all the published articles.
      *
