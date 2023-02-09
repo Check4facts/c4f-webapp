@@ -201,7 +201,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                         <option value="" key="0"/>
                         {categories
                           ? categories.filter(cat => (statementId !== '' || articleEntity.statement) ?
-                            (cat.name === 'immigration' || cat.name === 'crime') : true).map(otherEntity => (
+                            ['immigration', 'crime', 'climate_change', 'pandemic'].includes(cat.name) : true).map(otherEntity => (
                             <option value={otherEntity.id} key={otherEntity.id}>
                               {translate(`check4FactsApp.category.${otherEntity.name}`)}
                             </option>
