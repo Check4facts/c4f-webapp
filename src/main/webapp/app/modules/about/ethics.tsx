@@ -8,7 +8,7 @@ export const Ethics = () => {
   return (
   <Container>
   <div className="container">
-  <br/><br/> <h1 className="page-header text-center mt-3 mb-3"><Translate contentKey='ethics-methodology.title'/></h1><br/><br/>
+  <br/><br/> <h1 className="page-header text-center mt-3 mb-3">Σχετικά με την Δεοντολογία και την Μεθοδολογία του έργου</h1><br/><br/>
         <a>
             <Card style={{ marginBottom: '1rem'  }} key={1}>
               <CardHeader className="d-flex align-items-center" style={{backgroundColor: "white"}} onClick={() => {open !== 1 ? setOpen(1) : setOpen(0)}}>
@@ -17,7 +17,7 @@ export const Ethics = () => {
                 </h3>
                 {open===1 ?
                 <FontAwesomeIcon icon='angle-down' size="1x" rotation={180}/>
-                : 
+                :
                 <FontAwesomeIcon icon='angle-down' size="1x" />
                 }
               </CardHeader>
@@ -36,11 +36,11 @@ export const Ethics = () => {
     <Row>
       <Col sm="12" className="mb-2 mb-lg-2">
         <p className="mb-4">Ως πλατφόρμα, η οποία δημοσιεύει σε τακτική βάση εκθέσεις αναφορικά με
-        την ακρίβεια/εγκυρότητα των δηλώσεων δημοσίων προσώπων ή θεσμών/οργανισμών και πληροφοριών 
-        επί των θεματικών πεδίων της υγείας, της κλιματικής αλλαγής, του προσφυγικού/μεταναστευτικού 
-        ζητήματος και της εγκληματικότητας, οφείλουμε να ακολουθούμε έναν κώδικα δεοντολογίας, ο οποίος 
-        συμπυκνώνει τις αρχές που διέπουν τον έλεγχο αξιοπιστίας των δημόσιων δηλώσεων που διεξάγεται μέσω της 
-        ιστοσελίδας Check4facts Science, πάντα με βασικό γνώμονα τη βελτίωση της δημόσιας συζήτησης αναφορικά με 
+        την ακρίβεια/εγκυρότητα των δηλώσεων δημοσίων προσώπων ή θεσμών/οργανισμών και πληροφοριών
+        επί των θεματικών πεδίων της υγείας, της κλιματικής αλλαγής, του προσφυγικού/μεταναστευτικού
+        ζητήματος και της εγκληματικότητας, οφείλουμε να ακολουθούμε έναν κώδικα δεοντολογίας, ο οποίος
+        συμπυκνώνει τις αρχές που διέπουν τον έλεγχο αξιοπιστίας των δημόσιων δηλώσεων που διεξάγεται μέσω της
+        ιστοσελίδας Check4facts Science, πάντα με βασικό γνώμονα τη βελτίωση της δημόσιας συζήτησης αναφορικά με
         (επίδικα) ζητήματα δημόσιου ενδιαφέροντος.</p>
       </Col>
     </Row>
@@ -175,11 +175,11 @@ export const Ethics = () => {
     </Row>
     </CardBody>
     </Collapse>
-    </Card> 
+    </Card>
     </a>
-    <a> 
-    <br></br> 
-    <br></br> 
+    <a>
+    <br></br>
+    <br></br>
             <Card style={{ marginBottom: '1rem' }} key={1}>
               <CardHeader className="d-flex align-items-center" style={{backgroundColor: "white"}} onClick={() => {open !== 2 ? setOpen(2) : setOpen(0)}} data-event={12}>
                 <h3 className='mb-0 mr-auto'>
@@ -187,7 +187,7 @@ export const Ethics = () => {
                   </h3>
                   {open===2 ?
                 <FontAwesomeIcon icon='angle-down' size="1x" rotation={180}/>
-                : 
+                :
                 <FontAwesomeIcon icon='angle-down' size="1x" />
                 }
                   </CardHeader>
@@ -213,7 +213,7 @@ export const Ethics = () => {
           <li><p>Απόφαση αναφορικά με την εγκυρότητα/ακρίβεια της υπό έλεγχο δήλωσης/πληροφορίας.</p></li>
         </ol>
         <p>Σε αρκετές περιπτώσεις θα προστίθεται ένα τέταρτο στάδιο, το οποίο εφαρμόζεται αμέσως μετά την επιλογή των
-          δηλώσεων/πληροφοριών για έλεγχο, η επικοινωνία με τον ομιλητή του οποίου οι δηλώσεις πρόκειται 
+          δηλώσεων/πληροφοριών για έλεγχο, η επικοινωνία με τον ομιλητή του οποίου οι δηλώσεις πρόκειται
           να ελεγχθούν με το Μέσο που έφερε στο δημόσιο χώρο την είδηση.</p>
         <p>Κάθε ένα από αυτά τα στάδια αποτελείται από πολλά επιμέρους βήματα.</p>
         <p>1. Κατ αρχάς, η διαδικασία ελέγχου εγκυρότητας περιλαμβάνει την επιλογή συγκεκριμένων δηλώσεων/ειδήσεων από
@@ -313,8 +313,8 @@ export const Ethics = () => {
     </Row>
     </CardBody>
     </Collapse>
-    </Card>  
-    </a>  
+    </Card>
+    </a>
       </div>
   </Container>)
 };
