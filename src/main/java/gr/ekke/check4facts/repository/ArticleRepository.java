@@ -27,7 +27,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAllByPublishedTrueAndCategory_NameIn(List<String> categories, Pageable pageable);
     
-    List<Article> findFirst8ByPublishedTrueAndCategory_NameOrderByArticleDateDesc(String category);
+    List<Article> findFirst4ByPublishedTrueAndCategory_NameOrderByArticleDateDesc(String category);
 
     Optional<Article> findArticleByStatementId(Long statement_id);
 

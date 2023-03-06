@@ -88,7 +88,7 @@ public class ArticleService {
         List<Category> categoryNames = categoryRepository.findAll();
         // Find first 6 articles of each category and add them to a list
         categoryNames.forEach(cat -> {
-            categorizedArticles.add(new CategorizedArticles(cat.getName(), articleRepository.findFirst8ByPublishedTrueAndCategory_NameOrderByArticleDateDesc(cat.getName())));
+            categorizedArticles.add(new CategorizedArticles(cat.getName(), articleRepository.findFirst4ByPublishedTrueAndCategory_NameOrderByArticleDateDesc(cat.getName())));
         });
         return categorizedArticles;
     }

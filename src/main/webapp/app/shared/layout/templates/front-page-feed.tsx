@@ -43,9 +43,9 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                   <div className={`${category.categoryName}-section mt-5`}>
                     <Row className={`${category.categoryName}-title`}>
                       <div className="d-flex position-relative float-left">
-                      <Link to={`/fact-checking/sub-menu/${category.categoryName}`} style={{textDecoration: "none"}}>
+                      {/* <Link to={`/fact-checking/sub-menu/${category.categoryName}`} style={{textDecoration: "none"}}> */}
                         <h1 className="section-title">{translate(`check4FactsApp.category.${category.categoryName}`)}</h1>
-                        </Link>
+                        {/* </Link> */}
                       </div>
                     </Row>
                     <Row className="immigration-articles">
@@ -139,6 +139,13 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                           </Col>
                         ))}
                       </Row>
+                    </Row>
+                    <Row className={`${category.categoryName}-see-more`} style={{display: "flex", justifyContent: "end"}}>
+                    <p>
+                    <Link to={`/fact-checking/sub-menu/${category.categoryName}`} style={{textDecoration: "none"}}>
+                      <h6 style={{fontSize: 15, paddingTop: 20}}><Translate contentKey="global.menu.more.category-more" /></h6>
+                    </Link>
+                    </p>
                     </Row>
                   </div>
                 </Row>
