@@ -144,7 +144,7 @@ export const SubMenus = (props: ISubMenusProps) => {
         </>
         :
         <>
-        {translate("home.load-button.noLoad")}
+        {/* {translate("home.load-button.noLoad")} */}
         </>
         }
         </div>
