@@ -33,6 +33,9 @@ const Footer = () => (
             <a href='http://www.bioacademy.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/iibea-logo.jpg" alt="iibea logo" height="50"/>
             </a>
+            <a href='https://smslab.edu.uowm.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+              <img src="../../../content/images/smslab-logo.png" alt="smslab logo" height="50"/>
+            </a>
           </div>
         </Col>
         <Col className='mt-4 mt-md-0' lg="5">
