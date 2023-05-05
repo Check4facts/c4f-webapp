@@ -11,7 +11,7 @@ const Footer = () => (
       <Row className='footer-bottom border-top'>
         <Col className='' lg="5">
           <p className='mb-2'>Με τη συνεργασία των</p>
-            <div style={{display: "flex", flexDirection:"row", flexWrap: "wrap"}}>
+            <div style={{display: "flex", flexDirection:"row", flexWrap: "wrap", columnGap: 5}}>
             <a href='https://www.ekke.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/ekke-logo.png" alt="EKKE logo" height="50"/>
             </a>
@@ -35,6 +35,9 @@ const Footer = () => (
             </a>
             <a href='https://smslab.edu.uowm.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/smslab-logo.webp" alt="smslab logo" height="50"/>
+            </a>
+            <a href='https://www.certh.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+              <img src="../../../content/images/eketa-logo-small.png" alt="eketa logo" height="50"/>
             </a>
           </div>
         </Col>
