@@ -34,7 +34,7 @@ const Footer = () => (
               <img src="../../../content/images/iibea-logo.jpg" alt="iibea logo" height="50"/>
             </a>
             <a href='https://smslab.edu.uowm.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
-              <img src="../../../content/images/smslab-logo.png" alt="smslab logo" height="50"/>
+              <img src="../../../content/images/smslab-logo.webp" alt="smslab logo" height="50"/>
             </a>
           </div>
         </Col>

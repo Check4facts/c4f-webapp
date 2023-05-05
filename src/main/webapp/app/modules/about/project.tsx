@@ -115,7 +115,7 @@ export const Project = () => {
           <div className="mt-3"><a href="http://www.bioacademy.gr/">Ίδρυμα Ιατροβιολογικών Ερευνών Ακαδημίας Αθηνών</a></div>
         </div>
         <div className="mt-4">
-          <img src="../../content/images/smslab-logo.png" alt="smslab logo" width="123" height="86"/>
+          <img src="../../content/images/smslab-logo.webp" alt="smslab logo" width="123" height="86"/>
           <div className="mt-3"><a href="https://smslab.edu.uowm.gr/">Εργαστήριο Κοινωνικών και Μεταναστευτικών Σπουδών της Σχολής Κοινωνικών και Ανθρωπιστικών Επιστημών, του Πανεπιστημίου Δυτικής Μακεδονίας</a></div>
         </div>
       </div>
