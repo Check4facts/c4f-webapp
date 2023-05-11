@@ -1,8 +1,12 @@
 import React from 'react';
-import {Translate} from "react-jhipster";
+import {Translate, translate} from "react-jhipster";
 import {Col, Container, Row} from 'reactstrap';
 
-const Footer = () => (
+export interface IFooterProps {
+  isAuthenticated: boolean;
+}
+
+const Footer = (props: IFooterProps) => (
   <footer>
     {/*
             <p className="fs-6">Ένα έργο από το <a href="https://www.ekke.gr">Εθνικό Κέντρο Κοινωνικών Ερευνών</a>, το <a href="https://www.uoa.gr">Εργαστήριο Κοινωνικής Έρευνας στα ΜΜΕ- Τμήμα Επικοινωνίας και ΜΜΕ- Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών</a> και το <a href="https://www.athenarc.gr/">Ερευνητικό Κέντρο Αθηνά</a>.</p>
@@ -48,8 +52,11 @@ const Footer = () => (
           </a>
         </Col>
         <Col className='mt-4 mt-md-0' lg="2">
-          <p className="font-weight-medium">© Copyright 2020 <a href="https://www.check4facts.gr/" className="text-dark">check4facts.gr</a></p>
+        {!props.isAuthenticated && <p className="font-weight-medium"><a href="/login" className="text-dark">{translate('global.menu.account.login')}</a></p>}
         </Col>
+      </Row>
+      <Row className="justify-content-center">
+      <p className="font-weight-medium" style={{fontSize: 12}}>© Copyright 2020 <a href="http://www.check4facts.gr/" className="text-dark">check4facts.gr</a></p>
       </Row>
     </Container>
   </footer>

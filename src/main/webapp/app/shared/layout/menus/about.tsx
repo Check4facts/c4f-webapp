@@ -15,9 +15,9 @@ export const AboutMenu = () => (
     <MenuItem to="/about/ethics">
       <Translate contentKey="global.menu.about.ethics" />
     </MenuItem>
-    <MenuItem to="/about/contact">
+    {/* <MenuItem to="/about/contact">
       <Translate contentKey="global.menu.about.contact" />
-    </MenuItem>
+    </MenuItem> */}
     <MenuItem to="/about/seminar">
       <Translate contentKey="global.menu.about.seminar" />
     </MenuItem>

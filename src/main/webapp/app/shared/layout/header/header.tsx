@@ -13,6 +13,7 @@ import {AboutMenu} from 'app/shared/layout/menus/about';
 import {TopicsMenu} from 'app/shared/layout/menus/topics-menu';
 import {MoreMenu} from "app/shared/layout/menus/more";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FactChecking } from '../menus/fact-checking';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -79,14 +80,15 @@ const Header = (props: IHeaderProps) => {
                 {props.isAuthenticated && props.isAdmin && <EntitiesMenu/>}
                 {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled}/>}
                 <NavItem><NavLink to="/" exact className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink></NavItem>
+                <AboutMenu/>
                 {props.isAuthenticated &&
                 <NavItem><NavLink to="/fact-checking"className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink></NavItem>}
                 <TopicsMenu/>
-                <NavItem><NavLink to="/dissemination" exact className="d-flex align-items-center nav-link">{translate('global.menu.dissemination.main')}</NavLink></NavItem>
-                <AboutMenu/>
+                {/* <NavItem><NavLink to="/dissemination" exact className="d-flex align-items-center nav-link">{translate('global.menu.dissemination.main')}</NavLink></NavItem> */}
+                <FactChecking />
                 {/* <MoreMenu/> */}
-                <NavItem><NavLink to="/more/third-party" exact className="d-flex align-items-center nav-link"><Translate contentKey="global.menu.more.main" /></NavLink></NavItem>
-                {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn/>}
+                <NavItem><NavLink to="/about/contact" exact className="d-flex align-items-center nav-link"><Translate contentKey="global.menu.about.contact" /></NavLink></NavItem>
+                {props.isAuthenticated && <AccountMenu isAdmin={props.isAdmin}/>}
                 {/* <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />*/}
               </Nav>
             </Collapse>

@@ -4,6 +4,10 @@
     "browsehappy": "Χρησιμοποείται ένα <strong>απαρχαιωμένο</strong> πρόγραμμα περιήγησης. Παρακαλώ <a href=\"http://browsehappy.com/?locale=en\">αναβαθμίστε το πρόγραμμα περιήγησης σας</a> να βελτιωθεί η εμπειρία σας.",
     "menu": {
       "home": "Αρχική",
+      "fact-checking": {
+        "main": "Fact Checking",
+        "sub-menu": "Μάθε τι είναι"
+      },
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
@@ -17,7 +21,7 @@
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "about": {
-        "main": "Σχετικά",
+        "main": "Ποιοι Είμαστε",
         "project": "Έργο",
         "ethics": "Δεοντολογία/Μεθοδολογία",
         "contact": "Επικοινωνία",
@@ -28,7 +32,7 @@
         "settings": "Ρυθμίσεις",
         "password": "Κωδικός",
         "sessions": "Συνδέσεις",
-        "login": "Σύνδεση",
+        "login": "Σύνδεση Επαληθευτή",
         "logout": "Αποσύνδεση",
         "register": "Εγγραφή"
       },
@@ -54,7 +58,7 @@
         "videos": "Εκπαιδευτικά Βίντεο"
       },
       "more": {
-        "main": "Χρήσιμα Links",
+        "main": "Κοινότητα",
         "third-party": "Σχετικά έργα & Ιστότοποι",
         "category-more": "Δείτε περισσότερα >"
       },
