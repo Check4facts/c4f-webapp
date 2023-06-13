@@ -39,17 +39,17 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
         ? frontPageArticles.map(category => {
             if (category.categoryArticles.length > 0) {
               return (
-                <Row>
-                  <div className={`${category.categoryName}-section mt-5`}>
-                    <Row className={`${category.categoryName}-title`}>
+                <Row style={{marginLeft: 0, marginRight: 0}}>
+                  <div className={`${category.categoryName}-section mt-5`} style={{width: "100%"}}>
+                    <Row className={`${category.categoryName}-title`} style={{marginLeft: 0, marginRight: 0}}>
                       <div className="d-flex position-relative float-left">
                       {/* <Link to={`/fact-checking/sub-menu/${category.categoryName}`} style={{textDecoration: "none"}}> */}
                         <h1 className="section-title">{translate(`check4FactsApp.category.${category.categoryName}`)}</h1>
                         {/* </Link> */}
                       </div>
                     </Row>
-                    <Row className="immigration-articles">
-                      <Row className="mt-3">
+                    <Row className="immigration-articles" style={{width: "100%", marginLeft: 0, marginRight: 0}}>
+                      <Row tag="div" className="mt-3" style={{width: "100%", marginLeft: 0, marginRight: 0}}>
                         {category.categoryArticles.map((article, idx) => (
                           <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={`${article.id}-${idx}`}>
                             <div className="position-relative image-hover">
@@ -140,7 +140,7 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                         ))}
                       </Row>
                     </Row>
-                    <Row className={`${category.categoryName}-see-more`} style={{display: "flex", justifyContent: "end"}}>
+                    <Row tag="div" className={`${category.categoryName}-see-more`} style={{display: "flex", justifyContent: "end", marginLeft: 0, marginRight: 0}}>
                     <p>
                     <Link to={`/fact-checking/sub-menu/${category.categoryName}`} style={{textDecoration: "none"}}>
                       <h6 style={{fontSize: 15, paddingTop: 20}}><Translate contentKey="global.menu.more.category-more" /></h6>

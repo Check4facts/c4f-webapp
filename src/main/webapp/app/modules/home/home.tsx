@@ -146,8 +146,8 @@ export const Home = (props: IHomeProp) => {
             }
           </div>} */}
         {props.loading &&
-        <div className="text-center">
-          <Spinner size="lg">
+        <div className="text-center" style={{paddingTop: "5rem"}}>
+          <Spinner style={{height: "5rem", width: "5rem"}} size="lg">
             Loading...
           </Spinner>
         </div>

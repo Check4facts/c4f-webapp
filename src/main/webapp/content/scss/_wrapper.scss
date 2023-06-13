@@ -123,6 +123,14 @@
     position: absolute;
     right: -60px;
     top: 14px;
+    @media (max-width: 567px) {
+      width: 30px;
+      right: -35px;
+      top: 12px;
+    }
+  }
+  @media (max-width: 567px) {
+    font-size: 20px;
   }
 }
 .thumb-title {
