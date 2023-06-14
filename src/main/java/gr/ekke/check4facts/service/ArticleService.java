@@ -6,6 +6,8 @@ import gr.ekke.check4facts.domain.Category;
 import gr.ekke.check4facts.repository.ArticleRepository;
 import gr.ekke.check4facts.repository.CategoryRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
+
+import org.apache.lucene.search.TermQuery;
 import org.elasticsearch.index.query.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
@@ -93,6 +97,23 @@ public class ArticleService {
         return categorizedArticles;
     }
 
+    /**
+     * Search for 8 articles per category.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<CategorizedArticles> searchFrontPageArticles(String query, Pageable pageable, Boolean published) {
+        log.debug("Request to get front Page Articles");
+        List<CategorizedArticles> categorizedArticles = new ArrayList();
+        // Get All categories
+        List<Category> categoryNames = categoryRepository.findAll();
+        // Find first 6 articles of each category and add them to a list
+        categoryNames.forEach(cat -> {
+            categorizedArticles.add(new CategorizedArticles(cat.getName(), searchInCategory(cat.getName(), published, query, pageable).toList()));
+        });
+        return categorizedArticles;
+    }
 
     /**
      * Get one article by id.

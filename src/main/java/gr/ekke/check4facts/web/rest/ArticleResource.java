@@ -148,6 +148,22 @@ public class ArticleResource {
     }
 
     /**
+     * {@code SEARCH  /_search/articles?query=:query} : search for the article corresponding
+     * to the query.
+     *
+     * @param query the query of the article search.
+     * @param pageable the pagination information.
+     * @return the result of the search.
+     */
+    @GetMapping("/_search/articles/front/{published}")
+    public ResponseEntity<List<CategorizedArticles>> searchFrontPageArticles(@PathVariable Boolean published, @RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Articles for query {}", query);
+        List<CategorizedArticles> page = articleService.searchFrontPageArticles(query, pageable, published);
+        // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().body(page);
+    }
+
+    /**
      * {@code SEARCH  /_search/articles/:category?query=:query} : search for the article corresponding
      * to the query in a certain category.
      *

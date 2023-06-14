@@ -56,7 +56,7 @@ const Footer = (props: IFooterProps) => (
         </Col>
       </Row>
       <Row className="justify-content-center">
-      <p className="font-weight-medium" style={{fontSize: 12}}>© Copyright 2020 <a href="http://www.check4facts.gr/" className="text-dark">check4facts.gr</a></p>
+      <p className="font-weight-medium" style={{fontSize: 12}}>© Copyright 2020 <a href="https://www.check4facts.gr/" className="text-dark">check4facts.gr</a></p>
       </Row>
     </Container>
   </footer>

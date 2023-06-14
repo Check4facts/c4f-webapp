@@ -9,6 +9,7 @@ import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 
 export const ACTION_TYPES = {
   SEARCH_ARTICLES: 'article/SEARCH_ARTICLES',
+  SEARCH_FRONT_ARTICLES: 'article/SEARCH_FRONT_ARTICLES',
   SEARCH_ARTICLES_IN_CATEGORY: 'article/SEARCH_ARTICLES_IN_CATEGORY',
   FETCH_ARTICLE_LIST: 'article/FETCH_ARTICLE_LIST',
   FETCH_PUBLISHED_ARTICLE_LIST: 'article/FETCH_PUBLISHED_ARTICLE_LIST',
@@ -49,6 +50,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE):
     case REQUEST(ACTION_TYPES.FETCH_FRONT_PAGE_ARTICLES):
+    case REQUEST(ACTION_TYPES.SEARCH_FRONT_ARTICLES):
       return {
         ...state,
         errorMessage: null,
@@ -72,6 +74,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME):
     case FAILURE(ACTION_TYPES.FETCH_ARTICLE):
     case FAILURE(ACTION_TYPES.FETCH_FRONT_PAGE_ARTICLES):
+    case FAILURE(ACTION_TYPES.SEARCH_FRONT_ARTICLES):
     case FAILURE(ACTION_TYPES.CREATE_ARTICLE):
     case FAILURE(ACTION_TYPES.UPDATE_ARTICLE):
     case FAILURE(ACTION_TYPES.DELETE_ARTICLE):
@@ -106,6 +109,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
         entity: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.FETCH_FRONT_PAGE_ARTICLES):
+    case SUCCESS(ACTION_TYPES.SEARCH_FRONT_ARTICLES):
       return {
         ...state,
         loading: false,
@@ -154,6 +158,11 @@ const apiSearchUrl = 'api/_search/articles';
 export const getSearchEntities = (query, page, size, sort, bool) => ({
   type: ACTION_TYPES.SEARCH_ARTICLES,
   payload: axios.get<IArticle>(`${apiSearchUrl}/${bool}?query=${query}${sort ? `&page=${page}&size=${size}&sort=${sort}` : ''}`),
+});
+
+export const getFrontSearchEntities = (query, page, size, sort, bool) => ({
+  type: ACTION_TYPES.SEARCH_FRONT_ARTICLES,
+  payload: axios.get<IArticle>(`${apiSearchUrl}/front/${bool}?query=${query}${sort ? `&page=${page}&size=${size}&sort=${sort}` : ''}`),
 });
 
 export const getSearchEntitiesInCategory = (query, published, category, page?: number, size?: number, sort?: string) => {

@@ -1,18 +1,18 @@
 import './header.scss';
 
-import React, {useEffect, useState} from 'react';
-import {NavLink, useLocation} from 'react-router-dom';
-import {Translate, translate} from 'react-jhipster';
-import {Collapse, Container, Nav, NavbarToggler, NavItem} from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { Translate, translate } from 'react-jhipster';
+import { Collapse, Container, Nav, NavbarToggler, NavItem, Fade } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
-import {Brand} from './header-components';
-import {AccountMenu, AdminMenu, EntitiesMenu, LogIn} from '../menus';
-import {Social} from 'app/shared/layout/menus/social';
-import {AboutMenu} from 'app/shared/layout/menus/about';
-import {TopicsMenu} from 'app/shared/layout/menus/topics-menu';
-import {MoreMenu} from "app/shared/layout/menus/more";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { Brand } from './header-components';
+import { AccountMenu, AdminMenu, EntitiesMenu, LogIn } from '../menus';
+import { Social } from 'app/shared/layout/menus/social';
+import { AboutMenu } from 'app/shared/layout/menus/about';
+import { TopicsMenu } from 'app/shared/layout/menus/topics-menu';
+import { MoreMenu } from 'app/shared/layout/menus/more';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FactChecking } from '../menus/fact-checking';
 
 export interface IHeaderProps {
@@ -46,49 +46,62 @@ const Header = (props: IHeaderProps) => {
 
   return (
     <header id="app-header" className="">
-{/*      <div className="ribbon dev">
+      {/*      <div className="ribbon dev">
         <a href="">
           Πειραματική<br/>Εφαρμογή
         </a>
       </div>*/}
-      <LoadingBar className="loading-bar"/>
+      <LoadingBar className="loading-bar" />
       <Container>
         <nav className="navbar navbar-expand-lg">
           <div className="d-flex justify-content-between align-items-center navbar-top">
             {/*            <ul className="navbar-left">
             </ul>*/}
-            <Brand/>
+            <Brand />
             <div className="d-flex align-items-center">
-                {/* <Nav className="login-drop" id="header-tabs" navbar>
+              {/* <Nav className="login-drop" id="header-tabs" navbar>
                 {props.isAuthenticated ? <AccountMenu isAdmin={props.isAdmin}/> : <LogIn/>}
               </Nav> */}
-                <Social/>
+              <Social />
               <div className="header-ekke-logo">
-                <img src="../../../../content/images/ekke-logo.png" alt="Ekke logo" style={{width: "65px"}}></img>
+                <img src="../../../../content/images/ekke-logo.png" alt="Ekke logo" style={{ width: '65px' }}></img>
               </div>
             </div>
           </div>
           <div className="navbar-bottom-menu">
-            <NavbarToggler aria-label="Menu" onClick={toggleMenu}><img src="../../../../content/images/bars-solid.svg" width={20}></img></NavbarToggler>
+            <NavbarToggler aria-label="Menu" onClick={toggleMenu}>
+              <img src="../../../../content/images/bars-solid.svg" width={20}></img>
+            </NavbarToggler>
             <Collapse isOpen={menuOpen} className="justify-content-center" navbar>
               <Nav id="header-tabs" navbar>
-                <NavItem>
-                <button className="navbar-close" style={{display: menuOpen ? "block" : "none"}} onClick={toggleMenu}>
-                <img src="../../../../content/images/close-button.webp" className="mdi mdi-close" width={20}></img>
-                </button>
+                {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
+                {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
+                <NavItem style={{display: "flex", justifyContent: "space-between"}}>
+                  <NavLink to="/" exact className="d-flex align-items-center nav-link" style={{flex: 1}}>
+                    {translate('global.menu.home')}
+                  </NavLink>
+                  <button style={{ display: menuOpen ? 'block' : 'none'}} className='navbar-close' onClick={toggleMenu}>
+                    <img src="../../../../content/images/close-button.webp" className="mdi mdi-close" width={20} />
+                  </button>
                 </NavItem>
-                {props.isAuthenticated && props.isAdmin && <EntitiesMenu/>}
-                {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled}/>}
-                <NavItem><NavLink to="/" exact className="d-flex align-items-center nav-link">{translate('global.menu.home')}</NavLink></NavItem>
-                <AboutMenu/>
-                {props.isAuthenticated &&
-                <NavItem><NavLink to="/fact-checking"className="d-flex align-items-center nav-link">{translate(('fact-checking.title'))}</NavLink></NavItem>}
-                <TopicsMenu/>
+                <AboutMenu />
+                {props.isAuthenticated && (
+                  <NavItem>
+                    <NavLink to="/fact-checking" className="d-flex align-items-center nav-link">
+                      {translate('fact-checking.title')}
+                    </NavLink>
+                  </NavItem>
+                )}
+                <TopicsMenu />
                 {/* <NavItem><NavLink to="/dissemination" exact className="d-flex align-items-center nav-link">{translate('global.menu.dissemination.main')}</NavLink></NavItem> */}
                 <FactChecking />
                 {/* <MoreMenu/> */}
-                <NavItem><NavLink to="/about/contact" exact className="d-flex align-items-center nav-link"><Translate contentKey="global.menu.about.contact" /></NavLink></NavItem>
-                {props.isAuthenticated && <AccountMenu isAdmin={props.isAdmin}/>}
+                <NavItem>
+                  <NavLink to="/about/contact" exact className="d-flex align-items-center nav-link">
+                    <Translate contentKey="global.menu.about.contact" />
+                  </NavLink>
+                </NavItem>
+                {props.isAuthenticated && <AccountMenu isAdmin={props.isAdmin} />}
                 {/* <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />*/}
               </Nav>
             </Collapse>
