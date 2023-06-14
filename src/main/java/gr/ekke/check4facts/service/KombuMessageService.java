@@ -58,7 +58,7 @@ public class KombuMessageService {
         List<KombuMessage> kombuMessages = kombuMessageRepository.findAllInLast24Hours();
         List<CeleryTask> celeryTasks = new ArrayList<>();
         boolean isInDevelopment = activeProfiles.contains("dev");
-        String baseUrlTemplate = isInDevelopment ? "http://localhost:9090/batch-task-status" : "http://check4facts.imsi.athenarc.gr/ml/batch-task-status";
+        String baseUrlTemplate = isInDevelopment ? "http://localhost:9090/batch-task-status" : "https://check4facts.gr/ml/batch-task-status";
         for (KombuMessage kombuMessage : kombuMessages) {
             JSONObject jsonObject = new JSONObject(kombuMessage.getPayload());
             JSONObject header = jsonObject.getJSONObject("headers");
