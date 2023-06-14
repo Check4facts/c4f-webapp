@@ -136,7 +136,7 @@ export const SubMenus = (props: ISubMenusProps) => {
       <ArticlesFeed />
       {/* INFINITE SCROLLING */}
       {/* <div ref={lastArticleElement} /> */}
-      {props.totalItems && props.loading === false ? (
+      {props.totalItems >= 0 && props.loading === false ? (
         <div className="text-center">
         {paginationState.itemsPerPage * paginationState.activePage <= props.totalItems ?
         <>

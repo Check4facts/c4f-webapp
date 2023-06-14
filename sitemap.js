@@ -16,7 +16,7 @@ const routes = [
 ];
 
 const generateSitemap = async () => {
-  const hostname = 'http://check4facts.gr/'; // Replace with your website's URL
+  const hostname = 'https://check4facts.gr/'; // Replace with your website's URL
 
   const sitemap = new SitemapStream({ hostname });
 

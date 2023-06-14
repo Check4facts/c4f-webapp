@@ -5,7 +5,7 @@ import {translate} from 'react-jhipster';
 import {connect} from 'react-redux';
 import {IRootState} from 'app/shared/reducers';
 import {Button, Container, Spinner, Row, Col} from 'reactstrap';
-import {getAllPublishedArticles, getFrontPageArticles, getSearchEntities, reset} from 'app/entities/article/article.reducer';
+import {getAllPublishedArticles, getFrontPageArticles, getSearchEntities, getFrontSearchEntities, reset} from 'app/entities/article/article.reducer';
 import {RouteComponentProps} from 'react-router-dom';
 import {ITEMS_PER_PAGE} from 'app/shared/util/pagination.constants';
 import HomeCarousel from 'app/entities/homeCarousel/HomeCarousel';
@@ -51,7 +51,7 @@ export const Home = (props: IHomeProp) => {
       props.reset();
     }
     if (paginationState.query) {
-      props.getSearchEntities(
+      props.getFrontSearchEntities(
         paginationState.query,
         paginationState.activePage - 1,
         paginationState.itemsPerPage,
@@ -59,11 +59,7 @@ export const Home = (props: IHomeProp) => {
         true
       );
     } else {
-      props.getAllPublishedArticles(
-        paginationState.activePage - 1,
-        paginationState.itemsPerPage,
-        `${paginationState.sort},${paginationState.order}`
-      );
+      props.getFrontPageArticles();
     }
   };
 
@@ -168,6 +164,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getSearchEntities,
+  getFrontSearchEntities,
   getAllPublishedArticles,
   getFrontPageArticles,
   reset,
