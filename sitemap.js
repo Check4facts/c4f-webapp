@@ -1,18 +1,18 @@
 const { SitemapStream, streamToPromise } = require('sitemap');
 const { createWriteStream } = require('fs');
 const routes = [
-  { path: "/login" },
-  { path: "/logout" },
-  { path: "/account/register" },
-  { path: "/account/activate/:key?" },
-  { path: "/account/reset/request" },
-  { path: "/account/reset/finish/:key?" },
-  { path: "/about" },
-  { path: "/dissemination" },
-  { path: "/fact-checking" },
-  { path: "/more" },
   { path: "/" },
-  { path: "/article" },
+  { path: "/fact-checking/sub-menu/immigration" },
+  { path: "/fact-checking/sub-menu/crime" },
+  { path: "/fact-checking/sub-menu/climate_change" },
+  { path: "/fact-checking/sub-menu/pandemic" },
+  { path: "/about/project" },
+  { path: "/about/ethics" },
+  { path: "/about/contact" },
+  { path: "/more/third-party" },
+  { path: "/dissemination" },
+  { path: "/login" },
+  { path: "/account/register" },
 ];
 
 const generateSitemap = async () => {
