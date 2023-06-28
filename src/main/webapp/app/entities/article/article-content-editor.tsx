@@ -11,6 +11,7 @@ import {IStatement} from "app/shared/model/statement.model";
 import moment from "moment";
 
 export type IArticleContentEditorProps = {
+  formOnChange: (e: any) => void;
   isNew: boolean;
   content: any;
   currentLocale: any;
@@ -26,7 +27,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
   const [viewStatementSource, setViewStatementSource] = useState({} as IStatementSource);
   const [statementSourceModalOpen, setStatementSourceModalOpen] = useState(false);
 
-  const { isNew, content, currentLocale, statement, statementSources, resources, editorRef } = props;
+  const { isNew, content, currentLocale, statement, statementSources, resources, editorRef,formOnChange } = props;
 
   const quoteLink = (url, title) =>
     editorRef.current.editor.setData(
@@ -165,6 +166,7 @@ export const ArticleContentEditor = (props: IArticleContentEditorProps) => {
       <Col md={(statementSources.length === 0 && resources.length === 0) && { size: 10, offset: 1 }}>
         <CKEditor
           editor={DecoupledEditor}
+          onChange={formOnChange}
           data={
             !isNew
               ?

@@ -30,6 +30,9 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   const [publishArticle, setPublishArticle] = useState(false);
   const [categoryId, setCategoryId] = useState('1');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
+  const [updateNew, setUpdateNew] = useState(true);
+  const [saveTimeout, setSaveTimeout] = useState(null);
+  const formRef = useRef(null);
 
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -113,13 +116,27 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
         statement: statementId !== '' ? {id: statementId} : articleEntity.statement
       };
 
-      if (isNew) {
+      if (isNew && updateNew) {
         props.createEntity(entity);
+        setUpdateNew(false);
       } else {
         props.updateEntity(entity);
       }
     }
   };
+
+  const saveForm = () => {
+    formRef.current.submit();
+  }
+
+  const resetTimeout = (id, newID) => {
+    clearTimeout(id)
+    return newID
+  }
+
+  const formOnchange = e => {
+    setSaveTimeout(resetTimeout(saveTimeout, setTimeout(saveForm, 30000)));
+  }
 
   return (
     <div>
@@ -147,7 +164,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? {previewTitle: statement.text} : articleEntity} onSubmit={saveEntity}>
+            <AvForm name="okForm" model={isNew ? {previewTitle: statement.text} : articleEntity} onSubmit={saveEntity} onChange={formOnchange} ref={formRef}>
               <TabContent activeTab={activeTab}>
                 <TabPane tabId="1">
                   <Col md={{size: 8, offset: 2}} className="mt-3">
@@ -285,6 +302,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                 <TabPane tabId="2">
                   <ArticleContentEditor
                     isNew={isNew}
+                    formOnChange={formOnchange}
                     content={articleEntity.content}
                     currentLocale={currentLocale}
                     editorRef={editorRef}
