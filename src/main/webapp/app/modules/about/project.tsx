@@ -10,7 +10,7 @@ export const Project = () => {
     {
       id: "project",
       title: translate("about.project.sideMenu.project.name"),
-      content: <div className="text-justify">
+      content: <div className="text-left">
         <p>{translate("about.project.sideMenu.project.project-sub1")}</p>
         <p>{translate("about.project.sideMenu.project.project-sub2")}</p>
         <p>{translate("about.project.sideMenu.project.project-sub3")}</p>
@@ -28,7 +28,7 @@ export const Project = () => {
     {
       id: "team",
       title: translate("about.project.sideMenu.team"),
-      content: <div className="text-justify">
+      content: <div className="text-left">
         <p>Το πρόγραμμα Check4Facts έχει το προνόμιο να αποκομίζει οφέλη από τη συνεργασία διεθνούς φήμης επιστημόνων με ευρύ έργο περί fake news, περί λαϊκισμού και πολιτικής, περί Μέσων Μαζικής Επικοινωνίας και δημοσιογραφίας.</p>
         <p>Η κεντρική ομάδα αποτελείται από τους εξής επιστήμονες:</p>
         <ul>
@@ -58,14 +58,14 @@ export const Project = () => {
     {
       id: "funding",
       title: translate("about.project.sideMenu.funding"),
-      content: <div className="text-justify">
+      content: <div className="text-left">
         <p>Το έργο χρηματοδοτήθηκε από το <a href="http://www.elidek.gr/en/homepage/">Ελληνικό Ίδρυμα Έρευνας και Καινοτομίας</a> (grant agreement HFRI-FM17-2283) για την περίοδο 2019-2022, για τον έλεγο της αξιοπιστίας πολιτικών δηλώσεων γύρω από την εγκληματικότητα και το μεταναστευτικό/προσφυγικό ζήτημα. Με την προσθήκη του ελέγχου της αξιοπιστίας ειδήσεων γύρω από την κλιματική αλλαγή και την υγεία/πανδημία, από το 2022 και μετά, το έργο αυτοχρηματοδοτείται και εκτελείται μέσω της συνεργασίας οκτώ ερευνητικών και πανεπιστημιακών φορέων.</p>
       </div>
     },
     {
       id: "Cooperation Framework",
       title: "Πλαίσιο Συνεργασίας",
-      content: <div className="text-justify">
+      content: <div className="text-left">
         <p>Το έργο Check4Facts/Science υλοποιείται συνεργατικά μέσω της από 15 Φεβρουαρίου 2022 Σύμβασης συνεργασίας, μεταξύ ερευνητικών οργανισμών, η οποία έχει υπογραφεί από τους εξής φορείς:</p>
         <ul>
           <li><p>ΕΚΚΕ, Εθνικό Κέντρο Κοινωνικών Ερευνών, νομίμως εκπροσωπούμενο από την Καθηγήτρια Βασιλική Γεωργιάδου</p></li>
@@ -92,7 +92,7 @@ export const Project = () => {
     {
       id: "collaborating",
       title: translate("about.project.sideMenu.collaborating"),
-      content: <div className="text-justify">
+      content: <div className="text-left">
         <div><img src="../../content/images/ekke-logo.png" alt="ekke logo" width="80" height="80"/>
           <div className="mt-3"><a href="https://www.ekke.gr">Εθνικό Κέντρο Κοινωνικών Ερευνών</a></div>
         </div>

@@ -92,7 +92,7 @@ export const Dissemination = () => {
     <Container>
       <Row>
         <Col sm="12">
-          <div className="text-justify">
+          <div className="text-left">
             <h1 className="text-center mt-5">
               <Translate contentKey="global.menu.dissemination.main"/>
             </h1>

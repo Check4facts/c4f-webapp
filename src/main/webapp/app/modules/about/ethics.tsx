@@ -35,7 +35,7 @@ export const Ethics = () => {
     </Row> */}
     <Row>
       <Col sm="12" className="mb-2 mb-lg-2">
-        <p className="mb-4" style={{textAlign: "justify"}}>Ως πλατφόρμα, η οποία δημοσιεύει σε τακτική βάση εκθέσεις αναφορικά με
+        <p className="mb-4" style={{textAlign: "left"}}>Ως πλατφόρμα, η οποία δημοσιεύει σε τακτική βάση εκθέσεις αναφορικά με
         την ακρίβεια/εγκυρότητα των δηλώσεων δημοσίων προσώπων ή θεσμών/οργανισμών και πληροφοριών
         επί των θεματικών πεδίων της υγείας, της κλιματικής αλλαγής, του προσφυγικού/μεταναστευτικού
         ζητήματος και της εγκληματικότητας, οφείλουμε να ακολουθούμε έναν κώδικα δεοντολογίας, ο οποίος
@@ -53,7 +53,7 @@ export const Ethics = () => {
     </Row>
     <Row className="mb-4">
       <Col lg="6">
-        <p className="fs-15 font-weight-normal" style={{textAlign: "justify"}}>
+        <p className="fs-15 font-weight-normal" style={{textAlign: "left"}}>
           <ul>
             <li><p>Διεξάγουμε έλεγχο αξιοπιστίας/εγκυρότητας δηλώσεων ακολουθώντας την ίδια λογική για κάθε υπό έλεγχο
               δήλωση.</p></li>
@@ -68,7 +68,7 @@ export const Ethics = () => {
         </p>
       </Col>
       <Col lg="6">
-        <p className="fs-15 font-weight-normal" style={{textAlign: "justify"}}>
+        <p className="fs-15 font-weight-normal" style={{textAlign: "left"}}>
           <ul>
             <li><p>Ακολουθούμε την ίδια διαδικασία για κάθε έλεγχο εγκυρότητας και διαμορφώνουμε τα τελικά μας
               συμπεράσματα βάσει των στοιχείων/αποδείξεων που έχουμε συλλέξει.</p></li>
@@ -91,7 +91,7 @@ export const Ethics = () => {
     </Row>
     <Row className="mb-4">
       <Col lg="6">
-        <p className="fs-15 font-weight-normal" style={{textAlign: "justify"}}>
+        <p className="fs-15 font-weight-normal" style={{textAlign: "left"}}>
           <ul>
             <li><p>Επιθυμούμε οι αναγνώστες μας να μπορούν να διασταυρώσουν και μόνοι τους τα ευρήματά μας.</p></li>
             <li><p>Παρέχουμε όλες τις πηγές με αρκετή λεπτομέρεια, έτσι ώστε οι αναγνώστες να μπορούν να αναπαραγάγουν
@@ -108,7 +108,7 @@ export const Ethics = () => {
         </p>
       </Col>
       <Col lg="6">
-        <p className="fs-15 font-weight-normal" style={{textAlign: "justify"}}>
+        <p className="fs-15 font-weight-normal" style={{textAlign: "left"}}>
           <ul>
             <li><p>Ελέγχουμε την κάθε δήλωση με βάση όλες τις διαθέσιμες πηγές, εκτός από τις περιπτώσεις όπου υπάρχει
               μόνο μία πηγή σχετική με το θέμα που εξετάζουμε.</p></li>
@@ -129,7 +129,7 @@ export const Ethics = () => {
     </Row>
     <Row className="mb-4">
       <Col sm="12">
-        <p className="fs-15 font-weight-normal" style={{textAlign: "justify"}}>
+        <p className="fs-15 font-weight-normal" style={{textAlign: "left"}}>
           <ul>
             <li><p>Δηλώνουμε ανοικτά τις πηγές χρηματοδότησής μας, καθώς επίσης και τη μορφή του πρότζεκτ μας (μη
               κερδοσκοπικό, εποπτευόμενο από ΝΠΔΔ: ΕΚΚΕ, Ερευνητικό Ινστιτούτο Αθηνά και ΕΚΠΑ)</p></li>
@@ -149,7 +149,7 @@ export const Ethics = () => {
     </Row>
     <Row className="mb-4">
       <Col sm="12">
-        <p className="fs-15 font-weight-normal" style={{textAlign: "justify"}}>
+        <p className="fs-15 font-weight-normal" style={{textAlign: "left"}}>
           <ul>
             <li><p>Εξηγούμε αναλυτικά το ποιες δηλώσεις μπορούν να ελεγχθούν ως προς την εγκυρότητα/ακρίβειά τους και
               ποιες όχι.</p></li>
@@ -204,7 +204,7 @@ export const Ethics = () => {
       </Col>
     </Row> */}
     <Row>
-      <Col sm="12" className="mb-2 mb-lg-2" style={{textAlign: "justify"}}>
+      <Col sm="12" className="mb-2 mb-lg-2" style={{textAlign: "left"}}>
         <p>Ο έλεγχος εγκυρότητας/ακρίβειας δηλώσεων/πληροφοριών- ειδήσεων είναι μια περίπλοκη διαδικασία που αποτελείται από διάφορα βήματα
           που μπορούν να ομαδοποιηθούν σε τρεις κύριες κατηγορίες:</p>
         <ol>
@@ -277,7 +277,7 @@ export const Ethics = () => {
     </Row>
     <Row className="mb-4">
       <Col lg="6">
-        <p className="fs-15 font-weight-normal" style={{textAlign: "justify"}}>
+        <p className="fs-15 font-weight-normal" style={{textAlign: "left"}}>
           <ul>
             <li><p>Διορθώνουμε λάθη το συντομότερο δυνατό και με τη δέουσα διαφάνεια. Διορθώνουμε εμφανώς έτσι ώστε οι
               αναγνώστες μας να γνωρίζουν ότι διαβάζουν τη διορθωμένη έκδοση της έκθεσης εγκυρότητας.</p></li>
@@ -297,7 +297,7 @@ export const Ethics = () => {
         </p>
       </Col>
       <Col lg="6">
-        <p className="fs-15 font-weight-normal" style={{textAlign: "justify"}}>
+        <p className="fs-15 font-weight-normal" style={{textAlign: "left"}}>
           <ul>
             <li><p>Οι εκθέσεις εγκυρότητας δύνανται κατά καιρούς να επικαιροποιούνται προκειμένου να βελτιώνονται
               ποιοτικά, όχι υπό τη λογική διόρθωσης, αλλά υπό το πρίσμα της συνεχούς βελτίωσης της εγκυρότητας του

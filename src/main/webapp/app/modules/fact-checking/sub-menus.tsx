@@ -105,7 +105,7 @@ export const SubMenus = (props: ISubMenusProps) => {
             <Translate contentKey={`fact-checking.sub-menus.${props.match.params.id}`}/>
           </h1>
           <br/>
-          <p style={{textAlign: "justify"}}>
+          <p style={{textAlign: "left"}}>
             <Translate contentKey={`fact-checking.sub-menus.${props.match.params.id}-details`}/>
           </p>
         </Col>

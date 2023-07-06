@@ -18,7 +18,7 @@ export const ThirdParty = () => (
                 </Col>
                 <Col className="text-center" sm="10">
                   {/* <a href={item.link} className="text-align-end"><h3>{item.name}</h3></a> */}
-                  <p className='text-justify'><Translate contentKey={`third-party-text.${item.name}`} /></p>
+                  <p className='text-left'><Translate contentKey={`third-party-text.${item.name}`} /></p>
                 </Col>          
               </Row>
             ))
