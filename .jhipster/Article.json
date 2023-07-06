@@ -31,6 +31,11 @@
       "fieldTypeBlobContent": "image"
     },
     {
+      "fieldName": "imageThumbPreview",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
       "fieldName": "articleDate",
       "fieldType": "Instant"
     },

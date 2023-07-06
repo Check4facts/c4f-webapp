@@ -96,7 +96,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
   };
 
   const clearBlob = name => () => {
-    props.setBlob(name, undefined, undefined);
+    props.setBlob(name, null, null);
   };
 
   useEffect(() => {
@@ -361,7 +361,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   statementId: storeState.factChecking.statement,
   statement: storeState.statement.entity,
   statementSources: storeState.statementSource.entities,
-  resources: storeState.resource.entities
+  resources: storeState.resource.entities,
 });
 
 const mapDispatchToProps = {

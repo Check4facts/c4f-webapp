@@ -12,7 +12,11 @@ import { ITaskStatus } from 'app/shared/model/util.model';
  */
 export const cleanEntity = entity => {
   const keysToKeep = Object.keys(entity).filter(k => !(entity[k] instanceof Object) || (entity[k]['id'] !== '' && entity[k]['id'] !== -1));
-
+  if (entity['previewImage'] !== null) {
+    if (entity['previewImage'].length === 0) {
+      entity = { ...entity, previewImage: null };
+    }
+  }
   return pick(entity, keysToKeep);
 };
 

@@ -50,7 +50,7 @@ export const Home = (props: IHomeProp) => {
     if (paginationState.activePage === 1) {
       props.reset();
     }
-    if (paginationState.query) {
+    if (paginationState.query && search.length !== 0) {
       props.getFrontSearchEntities(
         paginationState.query,
         paginationState.activePage - 1,
@@ -65,7 +65,7 @@ export const Home = (props: IHomeProp) => {
 
 
   useEffect(() => {
-    props.getFrontPageArticles();
+    // props.getFrontPageArticles();
     props.reset();
   }, []);
 

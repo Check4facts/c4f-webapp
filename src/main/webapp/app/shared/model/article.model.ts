@@ -7,6 +7,7 @@ export interface IArticle {
   previewTitle?: any;
   previewImageContentType?: string;
   previewImage?: any;
+  imageThumbPreview?: any;
   articleDate?: string;
   author?: string;
   published?: boolean;
@@ -18,4 +19,5 @@ export interface IArticle {
 
 export const defaultValue: Readonly<IArticle> = {
   published: false,
+  previewImage: null,
 };

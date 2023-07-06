@@ -29,27 +29,27 @@ const HomeCarousel = props => {
   const items = [
     {
       caption: 'Sample Caption One',
-      src: '../../../content/images/carousel1.jpg',
+      src: '../../../content/images/carousel1.webp',
       altText: 'Slide One',
     },
     {
       caption: 'Sample Caption Two',
-      src: '../../../content/images/carousel2.jpg',
+      src: '../../../content/images/carousel2.webp',
       altText: 'Slide Two',
     },
     {
       caption: 'Sample Caption Three',
-      src: '../../../content/images/carousel3.jpg',
+      src: '../../../content/images/carousel3.webp',
       altText: 'Slide Three',
     },
     {
       caption: 'Sample Caption Four',
-      src: '../../../content/images/carousel4.jpg',
+      src: '../../../content/images/carousel4.webp',
       altText: 'Slide Four',
     },
     {
       caption: 'Sample Caption Five',
-      src: '../../../content/images/carousel5.jpg',
+      src: '../../../content/images/carousel5.webp',
       altText: 'Slide Five',
     },
   ];

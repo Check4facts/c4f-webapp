@@ -42,6 +42,10 @@ public class Article implements Serializable {
     @Lob
     @Column(name = "preview_image")
     private byte[] previewImage;
+    
+    @Lob
+    @Column(name = "image_thumb_preview")
+    private byte[] imageThumbPreview;
 
     @Column(name = "preview_image_content_type")
     private String previewImageContentType;
@@ -110,6 +114,19 @@ public class Article implements Serializable {
 
     public Article previewImage(byte[] previewImage) {
         this.previewImage = previewImage;
+        return this;
+    }
+    
+    public byte[] getImageThumbPreview() {
+        return imageThumbPreview;
+    }
+
+    public void setImageThumbPreview(byte[] imageThumbPreview) {
+        this.imageThumbPreview = imageThumbPreview;
+    }
+
+    public Article ImageThumbPreview(byte[] imageThumbPreview) {
+        this.imageThumbPreview = imageThumbPreview;
         return this;
     }
 

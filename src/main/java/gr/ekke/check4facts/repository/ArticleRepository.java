@@ -31,4 +31,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Optional<Article> findArticleByStatementId(Long statement_id);
 
+    Article findById(Integer id);
+
 }

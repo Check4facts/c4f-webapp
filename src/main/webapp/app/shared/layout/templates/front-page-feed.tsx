@@ -54,9 +54,9 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                           <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={`${article.id}-${idx}`}>
                             <div className="position-relative image-hover">
                               <Link to={`/article/${article.id}/display`}>
-                                {article.previewImage ? (
+                                {article.imageThumbPreview ? (
                                   <img
-                                    src={`data:${article.previewImageContentType};base64,${article.previewImage}`}
+                                    src={`data:${article.previewImageContentType};base64,${article.imageThumbPreview}`}
                                     className=""
                                     style={{ height: 200, width: '100%', objectFit: 'cover', border: '1px solid #eeeeee' }}
                                     alt="previewImage"

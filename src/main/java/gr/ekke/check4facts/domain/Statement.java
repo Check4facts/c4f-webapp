@@ -26,13 +26,8 @@ import java.util.Set;
 @Table(name = "statement")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "statement")
-@TypeDef(
-    name = "list-array",
-    typeClass = ListArrayType.class
-)
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id", scope = Statement.class)
+@TypeDef(name = "list-array", typeClass = ListArrayType.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Statement.class)
 public class Statement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +35,6 @@ public class Statement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -100,6 +94,15 @@ public class Statement implements Serializable {
     private Article article;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Statement() {
+    }    
+
+    public Statement(Integer factCheckerAccuracy, String author, String mainArticleUrl) {
+        this.author = author;
+        this.mainArticleUrl = mainArticleUrl;
+        this.factCheckerAccuracy = factCheckerAccuracy;
+    }
+
     public Long getId() {
         return id;
     }
@@ -303,17 +306,17 @@ public class Statement implements Serializable {
     @Override
     public String toString() {
         return "Statement{" +
-            "id=" + getId() +
-            ", text='" + getText() + "'" +
-            ", author='" + getAuthor() + "'" +
-            ", statementDate='" + getStatementDate() + "'" +
-            ", publicationDate='" + getPublicationDate() + "'" +
-            ", registrationDate='" + getRegistrationDate() + "'" +
-            ", mainArticleTitle='" + getMainArticleTitle() + "'" +
-            ", mainArticleText='" + getMainArticleText() + "'" +
-            ", mainArticleUrl='" + getMainArticleUrl() + "'" +
-            ", factCheckerAccuracy='" + getFactCheckerAccuracy() + "'" +
-            ", subTopics='" + getSubTopics() + "'" +
-            "}";
+                "id=" + getId() +
+                ", text='" + getText() + "'" +
+                ", author='" + getAuthor() + "'" +
+                ", statementDate='" + getStatementDate() + "'" +
+                ", publicationDate='" + getPublicationDate() + "'" +
+                ", registrationDate='" + getRegistrationDate() + "'" +
+                ", mainArticleTitle='" + getMainArticleTitle() + "'" +
+                ", mainArticleText='" + getMainArticleText() + "'" +
+                ", mainArticleUrl='" + getMainArticleUrl() + "'" +
+                ", factCheckerAccuracy='" + getFactCheckerAccuracy() + "'" +
+                ", subTopics='" + getSubTopics() + "'" +
+                "}";
     }
 }
