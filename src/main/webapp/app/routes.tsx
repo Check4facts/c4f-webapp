@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch} from 'react-router-dom';
+import {Redirect, Switch} from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import Login from 'app/modules/login/login';
@@ -60,6 +60,7 @@ const Routes = () => (
   <div className="view-routes">
       <ErrorBoundary>
         <Switch>
+          <Redirect from="/science" to="/" />
           <ErrorBoundaryRoute path="/" exact component={Home} />
           <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]}/>
           <ErrorBoundaryRoute path={`/article`} component={Article} />
