@@ -7,6 +7,21 @@ import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util'
 import { IArticle, defaultValue } from 'app/shared/model/article.model';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 
+const getFrontPageArticlesOrdered = arrayOfObjects => {
+  const desiredOrder = ['climate_change', 'pandemic', 'immigration', 'crime'];
+
+  return arrayOfObjects.sort((a, b) => {
+    const indexA = desiredOrder.indexOf(a.categoryName);
+    const indexB = desiredOrder.indexOf(b.categoryName);
+
+    // If a.categoryName or b.categoryName is not in desiredOrder, they will be placed at the end of the array.
+    if (indexA === -1) return 1;
+    if (indexB === -1) return -1;
+
+    return indexA - indexB;
+  });
+};
+
 export const ACTION_TYPES = {
   SEARCH_ARTICLES: 'article/SEARCH_ARTICLES',
   SEARCH_FRONT_ARTICLES: 'article/SEARCH_FRONT_ARTICLES',
@@ -113,7 +128,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
       return {
         ...state,
         loading: false,
-        frontPageArticles: action.payload.data,
+        frontPageArticles: getFrontPageArticlesOrdered(action.payload.data),
       };
     case SUCCESS(ACTION_TYPES.CREATE_ARTICLE):
     case SUCCESS(ACTION_TYPES.UPDATE_ARTICLE):
