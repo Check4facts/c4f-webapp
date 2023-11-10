@@ -54,6 +54,7 @@ const Events = () => {
           )}
         </CardHeader>
         <Collapse isOpen={open === 'press-conference'}>
+          {open === "press-conference" && 
           <CardBody>
             <Row>
               <Col sm="12" id="press-conference">
@@ -68,7 +69,7 @@ const Events = () => {
                 <img style={{ width: '100%' }} src="../../content/images/c4f-press-conference-invitation.webp" />
               </Col>
             </Row>
-          </CardBody>
+          </CardBody>}
         </Collapse>
       </Card>
       {/* <Row style={{ borderBottom: '2px solid rgba(0,0,0,0.3)' }} /> */}
@@ -89,7 +90,7 @@ const Events = () => {
           )}
         </CardHeader>
         <Collapse isOpen={open === 'seminar'}>
-          <CardBody>
+          {open === "seminar" && <CardBody>
             <Row>
               <Col sm="12" id="seminar">
                 <div className="text-center">
@@ -566,7 +567,7 @@ const Events = () => {
                 </div>
               </div>
             </div>
-          </CardBody>
+          </CardBody>}
         </Collapse>
       </Card>
     </Container>
