@@ -10,8 +10,27 @@ export const NavDropdown = props => (
       <span>{props.name}</span>&nbsp;
       <FontAwesomeIcon icon="angle-down" size="xs" />
     </DropdownToggle>
-    <DropdownMenu style={props.style}>
-      {props.children}
-    </DropdownMenu>
+    <DropdownMenu style={props.style}>{props.children}</DropdownMenu>
+  </UncontrolledDropdown>
+);
+
+export const NavDropdownSubMenu = props => (
+  <UncontrolledDropdown id={props.id} direction="end">
+    <DropdownToggle
+      caret
+      style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        color: 'black',
+        fontSize: 15,
+        border: 'none',
+      }}
+    >
+      {props.name}
+    </DropdownToggle>
+    <DropdownMenu style={props.style}>{props.children}</DropdownMenu>
   </UncontrolledDropdown>
 );

@@ -86,8 +86,11 @@ export const Contact = () => (
                 <p className="mb-0 font-weight-bold fs-14">
                   {translate("about.contact.email")}
                 </p>
-                <p className="mb-4 font-weight-normal fs-14">
+                <p className="mb-1 font-weight-normal fs-14">
                   check4facts@ekke.gr
+                </p>
+                <p className="mb-4 font-weight-normal fs-14">
+                check4facts.science@gmail.com 
                 </p>
               </div>
             </div>
