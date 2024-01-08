@@ -9,6 +9,7 @@ import {IRootState} from 'app/shared/reducers';
 import {translate} from "react-jhipster";
 import moment from "moment";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import HelComp from 'app/shared/util/helmet-component';
 
 
 export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
@@ -54,6 +55,9 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
     </div>
   ) : errorMessage === null ? (
     <Container>
+      <HelComp title={article.previewTitle} description={article.previewText} 
+      author={article.author} publishedDate={article.articleDate} image={article.previewImage} 
+      imageType={article.previewImageContentType} />
       <Row>
         <Col sm="12">
           <div className="article-wrapper">

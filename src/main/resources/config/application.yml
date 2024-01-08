@@ -94,6 +94,9 @@ spring:
     jpa:
       repositories:
         bootstrap-mode: deferred
+    elasticsearch:
+      jest:
+        read-timeout: 3600000
   jpa:
     open-in-view: false
     properties:

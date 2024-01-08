@@ -76,6 +76,9 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
     }
 
     props.getCategories();
+    return () => {
+      clearTimeout(saveTimeout);
+    }
   }, []);
 
   useEffect(() => {

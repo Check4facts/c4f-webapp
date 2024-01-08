@@ -2,6 +2,7 @@ package gr.ekke.check4facts.web.rest;
 
 import gr.ekke.check4facts.domain.Article;
 import gr.ekke.check4facts.domain.CategorizedArticles;
+import gr.ekke.check4facts.security.AuthoritiesConstants;
 import gr.ekke.check4facts.service.ArticleService;
 import gr.ekke.check4facts.web.rest.errors.BadRequestAlertException;
 
@@ -19,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -112,6 +114,7 @@ public class ArticleResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the article, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/articles/{id}")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthoritiesConstants.ADMIN + "\") or hasAnyAuthority(\"" + AuthoritiesConstants.USER + "\") or @articleService.findOne(#id).orElse(null)?.published == true")
     public ResponseEntity<Article> getArticle(@PathVariable Long id) {
         log.debug("REST request to get Article : {}", id);
         Optional<Article> article = articleService.findOne(id);

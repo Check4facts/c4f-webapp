@@ -81,7 +81,7 @@ export const Contact = () => (
                   {translate("about.contact.phone")}
                 </p>
                 <p className="mb-4 font-weight-normal fs-14">
-                  210 7491613-614
+                210-7491693
                 </p>
                 <p className="mb-0 font-weight-bold fs-14">
                   {translate("about.contact.email")}

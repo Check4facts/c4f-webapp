@@ -11,6 +11,7 @@ import { clearAuthentication } from './shared/reducers/authentication';
 import ErrorBoundary from './shared/error/error-boundary';
 import AppComponent from './app';
 import { loadIcons } from './config/icon-loader';
+import {Helmet} from "react-helmet";
 
 const devTools = process.env.NODE_ENV === 'development' ? <DevTools /> : null;
 
@@ -30,6 +31,9 @@ const render = Component =>
     <ErrorBoundary>
       <Provider store={store}>
         <div>
+          <Helmet>
+          <title>Check4Facts</title>
+          </Helmet>
           {/* If this slows down the app in dev disable it and enable when required  */}
           {devTools}
           <Component />
