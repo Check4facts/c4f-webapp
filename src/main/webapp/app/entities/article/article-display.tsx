@@ -55,9 +55,9 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
     </div>
   ) : errorMessage === null ? (
     <Container>
-      <HelComp title={article.previewTitle} description={article.previewText} 
+      {/* <HelComp title={article.previewTitle} description={article.previewText} 
       author={article.author} publishedDate={article.articleDate} image={article.previewImage} 
-      imageType={article.previewImageContentType} />
+      imageType={article.previewImageContentType} /> */}
       <Row>
         <Col sm="12">
           <div className="article-wrapper">

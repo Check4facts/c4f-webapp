@@ -38,6 +38,7 @@ public String forwardToArticleDisplay(@PathVariable Long id, Model model) {
 
     }
     // Thymeleaf template will use these attributes to generate meta tags
-    return "article/display";
+    // return "article/display";
+    return "index";
 }
 }

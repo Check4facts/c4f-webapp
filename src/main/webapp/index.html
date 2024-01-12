@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="el" dir="ltr">
+<html class="no-js" lang="el" dir="ltr" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,6 +12,11 @@
     <link rel="manifest" href="manifest.webapp" />
     <link rel="stylesheet" href="content/css/loading.css" />
     <!-- jhipster-needle-add-resources-to-root - JHipster will add new resources here -->
+    <meta property="og:title" th:content="${ogTitle}" />
+    <meta property="og:description" th:content="${ogDescription}" />
+    <meta property="og:image" th:content="${ogImage}" />
+    <meta property="og:url" th:content="${#httpServletRequest.requestURL}" />
+    <meta property="og:type" content="article" />
   </head>
   <body>
     <!--[if lt IE 9]>
