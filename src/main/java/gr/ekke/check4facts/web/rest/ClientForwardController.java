@@ -1,10 +1,21 @@
 package gr.ekke.check4facts.web.rest;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import gr.ekke.check4facts.domain.Article;
+import gr.ekke.check4facts.service.ArticleService;
 
 @Controller
 public class ClientForwardController {
+
+    @Autowired
+    ArticleService articleService;
 
     /**
      * Forwards any unmapped paths (except those containing a period) to the client {@code index.html}.
@@ -14,4 +25,19 @@ public class ClientForwardController {
     public String forward() {
         return "forward:/";
     }
+
+    @GetMapping("/article/{id}/display")
+public String forwardToArticleDisplay(@PathVariable Long id, Model model) {
+    Optional<Article> article = articleService.findOne(id);
+    if (article.isPresent()) {
+        Article foundArticle = article.get();
+        model.addAttribute("ogTitle", foundArticle.getPreviewTitle());
+        model.addAttribute("ogDescription", foundArticle.getPreviewText());
+        model.addAttribute("ogImage", "data:" + foundArticle.getPreviewImageContentType() + ";base64," + foundArticle.getPreviewImage().toString());
+        model.addAttribute("ogAuthor", foundArticle.getAuthor());
+
+    }
+    // Thymeleaf template will use these attributes to generate meta tags
+    return "article/display";
+}
 }

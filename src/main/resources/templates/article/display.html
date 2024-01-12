@@ -1,0 +1,45 @@
+<!-- src/main/resources/templates/article/display.html -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Dynamic meta tags for social sharing -->
+    <meta property="og:title" th:content="${ogTitle}" />
+    <meta property="og:description" th:content="${ogDescription}" />
+    <meta property="og:image" th:content="${ogImage}" />
+    <meta property="og:url" th:content="${#httpServletRequest.requestURL}" />
+    <meta property="og:type" content="article" />
+    <!-- Add other dynamic meta tags as needed -->
+
+    <!-- Fallback meta tags for non-social sharing -->
+    <meta name="description" th:content="${ogDescription}" />
+    <meta name="author" content="${ogAuthor}" />
+
+    <!-- Favicon link -->
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}" />
+
+    <!-- Title tag with Thymeleaf dynamic content -->
+    <title th:text="${ogTitle}">Default Title</title>
+</head>
+<body>
+    <!-- Root container for client-side rendering -->
+    <div id="root"></div>
+
+    <!-- Include React bundle -->
+    <script src="/app/vendors.chunk.js"></script>
+    <script src="/app/main.bundle.js"></script>
+
+    <!-- Initialize the client-side application -->
+    <script>
+   document.addEventListener('DOMContentLoaded', function () {
+            const rootEl = document.getElementById('root');
+            const render = Component => ReactDOM.render(Component, rootEl);
+            render(AppComponent);
+        })
+    </script>
+</body>
+</html>

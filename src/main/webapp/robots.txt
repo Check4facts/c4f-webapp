@@ -1,5 +1,5 @@
 # robotstxt.org/
-
+Sitemap: https://check4facts.gr/sitemap.xml
 User-agent: *
 Disallow: /api/account
 Disallow: /api/account/change-password
