@@ -10,7 +10,7 @@ public class ThymeleafConfig {
     @Bean
     public ITemplateResolver webappTemplateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setPrefix("file:src/main/webapp/");
+        templateResolver.setPrefix("file:target/classes/static/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML");
         templateResolver.setCharacterEncoding("UTF-8");

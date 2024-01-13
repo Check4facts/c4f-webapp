@@ -2,6 +2,8 @@ package gr.ekke.check4facts.web.rest;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,8 @@ import gr.ekke.check4facts.service.ArticleService;
 
 @Controller
 public class ClientForwardController {
+
+    private final Logger log = LoggerFactory.getLogger(ClientForwardController.class);
 
     @Autowired
     ArticleService articleService;
@@ -27,9 +31,10 @@ public class ClientForwardController {
     }
 
     @GetMapping("/article/{id}/display")
-public String forwardToArticleDisplay(@PathVariable Long id, Model model) {
+    public String forwardToArticleDisplay(@PathVariable Long id, Model model) {
     Optional<Article> article = articleService.findOne(id);
     if (article.isPresent()) {
+
         Article foundArticle = article.get();
         model.addAttribute("ogTitle", foundArticle.getPreviewTitle());
         model.addAttribute("ogDescription", foundArticle.getPreviewText());
