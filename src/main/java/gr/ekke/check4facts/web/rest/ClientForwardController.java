@@ -1,5 +1,6 @@
 package gr.ekke.check4facts.web.rest;
 
+import java.util.Base64;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -38,7 +39,8 @@ public class ClientForwardController {
         Article foundArticle = article.get();
         model.addAttribute("ogTitle", foundArticle.getPreviewTitle());
         model.addAttribute("ogDescription", foundArticle.getPreviewText());
-        model.addAttribute("ogImage", "data:" + foundArticle.getPreviewImageContentType() + ";base64," + foundArticle.getPreviewImage());
+        model.addAttribute("ogImage", "data:" + foundArticle.getPreviewImageContentType() + ";base64," 
+        + Base64.getEncoder().encodeToString(foundArticle.getPreviewImage()));
         model.addAttribute("ogAuthor", foundArticle.getAuthor());
 
     }
