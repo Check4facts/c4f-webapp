@@ -39,7 +39,7 @@ public class ClientForwardController {
         Article foundArticle = article.get();
         model.addAttribute("ogTitle", foundArticle.getPreviewTitle());
         model.addAttribute("ogDescription", foundArticle.getPreviewText());
-        model.addAttribute("ogImageId", id);
+        model.addAttribute("ogImageId", "https://check4facts.gr/api/articles/image/" + id);
         model.addAttribute("ogAuthor", foundArticle.getAuthor());
 
     }

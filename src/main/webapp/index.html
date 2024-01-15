@@ -14,7 +14,7 @@
     <!-- jhipster-needle-add-resources-to-root - JHipster will add new resources here -->
     <meta property="og:title" th:content="${ogTitle}" />
     <meta property="og:description" th:content="${ogDescription}" />
-    <meta property="og:image" th:content="https://check4facts.gr/api/articles/image/${ogImageId}" />
+    <meta property="og:image" th:content="${ogImageId}" />
     <meta property="og:url" th:content="${#httpServletRequest.requestURL}" />
     <meta property="og:type" content="article" />
   </head>
