@@ -39,8 +39,7 @@ public class ClientForwardController {
         Article foundArticle = article.get();
         model.addAttribute("ogTitle", foundArticle.getPreviewTitle());
         model.addAttribute("ogDescription", foundArticle.getPreviewText());
-        model.addAttribute("ogImage", "data:" + foundArticle.getPreviewImageContentType() + ";base64," 
-        + Base64.getEncoder().encodeToString(foundArticle.getPreviewImage()));
+        model.addAttribute("ogImageId", id);
         model.addAttribute("ogAuthor", foundArticle.getAuthor());
 
     }

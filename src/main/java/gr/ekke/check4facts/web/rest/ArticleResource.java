@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +28,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -239,5 +241,23 @@ public class ArticleResource {
         List<CategorizedArticles> categorizedArticles = articleService.findFrontPageArticles();
         // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().body(categorizedArticles);
+    }
+
+    @GetMapping("/articles/image/{id}")
+    public ResponseEntity<byte[]> getBase64Image(@PathVariable Long id) {
+        Optional<Article> optionalArticle = articleService.findOne(id);
+
+        if (optionalArticle.isPresent()) {
+            Article foundArticle = optionalArticle.get();
+            byte[] imageBytes = foundArticle.getPreviewImage();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(foundArticle.getPreviewImageContentType()));
+            headers.setContentLength(imageBytes.length);
+
+            return new ResponseEntity<>(foundArticle.getPreviewImage(), headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
