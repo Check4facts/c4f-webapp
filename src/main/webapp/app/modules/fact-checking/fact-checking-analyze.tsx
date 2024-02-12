@@ -216,7 +216,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
         <Row className="my-3">
           {statementSources.length > 0 ? (
             <Col>
-              <Table responsive>
+              <Table responsive bordered>
                 <thead>
                 <tr>
                   <th>AA</th>
@@ -297,7 +297,7 @@ export const FactCheckingAnalyze = (props: IFactCheckAnalyzeProps) => {
               </Button>}
           </Col>}
         </Row>
-        <Modal size="md" isOpen={modalOpen} toggle={() => setModalOpen(false)}>
+        <Modal fade={false} size="md" isOpen={modalOpen} toggle={() => setModalOpen(false)}>
           <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>
           <ModalBody>{modalContent.body}</ModalBody>
           <ModalFooter>

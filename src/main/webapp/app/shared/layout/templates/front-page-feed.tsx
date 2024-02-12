@@ -36,10 +36,10 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
   return (
     <>
       {frontPageArticles.length > 0
-        ? frontPageArticles.map(category => {
+        ? frontPageArticles.map((category, index) => {
             if (category.categoryArticles.length > 0) {
               return (
-                <Row style={{marginLeft: 0, marginRight: 0}}>
+                <Row style={{marginLeft: 0, marginRight: 0}} key={`${category.categoryName}-${index}`}>
                   <div className={`${category.categoryName}-section mt-5`} style={{width: "100%"}}>
                     <Row className={`${category.categoryName}-title`} style={{marginLeft: 0, marginRight: 0}}>
                       <div className="d-flex position-relative float-left">
@@ -75,9 +75,7 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                               </Link>
                             </div>
                             <Link to={`/article/${article.id}/display`}>
-                              <p title={article.previewTitle}>
-                                <h5 className="font-weight-600 mt-3 text-truncate text-truncate-4">{article.previewTitle}</h5>
-                              </p>
+                                <h5 title={article.previewTitle} className="font-weight-600 mt-3 text-truncate text-truncate-4">{article.previewTitle}</h5>
                             </Link>
                             {article.statement && article.statement.factCheckerAccuracy != null && (
                               <Badge className={`mr-1 accuracy-color-${article.statement.factCheckerAccuracy}`}>
@@ -141,11 +139,9 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                       </Row>
                     </Row>
                     <Row tag="div" className={`${category.categoryName}-see-more`} style={{display: "flex", justifyContent: "end", marginLeft: 0, marginRight: 0}}>
-                    <p>
                     <Link to={`/fact-checking/sub-menu/${category.categoryName}`} style={{textDecoration: "none"}}>
                       <h6 style={{fontSize: 15, paddingTop: 20}}><Translate contentKey="global.menu.more.category-more" /></h6>
                     </Link>
-                    </p>
                     </Row>
                   </div>
                 </Row>

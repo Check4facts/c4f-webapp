@@ -87,7 +87,7 @@ const Header = (props: IHeaderProps) => {
                 <AboutMenu />
                 {props.isAuthenticated && (
                   <NavItem>
-                    <NavLink to="/fact-checking" className="d-flex align-items-center nav-link">
+                    <NavLink to="/statement" className="d-flex align-items-center nav-link">
                       {translate('fact-checking.title')}
                     </NavLink>
                   </NavItem>

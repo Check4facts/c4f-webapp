@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {IRootState} from 'app/shared/reducers';
 import {Link, RouteComponentProps} from 'react-router-dom';
-import {Button, Col, Collapse, Container, Row, Spinner, Table} from 'reactstrap';
+import {Button, Col, Collapse, Container, Row, Spinner, Table, Nav, NavItem, NavLink} from 'reactstrap';
 import {setFact} from 'app/modules/fact-checking/fact-checking.reducer';
 import {getEntity as getStatement, setFactCheckerAccuracy,} from 'app/entities/statement/statement.reducer';
 import {getStatementSourcesByStatement} from 'app/entities/statement-source/statement-source.reducer';
@@ -20,6 +20,17 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
 
   const [emotionCollapse, setEmotionCollapse] = useState(false);
   const [restCollapse, setRestCollapse] = useState(false);
+
+  const shortenURL = (url, maxLength) => {
+    if (url.length <= maxLength) return url;
+    const ellipsis = '...';
+    const domainIndex = url.indexOf('//') + 2;
+    const pathIndex = url.indexOf('/', domainIndex);
+    const domain = url.substring(0, pathIndex);
+    const path = url.substring(pathIndex);
+    const shortenedPath = path.substring(0, maxLength - (domain.length + ellipsis.length));
+    return domain + shortenedPath + ellipsis;
+  };
 
   useEffect(() => {
     props.setFact(props.match.params.id);
@@ -43,6 +54,14 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     // TODO Add corresponding call for FeatureStatement when column is added to table.
   };
 
+  const stickyHeader = {
+    top: 10,
+    left: 0,
+    zIndex: 2,
+    position: 'sticky',
+    backgroundColor: '#fff',
+  } as React.CSSProperties;
+
   return sLoading || rLoading || (featureStatement === defaultValue) ? (
     <div>
       <Spinner style={{width: '5rem', height: '5rem', margin: '10% 0 10% 45%'}} color="dark"/>
@@ -50,6 +69,28 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
   ) : (
     <>
       <Container>
+        <Row>
+          <Col>
+          <Nav tabs>
+    <NavItem>
+      <NavLink
+        className="active"
+        onClick={function noRefCheck(){}}
+      >
+        Tab1
+      </NavLink>
+    </NavItem>
+    <NavItem>
+      <NavLink
+        className=""
+        onClick={function noRefCheck(){}}
+      >
+        More Tabs
+      </NavLink>
+    </NavItem>
+  </Nav>
+          </Col>
+        </Row>
         <Row className="text-center my-5 text-primary">
           <Col>
             <h1>{translate('fact-checking.results.title')}</h1>
@@ -303,10 +344,17 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         </Row>
       </Container>
       {resources.length > 0 ? (
-        <Table responsive>
+        <div style={{maxHeight: "400px", overflowY: "auto"}}>
+        <Table responsive bordered hover size="sm">
           <thead>
           <tr>
-            <th>AA</th>
+            <th style={{
+    top: 10,
+    left: 0,
+    zIndex: 2,
+    position: 'sticky',
+    backgroundColor: '#fff',
+  }}></th>
             <th>
               <Translate contentKey="check4FactsApp.resource.url">Url</Translate>
             </th>
@@ -325,17 +373,21 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           {resources.filter(filRes => filRes.title !== null && filRes.body !== null).map((response, i) => (
             <tr key={`entity-${i}`}>
               <td>{i + 1}</td>
-              <td style={{maxWidth: '8vw'}}><a href={response.url} target="_blank"
-                                               rel="noopener noreferrer">{response.url}</a></td>
-              <td style={{maxWidth: '8vw'}}>{response.title}</td>
-              <td style={{maxWidth: '12vw'}}>{response.simSentence}</td>
-              <td style={{maxWidth: '15vw'}}>
+              <td style={{maxWidth: '8vw', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", verticalAlign: 'middle', textAlign: 'center'}}>
+                  <a href={response.url} target="_blank" rel="noopener noreferrer">
+                    {response.url}
+                  </a>
+              </td>
+              <td style={{maxWidth: '8vw', verticalAlign: 'middle', textAlign: 'center'}}>{response.title}</td>
+              <td style={{maxWidth: '12vw', verticalAlign: 'middle', textAlign: 'center'}}>{response.simSentence}</td>
+              <td style={{maxWidth: '15vw', verticalAlign: 'middle', textAlign: 'center'}}>
                 <div className="ellipsis">{response.simParagraph}</div>
               </td>
             </tr>
           ))}
           </tbody>
         </Table>
+        </div>
       ) : null}
     </>
   );
