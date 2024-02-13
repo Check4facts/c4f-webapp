@@ -13,10 +13,10 @@ import {getLatestFeatureStatementByStatementId,} from 'app/entities/feature-stat
 import {translate, Translate} from 'react-jhipster';
 import moment from "moment";
 
-export interface IFactCheckingResultsProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
+export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
 
-export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
+export const FactCheckingReport = (props: IFactCheckingReportProps) => {
 
   const [emotionCollapse, setEmotionCollapse] = useState(false);
   const [restCollapse, setRestCollapse] = useState(false);
@@ -57,6 +57,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
     </div>
   ) : (
     <>
+    {console.log(statement)}
       <Container>
         <Row>
           <Col>
@@ -66,7 +67,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         className="active"
         onClick={function noRefCheck(){}}
       >
-        Tab1
+        {translate('check4FactsApp.article.detail.title')}
       </NavLink>
     </NavItem>
     <NavItem>
@@ -74,7 +75,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         className=""
         onClick={function noRefCheck(){}}
       >
-        More Tabs
+        {translate('fact-checking.results.title')}
       </NavLink>
     </NavItem>
   </Nav>
@@ -400,4 +401,4 @@ const mapDispatchToProps = {
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(FactCheckingResults);
+export default connect(mapStateToProps, mapDispatchToProps)(FactCheckingReport);
