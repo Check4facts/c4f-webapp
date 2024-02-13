@@ -1,401 +1,358 @@
-import './fact-checking.scss'
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {connect} from 'react-redux';
+import {RouteComponentProps} from 'react-router-dom';
+import {Button, Col, Label, Row, Spinner} from 'reactstrap';
+import {AvFeedback, AvField, AvForm, AvGroup, AvInput} from 'availity-reactstrap-validation';
+import {byteSize, openFile, setFileData, translate, Translate} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {IRootState} from 'app/shared/reducers';
-import {Link, RouteComponentProps} from 'react-router-dom';
-import {Button, Col, Collapse, Container, Row, Spinner, Table, Nav, NavItem, NavLink} from 'reactstrap';
-import {setFact} from 'app/modules/fact-checking/fact-checking.reducer';
-import {getEntity as getStatement, setFactCheckerAccuracy,} from 'app/entities/statement/statement.reducer';
-import {getStatementSourcesByStatement} from 'app/entities/statement-source/statement-source.reducer';
-import {getLatestResourcesByStatement} from 'app/entities/resource/resource.reducer';
-import {defaultValue} from 'app/shared/model/feature-statement.model';
-import {getLatestFeatureStatementByStatementId,} from 'app/entities/feature-statement/feature-statement.reducer';
-import {translate, Translate} from 'react-jhipster';
-import moment from "moment";
+import {createEntity, getEntity, reset, updateEntity} from 'app/entities/article/article.reducer';
+import {getEntities as getCategories} from 'app/entities/category/category.reducer';
+import {convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime} from 'app/shared/util/date-utils';
+import {reset as factReset} from 'app/modules/fact-checking/fact-checking.reducer';
+import {getEntity as getStatement} from 'app/entities/statement/statement.reducer';
+import {getLatestResourcesByStatement, reset as resourcesReset, setBlob} from 'app/entities/resource/resource.reducer';
+import {
+  getStatementSourcesByStatement,
+  reset as statementSourcesReset
+} from 'app/entities/statement-source/statement-source.reducer';
+import FactCheckingReportEditor from "./fact-checking-report-editor";
+
+import CKEditor from '@ckeditor/ckeditor5-react';
 
 export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
 
 export const FactCheckingReport = (props: IFactCheckingReportProps) => {
+  const editorRef = useRef(CKEditor);
+  const [publishArticle, setPublishArticle] = useState(false);
+  const [categoryId, setCategoryId] = useState('1');
+  const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
+  const [updateNew, setUpdateNew] = useState(true);
+  const [saveTimeout, setSaveTimeout] = useState(null);
+  const formRef = useRef(null);
 
-  const [emotionCollapse, setEmotionCollapse] = useState(false);
-  const [restCollapse, setRestCollapse] = useState(false);
+  const {
+    currentLocale,
+    articleEntity,
+    categories,
+    loading,
+    updating,
+    statementId,
+    statement,
+    statementSources,
+    resources,
+    statementLoading
+  } = props;
 
-  useEffect(() => {
-    props.setFact(props.match.params.id);
-    props.getStatement(props.match.params.id);
-    props.getStatementSourcesByStatement(props.match.params.id);
-    props.getLatestFeatureStatementByStatementId(props.match.params.id);
-    props.getLatestResourcesByStatement(props.match.params.id);
-  }, []);
+  const {previewImage, previewImageContentType} = articleEntity;
 
-  const {currentLocale, statement, sUpdating, sUpdateSuccess, sLoading, resources, rLoading, featureStatement} = props;
-
-  useEffect(() => {
-    if (sUpdateSuccess) {
-      props.getStatement(props.match.params.id);
+  const handleClose = () => {
+    props.statementSourcesReset();
+    props.resourcesReset();
+    if (statementId !== '' || articleEntity.statement) {
+      props.history.push(`/fact-checking/sub-menu/${categories.find(cat => cat.id === parseInt(categoryId, 10)).name}?page=1&sort=articleDate,desc`)
+    } else {
+      props.history.push('/article' + props.location.search);
     }
-  }, [sUpdateSuccess]);
-
-
-  const changeFactCheckerAccuracy = event => {
-    props.setFactCheckerAccuracy(statement.id, event.target.value);
-    // TODO Add corresponding call for FeatureStatement when column is added to table.
+    props.factReset();
   };
 
-  const stickyHeader = {
-    top: 10,
-    left: 0,
-    zIndex: 2,
-    position: 'sticky',
-    backgroundColor: '#fff',
-  } as React.CSSProperties;
+  useEffect(() => {
+    if (isNew) {
+      props.reset();
+    } else {
+      props.getStatement(props.match.params.id);
+    }
+    // if (props.match.params.id) {
+    //   props.getStatement(props.match.params.id);
+    //   props.getStatementSourcesByStatement(props.match.params.id);
+    //   props.getLatestResourcesByStatement(props.match.params.id);
+    // }
 
-  return sLoading || rLoading || (featureStatement === defaultValue) ? (
-    <div>
+    props.getCategories();
+
+    return () => {
+      clearTimeout(saveTimeout);
+    }
+  }, []);
+
+  useEffect(() => {
+    if(statement && statement.article){
+      props.getEntity(statement.article.id);
+    }
+  }, [statement]);
+
+  useEffect(() => {
+    if (articleEntity.category) {
+      setCategoryId(`${articleEntity.category.id}`);
+    }
+  }, [articleEntity]);
+
+  // useEffect(() => {
+  //   if (articleEntity && articleEntity.statement) {
+  //     props.getStatementSourcesByStatement(articleEntity.statement.id);
+  //     props.getLatestResourcesByStatement(articleEntity.statement.id);
+  //   }
+  // }, [articleEntity.statement])
+
+  const onBlobChange = (isAnImage, name) => event => {
+    setFileData(event, (contentType, data) => props.setBlob(name, data, contentType), isAnImage);
+  };
+
+  const clearBlob = name => () => {
+    props.setBlob(name, null, null);
+  };
+
+  useEffect(() => {
+    if (props.updateSuccess && publishArticle) {
+      handleClose();
+    }
+  }, [props.updateSuccess]);
+
+  const saveEntity = (event, errors, values) => {
+    values.articleDate = convertDateTimeToServer(values.articleDate);
+    values.content = editorRef.current.editor.getData();
+    if (errors.length === 0) {
+      const entity = {
+        ...articleEntity,
+        ...values,
+        published: publishArticle,
+        statement: statementId !== '' ? {id: statementId} : articleEntity.statement
+      };
+
+      if (isNew && updateNew) {
+        props.createEntity(entity);
+        setUpdateNew(false);
+      } else {
+        props.updateEntity(entity);
+      }
+    }
+  };
+
+  const saveForm = () => {
+    formRef.current.submit();
+  }
+
+  const resetTimeout = (id, newID) => {
+    clearTimeout(id)
+    return newID
+  }
+
+  const formOnchange = e => {
+    setSaveTimeout(resetTimeout(saveTimeout, setTimeout(saveForm, 30000)));
+  }
+
+  return (
+    loading || statementLoading ? 
+      <div>
       <Spinner style={{width: '5rem', height: '5rem', margin: '10% 0 10% 45%'}} color="dark"/>
     </div>
-  ) : (
-    <>
-    {console.log(statement)}
-      <Container>
-        <Row>
-          <Col>
-          <Nav tabs>
-    <NavItem>
-      <NavLink
-        className="active"
-        onClick={function noRefCheck(){}}
-      >
-        {translate('check4FactsApp.article.detail.title')}
-      </NavLink>
-    </NavItem>
-    <NavItem>
-      <NavLink
-        className=""
-        onClick={function noRefCheck(){}}
-      >
-        {translate('fact-checking.results.title')}
-      </NavLink>
-    </NavItem>
-  </Nav>
-          </Col>
-        </Row>
-        <Row className="text-center my-5 text-primary">
-          <Col>
-            <h1>{translate('fact-checking.results.title')}</h1>
-          </Col>
-        </Row>
-        <Row className="text-center my-3 text-info">
-          <Col>
-            <h3>{translate("fact-checking.analyze.statement")}</h3>
-          </Col>
-        </Row>
-        <Row className="text-center my-3">
-          <Col>
-            <h5>{statement.text}</h5>
-          </Col>
-        </Row>
-        <Row className="text-center my-3 text-info">
-          <Col>
-            <h4>{translate("check4FactsApp.statement.author")}</h4>
-          </Col>
-          <Col>
-            <h4>{translate("check4FactsApp.statement.statementDate")}</h4>
-          </Col>
-          <Col>
-            <h4>{translate("check4FactsApp.statement.publicationDate")}</h4>
-          </Col>
-          <Col>
-            <h4>{translate("check4FactsApp.statement.registrationDate")}</h4>
-          </Col>
-        </Row>
-        <Row className="text-center my-3">
-          <Col>
-            <h5>{statement.author}</h5>
-          </Col>
-          <Col>
-            <h5>{moment.locale(currentLocale) && moment(statement.statementDate).format("LL")}</h5>
-          </Col>
-          <Col>
-            <h5>{moment.locale(currentLocale) && moment(statement.publicationDate).format("LL")}</h5>
-          </Col>
-          <Col>
-            <h5>{moment.locale(currentLocale) && moment(statement.registrationDate).format("LL")}</h5>
-          </Col>
-        </Row>
-        {featureStatement.predictProba > 0 ? <><Row className="text-center my-3 text-info">
-            <Col>
-              <h4>{translate("fact-checking.results.model.label")}</h4>
-            </Col>
-            <Col>
-              <h4>{translate("fact-checking.results.model.probability")}</h4>
-            </Col>
-          </Row> <Row className="text-center my-3">
-            <Col>
-              {featureStatement.predictLabel ? (
-                <h5 className="text-success">Ακριβής</h5>
-              ) : (
-                <h5 className="text-danger">Ανακριβής</h5>
-              )}
-            </Col>
-            <Col>
-              <h5
-                className={featureStatement.predictProba > 0.5 ? 'text-success' : 'text-danger'}>{Math.round(featureStatement.predictProba * 100)}%</h5>
-            </Col></Row></> :
-          <><Row className="text-center my-3 text-info">
-            <Col>
-              <h4>{translate("fact-checking.results.model.label")}</h4>
-            </Col>
-          </Row> <Row className="text-center my-3">
-            <Col>
-              <h5 className="text-danger">Ανεπαρκή δεδομένα για αυτόματη παραγωγή απόφασης</h5>
-            </Col>
-          </Row></>
-        }
-
-        <Row className="text-center my-3 text-info">
-          <Col>
-            <h4 className="result-collapse"
-                onClick={() => setEmotionCollapse(!emotionCollapse)}>{translate("fact-checking.results.model.emotions")}</h4>
-          </Col>
-        </Row>
-        <Collapse isOpen={emotionCollapse}>
-          <Row className="text-center my-3 text-primary border-bottom">
-            <Col><h5>Πεδίο</h5></Col>
-            <Col><h5>Θυμός</h5></Col>
-            <Col><h5>Απέχθεια</h5></Col>
-            <Col><h5>Φόβος</h5></Col>
-            <Col><h5>Χαρά</h5></Col>
-            <Col><h5>Λύπη</h5></Col>
-            <Col><h5>Έκπληξη</h5></Col>
-          </Row>
-          <Row className="text-center">
-            <Col><p>Δήλωση</p></Col>
-            <Col><p>{((featureStatement.sEmotionAnger[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((featureStatement.sEmotionDisgust[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p>
-            </Col>
-            <Col><p>{((featureStatement.sEmotionFear[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((featureStatement.sEmotionHappiness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p>
-            </Col>
-            <Col><p>{((featureStatement.sEmotionSadness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p>
-            </Col>
-            <Col><p>{((featureStatement.sEmotionSurprise[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</p>
-            </Col>
-          </Row>
-          <Row className="text-center">
-            <Col><p>Τίτλοι</p></Col>
-            <Col><p>{(featureStatement.rTitleEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rTitleEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rTitleEmotionFear[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rTitleEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rTitleEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rTitleEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
-          </Row>
-          <Row className="text-center">
-            <Col><p>Κείμενα</p></Col>
-            <Col><p>{(featureStatement.rBodyEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rBodyEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rBodyEmotionFear[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rBodyEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rBodyEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rBodyEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
-          </Row>
-          <Row className="text-center">
-            <Col><p>Αντιπροσωπ/τερες Παράγραφοι</p></Col>
-            <Col><p>{(featureStatement.rSimParEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimParEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimParEmotionFear[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimParEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimParEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimParEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
-          </Row>
-          <Row className="text-center border-bottom">
-            <Col><p>Αντιπροσωπ/τερες Προτάσεις</p></Col>
-            <Col><p>{(featureStatement.rSimSentEmotionAnger[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimSentEmotionDisgust[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimSentEmotionFear[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimSentEmotionHappiness[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimSentEmotionSadness[3] * 100).toFixed(2)}%</p></Col>
-            <Col><p>{(featureStatement.rSimSentEmotionSurprise[3] * 100).toFixed(2)}%</p></Col>
-          </Row>
-        </Collapse>
-        <Row className="text-center mt-5 mb-3 text-info">
-          <Col>
-            <h4 className="result-collapse"
-                onClick={() => setRestCollapse(!restCollapse)}>{translate("fact-checking.results.model.rest")}</h4>
-          </Col>
-        </Row>
-        <Collapse isOpen={restCollapse}>
-          <Row className="text-center my-3 text-primary border-bottom">
-            <Col><h5>Πεδίο</h5></Col>
-            <Col><h5>Αντικειμενικότητα</h5></Col>
-            <Col><h5>Συναισθηματική Ένταση</h5></Col>
-            <Col><h5>Ομοιότητα με Δήλωση</h5></Col>
-          </Row>
-          <Row className="text-center">
-            <Col><p>Δήλωση</p></Col>
-            <Col><p>{((1 - featureStatement.sSubjectivity) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((1 - featureStatement.sSentiment) * 100).toFixed(2)}%</p></Col>
-            <Col><p>-</p></Col>
-          </Row>
-          <Row className="text-center">
-            <Col><p>Τίτλοι</p></Col>
-            <Col><p>{((1 - featureStatement.rTitleSubjectivity) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((1 - featureStatement.rTitleSentiment) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((1 - featureStatement.rTitleSimilarity) * 100).toFixed(2)}%</p></Col>
-          </Row>
-          <Row className="text-center">
-            <Col><p>Κείμενα</p></Col>
-            <Col><p>{((1 - featureStatement.rBodySubjectivity) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((1 - featureStatement.rBodySentiment) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((1 - featureStatement.rBodySimilarity) * 100).toFixed(2)}%</p></Col>
-          </Row>
-          <Row className="text-center">
-            <Col><p>Αντιπροσωπ/τερες Παράγραφοι</p></Col>
-            <Col><p>{((1 - featureStatement.rSimParSubjectivity) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((1 - featureStatement.rSimParSentiment) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((1 - featureStatement.rSimParSimilarity) * 100).toFixed(2)}%</p></Col>
-          </Row>
-          <Row className="text-center border-bottom">
-            <Col><p>Αντιπροσωπ/τερες Προτάσεις</p></Col>
-            <Col><p>{((1 - featureStatement.rSimSentSubjectivity) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((1 - featureStatement.rSimSentSentiment) * 100).toFixed(2)}%</p></Col>
-            <Col><p>{((1 - featureStatement.rSimSentSimilarity) * 100).toFixed(2)}%</p></Col>
-          </Row>
-          <Row className="my-3">
-            <Col>
-              <ul className="text-muted">
-                <li>Οι τιμές που αφορούν το πεδίο «Δήλωση» αναφέρονται στο ποσοστό των όρων που ταυτοποιήθηκαν με το
-                  εκάστοτε χαρακτηριστικό.
-                </li>
-                <li>Tα πεδία «Τίτλοι», «Κείμενα», «Αντιπροσωπ/τερες Παράγραφοι» και «Αντιπροσωπ/τερες Προτάσεις»
-                  αναφέρονται στο σύνολο των αντίστοιχων πεδίων που προκύπτουν από τις πηγές που ανακτήθηκαν. Οι τιμές
-                  των πεδίων αυτών αναφέρονται στο ποσοστό των προτάσεων που ταυτοποιήθηκαν με το εκάστοτε
-                  χαρακτηριστικό.
-                </li>
-              </ul>
-            </Col>
-          </Row>
-        </Collapse>
-        <div className="border">
-          <Row className="text-center py-3">
-            <Col>
-              <h4 className="text-info">Απόφαση Ελεγκτή</h4>
-            </Col>
-          </Row>
-          <Row className="text-center pb-3 align-items-center">
-            <Col>
-              <h4 className="m-0">Ακρίβεια:</h4>
-            </Col>
-            <Col md="8">
-              <div className="accuracy" onChange={changeFactCheckerAccuracy}>
-                <label>
-                  <input type="radio" value={0} checked={statement.factCheckerAccuracy === 0} name="accuracy"/>
-                  {translate('fact-checking.results.model.accuracy.0')}
-                </label>
-                <label>
-                  <input type="radio" value={1} checked={statement.factCheckerAccuracy === 1} name="accuracy"/>
-                  {translate('fact-checking.results.model.accuracy.1')}
-                </label>
-                <label>
-                  <input type="radio" value={2} checked={statement.factCheckerAccuracy === 2} name="accuracy"/>
-                  {translate('fact-checking.results.model.accuracy.2')}
-                </label>
-                <label>
-                  <input type="radio" value={3} checked={statement.factCheckerAccuracy === 3} name="accuracy"/>
-                  {translate('fact-checking.results.model.accuracy.3')}
-                </label>
-                <label>
-                  <input type="radio" value={4} checked={statement.factCheckerAccuracy === 4} name="accuracy"/>
-                  {translate('fact-checking.results.model.accuracy.4')}
-                </label>
-              </div>
-            </Col>
-          </Row>
-          <Row className="text-center">
-            <Col>
-              <p>Με βάση τα παραπάνω στοιχεία μπορείτε να αλλάξετε την κατάσταση της δήλωσης αυτής</p>
-            </Col>
-          </Row>
-        </div>
-        <Row className="my-3">
-          <Col className="d-flex justify-content-center" md={{size: 4, offset: 4}}>
-            <Button tag={Link} to={statement.article == null ? "/article/new" : `/article/${statement.article.id}/edit`}
-                    color="primary">
-              {statement.article == null ? translate("fact-checking.analyze.action.createArticle") : translate("fact-checking.analyze.action.updateArticle")}
-            </Button>
-          </Col>
-        </Row>
-        <Row className="text-center mt-5 mb-2 text-info">
-          <Col>
-            <h3>{translate("fact-checking.results.model.retrieved")}</h3>
-          </Col>
-        </Row>
-      </Container>
-      {resources.length > 0 ? (
-        <div style={{maxHeight: "400px", overflowY: "auto"}}>
-        <Table responsive bordered hover size="sm">
-          <thead>
-          <tr>
-            <th></th>
-            <th>
-              <Translate contentKey="check4FactsApp.resource.url">Url</Translate>
-            </th>
-            <th>
-              <Translate contentKey="check4FactsApp.resource.title">Title</Translate>
-            </th>
-            <th>
-              <Translate contentKey="check4FactsApp.resource.simSentence">Sim Sentence</Translate>
-            </th>
-            <th>
-              <Translate contentKey="check4FactsApp.resource.simParagraph">Sim Paragraph</Translate>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          {resources.filter(filRes => filRes.title !== null && filRes.body !== null).map((response, i) => (
-            <tr key={`entity-${i}`}>
-              <td>{i + 1}</td>
-              <td style={{maxWidth: '8vw', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", verticalAlign: 'middle', textAlign: 'center'}}>
-                  <a href={response.url} target="_blank" rel="noopener noreferrer">
-                    {response.url}
-                  </a>
-              </td>
-              <td style={{maxWidth: '8vw', verticalAlign: 'middle', textAlign: 'center'}}>{response.title}</td>
-              <td style={{maxWidth: '12vw', verticalAlign: 'middle', textAlign: 'center'}}>{response.simSentence}</td>
-              <td style={{maxWidth: '15vw', verticalAlign: 'middle', textAlign: 'center'}}>
-                <div className="ellipsis">{response.simParagraph}</div>
-              </td>
-            </tr>
-          ))}
-          </tbody>
-        </Table>
-        </div>
-      ) : null}
-    </>
+    : <div>
+      {console.log(statement)}
+      <Row className="justify-content-center pt-5">
+        <Col className="text-center" md="8">
+          <h2 id="check4FactsApp.article.home.createOrEditLabel">
+            <Translate
+              contentKey="check4FactsApp.article.detail.titleAlt"
+            >Create or edit</Translate>
+          </h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <AvForm name="okForm" model={isNew ? {previewTitle: statement.text} : articleEntity} onSubmit={saveEntity} onChange={formOnchange} ref={formRef}>
+                  <Col md={{size: 8, offset: 2}} className="mt-3">
+                    {!isNew ? (
+                      <AvGroup>
+                        <Label for="article-id">
+                          <Translate contentKey="global.field.id">ID</Translate>
+                        </Label>
+                        <AvInput id="article-id" type="text" className="form-control" name="id" required readOnly/>
+                      </AvGroup>
+                    ) : null}
+                    <AvGroup>
+                      <Label id="previewTitleLabel" for="article-previewTitle">
+                        <Translate contentKey="check4FactsApp.article.previewTitle">Preview Title</Translate>
+                      </Label>
+                      <AvField
+                        id="article-previewTitle"
+                        type="textarea"
+                        name="previewTitle"
+                        validate={{
+                          required: {value: true, errorMessage: translate('entity.validation.required')},
+                        }}
+                      />
+                    </AvGroup>
+                    <AvGroup>
+                      <Label id="previewTextLabel" for="article-previewText">
+                        <Translate contentKey="check4FactsApp.article.previewText">Preview Text</Translate>
+                      </Label>
+                      <AvField
+                        id="article-previewText"
+                        type="textarea"
+                        name="previewText"
+                        validate={{
+                          required: {value: true, errorMessage: translate('entity.validation.required')},
+                        }}
+                      />
+                    </AvGroup>
+                    <AvGroup>
+                      <Label for="article-category">
+                        <Translate contentKey="check4FactsApp.article.category">Category</Translate>
+                      </Label>
+                      <AvInput
+                        id="article-category"
+                        type="select"
+                        className="form-control"
+                        name="category.id"
+                        value={isNew ? categories[0] && categories[0].id : articleEntity.category?.id}
+                        onChange={event => setCategoryId(event.target.value)}
+                        required
+                      >
+                        <option value="" key="0"/>
+                        {categories
+                          ? categories.filter(cat => (statementId !== '' || articleEntity.statement) ?
+                            ['immigration', 'crime', 'climate_change', 'pandemic'].includes(cat.name) : true).map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {translate(`check4FactsApp.category.${otherEntity.name}`)}
+                            </option>
+                          ))
+                          : null}
+                      </AvInput>
+                      <AvFeedback>
+                        <Translate contentKey="entity.validation.required">This field is required.</Translate>
+                      </AvFeedback>
+                    </AvGroup>
+                    <AvGroup>
+                      <Label id="authorLabel" for="article-author">
+                        <Translate contentKey="check4FactsApp.article.author">Author</Translate>
+                      </Label>
+                      <AvField
+                        id="article-author"
+                        type="text"
+                        name="author"
+                      />
+                    </AvGroup>
+                    <AvGroup>
+                      <AvGroup>
+                        <Label id="previewImageLabel" for="previewImage">
+                          <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
+                        </Label>
+                        <br/>
+                        {previewImage ? (
+                          <div>
+                            {previewImageContentType ? (
+                              <a onClick={openFile(previewImageContentType, previewImage)}>
+                                <img src={`data:${previewImageContentType};base64,${previewImage}`}
+                                     style={{maxHeight: '100px'}} alt="previewImage"/>
+                              </a>
+                            ) : null}
+                            <br/>
+                            <Row>
+                              <Col md="11">
+                          <span>
+                            {previewImageContentType}, {byteSize(previewImage)}
+                          </span>
+                              </Col>
+                              <Col md="1">
+                                <Button color="danger" onClick={clearBlob('previewImage')}>
+                                  <FontAwesomeIcon icon="times-circle"/>
+                                </Button>
+                              </Col>
+                            </Row>
+                          </div>
+                        ) : null}
+                        <input id="file_previewImage" type="file" onChange={onBlobChange(true, 'previewImage')}
+                               accept="image/*"/>
+                        <AvInput type="hidden" name="previewImage" value={previewImage}/>
+                      </AvGroup>
+                    </AvGroup>
+                    <AvGroup>
+                      <Label id="articleDateLabel" for="article-articleDate">
+                        <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate>
+                      </Label>
+                      <AvInput
+                        id="article-articleDate"
+                        type="datetime-local"
+                        className="form-control"
+                        name="articleDate"
+                        placeholder={'YYYY-MM-DD HH:mm'}
+                        value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.articleEntity.articleDate)}
+                      />
+                    </AvGroup>
+                  </Col>
+                  <Row>
+                    <Col md={{size: 12, offset: 0}}>
+                  <FactCheckingReportEditor
+                    isNew={isNew}
+                    formOnChange={formOnchange}
+                    content={articleEntity.content}
+                    currentLocale={currentLocale}
+                    editorRef={editorRef}
+                    statement={statementId !== '' ? statement : articleEntity.statement}
+                    statementSources={(statementSources && statementSources.length > 0) ? [...statementSources] : []}
+                    resources={(resources && resources.length > 0) ? [...resources] : []}
+                  />
+                  </Col>
+                  </Row>
+                  <Row>
+                    <Col md={{size: 8, offset: 3}}>
+                      <div className="float-right">
+                        <Button color="primary" id="save-entity" type="submit" onClick={() => setPublishArticle(false)}
+                                disabled={updating}>
+                          <FontAwesomeIcon icon="save"/>
+                          &nbsp;
+                          <Translate contentKey="entity.action.save">Save</Translate>
+                        </Button>
+                        &nbsp;
+                        <Button color="success" id="save-entity" type="submit" onClick={() => setPublishArticle(true)}
+                                disabled={updating}>
+                          <FontAwesomeIcon icon="save"/>
+                          &nbsp;
+                          <Translate contentKey="check4FactsApp.article.publish">Publish</Translate>
+                        </Button>
+                      </div>
+                    </Col>
+                  </Row>
+            </AvForm>
+          )}
+        </Col>
+      </Row>
+    </div>
   );
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
   currentLocale: storeState.locale.currentLocale,
+  categories: storeState.category.entities,
+  articleEntity: storeState.article.entity,
+  loading: storeState.article.loading,
+  updating: storeState.article.updating,
+  updateSuccess: storeState.article.updateSuccess,
+  statementId: storeState.factChecking.statement,
   statement: storeState.statement.entity,
-  sUpdating: storeState.statement.updating,
-  sUpdateSuccess: storeState.statement.updateSuccess,
-  sLoading: storeState.statement.loading,
+  statementLoading: storeState.statement.loading,
+  statementSources: storeState.statementSource.entities,
   resources: storeState.resource.entities,
-  rLoading: storeState.resource.loading,
-  featureStatement: storeState.featureStatement.entity,
-  fLoading: storeState.featureStatement.loading
 });
 
 const mapDispatchToProps = {
-  setFact,
+  getCategories,
+  getEntity,
+  updateEntity,
+  setBlob,
+  createEntity,
   getStatement,
-  setFactCheckerAccuracy,
-  getStatementSourcesByStatement,
   getLatestResourcesByStatement,
-  getLatestFeatureStatementByStatementId,
+  getStatementSourcesByStatement,
+  reset,
+  statementSourcesReset,
+  resourcesReset,
+  factReset
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

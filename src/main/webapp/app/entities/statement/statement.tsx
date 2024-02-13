@@ -259,7 +259,7 @@ export const Statement = (props: IStatementProps) => {
                       </Button>
                       <Button
                         tag={Link}
-                        to={`/fact-checking/analyze/${statement.id}`}
+                        to={`/fact-checking/report/${statement.id}`}
                         color="warning"
                         size="md"
                         id={`Tooltip-Analyze-${i}`}

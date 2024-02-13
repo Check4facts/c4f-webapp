@@ -15,7 +15,8 @@
         "question": "Are you sure you want to delete Article {{ id }}?"
       },
       "detail": {
-        "title": "Article"
+        "title": "Article",
+        "titleAlt": "Verification Report"
       },
       "display": "Display",
       "previewTitle": "Preview Title",
