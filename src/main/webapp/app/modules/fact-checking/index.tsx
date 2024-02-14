@@ -7,7 +7,7 @@ import FactCheckingAnalyze from "app/modules/fact-checking/fact-checking-analyze
 import FactCheckingResults from "app/modules/fact-checking/fact-checking-results";
 import PrivateRoute from "app/shared/auth/private-route";
 import {AUTHORITIES} from "app/config/constants";
-import FactCheckingReport from './fact-checking-report';
+import FactCheckingReport from './fact-checking-report/fact-checking-report';
 
 
 const Routes = ({ match }) => (

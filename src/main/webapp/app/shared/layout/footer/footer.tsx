@@ -16,38 +16,38 @@ const Footer = (props: IFooterProps) => (
         <Col className='' lg="5">
           <p className='mb-2'>Με τη συνεργασία των</p>
             <div style={{display: "flex", flexDirection:"row", flexWrap: "wrap", columnGap: 5}}>
-            <a href='https://www.ekke.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+            <a href='https://www.ekke.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/ekke-logo.png" alt="EKKE logo" height="50"/>
             </a>
-            <a href='https://www.media.uoa.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+            <a href='https://www.media.uoa.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/media-uoa-logo.jpg" alt="media uoa logo" height="50"/>
             </a>
-            <a href='https://www.athenarc.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+            <a href='https://www.athenarc.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/athena-logo.png" alt="athena logo" height="50"/>
             </a>
-            <a href='https://www.hcmr.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+            <a href='https://www.hcmr.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/hcmr-logo.jpg" alt="hcmr logo" height="50"/>
             </a>
-            <a href='https://www.iccs.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+            <a href='https://www.iccs.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/iccs-logo.jpg" alt="iccs logo" height="50"/>
             </a>
-            <a href='https://www.astro.noa.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+            <a href='https://www.astro.noa.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/logo-noa.jpg" alt="noa logo" height="50"/>
             </a>
-            <a href='http://www.bioacademy.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+            <a href='http://www.bioacademy.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/iibea-logo.jpg" alt="iibea logo" height="50"/>
             </a>
-            <a href='https://smslab.edu.uowm.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+            <a href='https://smslab.edu.uowm.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/smslab-logo.webp" alt="smslab logo" height="50"/>
             </a>
-            <a href='https://www.certh.gr/' className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
+            <a href='https://www.certh.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center" style={{marginRight: 3, marginBottom: 3}}>
               <img src="../../../content/images/eketa-logo-small.png" alt="eketa logo" height="50"/>
             </a>
           </div>
         </Col>
         <Col className='mt-4 mt-md-0' lg="5">
-          <p className="mb-2">Το έργο χρηματοδοτήθηκε από το <a href="http://www.elidek.gr/en/homepage/">Ελληνικό Ίδρυμα Έρευνας και Καινοτομίας</a> (grant agreement HFRI-FM17-2283).</p>
-          <a href='http://www.elidek.gr/' className="text-dark d-flex align-items-center">
+          <p className="mb-2">Το έργο χρηματοδοτήθηκε από το <a href="http://www.elidek.gr/en/homepage/" target="_blank" rel="noopener noreferrer">Ελληνικό Ίδρυμα Έρευνας και Καινοτομίας</a> (grant agreement HFRI-FM17-2283).</p>
+          <a href='http://www.elidek.gr/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center">
             <img src="../../../content/images/ELIDEK.png" alt="ELIDEK logo" height="50"/>
           </a>
         </Col>

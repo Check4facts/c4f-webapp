@@ -32,6 +32,7 @@
         "false": "False"
       },
       "title": "Statement Analyze",
+      "titleAlt": "Statement Details",
       "urls": "List of URLs documenting the decision",
       "button": "Harvest"
     },

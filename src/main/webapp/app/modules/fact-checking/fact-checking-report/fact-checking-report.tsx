@@ -10,7 +10,7 @@ import {createEntity, getEntity, reset, updateEntity} from 'app/entities/article
 import {getEntities as getCategories} from 'app/entities/category/category.reducer';
 import {convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime} from 'app/shared/util/date-utils';
 import {reset as factReset} from 'app/modules/fact-checking/fact-checking.reducer';
-import {getEntity as getStatement} from 'app/entities/statement/statement.reducer';
+import {getEntity as getStatement, setFactCheckerAccuracy, reset as StatementReset} from 'app/entities/statement/statement.reducer';
 import {getLatestResourcesByStatement, reset as resourcesReset, setBlob} from 'app/entities/resource/resource.reducer';
 import {
   getStatementSourcesByStatement,
@@ -19,6 +19,8 @@ import {
 import FactCheckingReportEditor from "./fact-checking-report-editor";
 
 import CKEditor from '@ckeditor/ckeditor5-react';
+import FactCheckingReportAnalyzer from './fact-checking-report-analyzer';
+import { getLatestFeatureStatementByStatementId } from 'app/entities/feature-statement/feature-statement.reducer';
 
 export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
 }
@@ -27,6 +29,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const editorRef = useRef(CKEditor);
   const [publishArticle, setPublishArticle] = useState(false);
   const [categoryId, setCategoryId] = useState('1');
+  const [open, setOpen] = useState(false);
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
   const [updateNew, setUpdateNew] = useState(true);
   const [saveTimeout, setSaveTimeout] = useState(null);
@@ -42,7 +45,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     statement,
     statementSources,
     resources,
-    statementLoading
+    statementLoading,
+    getLatestFeatureStatementByStatementId,
+    setFactCheckerAccuracy,
+    featureStatement,
+    floading
   } = props;
 
   const {previewImage, previewImageContentType} = articleEntity;
@@ -58,28 +65,36 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     props.factReset();
   };
 
+  const toggle = () => {
+    setOpen(!open);
+  }
+
   useEffect(() => {
-    if (isNew) {
-      props.reset();
-    } else {
-      props.getStatement(props.match.params.id);
-    }
+    
+    props.getStatement(props.match.params.id);
+    props.getStatementSourcesByStatement(props.match.params.id);
+    props.getCategories();
     // if (props.match.params.id) {
     //   props.getStatement(props.match.params.id);
-    //   props.getStatementSourcesByStatement(props.match.params.id);
     //   props.getLatestResourcesByStatement(props.match.params.id);
     // }
 
-    props.getCategories();
-
+    // Reset Statement and Article on unmount
     return () => {
+      props.reset();
+      props.StatementReset();
       clearTimeout(saveTimeout);
     }
+
   }, []);
 
   useEffect(() => {
     if(statement && statement.article){
+      setIsNew(false);
       props.getEntity(statement.article.id);
+    }else{
+      setIsNew(true);
+      props.reset();
     }
   }, [statement]);
 
@@ -118,9 +133,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
         ...articleEntity,
         ...values,
         published: publishArticle,
-        statement: statementId !== '' ? {id: statementId} : articleEntity.statement
+        statement: statement.article ? articleEntity.statement : {id: statement.id}
       };
-
       if (isNew && updateNew) {
         props.createEntity(entity);
         setUpdateNew(false);
@@ -149,7 +163,6 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       <Spinner style={{width: '5rem', height: '5rem', margin: '10% 0 10% 45%'}} color="dark"/>
     </div>
     : <div>
-      {console.log(statement)}
       <Row className="justify-content-center pt-5">
         <Col className="text-center" md="8">
           <h2 id="check4FactsApp.article.home.createOrEditLabel">
@@ -164,6 +177,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
+          <>
+          {console.log(statement)}
             <AvForm name="okForm" model={isNew ? {previewTitle: statement.text} : articleEntity} onSubmit={saveEntity} onChange={formOnchange} ref={formRef}>
                   <Col md={{size: 8, offset: 2}} className="mt-3">
                     {!isNew ? (
@@ -300,7 +315,14 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                   </Col>
                   </Row>
                   <Row>
-                    <Col md={{size: 8, offset: 3}}>
+                    <Col md={{size: 10, offset: 1}}>
+                      <div className="float-left">
+                        <Button color="warning" onClick={toggle} disabled={updating}>
+                          <FontAwesomeIcon icon="chart-pie"/>
+                          &nbsp;
+                          <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
+                        </Button>
+                      </div>
                       <div className="float-right">
                         <Button color="primary" id="save-entity" type="submit" onClick={() => setPublishArticle(false)}
                                 disabled={updating}>
@@ -319,6 +341,10 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                     </Col>
                   </Row>
             </AvForm>
+            <FactCheckingReportAnalyzer open={open} toggle={toggle} statement={statement} currentLocale={currentLocale} statementSources={statementSources}
+            setFactCheckerAccuracy={setFactCheckerAccuracy} getLatestFeatureStatementByStatementId={getLatestFeatureStatementByStatementId}
+            featureStatement={featureStatement} floading={floading}/>
+            </>
           )}
         </Col>
       </Row>
@@ -338,6 +364,8 @@ const mapStateToProps = (storeState: IRootState) => ({
   statementLoading: storeState.statement.loading,
   statementSources: storeState.statementSource.entities,
   resources: storeState.resource.entities,
+  featureStatement: storeState.featureStatement.entity,
+  floading: storeState.featureStatement.loading,
 });
 
 const mapDispatchToProps = {
@@ -352,7 +380,10 @@ const mapDispatchToProps = {
   reset,
   statementSourcesReset,
   resourcesReset,
-  factReset
+  factReset,
+  StatementReset,
+  setFactCheckerAccuracy,
+  getLatestFeatureStatementByStatementId,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

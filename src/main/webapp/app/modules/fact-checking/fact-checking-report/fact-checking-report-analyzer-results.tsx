@@ -1,56 +1,32 @@
-import './fact-checking.scss'
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import {IRootState} from 'app/shared/reducers';
-import {Link, RouteComponentProps} from 'react-router-dom';
-import {Button, Col, Collapse, Container, Row, Spinner, Table} from 'reactstrap';
-import {setFact} from 'app/modules/fact-checking/fact-checking.reducer';
-import {getEntity as getStatement, setFactCheckerAccuracy,} from 'app/entities/statement/statement.reducer';
-import {getStatementSourcesByStatement} from 'app/entities/statement-source/statement-source.reducer';
-import {getLatestResourcesByStatement} from 'app/entities/resource/resource.reducer';
-import {defaultValue} from 'app/shared/model/feature-statement.model';
-import {getLatestFeatureStatementByStatementId,} from 'app/entities/feature-statement/feature-statement.reducer';
-import {translate, Translate} from 'react-jhipster';
-import moment from "moment";
+import React, { useState } from 'react';
+import { Row, Col, Collapse, Button, Table } from 'reactstrap';
+import {translate} from "react-jhipster";
+import { IStatement } from 'app/shared/model/statement.model';
+import moment from 'moment';
+import { IFeatureStatement } from 'app/shared/model/feature-statement.model';
+import { Link } from 'react-router-dom';
 
-export interface IFactCheckingResultsProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {
+interface IFactCheckingReportAnalyzerResults {
+statement: IStatement;
+currentLocale: string;
+featureStatement: IFeatureStatement;
+setFactCheckerAccuracy: (id: number, accuracy: number) => void;
 }
 
-export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
 
+const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerResults) => {
+  const { statement, currentLocale, featureStatement, setFactCheckerAccuracy } = props;
   const [emotionCollapse, setEmotionCollapse] = useState(false);
   const [restCollapse, setRestCollapse] = useState(false);
 
-  useEffect(() => {
-    props.setFact(props.match.params.id);
-    props.getStatement(props.match.params.id);
-    props.getStatementSourcesByStatement(props.match.params.id);
-    props.getLatestFeatureStatementByStatementId(props.match.params.id);
-    props.getLatestResourcesByStatement(props.match.params.id);
-  }, []);
-
-  const {currentLocale, statement, sUpdating, sUpdateSuccess, sLoading, resources, rLoading, featureStatement} = props;
-
-  useEffect(() => {
-    if (sUpdateSuccess) {
-      props.getStatement(props.match.params.id);
-    }
-  }, [sUpdateSuccess]);
-
-
   const changeFactCheckerAccuracy = event => {
-    props.setFactCheckerAccuracy(statement.id, event.target.value);
+    setFactCheckerAccuracy(statement.id, event.target.value);
     // TODO Add corresponding call for FeatureStatement when column is added to table.
   };
-
-  return sLoading || rLoading || (featureStatement === defaultValue) ? (
-    <div>
-      <Spinner style={{width: '5rem', height: '5rem', margin: '10% 0 10% 45%'}} color="dark"/>
-    </div>
-  ) : (
+  
+  return (
     <>
-      <Container>
-        <Row className="text-center my-5 text-primary">
+    <Row className="text-center my-5 text-primary">
           <Col>
             <h1>{translate('fact-checking.results.title')}</h1>
           </Col>
@@ -130,7 +106,7 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           </Col>
         </Row>
         <Collapse isOpen={emotionCollapse}>
-          <Row className="text-center my-3 text-primary border-bottom">
+          {/* <Row className="text-center my-3 text-primary border-bottom">
             <Col><h5>Πεδίο</h5></Col>
             <Col><h5>Θυμός</h5></Col>
             <Col><h5>Απέχθεια</h5></Col>
@@ -245,7 +221,82 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
                 </li>
               </ul>
             </Col>
-          </Row>
+          </Row> */}
+          <Table bordered className={emotionCollapse ? 'show' : 'hide'}>
+      <thead>
+        <tr className="text-center my-3 text-primary border-bottom">
+          <th>Πεδίο</th>
+          <th>Θυμός</th>
+          <th>Απέχθεια</th>
+          <th>Φόβος</th>
+          <th>Χαρά</th>
+          <th>Λύπη</th>
+          <th>Έκπληξη</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="text-center">
+          <td>Δήλωση</td>
+          <td>{((featureStatement.sEmotionAnger[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+          <td>{((featureStatement.sEmotionDisgust[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+          <td>{((featureStatement.sEmotionFear[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+          <td>{((featureStatement.sEmotionHappiness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+          <td>{((featureStatement.sEmotionSadness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+          <td>{((featureStatement.sEmotionSurprise[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+        </tr>
+        <tr className="text-center">
+          <td>Τίτλοι</td>
+          <td>{(featureStatement.rTitleEmotionAnger[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionDisgust[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionFear[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionHappiness[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionSadness[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionSurprise[3] * 100).toFixed(2)}%</td>
+        </tr>
+        <tr className="text-center">
+          <td>Τίτλοι</td>
+          <td>{(featureStatement.rTitleEmotionAnger[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionDisgust[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionFear[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionHappiness[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionSadness[3] * 100).toFixed(2)}%</td>
+          <td>{(featureStatement.rTitleEmotionSurprise[3] * 100).toFixed(2)}%</td>
+        </tr>
+        <tr className="text-center">
+            <td>Κείμενα</td>
+            <td>{(featureStatement.rBodyEmotionAnger[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rBodyEmotionDisgust[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rBodyEmotionFear[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rBodyEmotionHappiness[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rBodyEmotionSadness[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rBodyEmotionSurprise[3] * 100).toFixed(2)}%</td>
+          </tr>
+          <tr className="text-center">
+            <td>Αντιπροσωπ/τερες Παράγραφοι</td>
+            <td>{(featureStatement.rSimParEmotionAnger[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimParEmotionDisgust[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimParEmotionFear[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimParEmotionHappiness[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimParEmotionSadness[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimParEmotionSurprise[3] * 100).toFixed(2)}%</td>
+          </tr>
+          <tr className="text-center border-bottom">
+            <td>Αντιπροσωπ/τερες Προτάσεις</td>
+            <td>{(featureStatement.rSimSentEmotionAnger[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimSentEmotionDisgust[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimSentEmotionFear[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimSentEmotionHappiness[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimSentEmotionSadness[3] * 100).toFixed(2)}%</td>
+            <td>{(featureStatement.rSimSentEmotionSurprise[3] * 100).toFixed(2)}%</td>
+          </tr>
+          <Row className="text-center mt-5 mb-3 text-info">
+          <Col>
+            <h4 className="result-collapse"
+                onClick={() => setRestCollapse(!restCollapse)}>{translate("fact-checking.results.model.rest")}</h4>
+          </Col>
+        </Row>
+      </tbody>
+    </Table>
         </Collapse>
         <div className="border">
           <Row className="text-center py-3">
@@ -301,73 +352,8 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
             <h3>{translate("fact-checking.results.model.retrieved")}</h3>
           </Col>
         </Row>
-      </Container>
-      {resources.length > 0 ? (
-        <div style={{maxHeight: "400px", overflowY: "auto"}}>
-        <Table responsive bordered hover size="sm">
-          <thead>
-          <tr>
-            <th></th>
-            <th>
-              <Translate contentKey="check4FactsApp.resource.url">Url</Translate>
-            </th>
-            <th>
-              <Translate contentKey="check4FactsApp.resource.title">Title</Translate>
-            </th>
-            <th>
-              <Translate contentKey="check4FactsApp.resource.simSentence">Sim Sentence</Translate>
-            </th>
-            <th>
-              <Translate contentKey="check4FactsApp.resource.simParagraph">Sim Paragraph</Translate>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          {resources.filter(filRes => filRes.title !== null && filRes.body !== null).map((response, i) => (
-            <tr key={`entity-${i}`}>
-              <td>{i + 1}</td>
-              <td style={{maxWidth: '8vw', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", verticalAlign: 'middle', textAlign: 'center'}}>
-                  <a href={response.url} target="_blank" rel="noopener noreferrer">
-                    {response.url}
-                  </a>
-              </td>
-              <td style={{maxWidth: '8vw', verticalAlign: 'middle', textAlign: 'center'}}>{response.title}</td>
-              <td style={{maxWidth: '12vw', verticalAlign: 'middle', textAlign: 'center'}}>{response.simSentence}</td>
-              <td style={{maxWidth: '15vw', verticalAlign: 'middle', textAlign: 'center'}}>
-                <div className="ellipsis">{response.simParagraph}</div>
-              </td>
-            </tr>
-          ))}
-          </tbody>
-        </Table>
-        </div>
-      ) : null}
     </>
-  );
+    )
 };
 
-const mapStateToProps = (storeState: IRootState) => ({
-  currentLocale: storeState.locale.currentLocale,
-  statement: storeState.statement.entity,
-  sUpdating: storeState.statement.updating,
-  sUpdateSuccess: storeState.statement.updateSuccess,
-  sLoading: storeState.statement.loading,
-  resources: storeState.resource.entities,
-  rLoading: storeState.resource.loading,
-  featureStatement: storeState.featureStatement.entity,
-  fLoading: storeState.featureStatement.loading
-});
-
-const mapDispatchToProps = {
-  setFact,
-  getStatement,
-  setFactCheckerAccuracy,
-  getStatementSourcesByStatement,
-  getLatestResourcesByStatement,
-  getLatestFeatureStatementByStatementId,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(FactCheckingResults);
+export default FactchekcingReportAnalyzerResults;

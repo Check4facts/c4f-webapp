@@ -1,0 +1,32 @@
+.report-modal-content {
+  height: 100%;
+  width: 100%;
+}
+
+.report-modal-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  margin: 0;
+  width: 80% !important;
+  height: 80% !important;
+}
+
+@media (min-width: 576px) {
+  .report-modal-dialog {
+    max-width: 80% !important;
+  }
+}
+
+.report-modal-title {
+  align-items: center;
+  .close {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.report-modal-body {
+  overflow-y: auto;
+}
