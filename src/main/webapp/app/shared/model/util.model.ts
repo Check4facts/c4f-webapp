@@ -2,6 +2,7 @@ export interface IModalContent {
   header: any;
   body: any;
   action: () => void;
+  open?: boolean;
 }
 
 export type TaskInfo = {

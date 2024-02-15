@@ -35,7 +35,7 @@ const Events = () => {
   };
 
   return (
-    <Container>
+    <>
       <br />
       <br /> <h1 className="page-header text-center mt-3 mb-3">Εκδηλώσεις</h1>
       <br />
@@ -570,7 +570,7 @@ const Events = () => {
           </CardBody>}
         </Collapse>
       </Card>
-    </Container>
+    </>
   );
 };
 

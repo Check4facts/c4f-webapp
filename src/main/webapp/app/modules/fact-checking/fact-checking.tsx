@@ -28,7 +28,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
   const { topics } = props;
 
   const handleClose = () => {
-    props.history.push('/fact-checking/analyze/' + props.statement.id);
+    props.history.push('/statement?page=1&sort=id,desc');
   }
 
   useEffect(() => {

@@ -7,17 +7,15 @@ import moment from 'moment';
 import { IStatementSource } from 'app/shared/model/statement-source.model';
 import FactchekcingReportAnalyzerResults from './fact-checking-report-analyzer-results';
 import { IFeatureStatement } from 'app/shared/model/feature-statement.model';
+import { IResource } from 'app/shared/model/resource.model';
+import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
+import { IRootState } from 'app/shared/reducers';
+import { getLatestFeatureStatementByStatementId } from 'app/entities/feature-statement/feature-statement.reducer';
 
-interface IFactCheckingReportAnalyzer {
+interface IFactCheckingReportAnalyzer extends StateProps, DispatchProps {
   open: boolean;
   toggle: any;
-  statement: IStatement;
-  currentLocale: string;
-  statementSources: readonly IStatementSource[];
-  setFactCheckerAccuracy: (id: number, accuracy: number) => void;
-  getLatestFeatureStatementByStatementId: (id: number) => void;
-  featureStatement: IFeatureStatement;
-  floading: boolean;
 }
 
 const paragraphStyle = {
@@ -34,15 +32,15 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
     statement,
     currentLocale,
     statementSources,
-    featureStatement,
     floading,
-    setFactCheckerAccuracy,
-    getLatestFeatureStatementByStatementId,
+    featureStatementCount,
   } = props;
 
-    React.useEffect(() => {
-        getLatestFeatureStatementByStatementId(statement.id);
-    }, []);
+  React.useEffect(() => {
+    if (statement && statement.id && featureStatementCount > 0) {
+      props.getLatestFeatureStatementByStatementId(statement.id);
+    }
+  }, [statement]);
 
   return (
     <Modal
@@ -58,7 +56,6 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
       </ModalHeader>
       <ModalBody className="report-modal-body">
         <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem', borderBottom: '1px solid rgba(0,0,0,0.2)' }}>
-            {console.log(featureStatement)}
           <Row style={{ display: 'flex', flexDirection: 'column', width: '80%', rowGap: 1 }} size={{ size: 3, offset: 3 }}>
             <Row>
               <Col style={{ textAlign: 'center' }}>
@@ -133,9 +130,13 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
             <Row>
               <Col>
                 <p style={paragraphStyle}>
-                  <a href={statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">
-                    {statement.mainArticleUrl}
-                  </a>
+                  {statement.mainArticleUrl ? (
+                    <a href={statement.mainArticleUrl} target="_blank" rel="noopener noreferrer">
+                      {statement.mainArticleUrl}
+                    </a>
+                  ) : (
+                    '-'
+                  )}
                 </p>
               </Col>
             </Row>
@@ -148,7 +149,7 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
             <Row>
               {statementSources.length > 0 ? (
                 <Col>
-                  <Table responsive bordered>
+                  <Table responsive hover bordered>
                     <thead>
                       <tr>
                         <th>#</th>
@@ -180,22 +181,33 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
                   </Table>
                 </Col>
               ) : (
-                <Col md={{ size: 4, offset: 0 }} className="alert alert-warning text-center">
-                  <Translate contentKey="fact-checking.check.statementSources.notAdded" />
+                <Col>
+                  <p className="alert alert-warning">{translate('fact-checking.check.statementSources.notAdded')}</p>
                 </Col>
               )}
             </Row>
           </Row>
         </div>
-        {!floading && <FactchekcingReportAnalyzerResults
-          statement={statement}
-          currentLocale={currentLocale}
-          featureStatement={featureStatement}
-          setFactCheckerAccuracy={setFactCheckerAccuracy}
-        />}
+        {!floading && <FactchekcingReportAnalyzerResults />}
       </ModalBody>
     </Modal>
   );
 };
 
-export default FactCheckingReportAnalyzer;
+const mapStateToProps = (storeState: IRootState) => ({
+  currentLocale: storeState.locale.currentLocale,
+  loading: storeState.article.loading,
+  statement: storeState.statement.entity,
+  statementSources: storeState.statementSource.entities,
+  floading: storeState.featureStatement.loading,
+  featureStatementCount: storeState.featureStatement.count,
+});
+
+const mapDispatchToProps = {
+  getLatestFeatureStatementByStatementId
+};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(FactCheckingReportAnalyzer);
