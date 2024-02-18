@@ -17,15 +17,18 @@ import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.r
 
 interface IFactCheckingReportAnalyzerResults extends StateProps, DispatchProps {}
 
-export const progressBar = (message: string, task: ITaskStatus) => (
-  task.taskInfo &&
-  <Col md={{size: 4, offset: 4}}>
-    <div className="text-center">{message}</div>
-    <Progress animated color="info" value={task.taskInfo.current * (100 / task.taskInfo.total)}/>
-    <div className="text-center">Βήμα <span className="text-info">{task.taskInfo.current}</span> από <span
-      className="text-success">{task.taskInfo.total}</span></div>
-  </Col>
-);
+const progressBar = (message: string, task: ITaskStatus) =>
+  task.taskInfo && (
+    <Row>
+      <Col>
+        <div className="text-center">{message}</div>
+        <Progress animated color="info" value={task.taskInfo.current * (100 / task.taskInfo.total)} />
+        <div className="text-center">
+          Βήμα <span className="text-warning">{task.taskInfo.current}</span> από <span className="text-success">{task.taskInfo.total}</span>
+        </div>
+      </Col>
+    </Row>
+  );
 
 const paragraphStyle = {
   border: '1px solid rgba(0,0,0,0.2)',
@@ -35,7 +38,16 @@ const paragraphStyle = {
 } as React.CSSProperties;
 
 const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerResults) => {
-  const { resources, statement, currentLocale, featureStatement, featureStatementCount, statementSources, taskStatuses, activeStatuses } = props;
+  const {
+    resources,
+    statement,
+    currentLocale,
+    featureStatement,
+    featureStatementCount,
+    statementSources,
+    taskStatuses,
+    activeStatuses,
+  } = props;
   const statusInterval = useRef(null);
   const [emotionCollapse, setEmotionCollapse] = useState(false);
   const [restCollapse, setRestCollapse] = useState(false);
@@ -49,7 +61,7 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
 
   useEffect(() => {
     props.getActiveCeleryTasks();
-  }, [])
+  }, []);
 
   useEffect(() => {
     taskStatuses.forEach(task => {
@@ -112,11 +124,11 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem' }}>
-      <Modal fade={false} size="md" isOpen={modalContent.open} toggle={() => setModalContent(state => ({...state, open: false}))}>
+      <Modal fade={false} size="md" isOpen={modalContent.open} toggle={() => setModalContent(state => ({ ...state, open: false }))}>
         <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>
         <ModalBody>{modalContent.body}</ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={() => setModalContent(state => ({...state, open: false}))}>
+          <Button color="secondary" onClick={() => setModalContent(state => ({ ...state, open: false }))}>
             Όχι
           </Button>
           <Button color="primary" onClick={() => modalContent.action()}>
@@ -143,7 +155,7 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
             )}
           </Col>
         </Row>
-        {featureStatementCount === 0 ? (!reAnalyze && !analyzeStatus.taskInfo ?
+        {!reAnalyze && !analyzeStatus.taskInfo && featureStatementCount === 0 && (
           <>
             <Row>
               <Col className="alert alert-warning" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -154,7 +166,9 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
               </Col>
             </Row>
           </>
-        : null) : (
+        )}
+        {analyzeStatus.taskInfo && progressBar('Διαδικασία ανάλυσης δήλωσης...', analyzeStatus)}
+        {featureStatementCount > 0 && (
           <>
             <Row>
               <Col>
@@ -220,7 +234,9 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
                         Ακριβής
                       </p>
                     ) : (
-                      <p className="text-danger">Ανακριβής</p>
+                      <p style={paragraphStyle} className="text-danger">
+                        Ανακριβής
+                      </p>
                     )}
                   </Col>
                 </Row>
@@ -486,7 +502,7 @@ const mapDispatchToProps = {
   getTaskStatus,
   removeTaskStatus,
   countFeatureStatementsByStatement,
-  getActiveCeleryTasks
+  getActiveCeleryTasks,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

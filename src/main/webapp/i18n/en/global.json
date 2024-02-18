@@ -127,6 +127,8 @@
       "cancel": "Cancel",
       "delete": "Delete",
       "edit": "Edit",
+      "editAlt": "Edit Statement",
+      "editArticle": "Edit Article",
       "analyzer": "Analyzer",
       "open": "Open",
       "save": "Save",

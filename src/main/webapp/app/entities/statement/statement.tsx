@@ -264,7 +264,7 @@ export const Statement = (props: IStatementProps) => {
                         size="md"
                         id={`Tooltip-Analyze-${i}`}
                       >
-                      <FontAwesomeIcon icon="sync" />
+                      <FontAwesomeIcon icon="file-alt" />
                       </Button>
                       <Button
                         tag={Link}
@@ -276,10 +276,10 @@ export const Statement = (props: IStatementProps) => {
                         <FontAwesomeIcon icon="trash" />
                       </Button>
                       <Tooltip isOpen={tooltipOpen === `Tooltip-Edit-${i}`} target={`Tooltip-Edit-${i}`} toggle={toggle}>
-                        <Translate contentKey="entity.action.edit">Edit</Translate>
+                        <Translate contentKey="entity.action.editAlt">Edit</Translate>
                       </Tooltip>
                       <Tooltip isOpen={tooltipOpen === `Tooltip-Analyze-${i}`} target={`Tooltip-Analyze-${i}`} toggle={toggle}>
-                        <Translate contentKey="fact-checking.analyze.button" />
+                        <Translate contentKey="entity.action.editArticle" />
                       </Tooltip>
                       <Tooltip isOpen={tooltipOpen === `Tooltip-Delete-${i}`} target={`Tooltip-Delete-${i}`} toggle={toggle}>
                         <Translate contentKey="entity.action.delete">Delete</Translate>
