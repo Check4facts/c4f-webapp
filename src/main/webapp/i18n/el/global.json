@@ -1,6 +1,7 @@
 {
   "global": {
     "title": "Check4Facts",
+    "privacy-policy": "πολιτική απορρήτου",
     "browsehappy": "Χρησιμοποείται ένα <strong>απαρχαιωμένο</strong> πρόγραμμα περιήγησης. Παρακαλώ <a href=\"http://browsehappy.com/?locale=en\">αναβαθμίστε το πρόγραμμα περιήγησης σας</a> να βελτιωθεί η εμπειρία σας.",
     "menu": {
       "home": "Αρχική",

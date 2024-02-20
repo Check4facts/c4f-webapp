@@ -52,7 +52,7 @@ export const App = (props: IAppProps) => {
             <AppRoutes/>
           </ErrorBoundary>
         {/* </Container> */}
-        <Footer isAuthenticated={props.isAuthenticated} />
+        <Footer isAuthenticated={props.isAuthenticated} currentLocale={props.currentLocale} />
       </div>
     </Router>
   );
