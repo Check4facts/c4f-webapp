@@ -85,4 +85,29 @@ export const THIRD_PARTY_LINK = [
     name: 'Disinfobservatory.ord',
     logo: '../content/images/soma-logo.png',
   },
+  {
+    link: 'https://edmo.eu/',
+    name: 'EDMO',
+    logo: '../content/images/edmo-logo.jpg',
+  },
+  {
+    link: 'https://meddmo.eu/',
+    name: 'MedDMO',
+    logo: '../content/images/meddmo-logo.webp',
+  },
+  {
+    link: 'https://efcsn.com/',
+    name: 'EFCSN',
+    logo: '../content/images/efcsn-logo.svg',
+  },
+  {
+    link: 'https://www.reuters.com/fact-check/',
+    name: 'Reuters',
+    logo: '../content/images/reuters-logo.svg',
+  },
+  {
+    link: 'https://www.bbc.com/news/reality_check',
+    name: 'BBC Reality Check',
+    logo: '../content/images/bbc-logo.svg',
+  },
 ];
