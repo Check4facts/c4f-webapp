@@ -116,11 +116,11 @@ public class ElasticsearchIndexService {
                 reindexForClass(Article.class, articleRepository, articleSearchRepository);
                 reindexForClass(Category.class, categoryRepository, categorySearchRepository);
                 reindexForClass(FeatureStatement.class, featureStatementRepository, featureStatementSearchRepository);
-                reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
                 reindexForClass(Statement.class, statementRepository, statementSearchRepository);
                 reindexForClass(StatementSource.class, statementSourceRepository, statementSourceSearchRepository);
                 reindexForClass(Topic.class, topicRepository, topicSearchRepository );
                 reindexForClass(User.class, userRepository, userSearchRepository);
+                reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
                 log.info("Elasticsearch: Successfully performed reindexing");
             } finally {
                 reindexLock.unlock();

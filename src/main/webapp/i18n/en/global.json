@@ -134,7 +134,8 @@
       "save": "Save",
       "view": "View",
       "next": "Next Step",
-      "previous": "Previous Step"
+      "previous": "Previous Step",
+      "preview": "Preview"
     },
     "detail": {
       "field": "Field",

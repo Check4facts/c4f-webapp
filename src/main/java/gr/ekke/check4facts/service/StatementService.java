@@ -8,6 +8,7 @@ import gr.ekke.check4facts.repository.StatementRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
 import gr.ekke.check4facts.repository.search.StatementSearchRepository;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +37,16 @@ public class StatementService {
 
     private final ResourceRepository resourceRepository;
 
-    private  final FeatureStatementRepository featureStatementRepository;
+    private final FeatureStatementRepository featureStatementRepository;
 
     private final ArticleRepository articleRepository;
 
     private final ArticleService articleService;
 
-    public StatementService(StatementRepository statementRepository, StatementSearchRepository statementSearchRepository, ResourceRepository resourceRepository, FeatureStatementRepository featureStatementRepository, ArticleRepository articleRepository, ArticleSearchRepository articleSearchRepository, ArticleService articleService) {
+    public StatementService(StatementRepository statementRepository,
+            StatementSearchRepository statementSearchRepository, ResourceRepository resourceRepository,
+            FeatureStatementRepository featureStatementRepository, ArticleRepository articleRepository,
+            ArticleSearchRepository articleSearchRepository, ArticleService articleService) {
         this.statementRepository = statementRepository;
         this.statementSearchRepository = statementSearchRepository;
         this.resourceRepository = resourceRepository;
@@ -107,7 +111,7 @@ public class StatementService {
     /**
      * Search for the statement corresponding to the query.
      *
-     * @param query the query of the search.
+     * @param query    the query of the search.
      * @param pageable the pagination information.
      * @return the list of entities.
      */
@@ -117,11 +121,25 @@ public class StatementService {
         MultiMatchQueryBuilder queryBuilder;
         try {
             Integer.parseInt(query);
-            queryBuilder = multiMatchQuery(query).field("id", 100).field("text", 2).field("mainArticleTitle", 1);
+            queryBuilder = multiMatchQuery(query)
+                    .field("id");
         } catch (NumberFormatException e) {
-            queryBuilder = multiMatchQuery(query).field("text", 2).field("mainArticleTitle");
+            queryBuilder = multiMatchQuery(query)
+                    .field("author")
+                    .field("text")
+                    .field("mainArticleTitle")
+                    .field("article.author")
+                    .type(MultiMatchQueryBuilder.Type.BEST_FIELDS)
+                    .operator(Operator.OR);
         }
-        return statementSearchRepository.search(queryBuilder, pageable);
+        Page<Statement> statements = statementSearchRepository.search(queryBuilder, pageable);
+        for (Statement statement : statements) {
+            if (statement.getArticle() != null) {
+                statement.getArticle().setPreviewImage(null);
+                statement.getArticle().setContent(null);
+            }
+        }
+        return statements;
     }
 
     public Integer setFactCheckerAccuracy(Long id, Integer accuracy) {

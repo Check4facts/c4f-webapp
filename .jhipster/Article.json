@@ -40,6 +40,10 @@
       "fieldType": "Instant"
     },
     {
+      "fieldName": "articleDateUpdated",
+      "fieldType": "Instant"
+    },
+    {
       "fieldName": "author",
       "fieldType": "String"
     },

@@ -88,7 +88,7 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
       if (!_.isEmpty(analyzeStatus) && statusInterval.current === null) {
         statusInterval.current = setInterval(() => {
           props.getTaskStatus(analyzeStatus.taskId);
-        }, 10000);
+        }, 5000);
       }
       // When analyze task is finished stop interval and fetch FeatureStatements count to display results button.
       if (analyzeStatus.status === 'SUCCESS') {
@@ -168,9 +168,9 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
           </>
         )}
         {analyzeStatus.taskInfo && progressBar('Διαδικασία ανάλυσης δήλωσης...', analyzeStatus)}
-        {featureStatementCount > 0 && (
+        {featureStatementCount > 0 && Object.keys(featureStatement).length > 0 && (
           <>
-            <Row>
+            {/* <Row>
               <Col>
                 <h4>{translate('fact-checking.analyze.statement')}</h4>
               </Col>
@@ -199,7 +199,7 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
               <Col>
                 <p style={paragraphStyle}>{moment.locale(currentLocale) && moment(statement.statementDate).format('LL')}</p>
               </Col>
-            </Row>
+            </Row> */}
             <Row>
               <Col>
                 <h4>{translate('check4FactsApp.statement.publicationDate')}</h4>

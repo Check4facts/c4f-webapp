@@ -52,6 +52,9 @@ public class Article implements Serializable {
 
     @Column(name = "article_date")
     private Instant articleDate;
+    
+    @Column(name = "article_date_updated")
+    private Instant articleDateUpdated;
 
     @Column(name = "author")
     private String author;
@@ -153,6 +156,19 @@ public class Article implements Serializable {
 
     public Article articleDate(Instant articleDate) {
         this.articleDate = articleDate;
+        return this;
+    }
+ 
+    public Instant getArticleDateUpdated() {
+        return articleDateUpdated;
+    }
+
+    public void setArticleDateUpdated(Instant articleDateUpdated) {
+        this.articleDateUpdated = articleDateUpdated;
+    }
+
+    public Article articleDateUpdated(Instant articleDateUpdated) {
+        this.articleDateUpdated = articleDateUpdated;
         return this;
     }
 

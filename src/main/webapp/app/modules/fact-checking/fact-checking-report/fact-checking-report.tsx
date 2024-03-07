@@ -22,6 +22,7 @@ import {
   getLatestFeatureStatementByStatementId,
   reset as featureStatementReset,
 } from 'app/entities/feature-statement/feature-statement.reducer';
+import FactCheckingReportPreview from './fact-checking-report-preview';
 
 export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -33,6 +34,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
   const [updateNew, setUpdateNew] = useState(true);
   const [saveTimeout, setSaveTimeout] = useState(null);
+  const [previewArticle, setPreviewArticle] = useState(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const formRef = useRef(null);
 
   const {
@@ -135,6 +138,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
 
   const saveEntity = (event, errors, values) => {
     values.articleDate = convertDateTimeToServer(values.articleDate);
+    values.articleDateUpdated = values.articleDateUpdated ? convertDateTimeToServer(values.articleDateUpdated) : null;
     values.content = editorRef.current.editor.getData();
     if (errors.length === 0) {
       const entity = {
@@ -142,6 +146,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
         ...values,
         published: publishArticle,
         statement: statement.article ? articleEntity.statement : { id: statement.id },
+        category: {id: categoryId}
       };
       if (isNew && updateNew) {
         props.createEntity(entity);
@@ -164,6 +169,16 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const formOnchange = e => {
     setSaveTimeout(resetTimeout(saveTimeout, setTimeout(saveForm, 30000)));
   };
+
+  const handlePreview = () => {
+    if(previewOpen) {
+      setPreviewOpen(false);
+      setPreviewArticle(null);
+    } else {
+      setPreviewArticle(formRef.current.props.model);
+      setPreviewOpen(true);
+    }
+  }
 
   const changeFactCheckerAccuracy = event => {
     setFactCheckerAccuracy(statement.id, event.target.value);
@@ -287,18 +302,18 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                             </a>
                           ) : null}
                           <br />
-                          <Row>
-                            <Col md="11">
+                          <div className="d-flex justify-content-between align-items-center w-100">
+                            <div>
                               <span>
                                 {previewImageContentType}, {byteSize(previewImage)}
                               </span>
-                            </Col>
-                            <Col md="1">
+                            </div>
+                            <div>
                               <Button color="danger" onClick={clearBlob('previewImage')}>
                                 <FontAwesomeIcon icon="times-circle" />
                               </Button>
-                            </Col>
-                          </Row>
+                            </div>
+                          </div>
                         </div>
                       ) : null}
                       <input id="file_previewImage" type="file" onChange={onBlobChange(true, 'previewImage')} accept="image/*" />
@@ -319,22 +334,37 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                     />
                   </AvGroup>
                   <AvGroup>
-                    <Label for="statement-accuracy">Ακρίβεια Δήλωσης</Label>
+                    <Label id="articleDateLabel" for="article-articleDate">
+                      <Translate contentKey="check4FactsApp.article.articleDateUpdated">Article Update Date</Translate>
+                    </Label>
                     <AvInput
-                      id="article-category"
-                      type="select"
+                      id="article-articleDate"
+                      type="datetime-local"
                       className="form-control"
-                      name="category.id"
-                      value={isNew ? 0 : statement.factCheckerAccuracy}
-                      onChange={changeFactCheckerAccuracy}
-                      required
-                    >
-                      {[0, 1, 2, 3, 4].map(index => (
-                        <option value={index} key={`accuracy-choice-${index}`}>
-                          {translate(`fact-checking.results.model.accuracy.${index}`)}
-                        </option>
-                      ))}
-                      {/* <option value="" key="0"/>
+                      name="articleDateUpdated"
+                      placeholder={'YYYY-MM-DD HH:mm'}
+                      value={isNew ? "" : convertDateTimeFromServer(props.articleEntity.articleDateUpdated)}
+                    />
+                  </AvGroup>
+                      <AvGroup>
+                        <Label for="statement-accuracy">Ακρίβεια Δήλωσης</Label>
+                        <div className='d-flex' style={{columnGap: 20, alignItems: "center"}}>
+                    <div style={{flex: 1}}>
+                        <AvInput
+                          id="article-category"
+                          type="select"
+                          className="form-control"
+                          name="category.id"
+                          value={isNew ? 0 : statement.factCheckerAccuracy}
+                          onChange={changeFactCheckerAccuracy}
+                          required
+                        >
+                          {[0, 1, 2, 3, 4].map(index => (
+                            <option value={index} key={`accuracy-choice-${index}`}>
+                              {translate(`fact-checking.results.model.accuracy.${index}`)}
+                            </option>
+                          ))}
+                          {/* <option value="" key="0"/>
                         {categories
                           ? categories.filter(cat => (statementId !== '' || articleEntity.statement) ?
                             ['immigration', 'crime', 'climate_change', 'pandemic'].includes(cat.name) : true).map(otherEntity => (
@@ -343,11 +373,20 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                             </option>
                           ))
                           : null} */}
-                    </AvInput>
-                    <AvFeedback>
-                      <Translate contentKey="entity.validation.required">This field is required.</Translate>
-                    </AvFeedback>
-                  </AvGroup>
+                        </AvInput>
+                        </div>
+                    <div className='w-auto'>
+                      <Button color="warning" onClick={toggle} disabled={updating}>
+                        <FontAwesomeIcon icon="chart-pie" />
+                        &nbsp;
+                        <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
+                      </Button>
+                    </div>
+                  </div>
+                        <AvFeedback>
+                          <Translate contentKey="entity.validation.required">This field is required.</Translate>
+                        </AvFeedback>
+                      </AvGroup>
                 </Col>
                 <Row>
                   <Col md={{ size: 12, offset: 0 }}>
@@ -366,10 +405,10 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                 <Row>
                   <Col md={{ size: 10, offset: 1 }}>
                     <div className="float-left">
-                      <Button color="warning" onClick={toggle} disabled={updating}>
-                        <FontAwesomeIcon icon="chart-pie" />
+                      <Button color="info" onClick={handlePreview} disabled={updating}>
+                        <FontAwesomeIcon icon="eye" />
                         &nbsp;
-                        <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
+                        <Translate contentKey="entity.action.preview">Preview</Translate>
                       </Button>
                     </div>
                     <div className="float-right">
@@ -388,10 +427,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                   </Col>
                 </Row>
               </AvForm>
-              <FactCheckingReportAnalyzer
-                open={open}
-                toggle={toggle}
-              />
+              <FactCheckingReportAnalyzer open={open} toggle={toggle} />
+              {previewArticle && <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />}
             </>
           )}
         </Col>

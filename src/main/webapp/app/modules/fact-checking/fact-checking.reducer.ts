@@ -102,6 +102,7 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
 // Actions
 
 const pythonUrl = 'http://localhost:9090';
+// const testUrl = "https://check4facts.gr/ml"
 
 export const analyzeStatement = (statement: IStatement) => (dispatch, getState) => {
   const { inProduction } = getState().applicationProfile;

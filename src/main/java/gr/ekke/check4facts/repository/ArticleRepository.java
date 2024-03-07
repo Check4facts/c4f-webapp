@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,5 +33,14 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Optional<Article> findArticleByStatementId(Long statement_id);
 
     Article findById(Integer id);
+
+    @Query("SELECT a FROM Article a " +
+            "WHERE a.category.name = :categoryName " +
+            "AND a.published = true " +
+            "ORDER BY CASE " +
+            "WHEN a.articleDateUpdated IS NOT NULL THEN a.articleDateUpdated " +
+            "ELSE a.articleDate " +
+            "END DESC")
+    List<Article> findTop4LatestArticlesByCategoryName(@Param("categoryName") String categoryName, Pageable pageable);
 
 }

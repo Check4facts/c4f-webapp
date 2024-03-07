@@ -73,6 +73,8 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                               <Link to={`/fact-checking/sub-menu/${article.category.name}`}>
                                 <span className="thumb-title">{translate(`check4FactsApp.category.${article.category.name}`)}</span>
                               </Link>
+                              {/* {article.articleDateUpdated && <span style={{position: "absolute", top: -33, right: -32, backgroundColor: "#f5a623", width: "140px",
+                              height: "20px", transform: "rotate(45deg)"}}/>} */}
                             </div>
                             <Link to={`/article/${article.id}/display`}>
                                 <h5 title={article.previewTitle} className="font-weight-600 mt-3 text-truncate text-truncate-4">{article.previewTitle}</h5>
@@ -89,9 +91,12 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                                 <span className="text-uppercase">{translate('check4FactsApp.article.unpublished')}</span>
                               </Badge>
                             )}
-                            <h5 className="text-muted font-weight-bold pt-2">
-                              {moment.locale(currentLocale) && moment(article.articleDate).format('LL')}
+                            <div className='d-flex align-items-center pt-2' style={{columnGap: 5, flexFlow: "wrap"}}>
+                            <h5 className="text-muted font-weight-bold" >{article.articleDateUpdated > article.articleDate && "Ενημερώθηκε - "}</h5>
+                            <h5 className="text-muted font-weight-bold">
+                              {moment.locale(currentLocale) && moment(article.articleDateUpdated || article.articleDate).format('LL')}  
                             </h5>
+                            </div>
                             <p className="fs-15 font-weight-normal text-truncate text-truncate-4">{article.previewText}</p>
                             <div className="d-flex justify-content-between mb-3 align-items-center">
                               <div>

@@ -40,7 +40,7 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
     if (statement && statement.id && featureStatementCount > 0) {
       props.getLatestFeatureStatementByStatementId(statement.id);
     }
-  }, [statement]);
+  }, [statement, featureStatementCount]);
 
   return (
     <Modal
