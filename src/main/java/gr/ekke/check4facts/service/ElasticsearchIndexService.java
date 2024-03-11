@@ -116,11 +116,11 @@ public class ElasticsearchIndexService {
                 reindexForClass(Article.class, articleRepository, articleSearchRepository);
                 reindexForClass(Category.class, categoryRepository, categorySearchRepository);
                 reindexForClass(FeatureStatement.class, featureStatementRepository, featureStatementSearchRepository);
-                reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
                 reindexForClass(Statement.class, statementRepository, statementSearchRepository);
                 reindexForClass(StatementSource.class, statementSourceRepository, statementSourceSearchRepository);
                 reindexForClass(Topic.class, topicRepository, topicSearchRepository );
                 reindexForClass(User.class, userRepository, userSearchRepository);
+                reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
                 log.info("Elasticsearch: Successfully performed reindexing");
             } finally {
                 reindexLock.unlock();
@@ -158,7 +158,7 @@ public class ElasticsearchIndexService {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-            int size = 100;
+            int size = 50;
             for (int i = 0; i <= jpaRepository.count() / size; i++) {
                 Pageable page = PageRequest.of(i, size);
                 log.info("Indexing page {} of {}, size {}", i, jpaRepository.count() / size, size);
