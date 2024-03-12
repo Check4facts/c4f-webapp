@@ -6,13 +6,13 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="autoIncrement" value="true"/>
+    
     <!--
         Added the entity Article.
     -->
     <changeSet id="20200911095548-1" author="jhipster">
         <createTable tableName="article">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="preview_title" type="${clobType}">
@@ -22,6 +22,12 @@
                 <constraints nullable="true" />
             </column>
             <column name="preview_image_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="image_thumb_preview" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="image_thumb_preview_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="article_date" type="datetime">
@@ -39,6 +45,9 @@
             <column name="preview_text" type="${clobType}">
                 <constraints nullable="false" />
             </column>
+            <column name="article_date_updated" type="datetime">
+                <constraints nullable="true" />
+            </column>
             <column name="category_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -48,6 +57,7 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="article" columnName="article_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="article" columnName="article_date_updated" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20200911095548-1-relations" author="jhipster">
@@ -63,23 +73,26 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <!-- <changeSet id="20200911095548-1-data" author="jhipster" context="faker">
+    <changeSet id="20200911095548-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/article.csv"
                   separator=";"
                   tableName="article">
+            <column name="id" type="numeric"/>
             <column name="preview_title" type="clob"/>
             <column name="preview_image" type="blob"/>
             <column name="preview_image_content_type" type="string"/>
+            <column name="image_thumb_preview" type="blob"/>
+            <column name="image_thumb_preview_content_type" type="string"/>
             <column name="article_date" type="datetime"/>
             <column name="author" type="string"/>
             <column name="published" type="boolean"/>
             <column name="content" type="clob"/>
             <column name="preview_text" type="clob"/>
+            <column name="article_date_updated" type="datetime"/>
             <column name="category_id" type="numeric"/>
-&lt;!&ndash;            <column name="statement_id" type="numeric"/>&ndash;&gt;
-            &lt;!&ndash; jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here &ndash;&gt;
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
-    </changeSet> -->
+    </changeSet>
 
 </databaseChangeLog>

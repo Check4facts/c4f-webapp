@@ -40,10 +40,6 @@
       "fieldType": "Instant"
     },
     {
-      "fieldName": "articleDateUpdated",
-      "fieldType": "Instant"
-    },
-    {
       "fieldName": "author",
       "fieldType": "String"
     },
@@ -62,6 +58,10 @@
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "text",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "articleDateUpdated",
+      "fieldType": "Instant"
     }
   ],
   "changelogDate": "20200911095548",

@@ -1,0 +1,25 @@
+{
+  "check4FactsApp": {
+    "news": {
+      "home": {
+        "title": "News",
+        "createLabel": "Δημιουργήστε ένα νέο News",
+        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα News",
+        "search": "Αναζήτηση για News",
+        "notFound": "No News found"
+      },
+      "created": "Ένα νέο News έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+      "updated": "Ένα News έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+      "deleted": "Ένα News έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+      "delete": {
+        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο News {{ id }};"
+      },
+      "detail": {
+        "title": "News"
+      },
+      "title": "Title",
+      "date": "Date",
+      "content": "Content"
+    }
+  }
+}
