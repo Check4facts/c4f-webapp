@@ -1,8 +1,12 @@
 package gr.ekke.check4facts.service;
 
 import gr.ekke.check4facts.domain.News;
+import gr.ekke.check4facts.domain.Statement;
 import gr.ekke.check4facts.repository.NewsRepository;
 import gr.ekke.check4facts.repository.search.NewsSearchRepository;
+
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.Operator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +59,14 @@ public class NewsService {
     @Transactional(readOnly = true)
     public Page<News> findAll(Pageable pageable) {
         log.debug("Request to get all News");
-        return newsRepository.findAll(pageable);
+        return filterNewsContent(newsRepository.findAll(pageable));
+    }
+
+    private Page<News> filterNewsContent(Page<News> news) {
+        for (News n : news) {
+            n.setContent(null);
+        }
+        return news;
     }
 
 
@@ -91,6 +102,23 @@ public class NewsService {
      */
     @Transactional(readOnly = true)
     public Page<News> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of News for query {}", query);
-        return newsSearchRepository.search(queryStringQuery(query), pageable);    }
+        log.debug("Request to search for a page of Statements for query {}", query);
+        MultiMatchQueryBuilder queryBuilder;
+        try {
+            Integer.parseInt(query);
+            queryBuilder = multiMatchQuery(query)
+                    .field("id");
+        } catch (NumberFormatException e) {
+            queryBuilder = multiMatchQuery(query)
+                    .field("title")
+                    .field("previewText")
+                    .field("content")
+                    .type(MultiMatchQueryBuilder.Type.BEST_FIELDS)
+                    .operator(Operator.OR);
+        }
+        Page<News> news = newsSearchRepository.search(queryBuilder, pageable);
+        System.out.println("News: " + news);
+
+        return news;
+    }
 }

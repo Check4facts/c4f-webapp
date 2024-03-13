@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Translate, translate } from 'react-jhipster';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Alert, Row, Col } from 'reactstrap';
 import { AvForm, AvField, AvGroup, AvInput } from 'availity-reactstrap-validation';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface ILoginModalProps {
   showModal: boolean;
   loginError: boolean;
   handleLogin: Function;
   handleClose: Function;
+  showPassword: boolean;
+  handleShowPassword: Function;
 }
 
 class LoginModal extends React.Component<ILoginModalProps> {
@@ -18,7 +21,7 @@ class LoginModal extends React.Component<ILoginModalProps> {
   };
 
   render() {
-    const { loginError, handleClose } = this.props;
+    const { loginError, handleClose, showPassword, handleShowPassword } = this.props;
 
     return (
       <Modal isOpen={this.props.showModal} toggle={handleClose} backdrop="static" id="login-page" autoFocus={false}>
@@ -46,14 +49,31 @@ class LoginModal extends React.Component<ILoginModalProps> {
                   errorMessage="Username cannot be empty!"
                   autoFocus
                 />
-                <AvField
+                <AvGroup>
+                  <Label for="password">
+                    <Translate contentKey="login.form.password">Password</Translate>
+                  </Label>
+                  <div className="input-group">
+                    <AvInput
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder={translate('login.form.password.placeholder')}
+                      required
+                      errorMessage="Password cannot be empty!"
+                    />
+                    <Button color="secondary" onClick={handleShowPassword}>
+                      {!showPassword ? <FontAwesomeIcon icon="eye" /> : <FontAwesomeIcon icon="eye-slash" />}
+                    </Button>
+                  </div>
+                </AvGroup>
+                {/* <AvField
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   label={translate('login.form.password')}
                   placeholder={translate('login.form.password.placeholder')}
                   required
                   errorMessage="Password cannot be empty!"
-                />
+                /> */}
                 <AvGroup check inline>
                   <Label className="form-check-label">
                     <AvInput type="checkbox" name="rememberMe" /> <Translate contentKey="login.form.rememberme">Remember me</Translate>

@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
-import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
+import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
+import { Translate, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
-
+import CKEditor from '@ckeditor/ckeditor5-react';
+import DecoupledEditor from 'ckeditor5-build-decoupled-document-base64-imageresize';
 import { getEntity, updateEntity, createEntity, reset } from './news.reducer';
-import { INews } from 'app/shared/model/news.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 
 export interface INewsUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const NewsUpdate = (props: INewsUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
+  const editorRef = useRef(CKEditor);
+  const [formContent, setFormContent] = useState({});
 
   const { newsEntity, loading, updating } = props;
 
@@ -29,6 +30,10 @@ export const NewsUpdate = (props: INewsUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
+
+    return () => {
+      props.reset();
+    }
   }, []);
 
   useEffect(() => {
@@ -37,9 +42,13 @@ export const NewsUpdate = (props: INewsUpdateProps) => {
     }
   }, [props.updateSuccess]);
 
+  // const handleEditorChange = () => {
+  //   console.log(editorRef.current.editor.getData())
+  // }
+
   const saveEntity = (event, errors, values) => {
     values.date = convertDateTimeToServer(values.date);
-
+    values.content = editorRef.current.editor.getData();
     if (errors.length === 0) {
       const entity = {
         ...newsEntity,
@@ -56,14 +65,14 @@ export const NewsUpdate = (props: INewsUpdateProps) => {
 
   return (
     <div>
-      <Row className="justify-content-center">
+      <Row className="justify-content-center mt-5">
         <Col md="8">
           <h2 id="check4FactsApp.news.home.createOrEditLabel">
             <Translate contentKey="check4FactsApp.news.home.createOrEditLabel">Create or edit a News</Translate>
           </h2>
         </Col>
       </Row>
-      <Row className="justify-content-center">
+      <Row className="justify-content-center mt-5">
         <Col md="8">
           {loading ? (
             <p>Loading...</p>
@@ -91,6 +100,19 @@ export const NewsUpdate = (props: INewsUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
+                    <Label id="previewTextLabel" for="news-previewText">
+                      <Translate contentKey="check4FactsApp.news.previewText">Preview Text</Translate>
+                    </Label>
+                    <AvField
+                      id="news-previewText"
+                      type="textarea"
+                      name="previewText"
+                      validate={{
+                        required: { value: true, errorMessage: translate('entity.validation.required') },
+                      }}
+                    />
+              </AvGroup>
+              <AvGroup>
                 <Label id="dateLabel" for="news-date">
                   <Translate contentKey="check4FactsApp.news.date">Date</Translate>
                 </Label>
@@ -107,14 +129,31 @@ export const NewsUpdate = (props: INewsUpdateProps) => {
                 <Label id="contentLabel" for="news-content">
                   <Translate contentKey="check4FactsApp.news.content">Content</Translate>
                 </Label>
-                <AvField
+                {/* <AvField
                   id="news-content"
                   type="text"
                   name="content"
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
-                />
+                /> */}
+                <Row>
+                  <Col md={{ size: 12, offset: 0 }}>
+                    <CKEditor
+                      editor={DecoupledEditor}
+                      // onChange={handleEditorChange}
+                      data={!isNew ? newsEntity.content : '<h1 style="text-align: center">Remove this heading and start writing</h1>'}
+                      onInit={editor => {
+                        // Inserts the toolbar before the editable area.
+                        editor.ui.view.editable.element.parentElement.insertBefore(
+                          editor.ui.view.toolbar.element,
+                          editor.ui.view.editable.element
+                        );
+                      }}
+                      ref={editorRef}
+                    />
+                  </Col>
+                </Row>
               </AvGroup>
               <Button tag={Link} id="cancel-save" to="/news" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />

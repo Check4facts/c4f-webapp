@@ -31,6 +31,10 @@ export const News = (props: INewsProps) => {
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
   );
 
+  useEffect(() => {
+    props.getEntities();
+  }, []);
+
   const getAllEntities = () => {
     if (search) {
       props.getSearchEntities(
@@ -80,7 +84,7 @@ export const News = (props: INewsProps) => {
 
   useEffect(() => {
     sortEntities();
-  }, [paginationState.activePage, paginationState.order, paginationState.sort, search]);
+  }, [paginationState.activePage, paginationState.order, paginationState.sort]);
 
   useEffect(() => {
     const params = new URLSearchParams(props.location.search);
@@ -134,7 +138,7 @@ export const News = (props: INewsProps) => {
                   onChange={handleSearch}
                   placeholder={translate('check4FactsApp.news.home.search')}
                 />
-                <Button className="input-group-addon">
+                <Button type="submit" className="input-group-addon">
                   <FontAwesomeIcon icon="search" />
                 </Button>
                 <Button type="reset" className="input-group-addon" onClick={clear}>

@@ -97,6 +97,11 @@ const Header = (props: IHeaderProps) => {
                 <FactChecking />
                 {/* <MoreMenu/> */}
                 <NavItem>
+                  <NavLink to="/news" exact className="d-flex align-items-center nav-link">
+                  <Translate contentKey="check4FactsApp.news.home.title" />
+                  </NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink to="/about/contact" exact className="d-flex align-items-center nav-link">
                     <Translate contentKey="global.menu.about.contact" />
                   </NavLink>

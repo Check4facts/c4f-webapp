@@ -32,12 +32,12 @@ export const NewsDeleteDialog = (props: INewsDeleteDialogProps) => {
 
   const { newsEntity } = props;
   return (
-    <Modal isOpen toggle={handleClose}>
+    <Modal isOpen toggle={handleClose} fade={false}>
       <ModalHeader toggle={handleClose}>
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
       <ModalBody id="check4FactsApp.news.delete.question">
-        <Translate contentKey="check4FactsApp.news.delete.question" interpolate={{ id: newsEntity.id }}>
+        <Translate contentKey="check4FactsApp.news.delete.question" interpolate={{ id: "\"" + newsEntity.title + "\"" }}>
           Are you sure you want to delete this News?
         </Translate>
       </ModalBody>

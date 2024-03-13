@@ -19,7 +19,8 @@
       },
       "title": "Title",
       "date": "Date",
-      "content": "Content"
+      "content": "Content",
+      "previewText": "Preview Text"
     }
   }
 }

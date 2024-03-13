@@ -27,7 +27,7 @@ export const FactCheckingReportEditor = (props: IArticleContentEditorProps) => {
   const [viewStatementSource, setViewStatementSource] = useState({} as IStatementSource);
   const [statementSourceModalOpen, setStatementSourceModalOpen] = useState(false);
 
-  const { isNew, content, currentLocale, statement, statementSources, resources, editorRef,formOnChange } = props;
+  const { isNew, content, currentLocale, statement, statementSources, resources, editorRef, formOnChange } = props;
 
   // const quoteLink = (url, title) =>
   //   editorRef.current.editor.setData(

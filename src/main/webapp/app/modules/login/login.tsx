@@ -10,6 +10,9 @@ export interface ILoginProps extends StateProps, DispatchProps, RouteComponentPr
 
 export const Login = (props: ILoginProps) => {
   const [showModal, setShowModal] = useState(props.showModal);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
   useEffect(() => {
     setShowModal(true);
@@ -27,7 +30,8 @@ export const Login = (props: ILoginProps) => {
   if (isAuthenticated) {
     return <Redirect to={from} />;
   }
-  return <LoginModal showModal={showModal} handleLogin={handleLogin} handleClose={handleClose} loginError={props.loginError} />;
+  return <LoginModal showModal={showModal} handleLogin={handleLogin} handleClose={handleClose} 
+          showPassword={showPassword} handleShowPassword={handleShowPassword} loginError={props.loginError} />;
 };
 
 const mapStateToProps = ({ authentication }: IRootState) => ({

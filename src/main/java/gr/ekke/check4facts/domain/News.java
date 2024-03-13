@@ -2,10 +2,12 @@ package gr.ekke.check4facts.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
@@ -30,11 +32,17 @@ public class News implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "preview_text", nullable = false)
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
+    private String previewText;
+
     @Column(name = "date")
     private Instant date;
 
-    @NotNull
     @Lob
+    @NotNull
     @Column(name = "content", nullable = false)
     private String content;
 
@@ -58,6 +66,19 @@ public class News implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getPreviewText() {
+        return previewText;
+    }
+
+    public News previewText(String previewText) {
+        this.previewText = previewText;
+        return this;
+    }
+
+    public void setPreviewText(String previewText) {
+        this.previewText = previewText;
     }
 
     public Instant getDate() {
