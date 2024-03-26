@@ -9,7 +9,7 @@ import { convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { APP_LOCAL_DATETIME_FORMAT } from 'app/config/constants';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
-import { analyzeStatement, getTaskStatus, removeTaskStatus } from '../fact-checking.reducer';
+import { analyzeStatement, changeStatusInterval, getTaskStatus, removeTaskStatus } from '../fact-checking.reducer';
 import { updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
 import { countFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
 import _ from 'lodash';
@@ -47,8 +47,9 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
     statementSources,
     taskStatuses,
     activeStatuses,
+    statusInterval
   } = props;
-  const statusInterval = useRef(null);
+  // const statusInterval = useRef(null);
   const [emotionCollapse, setEmotionCollapse] = useState(false);
   const [restCollapse, setRestCollapse] = useState(false);
   const [modalContent, setModalContent] = useState({} as IModalContent);
@@ -85,17 +86,18 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
   useEffect(() => {
     if (analyzeStatus) {
       // Hook to set interval for calling getTaskStatus to update status of analyze.
-      if (!_.isEmpty(analyzeStatus) && statusInterval.current === null) {
-        statusInterval.current = setInterval(() => {
+      if (!_.isEmpty(analyzeStatus) && statusInterval === null) {
+        props.changeStatusInterval(setInterval(() => {
           props.getTaskStatus(analyzeStatus.taskId);
-        }, 5000);
+        }, 5000));
       }
       // When analyze task is finished stop interval and fetch FeatureStatements count to display results button.
       if (analyzeStatus.status === 'SUCCESS') {
         props.removeTaskStatus(analyzeStatus.taskId);
         setAnalyzeStatus({});
         setReAnalyze(false);
-        clearInterval(statusInterval.current);
+        clearInterval(statusInterval);
+        props.changeStatusInterval(null);
         props.countFeatureStatementsByStatement(statement.id);
       }
     }
@@ -281,75 +283,77 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
               </Col>
             </Row>
             <Collapse isOpen={emotionCollapse} style={{ paddingTop: '0.5rem' }}>
-              <Table responsive hover bordered>
-                <thead>
-                  <tr>
-                    <th>Πεδίο</th>
-                    <th>Θυμός</th>
-                    <th>Απέχθεια</th>
-                    <th>Φόβος</th>
-                    <th>Χαρά</th>
-                    <th>Λύπη</th>
-                    <th>Έκπληξη</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="text-center">
-                    <td>Δήλωση</td>
-                    <td>{((featureStatement.sEmotionAnger[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
-                    <td>{((featureStatement.sEmotionDisgust[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
-                    <td>{((featureStatement.sEmotionFear[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
-                    <td>{((featureStatement.sEmotionHappiness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
-                    <td>{((featureStatement.sEmotionSadness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
-                    <td>{((featureStatement.sEmotionSurprise[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
-                  </tr>
-                  <tr className="text-center">
-                    <td>Τίτλοι</td>
-                    <td>{(featureStatement.rTitleEmotionAnger[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionDisgust[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionFear[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionHappiness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionSadness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionSurprise[3] * 100).toFixed(2)}%</td>
-                  </tr>
-                  <tr className="text-center">
-                    <td>Τίτλοι</td>
-                    <td>{(featureStatement.rTitleEmotionAnger[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionDisgust[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionFear[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionHappiness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionSadness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rTitleEmotionSurprise[3] * 100).toFixed(2)}%</td>
-                  </tr>
-                  <tr className="text-center">
-                    <td>Κείμενα</td>
-                    <td>{(featureStatement.rBodyEmotionAnger[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rBodyEmotionDisgust[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rBodyEmotionFear[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rBodyEmotionHappiness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rBodyEmotionSadness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rBodyEmotionSurprise[3] * 100).toFixed(2)}%</td>
-                  </tr>
-                  <tr className="text-center">
-                    <td>Αντιπροσωπ/τερες Παράγραφοι</td>
-                    <td>{(featureStatement.rSimParEmotionAnger[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimParEmotionDisgust[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimParEmotionFear[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimParEmotionHappiness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimParEmotionSadness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimParEmotionSurprise[3] * 100).toFixed(2)}%</td>
-                  </tr>
-                  <tr className="text-center border-bottom">
-                    <td>Αντιπροσωπ/τερες Προτάσεις</td>
-                    <td>{(featureStatement.rSimSentEmotionAnger[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimSentEmotionDisgust[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimSentEmotionFear[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimSentEmotionHappiness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimSentEmotionSadness[3] * 100).toFixed(2)}%</td>
-                    <td>{(featureStatement.rSimSentEmotionSurprise[3] * 100).toFixed(2)}%</td>
-                  </tr>
-                </tbody>
-              </Table>
+              {emotionCollapse && (
+                <Table responsive hover bordered>
+                  <thead>
+                    <tr>
+                      <th>Πεδίο</th>
+                      <th>Θυμός</th>
+                      <th>Απέχθεια</th>
+                      <th>Φόβος</th>
+                      <th>Χαρά</th>
+                      <th>Λύπη</th>
+                      <th>Έκπληξη</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="text-center">
+                      <td>Δήλωση</td>
+                      <td>{((featureStatement.sEmotionAnger[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+                      <td>{((featureStatement.sEmotionDisgust[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+                      <td>{((featureStatement.sEmotionFear[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+                      <td>{((featureStatement.sEmotionHappiness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+                      <td>{((featureStatement.sEmotionSadness[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+                      <td>{((featureStatement.sEmotionSurprise[3] / featureStatement.sFertileTerms) * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr className="text-center">
+                      <td>Τίτλοι</td>
+                      <td>{(featureStatement.rTitleEmotionAnger[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionDisgust[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionFear[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionHappiness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionSadness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionSurprise[3] * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr className="text-center">
+                      <td>Τίτλοι</td>
+                      <td>{(featureStatement.rTitleEmotionAnger[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionDisgust[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionFear[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionHappiness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionSadness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rTitleEmotionSurprise[3] * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr className="text-center">
+                      <td>Κείμενα</td>
+                      <td>{(featureStatement.rBodyEmotionAnger[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rBodyEmotionDisgust[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rBodyEmotionFear[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rBodyEmotionHappiness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rBodyEmotionSadness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rBodyEmotionSurprise[3] * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr className="text-center">
+                      <td>Αντιπροσωπ/τερες Παράγραφοι</td>
+                      <td>{(featureStatement.rSimParEmotionAnger[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimParEmotionDisgust[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimParEmotionFear[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimParEmotionHappiness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimParEmotionSadness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimParEmotionSurprise[3] * 100).toFixed(2)}%</td>
+                    </tr>
+                    <tr className="text-center border-bottom">
+                      <td>Αντιπροσωπ/τερες Προτάσεις</td>
+                      <td>{(featureStatement.rSimSentEmotionAnger[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimSentEmotionDisgust[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimSentEmotionFear[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimSentEmotionHappiness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimSentEmotionSadness[3] * 100).toFixed(2)}%</td>
+                      <td>{(featureStatement.rSimSentEmotionSurprise[3] * 100).toFixed(2)}%</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              )}
             </Collapse>
             <Row style={{ paddingTop: '1rem' }}>
               <Col style={{ display: 'flex', alignItems: 'center', columnGap: '0.5rem' }}>
@@ -360,63 +364,67 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
               </Col>
             </Row>
             <Collapse isOpen={restCollapse} style={{ paddingTop: '0.5rem' }}>
-              <Table responsive hover bordered>
-                <thead>
-                  <tr>
-                    <th>Πεδίο</th>
-                    <th>Αντικειμενικότητα</th>
-                    <th>Συναισθηματική Ένταση</th>
-                    <th>Ομοιότητα με Δήλωση</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="text-center">
-                    <td>Δήλωση</td>
-                    <td>{((1 - featureStatement.sSubjectivity) * 100).toFixed(2)}%</td>
-                    <td>{((1 - featureStatement.sSentiment) * 100).toFixed(2)}%</td>
-                    <td>-</td>
-                  </tr>
-                  <tr className="text-center">
-                    <td>Τίτλοι</td>
-                    <td>{((1 - featureStatement.rTitleSubjectivity) * 100).toFixed(2)}%</td>
-                    <td>{((1 - featureStatement.rTitleSentiment) * 100).toFixed(2)}%</td>
-                    <td>{((1 - featureStatement.rTitleSimilarity) * 100).toFixed(2)}%</td>
-                  </tr>
-                  <tr className="text-center">
-                    <td>Κείμενα</td>
-                    <td>{((1 - featureStatement.rBodySubjectivity) * 100).toFixed(2)}%</td>
-                    <td>{((1 - featureStatement.rBodySentiment) * 100).toFixed(2)}%</td>
-                    <td>{((1 - featureStatement.rBodySimilarity) * 100).toFixed(2)}%</td>
-                  </tr>
-                  <tr className="text-center">
-                    <td>Αντιπροσωπ/τερες Παράγραφοι</td>
-                    <td>{((1 - featureStatement.rSimParSubjectivity) * 100).toFixed(2)}%</td>
-                    <td>{((1 - featureStatement.rSimParSentiment) * 100).toFixed(2)}%</td>
-                    <td>{((1 - featureStatement.rSimParSimilarity) * 100).toFixed(2)}%</td>
-                  </tr>
-                  <tr className="text-center border-bottom">
-                    <td>Αντιπροσωπ/τερες Προτάσεις</td>
-                    <td>{((1 - featureStatement.rSimSentSubjectivity) * 100).toFixed(2)}%</td>
-                    <td>{((1 - featureStatement.rSimSentSentiment) * 100).toFixed(2)}%</td>
-                    <td>{((1 - featureStatement.rSimSentSimilarity) * 100).toFixed(2)}%</td>
-                  </tr>
-                </tbody>
-              </Table>
-              <Row className="my-3">
-                <Col>
-                  <ul className="text-muted">
-                    <li>
-                      Οι τιμές που αφορούν το πεδίο «Δήλωση» αναφέρονται στο ποσοστό των όρων που ταυτοποιήθηκαν με το εκάστοτε
-                      χαρακτηριστικό.
-                    </li>
-                    <li>
-                      Tα πεδία «Τίτλοι», «Κείμενα», «Αντιπροσωπ/τερες Παράγραφοι» και «Αντιπροσωπ/τερες Προτάσεις» αναφέρονται στο σύνολο
-                      των αντίστοιχων πεδίων που προκύπτουν από τις πηγές που ανακτήθηκαν. Οι τιμές των πεδίων αυτών αναφέρονται στο ποσοστό
-                      των προτάσεων που ταυτοποιήθηκαν με το εκάστοτε χαρακτηριστικό.
-                    </li>
-                  </ul>
-                </Col>
-              </Row>
+              {restCollapse && (
+                <>
+                  <Table responsive hover bordered>
+                    <thead>
+                      <tr>
+                        <th>Πεδίο</th>
+                        <th>Αντικειμενικότητα</th>
+                        <th>Συναισθηματική Ένταση</th>
+                        <th>Ομοιότητα με Δήλωση</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="text-center">
+                        <td>Δήλωση</td>
+                        <td>{((1 - featureStatement.sSubjectivity) * 100).toFixed(2)}%</td>
+                        <td>{((1 - featureStatement.sSentiment) * 100).toFixed(2)}%</td>
+                        <td>-</td>
+                      </tr>
+                      <tr className="text-center">
+                        <td>Τίτλοι</td>
+                        <td>{((1 - featureStatement.rTitleSubjectivity) * 100).toFixed(2)}%</td>
+                        <td>{((1 - featureStatement.rTitleSentiment) * 100).toFixed(2)}%</td>
+                        <td>{((1 - featureStatement.rTitleSimilarity) * 100).toFixed(2)}%</td>
+                      </tr>
+                      <tr className="text-center">
+                        <td>Κείμενα</td>
+                        <td>{((1 - featureStatement.rBodySubjectivity) * 100).toFixed(2)}%</td>
+                        <td>{((1 - featureStatement.rBodySentiment) * 100).toFixed(2)}%</td>
+                        <td>{((1 - featureStatement.rBodySimilarity) * 100).toFixed(2)}%</td>
+                      </tr>
+                      <tr className="text-center">
+                        <td>Αντιπροσωπ/τερες Παράγραφοι</td>
+                        <td>{((1 - featureStatement.rSimParSubjectivity) * 100).toFixed(2)}%</td>
+                        <td>{((1 - featureStatement.rSimParSentiment) * 100).toFixed(2)}%</td>
+                        <td>{((1 - featureStatement.rSimParSimilarity) * 100).toFixed(2)}%</td>
+                      </tr>
+                      <tr className="text-center border-bottom">
+                        <td>Αντιπροσωπ/τερες Προτάσεις</td>
+                        <td>{((1 - featureStatement.rSimSentSubjectivity) * 100).toFixed(2)}%</td>
+                        <td>{((1 - featureStatement.rSimSentSentiment) * 100).toFixed(2)}%</td>
+                        <td>{((1 - featureStatement.rSimSentSimilarity) * 100).toFixed(2)}%</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                  <Row className="my-3">
+                    <Col>
+                      <ul className="text-muted">
+                        <li>
+                          Οι τιμές που αφορούν το πεδίο «Δήλωση» αναφέρονται στο ποσοστό των όρων που ταυτοποιήθηκαν με το εκάστοτε
+                          χαρακτηριστικό.
+                        </li>
+                        <li>
+                          Tα πεδία «Τίτλοι», «Κείμενα», «Αντιπροσωπ/τερες Παράγραφοι» και «Αντιπροσωπ/τερες Προτάσεις» αναφέρονται στο
+                          σύνολο των αντίστοιχων πεδίων που προκύπτουν από τις πηγές που ανακτήθηκαν. Οι τιμές των πεδίων αυτών αναφέρονται
+                          στο ποσοστό των προτάσεων που ταυτοποιήθηκαν με το εκάστοτε χαρακτηριστικό.
+                        </li>
+                      </ul>
+                    </Col>
+                  </Row>
+                </>
+              )}
             </Collapse>
             <Row className="mt-5 mb-2">
               <Col>
@@ -494,6 +502,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   featureStatementCount: storeState.featureStatement.count,
   taskStatuses: storeState.factChecking.taskStatuses,
   activeStatuses: storeState.kombuMessage.activeStatuses,
+  statusInterval: storeState.factChecking.statusInterval,
 });
 
 const mapDispatchToProps = {
@@ -503,6 +512,7 @@ const mapDispatchToProps = {
   removeTaskStatus,
   countFeatureStatementsByStatement,
   getActiveCeleryTasks,
+  changeStatusInterval
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
