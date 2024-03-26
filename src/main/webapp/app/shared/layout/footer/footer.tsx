@@ -1,5 +1,6 @@
 import React from 'react';
 import {Translate, translate} from "react-jhipster";
+import { Link } from 'react-router-dom';
 import {Col, Container, Row} from 'reactstrap';
 
 export interface IFooterProps {
@@ -60,7 +61,7 @@ const Footer = (props: IFooterProps) => (
         </Col>
         <Col className='mt-4 mt-md-0' lg="2" style={{display: "flex", flexDirection: "column"}}>
           <Row className="d-flex justify-content-center">
-            {!props.isAuthenticated && <p className="font-weight-medium"><a target="_blank" rel="noopener noreferrer" href="/login" className="text-dark" style={{fontSize: "0.8rem"}}>{translate('global.menu.account.login')}</a></p>}
+            {!props.isAuthenticated && <p className="font-weight-medium"><Link to="/login" className="text-dark" style={{fontSize: "0.8rem"}}>{translate('global.menu.account.login')}</Link></p>}
           </Row>
           <Row className="d-flex justify-content-center mt-4">
             <a href='https://edmo.eu/' target="_blank" rel="noopener noreferrer" className="text-dark d-flex align-items-center">

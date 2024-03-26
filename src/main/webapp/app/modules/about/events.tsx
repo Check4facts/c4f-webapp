@@ -13,25 +13,17 @@ const Events = () => {
     return useMemo(() => new URLSearchParams(search), [search]);
   };
   const query = useQuery();
-  const [open, setOpen] = useState('0');
+  const [open, setOpen] = useState(0);
+  const [content, setContent] = useState(null);
 
   useEffect(() => {
-    query.get('open') && setOpen(query.get('open'));
+    console.log(query.get('open'));
+    query.get('open') && setOpen(parseInt(query.get('open'), 10));
   }, []);
 
   const handleCardClick = number => e => {
-    query.get('open') && query.delete('open');
-    history.replace({ search: query.toString() });
-    switch (number) {
-      case 1:
-        open !== 'press-conference' ? setOpen('press-conference') : setOpen('0');
-        break;
-      case 2:
-        open !== 'seminar' ? setOpen('seminar') : setOpen('0');
-        break;
-      default:
-        break;
-    }
+    query.set('open', number);
+    number === open ? setOpen(0) : setOpen(number);
   };
 
   return (
@@ -40,21 +32,73 @@ const Events = () => {
       <br /> <h1 className="page-header text-center mt-3 mb-3">Εκδηλώσεις</h1>
       <br />
       <br />
-      <Card style={{ marginBottom: '1rem' }} key={1}>
+      <div className='d-flex flex-column' style={{rowGap: "3rem"}}>
+      <Card key={1}>
         <CardHeader
           className="d-flex align-items-center"
           style={{ backgroundColor: 'white', cursor: 'pointer' }}
           onClick={handleCardClick(1)}
         >
-          <h3 className="mb-0 mr-auto">20/11/2023 - Συνέντευξη Τύπου & Παρουσίαση Check4Facts /Science</h3>
-          {open === 'press-conference' ? (
+          <h3 className="mb-0 mr-auto">04/04/2024 - Δελτίο Τύπου - «Παραπληροφόρηση και Θεωρίες Συνωμοσίας»</h3>
+          {open === 1 ? (
             <FontAwesomeIcon icon="angle-down" size="1x" rotation={180} />
           ) : (
             <FontAwesomeIcon icon="angle-down" size="1x" />
           )}
         </CardHeader>
-        <Collapse isOpen={open === 'press-conference'}>
-          {open === "press-conference" && 
+        <Collapse isOpen={open === 1}>
+          {open === 1 && 
+          <CardBody>
+            <Row>
+              <Col sm="12" id="press-conference">
+                <div className="text-center">
+                  <h1 className="page-header text-center mt-5" style={{ textDecoration: 'underline' }}>
+                    Δελτίο Τύπου
+                  </h1>
+                  <h3 className="page-header text-center mt-1 mb-4">04/04/24</h3>
+                </div>
+              </Col>
+              <Col sm="12" className="d-flex justify-content-center mt-3 mb-5">
+                <img style={{ width: '100%' }} src="../../content/images/c4f-press-release-invitation.png" />
+              </Col>
+              <Col sm="12">
+                <div className='w-100' style={{display: "flex", flexDirection: "column", rowGap: "0.4rem", marginBottom: "0.4rem", textAlign: "justify"}}>
+                <p>Το Εργαστήριο Κοινωνικών και Μεταναστευτικών Σπουδών του Πανεπιστημίου Δυτικής Μακεδονίας σε Συνεργασία με το Εθνικό Κέντρο Κοινωνικών Ερευνών διοργανώνουν ανοιχτή στο κοινό επιστημονική εκδήλωση και συζήτηση με θέμα: </p>
+                <div style={{width: "100%", textAlign: "center"}}>
+                <h4>«Παραπληροφόρηση και Θεωρίες Συνωμοσίας»</h4>
+                </div>
+                <p>Η εκδήλωση εστιάζει στο -ίσως περισσότερο από ποτέ- επίκαιρο ζήτημα της παραπληροφόρησης και στο «συγγενές» θέμα των θεωριών συνωμοσίας, καθώς και τα δύο αυτά ζητήματα διαμορφώνουν συνθήκες οι οποίες υπονομεύουν την ποιότητα του δημόσιου διαλόγου και εν τέλει την ίδια τη δημοκρατία. Η εκδήλωση θα πραγματοποιηθεί την Πέμπτη 4 Απριλίου 2024, και ώρα 18:00 στο Αμφιθέατρο 1 του Τμήματος Επικοινωνίας και Ψηφιακών Μέσων του Πανεπιστημίου Δυτικής Μακεδονίας, στο κάμπους της Καστοριάς.</p>
+                <p>Ομιλητές -δια ζώσης- θα είναι ο Καθηγητής του Τμήματος Επικοινωνίας και ΜΜΕ του Πανεπιστημίου Αθηνών και επιστημονικά υπεύθυνος του έργου check4facts/science Νίκος Δεμερτζής, και ο Διευθυντής και Πρόεδρος του ΔΣ του Εθνικού Αστεροσκοπείου Αθηνών, Καθηγητής Μανώλης Πλειώνης, ενώ διαδικτυακά θα παρέμβει η Διευθύντρια και Πρόεδρος του ΔΣ του Εθνικού Κέντρου Κοινωνικών Ερευνών, Καθηγήτρια Βασιλική Γεωργιάδου.</p>
+                <p>Στο πλαίσιο της εκδήλωσης θα παρουσιαστούν -μεταξύ άλλων- και δύο πρόσφατες εκδόσεις που πραγματεύονται τα ζητήματα της παραπληροφόρησης και των θεωριών συνωμοσίας: Το βιβλίο με τίτλο «Ψευδοεπιστήμες και Θεωρίες Συνωμοσίας: Ένας Οδηγός Πλοήγησης» σε επιστημονική επιμέλεια του Μανώλη Πλειώνη, και το Τεύχος- θεματικό αφιέρωμα στην παραπληροφόρηση, τη δημόσια σφαίρα και τη δημοκρατία του επιστημονικού περιοδικού «Επιστήμη και Κοινωνία. Επιθεώρηση πολιτικής και ηθικής θεωρίας», με επιμελητές το Νίκο Δεμερτζή και το Σταμάτη Πουλακιδάκο.</p>
+                <p>Την παρουσίαση και τον συντονισμό της συζήτησης που θα ακολουθήσει μετά τις αρχικές τοποθετήσεις των ομιλητών θα κάνει ο Σταμάτης Πουλακιδάκος, Επίκουρος Καθηγητής του Τμήματος Επικοινωνίας και Ψηφιακών Μέσων του Πανεπιστημίου Δυτικής Μακεδονίας.</p>
+                </div>
+                <span>
+                  <p className="font-weight-bold">Η εκδήλωση θα είναι υβριδική </p>
+                  <p>(θα λάβει χώρα δια ζώσης και θα μεταδοθεί και διαδικτυακά). Όσες/οι επιθυμούν να την παρακολουθήσουν εξ αποστάσεως, μπορούν να συνδεθούν στον εξής σύνδεσμο: </p>
+                  <a href='https://zoom.us/my/uowm.cdm1' target="_blank" rel="noopener noreferrer">Link</a>
+                </span>  
+                <p style={{textDecoration: "underline", marginTop: "1rem"}}>Για περαιτέρω πληροφορίες, μπορείτε να απευθύνεστε στον κ. Σταμάτη Πουλακιδάκο spoulakidakos@uowm.gr.</p>           
+              </Col>
+            </Row>
+          </CardBody>
+          }
+          </Collapse>
+        </Card>
+      <Card key={2}>
+        <CardHeader
+          className="d-flex align-items-center"
+          style={{ backgroundColor: 'white', cursor: 'pointer' }}
+          onClick={handleCardClick(2)}
+        >
+          <h3 className="mb-0 mr-auto">20/11/2023 - Συνέντευξη Τύπου & Παρουσίαση Check4Facts /Science</h3>
+          {open === 2 ? (
+            <FontAwesomeIcon icon="angle-down" size="1x" rotation={180} />
+          ) : (
+            <FontAwesomeIcon icon="angle-down" size="1x" />
+          )}
+        </CardHeader>
+        <Collapse isOpen={open === 2}>
+          {open === 2 && 
           <CardBody>
             <Row>
               <Col sm="12" id="press-conference">
@@ -72,25 +116,22 @@ const Events = () => {
           </CardBody>}
         </Collapse>
       </Card>
-      {/* <Row style={{ borderBottom: '2px solid rgba(0,0,0,0.3)' }} /> */}
-      <br></br>
-      <br></br>
-      <Card style={{ marginBottom: '1rem' }} key={2}>
+      <Card key={3}>
         <CardHeader
           className="d-flex align-items-center"
           style={{ backgroundColor: 'white', cursor: 'pointer' }}
-          onClick={handleCardClick(2)}
+          onClick={handleCardClick(3)}
           data-event={12}
         >
           <h3 className="mb-0 mr-auto">04/07/2022 - 1η Διεθνής Επιστημονική Ημερίδα fact-checking</h3>
-          {open === 'seminar' ? (
+          {open === 3 ? (
             <FontAwesomeIcon icon="angle-down" size="1x" rotation={180} />
           ) : (
             <FontAwesomeIcon icon="angle-down" size="1x" />
           )}
         </CardHeader>
-        <Collapse isOpen={open === 'seminar'}>
-          {open === "seminar" && <CardBody>
+        <Collapse isOpen={open === 3}>
+          {open === 3 && <CardBody>
             <Row>
               <Col sm="12" id="seminar">
                 <div className="text-center">
@@ -570,6 +611,7 @@ const Events = () => {
           </CardBody>}
         </Collapse>
       </Card>
+      </div>
     </Container>
   );
 };
