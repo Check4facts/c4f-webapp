@@ -17,7 +17,6 @@ const Events = () => {
   const [content, setContent] = useState(null);
 
   useEffect(() => {
-    console.log(query.get('open'));
     query.get('open') && setOpen(parseInt(query.get('open'), 10));
   }, []);
 
