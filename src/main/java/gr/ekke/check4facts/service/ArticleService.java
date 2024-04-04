@@ -92,7 +92,7 @@ private byte[] processImage(byte[] imageBytes, Boolean type) {
 
     try {
         float thumbQuality = 1.0f;
-        float quality = 0.7f; // Adjust the quality factor as needed (0.0f to 1.0f)
+        float quality = 0.8f; // Adjust the quality factor as needed (0.0f to 1.0f)
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
