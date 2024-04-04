@@ -101,7 +101,7 @@ private byte[] processImage(byte[] imageBytes, Boolean type) {
         
         if(type){
            Thumbnails.of(originalImage)
-                .height(200)
+                .height(600)
                 .outputQuality(thumbQuality)
                 .outputFormat("webp")
                 .toOutputStream(baos);

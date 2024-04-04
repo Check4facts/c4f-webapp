@@ -63,7 +63,7 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                                   />
                                 ) : (
                                   <img
-                                    src={`/content/images/carousel4.jpg`}
+                                    src={`/content/images/carousel4.webp`}
                                     className=""
                                     style={{ height: 200, width: '100%', objectFit: 'cover', filter: 'blur(2px)' }}
                                     alt="previewImage"
