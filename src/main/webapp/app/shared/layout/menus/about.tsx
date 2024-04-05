@@ -13,9 +13,9 @@ export const AboutMenu = () => {
       <MenuItem to="/about/ethics">
         <Translate contentKey="global.menu.about.ethics" />
       </MenuItem>
-      <MenuItem to="/about/events">
+      {/* <MenuItem to="/about/events">
         <Translate contentKey="global.menu.about.events" />
-      </MenuItem>
+      </MenuItem> */}
     </NavDropdown>
   );
 };

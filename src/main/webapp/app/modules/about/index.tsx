@@ -13,7 +13,7 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}/project`} component={Project} />
       <ErrorBoundaryRoute path={`${match.url}/ethics`} component={Ethics} />
       <ErrorBoundaryRoute path={`${match.url}/contact`} component={Contact} />
-      <ErrorBoundaryRoute path={`${match.url}/events`} component={Events} />
+      {/* <ErrorBoundaryRoute path={`${match.url}/events`} component={Events} /> */}
     </Switch>
   </div>
 )
