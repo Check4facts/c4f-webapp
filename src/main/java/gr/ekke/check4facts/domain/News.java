@@ -30,6 +30,7 @@ public class News implements Serializable {
 
     @NotNull
     @Column(name = "title", nullable = false)
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String title;
 
     @Lob
@@ -44,6 +45,7 @@ public class News implements Serializable {
     @Lob
     @NotNull
     @Column(name = "content", nullable = false)
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String content;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

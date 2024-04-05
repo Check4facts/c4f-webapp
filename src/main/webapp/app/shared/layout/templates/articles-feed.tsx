@@ -43,7 +43,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
                 <img src={`data:${article.previewImageContentType};base64,${article.imageThumbPreview}`}
                      className="" style={{height: 200, width: "100%", objectFit: 'cover', border: "1px solid #eeeeee"}}
                      alt="previewImage"
-                /> : <img src={`/content/images/carousel4.jpg`}
+                /> : <img src={`/content/images/carousel4.webp`}
                           className="" style={{height: 200, width: "100%", objectFit: 'cover', filter: 'blur(2px)'}}
                           alt="previewImage"
                 />}

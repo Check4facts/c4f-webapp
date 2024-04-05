@@ -59,7 +59,7 @@ public class NewsService {
     @Transactional(readOnly = true)
     public Page<News> findAll(Pageable pageable) {
         log.debug("Request to get all News");
-        return filterNewsContent(newsRepository.findAll(pageable));
+        return filterNewsContent(newsRepository.findAllNewsOrderByDateDesc(pageable));
     }
 
     private Page<News> filterNewsContent(Page<News> news) {
