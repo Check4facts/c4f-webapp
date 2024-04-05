@@ -108,13 +108,13 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
 
 // Actions
 
-// const pythonUrl = 'http://localhost:9090';
-const testUrl = 'https://check4facts.gr/ml';
+const pythonUrl = 'http://localhost:9090';
+// const testUrl = 'https://check4facts.gr/ml';
 
 export const analyzeStatement = (statement: IStatement) => (dispatch, getState) => {
   const { inProduction } = getState().applicationProfile;
-  // const requestUrl = `${inProduction ? '/ml' : pythonUrl}/analyze`;
-  const requestUrl = `${testUrl}/analyze`;
+  const requestUrl = `${inProduction ? '/ml' : pythonUrl}/analyze`;
+  // const requestUrl = `${testUrl}/analyze`;
   return dispatch({
     type: ACTION_TYPES.ANALYZE_TASK,
     payload: axios.post(requestUrl, statement),
@@ -123,8 +123,8 @@ export const analyzeStatement = (statement: IStatement) => (dispatch, getState) 
 
 export const trainModel = () => (dispatch, getState) => {
   const { inProduction } = getState().applicationProfile;
-  // const requestUrl = `${inProduction ? '/ml' : pythonUrl}/train`;
-  const requestUrl = `${testUrl}/train`;
+  const requestUrl = `${inProduction ? '/ml' : pythonUrl}/train`;
+  // const requestUrl = `${testUrl}/train`;
   return dispatch({
     type: ACTION_TYPES.TRAIN_TASK,
     payload: axios.post(requestUrl),
@@ -133,8 +133,8 @@ export const trainModel = () => (dispatch, getState) => {
 
 export const getTaskStatus = id => (dispatch, getState) => {
   const { inProduction } = getState().applicationProfile;
-  // const requestUrl = `${inProduction ? '/ml' : pythonUrl}/task-status/${id}`;
-  const requestUrl = `${testUrl}/task-status/${id}`;
+  const requestUrl = `${inProduction ? '/ml' : pythonUrl}/task-status/${id}`;
+  // const requestUrl = `${testUrl}/task-status/${id}`;
   return dispatch({
     type: ACTION_TYPES.GET_TASK_STATUS,
     payload: axios.get(requestUrl),
