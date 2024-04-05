@@ -19,6 +19,7 @@
         "statementSource": "Statement Source",
         "subTopic": "Sub Topic",
         "topic": "Topic",
+        "news": "News",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "about": {
@@ -128,11 +129,15 @@
       "cancel": "Cancel",
       "delete": "Delete",
       "edit": "Edit",
+      "editAlt": "Edit Statement",
+      "editArticle": "Edit Article",
+      "analyzer": "Analyzer",
       "open": "Open",
       "save": "Save",
       "view": "View",
       "next": "Next Step",
-      "previous": "Previous Step"
+      "previous": "Previous Step",
+      "preview": "Preview"
     },
     "detail": {
       "field": "Field",

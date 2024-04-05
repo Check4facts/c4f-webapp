@@ -19,6 +19,7 @@
         "statementSource": "Statement Source",
         "subTopic": "Sub Topic",
         "topic": "Topic",
+        "news": "News",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "about": {
@@ -126,13 +127,17 @@
       "addimage": "Προσθήκη εικόνας",
       "back": "Επιστροφή",
       "cancel": "Ακύρωση",
+      "analyzer": "Αναλυτής",
       "delete": "Διαγραφή",
       "edit": "Επεξεργασία",
+      "editAlt": "Επεξεργασία Δήλωσης",
+      "editArticle": "Έκθεση Επαλήθευσης",
       "open": "Ανοιγμα",
       "save": "Αποθήκευση",
       "view": "Λεπτομέρειες",
       "next": "Επόμενο Βήμα",
-      "previous": "Προηγούμενο Βήμα"
+      "previous": "Προηγούμενο Βήμα",
+      "preview": "Προεπισκόπηση"
     },
     "detail": {
       "field": "Πεδίο",

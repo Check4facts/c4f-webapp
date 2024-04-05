@@ -36,10 +36,10 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
   return (
     <>
       {frontPageArticles.length > 0
-        ? frontPageArticles.map(category => {
+        ? frontPageArticles.map((category, index) => {
             if (category.categoryArticles.length > 0) {
               return (
-                <Row style={{marginLeft: 0, marginRight: 0}}>
+                <Row style={{marginLeft: 0, marginRight: 0}} key={`${category.categoryName}-${index}`}>
                   <div className={`${category.categoryName}-section mt-5`} style={{width: "100%"}}>
                     <Row className={`${category.categoryName}-title`} style={{marginLeft: 0, marginRight: 0}}>
                       <div className="d-flex position-relative float-left">
@@ -73,11 +73,11 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                               <Link to={`/fact-checking/sub-menu/${article.category.name}`}>
                                 <span className="thumb-title">{translate(`check4FactsApp.category.${article.category.name}`)}</span>
                               </Link>
+                              {/* {article.articleDateUpdated && <span style={{position: "absolute", top: -33, right: -32, backgroundColor: "#f5a623", width: "140px",
+                              height: "20px", transform: "rotate(45deg)"}}/>} */}
                             </div>
                             <Link to={`/article/${article.id}/display`}>
-                              <p title={article.previewTitle}>
-                                <h5 className="font-weight-600 mt-3 text-truncate text-truncate-4">{article.previewTitle}</h5>
-                              </p>
+                                <h5 title={article.previewTitle} className="font-weight-600 mt-3 text-truncate text-truncate-4">{article.previewTitle}</h5>
                             </Link>
                             {article.statement && article.statement.factCheckerAccuracy != null && (
                               <Badge className={`mr-1 accuracy-color-${article.statement.factCheckerAccuracy}`}>
@@ -91,9 +91,12 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                                 <span className="text-uppercase">{translate('check4FactsApp.article.unpublished')}</span>
                               </Badge>
                             )}
-                            <h5 className="text-muted font-weight-bold pt-2">
-                              {moment.locale(currentLocale) && moment(article.articleDate).format('LL')}
+                            <div className='d-flex align-items-center pt-2' style={{columnGap: 5, flexFlow: "wrap"}}>
+                            <h5 className="text-muted font-weight-bold" >{article.articleDateUpdated > article.articleDate && "Ενημερώθηκε - "}</h5>
+                            <h5 className="text-muted font-weight-bold">
+                              {moment.locale(currentLocale) && moment(article.articleDateUpdated || article.articleDate).format('LL')}  
                             </h5>
+                            </div>
                             <p className="fs-15 font-weight-normal text-truncate text-truncate-4">{article.previewText}</p>
                             <div className="d-flex justify-content-between mb-3 align-items-center">
                               <div>
@@ -141,11 +144,9 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                       </Row>
                     </Row>
                     <Row tag="div" className={`${category.categoryName}-see-more`} style={{display: "flex", justifyContent: "end", marginLeft: 0, marginRight: 0}}>
-                    <p>
                     <Link to={`/fact-checking/sub-menu/${category.categoryName}`} style={{textDecoration: "none"}}>
                       <h6 style={{fontSize: 15, paddingTop: 20}}><Translate contentKey="global.menu.more.category-more" /></h6>
                     </Link>
-                    </p>
                     </Row>
                   </div>
                 </Row>

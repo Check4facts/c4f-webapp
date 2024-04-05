@@ -9,6 +9,7 @@ export interface IArticle {
   previewImage?: any;
   imageThumbPreview?: any;
   articleDate?: string;
+  articleDateUpdated?: string;
   author?: string;
   published?: boolean;
   content?: any;

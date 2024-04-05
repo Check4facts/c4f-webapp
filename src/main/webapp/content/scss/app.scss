@@ -373,3 +373,10 @@ Accuracy level colors
 .accuracy-color-4 {
   background: $accuracy-color-4;
 }
+
+.news-link-color {
+  color: #000;
+  &:hover {
+    color: $custom-primary-color;
+  }
+}

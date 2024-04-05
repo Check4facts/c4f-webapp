@@ -15,7 +15,8 @@
         "question": "Are you sure you want to delete Article {{ id }}?"
       },
       "detail": {
-        "title": "Article"
+        "title": "Article",
+        "titleAlt": "Verification Report"
       },
       "display": "Display",
       "previewTitle": "Preview Title",
@@ -24,6 +25,7 @@
       "author": "Author",
       "previewImage": "Preview Image",
       "articleDate": "Article Date",
+      "articleDateUpdated": "Article Update Date",
       "publish": "Publish",
       "published": "Published",
       "unpublished": "Unpublished",

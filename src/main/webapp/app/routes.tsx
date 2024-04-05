@@ -25,6 +25,8 @@ import Statement from "app/entities/statement";
 import StatementSource from "app/entities/statement-source";
 import Topic from "app/entities/topic";
 import PageNotFound from "app/shared/error/page-not-found";
+import News from './entities/news';
+import NewsHome from './modules/news';
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -50,6 +52,7 @@ const NonFluidContainerRoutes = () => (
       <ErrorBoundaryRoute path="/about" component={About} />
       <ErrorBoundaryRoute path="/dissemination" component={Dissemination} />
       <ErrorBoundaryRoute path="/fact-checking" component={FactChecking} />
+      <ErrorBoundaryRoute path="/news" component={NewsHome} />
       <ErrorBoundaryRoute path="/more" component={More} />
       <ErrorBoundaryRoute component={PageNotFound}/>
     </Switch>
@@ -69,6 +72,7 @@ const Routes = () => (
           <PrivateRoute path={`/statement`} component={Statement} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
           <PrivateRoute path={`/statement-source`} component={StatementSource} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
           <PrivateRoute path={`/topic`} component={Topic} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
+          <PrivateRoute path={`/news/list`} component={News} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}/>
           <ErrorBoundaryRoute component={NonFluidContainerRoutes}/>
         </Switch>
       </ErrorBoundary>

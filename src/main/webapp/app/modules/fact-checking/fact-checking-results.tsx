@@ -303,10 +303,11 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
         </Row>
       </Container>
       {resources.length > 0 ? (
-        <Table responsive>
+        <div style={{maxHeight: "400px", overflowY: "auto"}}>
+        <Table responsive bordered hover size="sm">
           <thead>
           <tr>
-            <th>AA</th>
+            <th></th>
             <th>
               <Translate contentKey="check4FactsApp.resource.url">Url</Translate>
             </th>
@@ -325,17 +326,21 @@ export const FactCheckingResults = (props: IFactCheckingResultsProps) => {
           {resources.filter(filRes => filRes.title !== null && filRes.body !== null).map((response, i) => (
             <tr key={`entity-${i}`}>
               <td>{i + 1}</td>
-              <td style={{maxWidth: '8vw'}}><a href={response.url} target="_blank"
-                                               rel="noopener noreferrer">{response.url}</a></td>
-              <td style={{maxWidth: '8vw'}}>{response.title}</td>
-              <td style={{maxWidth: '12vw'}}>{response.simSentence}</td>
-              <td style={{maxWidth: '15vw'}}>
+              <td style={{maxWidth: '8vw', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", verticalAlign: 'middle', textAlign: 'center'}}>
+                  <a href={response.url} target="_blank" rel="noopener noreferrer">
+                    {response.url}
+                  </a>
+              </td>
+              <td style={{maxWidth: '8vw', verticalAlign: 'middle', textAlign: 'center'}}>{response.title}</td>
+              <td style={{maxWidth: '12vw', verticalAlign: 'middle', textAlign: 'center'}}>{response.simSentence}</td>
+              <td style={{maxWidth: '15vw', verticalAlign: 'middle', textAlign: 'center'}}>
                 <div className="ellipsis">{response.simParagraph}</div>
               </td>
             </tr>
           ))}
           </tbody>
         </Table>
+        </div>
       ) : null}
     </>
   );

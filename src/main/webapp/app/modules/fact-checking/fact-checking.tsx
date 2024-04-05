@@ -28,7 +28,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
   const { topics } = props;
 
   const handleClose = () => {
-    props.history.push('/fact-checking/analyze/' + props.statement.id);
+    props.history.push('/statement?page=1&sort=id,desc');
   }
 
   useEffect(() => {
@@ -86,25 +86,25 @@ export const FactChecking = (props: IFactCheckingProps) => {
     <Container fluid className="my-5">
       <Row className="my-5">
         <Col sm="12" md={{ size: 6, offset: 3 }}>
-          <h1 className="text-center text-primary">
+          <h1 className="text-center">
             {translate('fact-checking.title')}
           </h1><br/>
-          <div className="text-info">
+          {/* <div className="text-info">
             <Translate contentKey="fact-checking.page-guide.main" /><br/>
             <ul style={{ fontWeight: 'bold', marginBottom: '0' }}>
               <li><Translate contentKey="fact-checking.page-guide.one" /></li>
               <li><Link className="text-info" to={'/statement'}><Translate contentKey="fact-checking.page-guide.two"/></Link></li>
             </ul>
             <Translate contentKey="fact-checking.page-guide.rest" />
-          </div>
+          </div> */}
         </Col>
       </Row>
       <Row className="my-5">
         <Col>
           <AvForm model={{}} onSubmit={saveStatement}>
-            <TabContent activeTab={activeTab}>
-              <TabPane tabId="1">
-                <Col md={{ size: 8, offset: 2 }}>
+            {/* <TabContent activeTab={activeTab}>
+              <TabPane tabId="1"> */}
+                <Col md={{ size: 8, offset: 2 }} style={{borderBottom: "1px solid rgba(0,0,0,0.2)", paddingBottom: "1.5rem"}}>
                   <h4 className="text-center">{translate("fact-checking.check.titles.first")}</h4>
                   <AvGroup>
                     <Label id="textLabel" for="statement-text">
@@ -184,7 +184,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
                         : null}
                     </AvInput>
                   </AvGroup>
-                  <Col md={{ size: 4, offset: 4 }} className="text-center">
+                  <Col md={{ size: 8, offset: 2 }} className="text-center">
                     <Label>
                       <Translate contentKey="check4FactsApp.statement.subTopics">Sub Topics</Translate>
                     </Label>
@@ -236,15 +236,15 @@ export const FactChecking = (props: IFactCheckingProps) => {
                       </Col>
                     </AvForm>
                   </Col>
-                  <Button className="float-right mt-4" color="primary" type="button" onClick={() => toggle('2')}>
+                  {/* <Button className="float-right mt-4" color="primary" type="button" onClick={() => toggle('2')}>
                     <FontAwesomeIcon icon="arrow-right" />
                     &nbsp;
                     <Translate contentKey="entity.action.next" />
-                  </Button>
+                  </Button> */}
                 </Col>
-              </TabPane>
-              <TabPane tabId="2">
-                <Col md={{ size: 8, offset: 2 }}>
+              {/* </TabPane>
+              <TabPane tabId="2"> */}
+                <Col md={{ size: 8, offset: 2 }} style={{paddingTop: "1.5rem"}}>
                   <h4 className="text-center">{translate("fact-checking.check.titles.second")}</h4>
                   <p className="text-center text-muted">Δεν είναι υποχρεωτικό να εισάγετε κάποια πηγή</p>
                   {statementSources.length > 0 ? (
@@ -327,12 +327,12 @@ export const FactChecking = (props: IFactCheckingProps) => {
                     </Col>
                   </AvForm>
                   <div className="float-right mt-4">
-                    <Button color="info" type="button" onClick={() => toggle('1')}>
+                    {/* <Button color="info" type="button" onClick={() => toggle('1')}>
                       <FontAwesomeIcon icon="arrow-left" />
                       &nbsp;
                       <Translate contentKey="entity.action.previous" />
                     </Button>
-                    &nbsp;
+                    &nbsp; */}
                     <Button color="primary" id="save-entity" type="submit">
                       <FontAwesomeIcon icon="save" />
                       &nbsp;
@@ -340,8 +340,8 @@ export const FactChecking = (props: IFactCheckingProps) => {
                     </Button>
                   </div>
                 </Col>
-              </TabPane>
-            </TabContent>
+              {/* </TabPane>
+            </TabContent> */}
           </AvForm>
         </Col>
       </Row>

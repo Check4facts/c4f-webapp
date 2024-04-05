@@ -72,6 +72,10 @@ public class ElasticsearchIndexService {
 
     private final TopicSearchRepository topicSearchRepository;
 
+    private final NewsRepository newsRepository;
+
+    private final NewsSearchRepository newsSearchRepository;
+
     public ElasticsearchIndexService(
         UserRepository userRepository,
         UserSearchRepository userSearchRepository,
@@ -89,7 +93,9 @@ public class ElasticsearchIndexService {
         TopicSearchRepository topicSearchRepository,
         FeatureStatementRepository featureStatementRepository,
         FeatureStatementSearchRepository featureStatementSearchRepository,
-        JestElasticsearchTemplate jestElasticsearchTemplate) {
+        JestElasticsearchTemplate jestElasticsearchTemplate, 
+        NewsRepository newsRepository, 
+        NewsSearchRepository newsSearchRepository) {
         this.userRepository = userRepository;
         this.userSearchRepository = userSearchRepository;
         this.articleRepository = articleRepository;
@@ -107,6 +113,8 @@ public class ElasticsearchIndexService {
         this.featureStatementRepository = featureStatementRepository;
         this.featureStatementSearchRepository = featureStatementSearchRepository;
         this.jestElasticsearchTemplate = jestElasticsearchTemplate;
+        this.newsRepository = newsRepository;
+        this.newsSearchRepository = newsSearchRepository;
     }
 
     @Async
@@ -120,6 +128,7 @@ public class ElasticsearchIndexService {
                 reindexForClass(StatementSource.class, statementSourceRepository, statementSourceSearchRepository);
                 reindexForClass(Topic.class, topicRepository, topicSearchRepository );
                 reindexForClass(User.class, userRepository, userSearchRepository);
+                reindexForClass(News.class, newsRepository, newsSearchRepository);
                 reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
                 log.info("Elasticsearch: Successfully performed reindexing");
             } finally {

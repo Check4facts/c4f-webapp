@@ -87,7 +87,7 @@ const Header = (props: IHeaderProps) => {
                 <AboutMenu />
                 {props.isAuthenticated && (
                   <NavItem>
-                    <NavLink to="/fact-checking" className="d-flex align-items-center nav-link">
+                    <NavLink to="/statement" className="d-flex align-items-center nav-link">
                       {translate('fact-checking.title')}
                     </NavLink>
                   </NavItem>
@@ -96,6 +96,11 @@ const Header = (props: IHeaderProps) => {
                 {/* <NavItem><NavLink to="/dissemination" exact className="d-flex align-items-center nav-link">{translate('global.menu.dissemination.main')}</NavLink></NavItem> */}
                 <FactChecking />
                 {/* <MoreMenu/> */}
+                <NavItem>
+                  <NavLink to="/news" exact className="d-flex align-items-center nav-link">
+                  <Translate contentKey="check4FactsApp.news.home.title" />
+                  </NavLink>
+                </NavItem>
                 <NavItem>
                   <NavLink to="/about/contact" exact className="d-flex align-items-center nav-link">
                     <Translate contentKey="global.menu.about.contact" />

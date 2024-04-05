@@ -41,6 +41,11 @@ import { faTools } from '@fortawesome/free-solid-svg-icons/faTools';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLink } from '@fortawesome/free-solid-svg-icons/faLink';
 import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace';
+import { faChartPie } from '@fortawesome/free-solid-svg-icons/faChartPie';
+import { faFileAlt } from '@fortawesome/free-solid-svg-icons/faFileAlt';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons/faEyeSlash';
 
 export const loadIcons = () => {
   library.add(
@@ -84,6 +89,11 @@ export const loadIcons = () => {
     faTools,
     faLink,
     faBackspace,
-    faAngleDown
+    faAngleDown,
+    faChartPie,
+    faFileAlt,
+    faTimes,
+    faAngleRight,
+    faEyeSlash
   );
 };

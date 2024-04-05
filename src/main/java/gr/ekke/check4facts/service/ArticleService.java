@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
@@ -149,7 +150,7 @@ private byte[] processImage(byte[] imageBytes, Boolean type) {
         categoryNames.forEach(cat -> {
             List<Article> listArt = new ArrayList<Article>();
             for (Article article : articleRepository
-                    .findFirst4ByPublishedTrueAndCategory_NameOrderByArticleDateDesc(cat.getName())) {
+                    .findTop4LatestArticlesByCategoryName(cat.getName(), PageRequest.of(0, 4))) {
                 listArt.add(getFilteredArticle(article));
             }
             categorizedArticles.add(new CategorizedArticles(cat.getName(), listArt));
@@ -312,20 +313,9 @@ private byte[] processImage(byte[] imageBytes, Boolean type) {
     }
 
     private Article getFilteredArticle(Article article) {
-        Article filteredArticle = new Article();
-        filteredArticle.setId(article.getId());
-        filteredArticle.setCategory(article.getCategory());
-        filteredArticle.setAuthor(article.getAuthor());
-        filteredArticle.setArticleDate(article.getArticleDate());
-        // k.setPreviewImage(article.getPreviewImage());
-        filteredArticle.setImageThumbPreview(article.getImageThumbPreview());
-        filteredArticle.setPreviewImageContentType(article.getPreviewImageContentType());
-        filteredArticle.setPreviewTitle(article.getPreviewTitle());
-        filteredArticle.setPreviewText(article.getPreviewText());
-        filteredArticle.setPublished(article.isPublished());
-        filteredArticle.setStatement(new Statement(article.getStatement().getFactCheckerAccuracy(),
-                article.getStatement().getAuthor(), article.getStatement().getMainArticleUrl()));
-        return filteredArticle;
+        article.setPreviewImage(null);
+        article.setContent(null);
+        return article;
     }
 
 }
