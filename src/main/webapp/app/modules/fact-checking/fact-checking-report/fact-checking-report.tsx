@@ -6,12 +6,12 @@ import { AvFeedback, AvField, AvForm, AvGroup, AvInput } from 'availity-reactstr
 import { byteSize, openFile, setFileData, translate, Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
-import { createEntity, getEntity, reset, updateEntity } from 'app/entities/article/article.reducer';
+import { createEntity, getEntity, reset, updateEntity, setBlob } from 'app/entities/article/article.reducer';
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
 import { getEntity as getStatement, setFactCheckerAccuracy, reset as StatementReset } from 'app/entities/statement/statement.reducer';
-import { getLatestResourcesByStatement, reset as resourcesReset, setBlob } from 'app/entities/resource/resource.reducer';
+import { getLatestResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
 import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
 import FactCheckingReportEditor from './fact-checking-report-editor';
 
