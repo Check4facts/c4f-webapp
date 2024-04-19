@@ -74,6 +74,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
     if (errors.length === 0) {
       const entity = {
         ...values,
+        factCheckerAccuracy: 0,
         statementSources,
         subTopics
       };

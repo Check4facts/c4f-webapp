@@ -350,14 +350,14 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                         <Label for="statement-accuracy">Ακρίβεια Δήλωσης</Label>
                         <div className='d-flex' style={{columnGap: 20, alignItems: "center"}}>
                     <div style={{flex: 1}}>
-                        <AvInput
+                        {<AvInput
                           id="article-category"
                           type="select"
                           className="form-control"
                           name="category.id"
-                          value={isNew ? 0 : statement.factCheckerAccuracy}
+                          value={isNew ? 0 : `${statement.factCheckerAccuracy}`}
                           onChange={changeFactCheckerAccuracy}
-                          required
+                          // required
                         >
                           {[0, 1, 2, 3, 4].map(index => (
                             <option value={index} key={`accuracy-choice-${index}`}>
@@ -373,7 +373,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                             </option>
                           ))
                           : null} */}
-                        </AvInput>
+                        </AvInput>}
                         </div>
                     <div className='w-auto'>
                       <Button color="warning" onClick={toggle} disabled={updating}>
