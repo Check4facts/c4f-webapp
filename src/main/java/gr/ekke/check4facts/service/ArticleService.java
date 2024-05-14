@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
@@ -70,58 +71,56 @@ public class ArticleService {
      * @return the persisted entity.
      */
     public Article save(Article article) {
-    log.debug("Request to save Article : {}", article);
+        log.debug("Request to save Article : {}", article);
 
-    if(article.getPreviewImage() != null){
-        article.setPreviewImage(processImage(article.getPreviewImage(), false));
-        article.setImageThumbPreview(processImage(article.getPreviewImage(), true));
-    }else{
-        article.setPreviewImage(null);
-        article.setImageThumbPreview(null);
-    }
-    article.setPreviewImageContentType("image/webp");
-
-    Article result = articleRepository.saveAndFlush(article);
-    em.refresh(result);
-    articleSearchRepository.save(result);
-    return result;
-}
-
-
-
-private byte[] processImage(byte[] imageBytes, Boolean type) {
-
-    try {
-        float thumbQuality = 0.8f;
-        float quality = 0.8f; // Adjust the quality factor as needed (0.0f to 1.0f)
-
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        BufferedImage originalImage = ImageIO.read(inputStream);
-        
-        if(type){
-           Thumbnails.of(originalImage)
-                .height(600)
-                .outputQuality(thumbQuality)
-                .outputFormat("webp")
-                .toOutputStream(baos);
-        }else{
-            Thumbnails.of(originalImage)
-                .scale(1)
-                .outputQuality(quality)
-                .outputFormat("webp")
-                .toOutputStream(baos);
+        if (article.getPreviewImage() != null) {
+            article.setPreviewImage(processImage(article.getPreviewImage(), false));
+            article.setImageThumbPreview(processImage(article.getPreviewImage(), true));
+        } else {
+            article.setPreviewImage(null);
+            article.setImageThumbPreview(null);
         }
-        return baos.toByteArray();
+        article.setPreviewImageContentType("image/webp");
 
-    } catch (IOException e) {
-        // Handle the exception appropriately
-        // For example, log the error or throw a custom exception
-        e.printStackTrace();
-        return imageBytes; // Return the original image if processing fails
+        Article result = articleRepository.saveAndFlush(article);
+        em.refresh(result);
+        articleSearchRepository.save(result);
+        return result;
     }
-}
+
+    private byte[] processImage(byte[] imageBytes, Boolean type) {
+
+        try {
+            float thumbQuality = 0.8f;
+            float quality = 0.8f; // Adjust the quality factor as needed (0.0f to 1.0f)
+
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            BufferedImage originalImage = ImageIO.read(inputStream);
+
+            if (type) {
+                Thumbnails.of(originalImage)
+                        .height(600)
+                        .outputQuality(thumbQuality)
+                        .outputFormat("webp")
+                        .toOutputStream(baos);
+            } else {
+                Thumbnails.of(originalImage)
+                        .scale(1)
+                        .outputQuality(quality)
+                        .outputFormat("webp")
+                        .toOutputStream(baos);
+            }
+            return baos.toByteArray();
+
+        } catch (IOException e) {
+            // Handle the exception appropriately
+            // For example, log the error or throw a custom exception
+            e.printStackTrace();
+            return imageBytes; // Return the original image if processing fails
+        }
+    }
 
     /**
      * Get all the articles.
@@ -180,6 +179,24 @@ private byte[] processImage(byte[] imageBytes, Boolean type) {
                             .collect(Collectors.toList())));
         });
         return categorizedArticles;
+    }
+
+    /**
+     * Search for suggestions based on user input.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<Article> searchForSuggestions(String query) {
+        MultiMatchQueryBuilder queryBuilder;
+        queryBuilder = multiMatchQuery(query)
+                .field("previewTitle", 2).field("previewText");
+        BoolQueryBuilder boolQueryBuilder = boolQuery().must(queryBuilder)
+                .must(termQuery("published", true));
+        List<Article> suggestedArticles = StreamSupport.stream(articleSearchRepository.search(boolQueryBuilder).spliterator(), false)
+                .map(this::getFilteredSuggestion)
+                .collect(Collectors.toList());
+        return suggestedArticles;
     }
 
     /**
@@ -285,9 +302,9 @@ private byte[] processImage(byte[] imageBytes, Boolean type) {
      */
     @Transactional(readOnly = true)
     public Page<Article> searchInCategory(String category, Boolean published, String query, Pageable pageable) {
-    log.debug("REST request to search for a page of Articles of category {} for query {}", category, query);
-    MultiMatchQueryBuilder queryBuilder = multiMatchQuery(query).field("previewTitle", 2).field("previewText");
-    
+        log.debug("REST request to search for a page of Articles of category {} for query {}", category, query);
+        MultiMatchQueryBuilder queryBuilder = multiMatchQuery(query).field("previewTitle", 2).field("previewText");
+
         Page<Article> articlesPage = published
                 ? articleSearchRepository.search(
                         boolQuery()
@@ -300,7 +317,7 @@ private byte[] processImage(byte[] imageBytes, Boolean type) {
                                 .must(termQuery("category.name", category))
                                 .must(queryBuilder),
                         pageable);
-        
+
         List<Article> articles = articlesPage.getContent()
                 .stream()
                 .map(article -> articleRepository.findById(article.getId()))
@@ -308,7 +325,7 @@ private byte[] processImage(byte[] imageBytes, Boolean type) {
                 .map(Optional::get)
                 .map(this::getFilteredArticle)
                 .collect(Collectors.toList());
-        
+
         return new PageImpl<>(articles, pageable, articlesPage.getTotalElements());
     }
 
@@ -316,6 +333,13 @@ private byte[] processImage(byte[] imageBytes, Boolean type) {
         article.setPreviewImage(null);
         article.setContent(null);
         return article;
+    }
+    
+    private Article getFilteredSuggestion(Article article) {
+        Article suggestion = new Article();
+        suggestion.setId(article.getId());
+        suggestion.setPreviewTitle(article.getPreviewTitle());
+        return suggestion;
     }
 
 }

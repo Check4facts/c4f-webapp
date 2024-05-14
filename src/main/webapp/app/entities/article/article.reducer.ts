@@ -30,6 +30,7 @@ export const ACTION_TYPES = {
   FETCH_PUBLISHED_ARTICLE_LIST: 'article/FETCH_PUBLISHED_ARTICLE_LIST',
   FETCH_CAROUSEL_ARTICLE_LIST: 'article/FETCH_CAROUSEL_ARTICLE_LIST',
   FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME: 'article/FETCH_ARTICLE_LIST_BY_PUBLISHED_AND_CATEGORY_NAME',
+  FETCH_SUGGESTIONS: 'article/FETCH_SUGGESTIONS',
   FETCH_ARTICLE: 'article/FETCH_ARTICLE',
   FETCH_FRONT_PAGE_ARTICLES: 'article/FETCH_FRONT_PAGE_ARTICLES',
   CREATE_ARTICLE: 'article/CREATE_ARTICLE',
@@ -48,6 +49,7 @@ const initialState = {
   updating: false,
   totalItems: 0,
   updateSuccess: false,
+  suggestions: [] as ReadonlyArray<IArticle>,
   frontPageArticles: [],
 };
 
@@ -66,6 +68,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
     case REQUEST(ACTION_TYPES.FETCH_ARTICLE):
     case REQUEST(ACTION_TYPES.FETCH_FRONT_PAGE_ARTICLES):
     case REQUEST(ACTION_TYPES.SEARCH_FRONT_ARTICLES):
+    case REQUEST(ACTION_TYPES.FETCH_SUGGESTIONS):
       return {
         ...state,
         errorMessage: null,
@@ -93,6 +96,7 @@ export default (state: ArticleState = initialState, action): ArticleState => {
     case FAILURE(ACTION_TYPES.CREATE_ARTICLE):
     case FAILURE(ACTION_TYPES.UPDATE_ARTICLE):
     case FAILURE(ACTION_TYPES.DELETE_ARTICLE):
+    case FAILURE(ACTION_TYPES.FETCH_SUGGESTIONS):
       return {
         ...state,
         loading: false,
@@ -145,6 +149,12 @@ export default (state: ArticleState = initialState, action): ArticleState => {
         updateSuccess: true,
         entity: {},
       };
+    case SUCCESS(ACTION_TYPES.FETCH_SUGGESTIONS):
+      return {
+        ...state,
+        loading: false,
+        suggestions: action.payload.data,
+      };
     case ACTION_TYPES.SET_BLOB: {
       const { name, data, contentType } = action.payload;
       return {
@@ -169,6 +179,11 @@ const apiUrl = 'api/articles';
 const apiSearchUrl = 'api/_search/articles';
 
 // Actions
+
+export const getSearchSuggestions = query => ({
+  type: ACTION_TYPES.FETCH_SUGGESTIONS,
+  payload: axios.get<string>(`${apiSearchUrl}/suggestions?query=${query}`),
+});
 
 export const getSearchEntities = (query, page, size, sort, bool) => ({
   type: ACTION_TYPES.SEARCH_ARTICLES,

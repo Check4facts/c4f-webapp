@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { getSearchEntities, getEntities, updateEntity, getArticlesByPublishedAndCategoryName } from '../article/article.reducer';
+import { getSearchEntities, getEntities, updateEntity, getArticlesByPublishedAndCategoryName, getSearchSuggestions } from '../article/article.reducer';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { Carousel, CarouselIndicators, CarouselItem, CarouselControl, UncontrolledCarousel, CarouselCaption, Button } from 'reactstrap';
 import { JhiItemCount, JhiPagination, Translate, translate, getSortState } from 'react-jhipster';
@@ -12,18 +12,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { IArticle } from 'app/shared/model/article.model';
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
+import SearchSuggestionBox from './SearchSuggestionBox';
 
-export interface ICarouselProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface ICarouselProps extends StateProps, DispatchProps {
+  search: string;
+  setSearch: Dispatch<SetStateAction<string>>;
+  setPaginationState: Dispatch<SetStateAction<any>>;
+  paginationState: any;
+}
 
-const HomeCarousel = props => {
+const HomeCarousel = (props: ICarouselProps) => {
   // State for Active index
   const [activeIndex, setActiveIndex] = React.useState(0);
-
+  const [searchOpen, setSearchOpen] = React.useState(false);
+  const [timeoutFunc, setTimeoutFunc] = React.useState(null);
+  const ref = React.useRef(null);
   // State for Search Box input
 
   // State for Animation
   const [animating, setAnimating] = React.useState(false);
-
 
   // Sample items for Carousel
   const items = [
@@ -54,8 +61,43 @@ const HomeCarousel = props => {
     },
   ];
 
+  function handleClickOutside(event) {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setSearchOpen(false);
+    }
+  }
+
+  useEffect(() => {
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+
+  const debounceSearch = (func, delay) => {
+    return (...args) => {
+      clearTimeout(timeoutFunc);
+      setTimeoutFunc(
+        setTimeout(() => {
+          func(...args);
+        }, delay)
+      );
+    };
+  };
+
   // Items array length
   const itemLength = items.length - 1;
+
+  const handleSearchOpen = func => () => {
+    console.log("mpika")
+    if (func === 'focus') {
+      setSearchOpen(true);
+    } else {
+      setSearchOpen(false);
+    }
+  };
 
   // Previous button for Carousel
   const previousButton = () => {
@@ -71,7 +113,7 @@ const HomeCarousel = props => {
     setActiveIndex(nextIndex);
   };
 
-/*  const startSearching = () => {
+  /*  const startSearching = () => {
     if (props.search) {
       props.getSearchEntities(
         props.paginationState.query,
@@ -89,13 +131,26 @@ const HomeCarousel = props => {
       query: props.search,
       activePage: 1,
     });
+    searchOpen && setSearchOpen(false);
   };
 
-/*
+  const suggestionsSearch = () => {
+    // TODO: Implement search functionality
+    props.getSearchSuggestions(props.search);
+  };
+
+  const delayedStartSearching = debounceSearch(suggestionsSearch, 300);
+
   useEffect(() => {
-    startSearching();
-  }, [props.paginationState.activePage]);
-*/
+    if (props.search.length > 0) {
+      delayedStartSearching();
+    } else {
+      clearTimeout(timeoutFunc);
+    }
+    return () => {
+      clearTimeout(timeoutFunc);
+    };
+  }, [props.search]);
 
   const handleSearch = event => props.setSearch(event.target.value);
 
@@ -126,7 +181,8 @@ const HomeCarousel = props => {
             <>
               <Translate contentKey="home.subtitle" />
               <div>
-                <AvForm onSubmit={startSearching} >
+              <div ref={ref}>
+                <AvForm onSubmit={startSearching}>
                   <AvGroup className="search-group">
                     <AvInput
                       type="text"
@@ -135,12 +191,17 @@ const HomeCarousel = props => {
                       value={props.search}
                       onChange={handleSearch}
                       placeholder={translate('check4FactsApp.article.home.search')}
+                      onFocus={handleSearchOpen('focus')}
+                      // onBlur={handleSearchOpen('blur')}
+                      autocomplete="off"
                     />
                     <Button className="search-button">
                       <FontAwesomeIcon icon="search" />
                     </Button>
                   </AvGroup>
                 </AvForm>
+                <SearchSuggestionBox searchOpen={searchOpen} searchInput={props.search} suggestions={props.suggestions} handleSearchOpen={handleSearchOpen}/>
+                </div>
               </div>
             </>
           }
@@ -156,11 +217,13 @@ const mapStateToProps = (storeState: IRootState) => ({
   categories: storeState.category.entities,
   loading: storeState.article.loading,
   totalItems: storeState.article.totalItems,
+  suggestions: storeState.article.suggestions,
 });
 
 const mapDispatchToProps = {
   getEntities,
   getArticlesByPublishedAndCategoryName,
+  getSearchSuggestions,
   updateEntity,
 };
 

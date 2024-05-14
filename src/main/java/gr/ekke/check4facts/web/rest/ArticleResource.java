@@ -167,6 +167,14 @@ public class ArticleResource {
         // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().body(page);
     }
+    
+    @GetMapping("/_search/articles/suggestions")
+    public ResponseEntity<List<Article>> searchSuggestions(@RequestParam String query) {
+        log.debug("REST request to search for suggestions {}", query);
+        List<Article> suggestions = articleService.searchForSuggestions(query);
+        // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().body(suggestions);
+    }
 
     /**
      * {@code SEARCH  /_search/articles/:category?query=:query} : search for the article corresponding
