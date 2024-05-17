@@ -36,7 +36,7 @@ const SearchSuggestionBox = (props: ISearchSuggestionBox) => {
           }}
         >
           {suggestions.length > 0 ? (
-            suggestions.slice(0,4).map((suggestion, idx) => (
+            suggestions.slice(0, 4).map((suggestion, idx) => (
               <div
                 key={`search-row-${idx}`}
                 onMouseEnter={handleRowHighlight(suggestion)}
@@ -47,19 +47,19 @@ const SearchSuggestionBox = (props: ISearchSuggestionBox) => {
                   height: '50px',
                   padding: '0.5rem',
                   backgroundColor: highlightedRow === suggestion ? '#EAEAF1' : 'white',
-                  borderBottom: idx === 2 ? 'none' : '1px solid rgba(0,0,0,0.3)',
+                  borderBottom: '1px solid rgba(0,0,0,0.3)',
                   alignItems: 'center',
                   cursor: 'pointer',
-                  width: "100%",
-                  overflow: "hidden"
+                  width: '100%',
+                  overflow: 'hidden',
                 }}
               >
                 <FontAwesomeIcon icon="search" color="black" />
-                <Link to={`/article/${suggestion.id}/display`} style={{ color: 'black', textDecoration: 'none' }}>
-                  <div style={{ color: 'black', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', cursor: 'pointer' }}>
+                <div style={{ color: 'black', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', cursor: 'pointer' }}>
+                  <Link to={`/article/${suggestion.id}/display`} style={{ color: 'black', textDecoration: 'none' }}>
                     {suggestion.previewTitle}
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </div>
             ))
           ) : (
