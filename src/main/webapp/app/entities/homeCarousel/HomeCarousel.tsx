@@ -91,7 +91,6 @@ const HomeCarousel = (props: ICarouselProps) => {
   const itemLength = items.length - 1;
 
   const handleSearchOpen = func => () => {
-    console.log("mpika")
     if (func === 'focus') {
       setSearchOpen(true);
     } else {
