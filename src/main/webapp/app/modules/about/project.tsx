@@ -70,11 +70,20 @@ export const Project = () => {
             </p>
           </li>
           <li>
-            <p className='font-weight-bold'>2023</p>
-            <p>Από το 2023 το έργο
-          χρηματοδοτείται από τη σύμπραξη οκτώ ερευνητικών και πανεπιστημιακών
-          φορέων, αφενός, και από το πρόγραμμα <a href="https://climpact.gr/main/">CLIMPACT II</a>, αφετέρου.
+            <p className='font-weight-bold'>2022-2023</p>
+            <p>Το έργο χρηματοδoτήθηκε με ιδίους πόρους από τη σύμπραξη οκτώ ερευνητικών και πανεπιστημιακών
+            φορέων.
             </p>
+          </li>
+          <li>
+            <p className='font-weight-bold'>2023 -</p>
+            <p>Tο έργο
+            χρηματοδοτείται από το πρόγραμμα <a href="https://climpact.gr/main/">CLIMPACT II</a> και το πρόγραμμα <a href="https://www.justredi.gr/">Justredi</a> στο πλαίσιο του Εθνικού Σχεδίου Ανάκαμψης και Ανθεκτικότητας Ελλάδα 2.0 με τη χρηματοδότηση της Ευρωπαϊκής Ένωσης – NextGenerationEU.
+            </p>
+            <div className='d-flex flex-row align-items-center' style={{columnGap: 5}}>
+            <img src='../../content/images/climpact-logo.png' height={40} />
+            <img src='../../content/images/justredi-logo.png' height={30} />
+            </div>
           </li>
         </ul>
         {/* <p>Αρχικά το έργο χρηματοδοτήθηκε από το <a href="http://www.elidek.gr/en/homepage/">Ελληνικό Ίδρυμα Έρευνας και
