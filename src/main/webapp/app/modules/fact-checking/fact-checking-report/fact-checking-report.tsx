@@ -29,7 +29,7 @@ export interface IFactCheckingReportProps extends StateProps, DispatchProps, Rou
 export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const editorRef = useRef(CKEditor);
   const [publishArticle, setPublishArticle] = useState(false);
-  const [categoryId, setCategoryId] = useState('1');
+  const [categoryId, setCategoryId] = useState(null);
   const [open, setOpen] = useState(false);
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
   const [updateNew, setUpdateNew] = useState(true);
@@ -73,6 +73,12 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const toggle = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    if (isNew && categories.length > 0) {
+      setCategoryId(categories[0].id);
+    }
+  }, [categories])
 
   useEffect(() => {
     props.getStatement(props.match.params.id);
@@ -256,17 +262,12 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       className="form-control"
                       name="category.id"
                       value={isNew ? categories[0] && categories[0].id : articleEntity.category?.id}
-                      onChange={event => setCategoryId(event.target.value)}
+                      onChange={event => setCategoryId(parseInt(event.target.value, 10))}
                       required
                     >
-                      <option value="" key="0" />
+                      {/* <option value="" key="0" /> */}
                       {categories
                         ? categories
-                            .filter(cat =>
-                              statementId !== '' || articleEntity.statement
-                                ? ['immigration', 'crime', 'climate_change', 'pandemic'].includes(cat.name)
-                                : true
-                            )
                             .map(otherEntity => (
                               <option value={otherEntity.id} key={otherEntity.id}>
                                 {translate(`check4FactsApp.category.${otherEntity.name}`)}

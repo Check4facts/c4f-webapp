@@ -19,5 +19,9 @@ export const TopicsMenu = () => (
     <MenuItem to="/fact-checking/sub-menu/pandemic">
       <Translate contentKey="fact-checking.sub-menus.pandemic" />
     </MenuItem>
+    {/* TODO: Enable this when the page is ready */}
+    {/* <MenuItem to="/fact-checking/sub-menu/digital_transition">
+      <Translate contentKey="fact-checking.sub-menus.digital_transition" />
+    </MenuItem> */}
   </NavDropdown>
 );

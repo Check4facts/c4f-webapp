@@ -174,8 +174,9 @@ export const FactChecking = (props: IFactCheckingProps) => {
                     <Label for="statement-topic">
                       <Translate contentKey="check4FactsApp.statement.topic">Topic</Translate>{' '}(*)
                     </Label>
-                    <AvInput id="statement-topic" type="select" className="form-control" name="topic.id">
-                      <option value="" key="0" />
+                    <AvInput id="statement-topic" type="select" className="form-control" name="topic.id" required
+                    value={topics && topics[0] ? topics[0].id : ""}>
+                      {/* <option value="" key="0" /> */}
                       {topics
                         ? topics.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
