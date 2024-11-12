@@ -3,6 +3,7 @@ import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util'
 import { IStatement } from 'app/shared/model/statement.model';
 import { ITaskStatus } from 'app/shared/model/util.model';
 import { upsertTaskStatus } from 'app/shared/util/entity-utils';
+import { ITranslationRequest, ITranslationResponse } from 'app/shared/model/ilsp-tool.model';
 
 export const ACTION_TYPES = {
   SET_FACT: 'fact-checking/SET_FACT',
@@ -28,7 +29,7 @@ const initialState = {
   statusInterval: null,
   ilspTool: {
     translator: {
-      data: null,
+      data: null as ITranslationResponse,
       loading: false,
       error: null,
     },
@@ -198,7 +199,7 @@ export const getTranslation = (text: string) => dispatch => {
     source: 'auto',
     target: 'en',
     format: 'text',
-  };
+  } as ITranslationRequest;
   return dispatch({
     type: ACTION_TYPES.TRANSLATE_TEXT,
     payload: axios.post(requestUrl, requestPayload),

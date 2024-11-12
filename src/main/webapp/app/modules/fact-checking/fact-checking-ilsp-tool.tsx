@@ -1,23 +1,11 @@
 import { IRootState } from 'app/shared/reducers';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Container,
-  Row,
-  Col,
-  InputGroup,
-  InputGroupText,
-  Input,
-  Button,
-  Spinner,
-  FormGroup,
-  Label,
-} from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Container, Row, Col, Tooltip, Input, Button, Spinner, FormGroup, Label, Table } from 'reactstrap';
 import { getTranslation } from './fact-checking.reducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Translate } from 'react-jhipster';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const dummyToolResponse = {
   doc_id: '1',
@@ -64,10 +52,15 @@ interface IFactCheckingIlspTool extends StateProps, DispatchProps {
   handleIlspTool: () => void;
   statementText: string;
   setStatementText: Dispatch<SetStateAction<string>>;
+  statementSources: any[];
+  setStatementSources: Dispatch<SetStateAction<any[]>>;
 }
 
 const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
-  const { ilspToolOpen, handleIlspTool, ilspTool, getTranslation, statementText, setStatementText } = props;
+  const { ilspToolOpen, handleIlspTool, ilspTool, statementText, setStatementText, statementSources, setStatementSources } = props;
+  const [ilspTooltip, setIlspTooltip] = React.useState(false);
+
+  const handleIlspTooltip = () => setIlspTooltip(!ilspTooltip);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStatementText(e.target.value);
@@ -77,9 +70,44 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
     getTranslation(statementText);
   };
 
+  const createStatementSource = info => {
+    return { url: `https://doi.org/${info.doi}`, title: '-', snippet: info.sentence };
+  };
+
+  const handleAllSourceStatements = () => {
+    // prepare all statements
+    const preparedSources = dummyToolResponse.no_info.reduce((acc, info) => [...acc, createStatementSource(info)], []);
+    // find out which of the statements are not already in the list
+    const differences = preparedSources.filter(source => statementSources.find(s => s.url === source.url) === undefined);
+    // find out if all of the fetched statements are included in the list
+    const allIncluded = preparedSources.every(source => statementSources.find(s => s.url === source.url) !== undefined);
+    if (allIncluded) {
+      setStatementSources(prevState => prevState.filter(source => preparedSources.find(s => s.url === source.url) === undefined));
+    } else {
+      setStatementSources(prevState => [...prevState, ...differences]);
+    }
+  };
+
+  const handleCheckboxValue = info => {
+    return statementSources.find(s => s.url === createStatementSource(info).url) !== undefined;
+  };
+
+  const handleAllCheckboxValue = () => {
+    const preparedSources = dummyToolResponse.no_info.reduce((acc, info) => [...acc, createStatementSource(info)], []);
+    return preparedSources.every(source => statementSources.find(s => s.url === source.url) !== undefined);
+  };
+
+  const handleSourceStatement = info => e => {
+    const statement = createStatementSource(info);
+    if (statementSources.some(source => source.url === statement.url)) {
+      setStatementSources(prevState => prevState.filter(source => source.url !== statement.url));
+    } else {
+      setStatementSources(prevState => [...prevState, statement]);
+    }
+  };
+
   return (
     <>
-      {console.log(ilspTool)}
       <Modal
         isOpen={ilspToolOpen}
         fade={false}
@@ -90,13 +118,13 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
         size="lg"
       >
         <ModalHeader toggle={handleIlspTool} className="iel-tool-modal-title">
-          Επαλήθευση Ισχυρισμού
+          Αναζήτηση Σχετικών Δημοσιεύσεων
         </ModalHeader>
         <ModalBody>
           <Container style={{ display: 'flex', flexDirection: 'column', rowGap: 20 }}>
             <Row>
-              <Col>
-                <InputGroup>
+              <Col style={{display: "flex", alignItems: "center", justifyContent: "center", columnGap: 20}}>
+                {/* <InputGroup>
                   <Input placeholder="Check it out" value={statementText} onChange={handleTextChange} />
                   <InputGroupText>
                     <Button
@@ -107,26 +135,71 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
                       {ilspTool.translator.loading ? <Spinner size="sm" /> : <FontAwesomeIcon icon="chart-pie" style={{ fontSize: 15 }} />}
                     </Button>
                   </InputGroupText>
-                </InputGroup>
+                </InputGroup> */}
+                <h1>Αποτελέσματα Αναζήτησης</h1>
+                <FontAwesomeIcon icon={faInfoCircle} id="info-button" />
+                <Tooltip isOpen={ilspTooltip} target="info-button" toggle={handleIlspTooltip}>
+                        {`Αποτελέσματα αναζήτησης για την δήλωση: ${ilspTool.translator.data?.translatedText || statementText}`}
+                </Tooltip>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col>
                 <FormGroup>
                   <Label for="exampleEmail">Translated Text</Label>
                   <Input disabled value={ilspTool.translator.data ? ilspTool.translator.data.translatedText : ''} />
                 </FormGroup>
               </Col>
-            </Row>
-            {ilspTool.translator.data && dummyToolResponse.no_info.map(info => 
-            <Row>
-              <Col>
-                <h5>{info.sentence}</h5>
-                <a href={` https://doi.org/${info.doi}`} target="_blank" rel="noopener noreferrer">
+            </Row> */}
+            {ilspTool.translator.data &&
+              dummyToolResponse.no_info.map((info, idx) => (
+                <Row key={`result-${idx}`}>
+                  <Col>
+                    <h5>{info.sentence}</h5>
+                    <a href={` https://doi.org/${info.doi}`} target="_blank" rel="noopener noreferrer">
                       {info.doi}
                     </a>
+                  </Col>
+                </Row>
+              ))}
+            <Row>
+              <Col>
+                <Table responsive>
+                  <thead>
+                    <tr>
+                      <th style={{ verticalAlign: 'unset' }}>
+                        <Input type="checkbox" checked={handleAllCheckboxValue()} onClick={handleAllSourceStatements} />
+                      </th>
+                      <th>
+                        <Translate contentKey="check4FactsApp.statementSource.url">Url</Translate>
+                      </th>
+                      <th>
+                        <Translate contentKey="check4FactsApp.statementSource.title">Title</Translate>
+                      </th>
+                      <th>
+                        <Translate contentKey="check4FactsApp.statementSource.snippet">Snippet</Translate>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dummyToolResponse.no_info.map((info, idx) => (
+                      <tr key={`entity-tool-${idx}`}>
+                        <td>
+                          <Input type="checkbox" checked={handleCheckboxValue(info)} onClick={handleSourceStatement(info)} />
+                        </td>
+                        <td>
+                          <a href={` https://doi.org/${info.doi}`} target="_blank" rel="noopener noreferrer">
+                            {info.doi}
+                          </a>
+                        </td>
+                        <td> - </td>
+                        <td>{info.sentence}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
               </Col>
-            </Row>)}
+            </Row>
           </Container>
         </ModalBody>
       </Modal>

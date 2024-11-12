@@ -24,7 +24,9 @@ export const FactChecking = (props: IFactCheckingProps) => {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [ilspToolOpen, setIlspToolOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const [statementText, setStatementText] = useState('Το 2009, τα αναπτυγμένα έθνη του κόσμου συμφώνησαν να δώσουν 100 δισεκατομμύρια δολάρια το χρόνο σε φτωχότερα έθνη μέχρι το 2020 για να τα βοηθήσουν να αντιμετωπίσουν και να προετοιμαστούν για την κλιματική αλλαγή');
+  const [statementText, setStatementText] = useState(
+    'Το 2009, τα αναπτυγμένα έθνη του κόσμου συμφώνησαν να δώσουν 100 δισεκατομμύρια δολάρια το χρόνο σε φτωχότερα έθνη μέχρι το 2020 για να τα βοηθήσουν να αντιμετωπίσουν και να προετοιμαστούν για την κλιματική αλλαγή'
+  );
 
   const toggleTooltip = () => {
     if (!['1005', '1006'].includes(selectedTopic)) {
@@ -34,11 +36,11 @@ export const FactChecking = (props: IFactCheckingProps) => {
 
   const handleIsqlTool = () => {
     setIlspToolOpen(!ilspToolOpen);
-  }
+  };
 
   const handleStatementTextChange = e => {
     setStatementText(e.target.value);
-  }
+  };
 
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -114,9 +116,15 @@ export const FactChecking = (props: IFactCheckingProps) => {
 
   return (
     <>
-      {console.log()}
       <Container fluid className="my-5">
-        <FactCheckingIlspTool ilspToolOpen={ilspToolOpen} handleIlspTool={handleIsqlTool} statementText={statementText} setStatementText={setStatementText} />
+        <FactCheckingIlspTool
+          ilspToolOpen={ilspToolOpen}
+          handleIlspTool={handleIsqlTool}
+          statementText={statementText}
+          setStatementText={setStatementText}
+          statementSources={statementSources}
+          setStatementSources={setStatementSources}
+        />
         <Row className="my-5">
           <Col sm="12" md={{ size: 6, offset: 3 }}>
             <h1 className="text-center">{translate('fact-checking.title')}</h1>
@@ -230,15 +238,15 @@ export const FactChecking = (props: IFactCheckingProps) => {
                     </div>
                     <div className="w-auto">
                       <Button
-                        id={'analyze-button'}
+                        id={'search-button'}
                         color={['1005', '1006'].includes(selectedTopic) ? 'warning' : 'secondary'}
                         disabled={selectedTopic !== '1005' && selectedTopic !== '1006'}
                         onClick={handleIsqlTool}
                       >
-                        <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
+                        <Translate contentKey="entity.action.search">Search</Translate>
                       </Button>
-                      <Tooltip isOpen={tooltipOpen} target="analyze-button" toggle={toggleTooltip}>
-                        {'Επιλέξτε "Υγεία" ή "Κλιματική Αλλαγή" για να ενεργοποιηθεί ο αναλυτής'}
+                      <Tooltip isOpen={tooltipOpen} target="search-button" toggle={toggleTooltip}>
+                        {'Επιλέξτε "Υγεία" ή "Κλιματική Αλλαγή" για να ενεργοποιηθεί η αναζήτηση πηγών'}
                       </Tooltip>
                     </div>
                   </div>
@@ -297,7 +305,7 @@ export const FactChecking = (props: IFactCheckingProps) => {
                 <h4 className="text-center">{translate('fact-checking.check.titles.second')}</h4>
                 <p className="text-center text-muted">Δεν είναι υποχρεωτικό να εισάγετε κάποια πηγή</p>
                 {statementSources.length > 0 ? (
-                  <Col md={{ size: 10, offset: 1 }}>
+                  <Col md={{ size: 12 }}>
                     <Table responsive>
                       <thead>
                         <tr>
