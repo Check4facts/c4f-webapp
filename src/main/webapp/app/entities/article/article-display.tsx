@@ -66,6 +66,15 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                 {article.previewTitle}
               </h1>
               <div className="text-center">
+                {article.statement && article.statement.factCheckerAccuracy != null && (
+                  <Badge className={`mb-4 accuracy-color-${article.statement.factCheckerAccuracy}`}>
+                    <span className="text-uppercase" style={{fontSize: 20, padding: 20}}>
+                      {translate(`fact-checking.results.model.accuracy.${article.statement.factCheckerAccuracy}`)}
+                    </span>
+                  </Badge>
+                )}
+              </div>
+              <div className="text-center">
                 <a href={`/fact-checking/sub-menu/${article.category.name}`}
                    className="btn btn-dark font-weight-bold mb-4">{translate(`check4FactsApp.category.${article.category.name}`)}</a>
               </div>
