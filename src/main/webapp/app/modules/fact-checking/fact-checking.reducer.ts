@@ -13,6 +13,9 @@ export const ACTION_TYPES = {
   UPDATE_ACTIVE_TASKS: 'fact-checking/UPDATE_ACTIVE_TASKS',
   CHANGE_STATUS_INTERVAL: 'fact-checking/CHANGE_STATUS_INTERVAL',
   RESET: 'fact-checking/RESET',
+  TRANSLATE_TEXT: 'fact-checking/TRANSLATE_TEXT',
+  GET_RECOMMENDATIONS: 'fact-checking/GET_RECOMMENDATIONS',
+  RESET_ILSP_TOOL: 'fact-checking/RESET_ILSP_TOOL',
 };
 
 const initialState = {
@@ -23,6 +26,18 @@ const initialState = {
   taskStatusLoading: false,
   taskStatuses: [] as ITaskStatus[],
   statusInterval: null,
+  ilspTool: {
+    translator: {
+      data: null,
+      loading: false,
+      error: null,
+    },
+    recommender: {
+      data: null,
+      loading: false,
+      error: null,
+    },
+  },
 };
 
 export type FactCheckingState = Readonly<typeof initialState>;
@@ -82,6 +97,41 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
         taskStatusLoading: false,
         taskStatuses: upsertTaskStatus([...state.taskStatuses], action.payload.data),
       };
+    case REQUEST(ACTION_TYPES.TRANSLATE_TEXT):
+      return {
+        ...state,
+        ilspTool: {
+          ...state.ilspTool,
+          translator: {
+            ...state.ilspTool.translator,
+            loading: true,
+          },
+        },
+      };
+    case FAILURE(ACTION_TYPES.TRANSLATE_TEXT):
+      return {
+        ...state,
+        ilspTool: {
+          ...state.ilspTool,
+          translator: {
+            ...state.ilspTool.translator,
+            loading: false,
+            error: action.payload,
+          },
+        },
+      };
+    case SUCCESS(ACTION_TYPES.TRANSLATE_TEXT):
+      return {
+        ...state,
+        ilspTool: {
+          ...state.ilspTool,
+          translator: {
+            data: action.payload.data,
+            loading: false,
+            error: null,
+          },
+        },
+      };
     case ACTION_TYPES.REMOVE_TASK_STATUS:
       return {
         ...state,
@@ -138,6 +188,20 @@ export const getTaskStatus = id => (dispatch, getState) => {
   return dispatch({
     type: ACTION_TYPES.GET_TASK_STATUS,
     payload: axios.get(requestUrl),
+  });
+};
+
+export const getTranslation = (text: string) => dispatch => {
+  const requestUrl = `http://localhost:5000/translate`;
+  const requestPayload = {
+    q: text,
+    source: 'auto',
+    target: 'en',
+    format: 'text',
+  };
+  return dispatch({
+    type: ACTION_TYPES.TRANSLATE_TEXT,
+    payload: axios.post(requestUrl, requestPayload),
   });
 };
 
