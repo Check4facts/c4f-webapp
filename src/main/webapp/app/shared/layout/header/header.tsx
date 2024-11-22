@@ -72,8 +72,8 @@ const Header = (props: IHeaderProps) => {
             <NavbarToggler aria-label="Menu" onClick={toggleMenu}>
               <img src="../../../../content/images/bars-solid.svg" width={20}></img>
             </NavbarToggler>
-            <Collapse isOpen={menuOpen} className="justify-content-center" navbar>
-              <Nav id="header-tabs" navbar>
+            <Collapse isOpen={menuOpen} className="justify-content-center" style={{width: "101%"}} navbar>
+              <Nav id="header-tabs" className="align-items-sm-start align-items-md-center" navbar>
                 {props.isAuthenticated && props.isAdmin && <EntitiesMenu />}
                 {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
                 <NavItem style={{display: "flex", justifyContent: "space-between"}}>

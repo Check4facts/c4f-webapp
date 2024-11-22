@@ -82,7 +82,7 @@ public class Article implements Serializable {
     private Category category;
 
     @OneToOne
-    @JsonIgnoreProperties(value= {"statementSources", "resources"}, allowSetters = true)
+    @JsonIgnoreProperties(value= {"resources"}, allowSetters = true)
     private Statement statement;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

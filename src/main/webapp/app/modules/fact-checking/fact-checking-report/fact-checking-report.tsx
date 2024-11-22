@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Label, Row, Spinner } from 'reactstrap';
+import { Button, Col, Label, Row, Spinner, Table, Input, Tooltip, FormGroup, FormFeedback } from 'reactstrap';
 import { AvFeedback, AvField, AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 import { byteSize, openFile, setFileData, translate, Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,7 +10,12 @@ import { createEntity, getEntity, reset, updateEntity, setBlob } from 'app/entit
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
-import { getEntity as getStatement, setFactCheckerAccuracy, reset as StatementReset } from 'app/entities/statement/statement.reducer';
+import {
+  getEntity as getStatement,
+  setFactCheckerAccuracy,
+  reset as StatementReset,
+  updateEntity as updateStatement,
+} from 'app/entities/statement/statement.reducer';
 import { getLatestResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
 import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
 import FactCheckingReportEditor from './fact-checking-report-editor';
@@ -23,6 +28,13 @@ import {
   reset as featureStatementReset,
 } from 'app/entities/feature-statement/feature-statement.reducer';
 import FactCheckingReportPreview from './fact-checking-report-preview';
+import FactCheckingIlspTool from './fact-checking-ilsp-tool';
+
+const addNewRowDefault = {
+  open: false,
+  url: '',
+  title: '',
+};
 
 export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -36,7 +48,18 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const [saveTimeout, setSaveTimeout] = useState(null);
   const [previewArticle, setPreviewArticle] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [addNewRow, setAddNewRow] = useState(addNewRowDefault);
+  const [allSources, setAllSources] = useState([]);
+  const [ilspToolOpen, setIlspToolOpen] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [statementAccuracy, setStatementAccuracy] = useState(0);
+  const [statementText, setStatementText] = useState(
+    'Το 2009, τα αναπτυγμένα έθνη του κόσμου συμφώνησαν να δώσουν 100 δισεκατομμύρια δολάρια το χρόνο σε φτωχότερα έθνη μέχρι το 2020 για να τα βοηθήσουν να αντιμετωπίσουν και να προετοιμαστούν για την κλιματική αλλαγή'
+  );
   const formRef = useRef(null);
+  const [ilspTooltip, setIlspTooltip] = useState(false);
+  const toggleIlspTooltip = () => setIlspTooltip(!ilspTooltip);
+  const formError = useRef({ error: false, timeout: null });
 
   const {
     currentLocale,
@@ -56,6 +79,46 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   } = props;
 
   const { previewImage, previewImageContentType } = articleEntity;
+
+  const handleSourcesComponent = (
+    action: 'open' | 'edit' | 'commit' | 'filter',
+    editBox: 'url' | 'title' | null,
+    deleteIndex: number | null
+  ) => e => {
+    if (action === 'open') {
+      setAddNewRow(prev =>
+        (prev.title.length > 0 || prev.url.length > 0) && prev.open ? addNewRowDefault : { ...prev, open: !prev.open }
+      );
+    }
+    if (action === 'edit') {
+      if (e.target.value.length > 255){
+        formError.current.error && clearTimeout(formError.current.timeout);
+        formError.current.error = true;
+        formError.current.timeout = setTimeout(() => formError.current.error = false, 1500);
+        return;
+      } 
+      setAddNewRow(prev => ({ ...prev, [editBox]: e.target.value }));
+    }
+    if (action === 'commit') {
+      setAllSources(prev => [...prev, { url: addNewRow.url, title: addNewRow.title, snippet: '' }]);
+      setAddNewRow(addNewRowDefault);
+    }
+    if (action === 'filter') {
+      setAllSources(prev => [...prev.filter((source, idx) => idx !== deleteIndex)]);
+    }
+  };
+
+  // const toggleTooltip = () => {
+  //   if (!['1005', '1006'].includes(selectedTopic)) {
+  //     setTooltipOpen(!tooltipOpen);
+  //   }
+  // };
+
+  const handleIlspTool = () => {
+    setIlspToolOpen(!ilspToolOpen);
+  };
+
+  const shortenStatementText = text => (text.length > 20 ? `${text.substring(0, 20)}...` : text);
 
   const handleClose = () => {
     props.statementSourcesReset();
@@ -78,7 +141,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     if (isNew && categories.length > 0) {
       setCategoryId(categories[0].id);
     }
-  }, [categories])
+  }, [categories]);
 
   useEffect(() => {
     props.getStatement(props.match.params.id);
@@ -100,6 +163,10 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   }, []);
 
   useEffect(() => {
+    setAllSources([...statementSources]);
+  }, [statementSources]);
+
+  useEffect(() => {
     if (featureStatementCount > 0) {
       props.getLatestResourcesByStatement(props.match.params.id);
     }
@@ -108,7 +175,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   useEffect(() => {
     if (statement && statement.article) {
       setIsNew(false);
-      props.getEntity(statement.article.id);
+      setStatementText(statement.text);
+      !articleEntity.id && props.getEntity(statement.article.id);
     } else {
       setIsNew(true);
       props.reset();
@@ -152,13 +220,15 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
         ...values,
         published: publishArticle,
         statement: statement.article ? articleEntity.statement : { id: statement.id },
-        category: {id: categoryId}
+        category: { id: categoryId },
       };
       if (isNew && updateNew) {
         props.createEntity(entity);
+        props.updateStatement({ ...statement, statementSources: allSources, factCheckerAccuracy: statementAccuracy });
         setUpdateNew(false);
       } else {
         props.updateEntity(entity);
+        props.updateStatement({ ...statement, statementSources: allSources, factCheckerAccuracy: statementAccuracy });
       }
     }
   };
@@ -177,16 +247,17 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   };
 
   const handlePreview = () => {
-    if(previewOpen) {
+    if (previewOpen) {
       setPreviewOpen(false);
       setPreviewArticle(null);
     } else {
       setPreviewArticle(formRef.current.props.model);
       setPreviewOpen(true);
     }
-  }
+  };
 
   const changeFactCheckerAccuracy = event => {
+    setStatementAccuracy(event.target.value);
     setFactCheckerAccuracy(statement.id, event.target.value);
     // TODO Add corresponding call for FeatureStatement when column is added to table.
   };
@@ -267,12 +338,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                     >
                       {/* <option value="" key="0" /> */}
                       {categories
-                        ? categories
-                            .map(otherEntity => (
-                              <option value={otherEntity.id} key={otherEntity.id}>
-                                {translate(`check4FactsApp.category.${otherEntity.name}`)}
-                              </option>
-                            ))
+                        ? categories.map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {translate(`check4FactsApp.category.${otherEntity.name}`)}
+                            </option>
+                          ))
                         : null}
                     </AvInput>
                     <AvFeedback>
@@ -344,28 +414,29 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       className="form-control"
                       name="articleDateUpdated"
                       placeholder={'YYYY-MM-DD HH:mm'}
-                      value={isNew ? "" : convertDateTimeFromServer(props.articleEntity.articleDateUpdated)}
+                      value={isNew ? '' : convertDateTimeFromServer(props.articleEntity.articleDateUpdated)}
                     />
                   </AvGroup>
-                      <AvGroup>
-                        <Label for="statement-accuracy">Ακρίβεια Δήλωσης</Label>
-                        <div className='d-flex' style={{columnGap: 20, alignItems: "center"}}>
-                    <div style={{flex: 1}}>
-                        {<AvInput
-                          id="article-category"
-                          type="select"
-                          className="form-control"
-                          name="category.id"
-                          value={isNew ? 0 : `${statement.factCheckerAccuracy}`}
-                          onChange={changeFactCheckerAccuracy}
-                          // required
-                        >
-                          {[0, 1, 2, 3, 4].map(index => (
-                            <option value={index} key={`accuracy-choice-${index}`}>
-                              {translate(`fact-checking.results.model.accuracy.${index}`)}
-                            </option>
-                          ))}
-                          {/* <option value="" key="0"/>
+                  <AvGroup>
+                    <Label for="statement-accuracy">Ακρίβεια Δήλωσης</Label>
+                    <div className="d-flex" style={{ columnGap: 20, alignItems: 'center' }}>
+                      <div style={{ flex: 1 }}>
+                        {
+                          <AvInput
+                            id="article-category"
+                            type="select"
+                            className="form-control"
+                            name="category.id"
+                            value={isNew ? 0 : `${statement.factCheckerAccuracy}`}
+                            onChange={changeFactCheckerAccuracy}
+                            // required
+                          >
+                            {[0, 1, 2, 3, 4].map(index => (
+                              <option value={index} key={`accuracy-choice-${index}`}>
+                                {translate(`fact-checking.results.model.accuracy.${index}`)}
+                              </option>
+                            ))}
+                            {/* <option value="" key="0"/>
                         {categories
                           ? categories.filter(cat => (statementId !== '' || articleEntity.statement) ?
                             ['immigration', 'crime', 'climate_change', 'pandemic'].includes(cat.name) : true).map(otherEntity => (
@@ -374,20 +445,21 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                             </option>
                           ))
                           : null} */}
-                        </AvInput>}
-                        </div>
-                    <div className='w-auto'>
-                      <Button color="warning" onClick={toggle} disabled={updating}>
-                        <FontAwesomeIcon icon="chart-pie" />
-                        &nbsp;
-                        <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
-                      </Button>
+                          </AvInput>
+                        }
+                      </div>
+                      <div className="w-auto">
+                        <Button color="warning" onClick={toggle} disabled={updating}>
+                          <FontAwesomeIcon icon="chart-pie" />
+                          &nbsp;
+                          <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                        <AvFeedback>
-                          <Translate contentKey="entity.validation.required">This field is required.</Translate>
-                        </AvFeedback>
-                      </AvGroup>
+                    <AvFeedback>
+                      <Translate contentKey="entity.validation.required">This field is required.</Translate>
+                    </AvFeedback>
+                  </AvGroup>
                 </Col>
                 <Row>
                   <Col md={{ size: 12, offset: 0 }}>
@@ -401,6 +473,79 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       statementSources={statementSources && statementSources.length > 0 ? [...statementSources] : []}
                       resources={resources && resources.length > 0 ? [...resources] : []}
                     />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={{ size: 8, offset: 2 }} style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem' }}>
+                    <h4 className="text-center">{translate('fact-checking.check.titles.second')}</h4>
+                    <p className="text-center text-muted">Δεν είναι υποχρεωτικό να εισάγετε κάποια πηγή</p>
+                    <Table responsive bordered>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>
+                            <Translate contentKey="check4FactsApp.statementSource.url">Url</Translate>
+                          </th>
+                          <th>
+                            <Translate contentKey="check4FactsApp.statementSource.title">Title</Translate>
+                          </th>
+                          <th style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                            <Button color="primary" style={{ marginRight: '5px' }} onClick={handleSourcesComponent('open', null, null)}>
+                              <FontAwesomeIcon icon="plus" />
+                            </Button>
+                            <Button id="ilspTooltip" color="primary" onClick={handleIlspTool}>
+                              <img src="/content/images/inobo-logo-white.svg" height="12px" alt="inobo-logo" />
+                            </Button>
+                            <Tooltip isOpen={ilspTooltip} target="ilspTooltip" toggle={toggleIlspTooltip}>
+                              Βιβλιογραφικες Προτάσεις
+                            </Tooltip>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allSources.map((statementSource, i) => (
+                          <tr key={`entity-${i}`}>
+                            <td>{i + 1}</td>
+                            <td>
+                              <p title={statementSource.url}>{shortenStatementText(statementSource.url)}</p>
+                            </td>
+                            <td>
+                              <p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p>
+                            </td>
+                            <td style={{ textAlign: 'center', verticalAlign: 'center', whiteSpace: 'nowrap' }}>
+                              <Button color="danger" onClick={handleSourcesComponent('filter', null, i)}>
+                                <FontAwesomeIcon icon="trash" />
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      {addNewRow.open && (
+                        <tfoot>
+                          <tr>
+                            <td />
+                            <td>
+                              <Input value={addNewRow.url} onChange={handleSourcesComponent('edit', 'url', null)} />
+                            </td>
+                            <td>
+                              <FormGroup>
+                                <Input invalid={formError.current.error} value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} />
+                                <FormFeedback tooltip>Ο τίτλος δεν μπορεί να ξεπερνάει τους 255 χαρακτήρες.</FormFeedback>
+                              </FormGroup>
+                              {/* <Input value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} /> */}
+                            </td>
+                            <td style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                              <Button color="success" style={{ marginRight: '5px' }} onClick={handleSourcesComponent('commit', null, null)}>
+                                <FontAwesomeIcon icon="check" />
+                              </Button>
+                              <Button color="danger" onClick={handleSourcesComponent('open', null, null)}>
+                                <FontAwesomeIcon icon="ban" />
+                              </Button>
+                            </td>
+                          </tr>
+                        </tfoot>
+                      )}
+                    </Table>
                   </Col>
                 </Row>
                 <Row>
@@ -429,7 +574,19 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                 </Row>
               </AvForm>
               <FactCheckingReportAnalyzer open={open} toggle={toggle} />
-              {previewArticle && <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />}
+              {previewArticle && (
+                <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />
+              )}
+              {ilspToolOpen && (
+                <FactCheckingIlspTool
+                  ilspToolOpen={ilspToolOpen}
+                  handleIlspTool={handleIlspTool}
+                  statementText={statementText}
+                  setStatementText={setStatementText}
+                  statementSources={allSources}
+                  setStatementSources={setAllSources}
+                />
+              )}
             </>
           )}
         </Col>
@@ -474,6 +631,7 @@ const mapDispatchToProps = {
   getLatestFeatureStatementByStatementId,
   countFeatureStatementsByStatement,
   featureStatementReset,
+  updateStatement,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

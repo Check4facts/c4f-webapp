@@ -37,7 +37,7 @@ import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons/faPhoneAlt';
 import { faClipboardList } from '@fortawesome/free-solid-svg-icons/faClipboardList';
 import { faFile } from '@fortawesome/free-solid-svg-icons/faFile';
 import { faTools } from '@fortawesome/free-solid-svg-icons/faTools';
-
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLink } from '@fortawesome/free-solid-svg-icons/faLink';
 import { faBackspace } from '@fortawesome/free-solid-svg-icons/faBackspace';
@@ -49,6 +49,7 @@ import { faEyeSlash } from '@fortawesome/free-solid-svg-icons/faEyeSlash';
 
 export const loadIcons = () => {
   library.add(
+    faCheck,
     faFile,
     faClipboardList,
     faPhoneAlt,

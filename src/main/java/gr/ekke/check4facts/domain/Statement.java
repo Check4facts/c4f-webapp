@@ -75,7 +75,7 @@ public class Statement implements Serializable {
     @Column(name = "fact_checker_accuracy")
     private Integer factCheckerAccuracy;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "statement_id")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonManagedReference

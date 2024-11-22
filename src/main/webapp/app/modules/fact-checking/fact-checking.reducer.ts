@@ -30,7 +30,8 @@ const initialState = {
   ilspTool: {
     translator: {
       data: null as ITranslationResponse,
-      loading: false,
+      // TODO: This should be a false, change when API integration completed
+      loading: true,
       error: null,
     },
     recommender: {
