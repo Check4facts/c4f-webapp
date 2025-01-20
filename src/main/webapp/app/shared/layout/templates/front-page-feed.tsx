@@ -92,12 +92,6 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                                 <span className="text-uppercase">{translate('check4FactsApp.article.unpublished')}</span>
                               </Badge>
                             )}
-                            <div className='d-flex align-items-center pt-2' style={{columnGap: 5, flexFlow: "wrap"}}>
-                            <h5 className="text-muted font-weight-bold" >{article.articleDateUpdated > article.articleDate && "Ενημερώθηκε - "}</h5>
-                            <h5 className="text-muted font-weight-bold">
-                              {moment.locale(currentLocale) && moment(article.articleDateUpdated || article.articleDate).format('LL')}  
-                            </h5>
-                            </div>
                             <p className="fs-15 font-weight-normal text-truncate text-truncate-4">{article.previewText}</p>
                             <div className="d-flex justify-content-between mb-3 align-items-center">
                               <div>

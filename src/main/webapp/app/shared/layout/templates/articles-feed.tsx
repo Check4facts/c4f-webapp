@@ -70,8 +70,6 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
             <span className="text-uppercase">{translate('check4FactsApp.article.unpublished')}</span>
           </Badge>
           }
-          <h5
-            className="text-muted font-weight-bold pt-2">{moment.locale(currentLocale) && moment(article.articleDate).format("LL")}</h5>
           <p className="fs-15 font-weight-normal text-truncate text-truncate-4">
             {article.previewText}
           </p>
