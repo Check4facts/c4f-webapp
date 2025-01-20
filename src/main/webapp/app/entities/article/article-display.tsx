@@ -78,10 +78,11 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                 <a href={`/fact-checking/sub-menu/${article.category.name}`}
                    className="btn btn-dark font-weight-bold mb-4">{translate(`check4FactsApp.category.${article.category.name}`)}</a>
               </div>
+              {/* TODO: Ask to finalize which term is going to be used and for the english translation (Ημερομηνία Εξέτασης) */}
               <p
                 className="fs-15 d-flex justify-content-center align-items-center m-0 text-muted"
               >
-                {(article.statement && article.statement.author) || 'N/A '} | {moment.locale(currentLocale) && moment(article.articleDate).format("LL")}
+                {(article.statement && article.statement.author) || 'N/A '} | Ημερομηνία Εξέτασης {moment.locale(currentLocale) && moment(article.articleDateUpdated || article.articleDate).format("LL")}
               </p>
               {article.previewImage
                 ? <div className="text-center mt-3">
