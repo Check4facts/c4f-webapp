@@ -239,7 +239,7 @@ export const Statement = (props: IStatementProps) => {
                   </td>
                   <td style={{ verticalAlign: 'middle' }}>
                     {statement.publicationDate ? (
-                      <TextFormat type="date" value={statement.publicationDate} format={APP_DATE_FORMAT} />
+                      <TextFormat type="date" value={statement.article.articleDate} format={APP_DATE_FORMAT} />
                     ) : null}
                   </td>
                   <td style={{ verticalAlign: 'middle' }}>
