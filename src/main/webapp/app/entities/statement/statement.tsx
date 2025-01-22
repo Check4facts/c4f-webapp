@@ -145,15 +145,22 @@ export const Statement = (props: IStatementProps) => {
                   <FontAwesomeIcon icon="backspace" />
                 </Button>
                 {/* <Link to={`/fact-checking`}> */}
-            <Button tag={Link} to="/fact-checking" className="input-group-addon" id={"new-statement-button"} style={{alignItems: "center", display: "flex"}} color="primary">
-              <FontAwesomeIcon icon="plus" />
-              {/* &nbsp;
+                <Button
+                  tag={Link}
+                  to="/fact-checking"
+                  className="input-group-addon"
+                  id={'new-statement-button'}
+                  style={{ alignItems: 'center', display: 'flex' }}
+                  color="primary"
+                >
+                  <FontAwesomeIcon icon="plus" />
+                  {/* &nbsp;
               <Translate contentKey="check4FactsApp.statement.home.createLabel">Create new Statement</Translate> */}
-            </Button>
-            <Tooltip isOpen={tooltipOpen === `new-statement-button`} target={`new-statement-button`} toggle={toggle}>
-            <Translate contentKey="check4FactsApp.statement.home.createLabel">Create new Article</Translate>
-                      </Tooltip>
-          {/* </Link> */}
+                </Button>
+                <Tooltip isOpen={tooltipOpen === `new-statement-button`} target={`new-statement-button`} toggle={toggle}>
+                  <Translate contentKey="check4FactsApp.statement.home.createLabel">Create new Article</Translate>
+                </Tooltip>
+                {/* </Link> */}
               </InputGroup>
             </AvGroup>
           </AvForm>
@@ -190,12 +197,12 @@ export const Statement = (props: IStatementProps) => {
                   <Translate contentKey="check4FactsApp.statement.statementDate">Statement Date</Translate>
                   <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('publicationDate')}>
-                  <Translate contentKey="check4FactsApp.statement.publicationDate">Publication Date</Translate>
+                <th className="hand" onClick={sort('article.articleDate')}>
+                  <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate>
                   <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('registrationDate')}>
-                  <Translate contentKey="check4FactsApp.statement.registrationDate">Registration Date</Translate>{' '}
+                <th className="hand" onClick={sort('article.articleDateUpdated')}>
+                  <Translate contentKey="check4FactsApp.article.articleDateUpdated">Article Update Date</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
                 </th>
                 {/* <th className="hand" onClick={sort('mainArticleText')}>*/}
@@ -227,13 +234,13 @@ export const Statement = (props: IStatementProps) => {
                     {statement.statementDate ? <TextFormat type="date" value={statement.statementDate} format={APP_DATE_FORMAT} /> : null}
                   </td>
                   <td style={{ verticalAlign: 'middle' }}>
-                    {statement.publicationDate ? (
-                      <TextFormat type="date" value={statement.publicationDate} format={APP_DATE_FORMAT} />
+                    {statement.article?.articleDate ? (
+                      <TextFormat type="date" value={statement.article.articleDate} format={APP_DATE_FORMAT} />
                     ) : null}
                   </td>
                   <td style={{ verticalAlign: 'middle' }}>
-                    {statement.registrationDate ? (
-                      <TextFormat type="date" value={statement.registrationDate} format={APP_DATE_FORMAT} />
+                    {statement.article?.articleDateUpdated ? (
+                      <TextFormat type="date" value={statement.article.articleDateUpdated} format={APP_DATE_FORMAT} />
                     ) : null}
                   </td>
                   {/* <td>{statement.mainArticleText}</td>*/}
@@ -257,14 +264,8 @@ export const Statement = (props: IStatementProps) => {
                       >
                         <FontAwesomeIcon icon="pencil-alt" />
                       </Button>
-                      <Button
-                        tag={Link}
-                        to={`/fact-checking/report/${statement.id}`}
-                        color="warning"
-                        size="md"
-                        id={`Tooltip-Analyze-${i}`}
-                      >
-                      <FontAwesomeIcon icon="file-alt" />
+                      <Button tag={Link} to={`/fact-checking/report/${statement.id}`} color="warning" size="md" id={`Tooltip-Analyze-${i}`}>
+                        <FontAwesomeIcon icon="file-alt" />
                       </Button>
                       <Button
                         tag={Link}

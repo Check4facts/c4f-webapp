@@ -23,6 +23,9 @@ import {
   reset as featureStatementReset,
 } from 'app/entities/feature-statement/feature-statement.reducer';
 import FactCheckingReportPreview from './fact-checking-report-preview';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import { APP_LOCAL_DATETIME_FORMAT, AUTHORITIES } from 'app/config/constants';
+import moment from 'moment';
 
 export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -78,7 +81,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     if (isNew && categories.length > 0) {
       setCategoryId(categories[0].id);
     }
-  }, [categories])
+  }, [categories]);
 
   useEffect(() => {
     props.getStatement(props.match.params.id);
@@ -144,7 +147,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
 
   const saveEntity = (event, errors, values) => {
     values.articleDate = convertDateTimeToServer(values.articleDate);
-    values.articleDateUpdated = values.articleDateUpdated ? convertDateTimeToServer(values.articleDateUpdated) : null;
+
+    // automatically save the articleUdpateDate upon request to save/publish report from a NON inscpector
+    if (props.isNotInspector) {
+      values.articleDateUpdated = convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT));
+    }
     values.content = editorRef.current.editor.getData();
     if (errors.length === 0) {
       const entity = {
@@ -152,7 +159,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
         ...values,
         published: publishArticle,
         statement: statement.article ? articleEntity.statement : { id: statement.id },
-        category: {id: categoryId}
+        category: { id: categoryId },
       };
       if (isNew && updateNew) {
         props.createEntity(entity);
@@ -177,19 +184,21 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   };
 
   const handlePreview = () => {
-    if(previewOpen) {
+    if (previewOpen) {
       setPreviewOpen(false);
       setPreviewArticle(null);
     } else {
       setPreviewArticle(formRef.current.props.model);
       setPreviewOpen(true);
     }
-  }
+  };
 
   const changeFactCheckerAccuracy = event => {
     setFactCheckerAccuracy(statement.id, event.target.value);
     // TODO Add corresponding call for FeatureStatement when column is added to table.
   };
+
+  // console.log(props.authentication);
 
   return loading || statementLoading ? (
     <div>
@@ -267,12 +276,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                     >
                       {/* <option value="" key="0" /> */}
                       {categories
-                        ? categories
-                            .map(otherEntity => (
-                              <option value={otherEntity.id} key={otherEntity.id}>
-                                {translate(`check4FactsApp.category.${otherEntity.name}`)}
-                              </option>
-                            ))
+                        ? categories.map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {translate(`check4FactsApp.category.${otherEntity.name}`)}
+                            </option>
+                          ))
                         : null}
                     </AvInput>
                     <AvFeedback>
@@ -335,37 +343,25 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                     />
                   </AvGroup>
                   <AvGroup>
-                    <Label id="articleDateLabel" for="article-articleDate">
-                      <Translate contentKey="check4FactsApp.article.articleDateUpdated">Article Update Date</Translate>
-                    </Label>
-                    <AvInput
-                      id="article-articleDate"
-                      type="datetime-local"
-                      className="form-control"
-                      name="articleDateUpdated"
-                      placeholder={'YYYY-MM-DD HH:mm'}
-                      value={isNew ? "" : convertDateTimeFromServer(props.articleEntity.articleDateUpdated)}
-                    />
-                  </AvGroup>
-                      <AvGroup>
-                        <Label for="statement-accuracy">Ακρίβεια Δήλωσης</Label>
-                        <div className='d-flex' style={{columnGap: 20, alignItems: "center"}}>
-                    <div style={{flex: 1}}>
-                        {<AvInput
-                          id="article-category"
-                          type="select"
-                          className="form-control"
-                          name="category.id"
-                          value={isNew ? 0 : `${statement.factCheckerAccuracy}`}
-                          onChange={changeFactCheckerAccuracy}
-                          // required
-                        >
-                          {[0, 1, 2, 3, 4].map(index => (
-                            <option value={index} key={`accuracy-choice-${index}`}>
-                              {translate(`fact-checking.results.model.accuracy.${index}`)}
-                            </option>
-                          ))}
-                          {/* <option value="" key="0"/>
+                    <Label for="statement-accuracy">Ακρίβεια Δήλωσης</Label>
+                    <div className="d-flex" style={{ columnGap: 20, alignItems: 'center' }}>
+                      <div style={{ flex: 1 }}>
+                        {
+                          <AvInput
+                            id="article-category"
+                            type="select"
+                            className="form-control"
+                            name="category.id"
+                            value={isNew ? 0 : `${statement.factCheckerAccuracy}`}
+                            onChange={changeFactCheckerAccuracy}
+                            // required
+                          >
+                            {[0, 1, 2, 3, 4].map(index => (
+                              <option value={index} key={`accuracy-choice-${index}`}>
+                                {translate(`fact-checking.results.model.accuracy.${index}`)}
+                              </option>
+                            ))}
+                            {/* <option value="" key="0"/>
                         {categories
                           ? categories.filter(cat => (statementId !== '' || articleEntity.statement) ?
                             ['immigration', 'crime', 'climate_change', 'pandemic'].includes(cat.name) : true).map(otherEntity => (
@@ -374,20 +370,21 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                             </option>
                           ))
                           : null} */}
-                        </AvInput>}
-                        </div>
-                    <div className='w-auto'>
-                      <Button color="warning" onClick={toggle} disabled={updating}>
-                        <FontAwesomeIcon icon="chart-pie" />
-                        &nbsp;
-                        <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
-                      </Button>
+                          </AvInput>
+                        }
+                      </div>
+                      <div className="w-auto">
+                        <Button color="warning" onClick={toggle} disabled={updating}>
+                          <FontAwesomeIcon icon="chart-pie" />
+                          &nbsp;
+                          <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                        <AvFeedback>
-                          <Translate contentKey="entity.validation.required">This field is required.</Translate>
-                        </AvFeedback>
-                      </AvGroup>
+                    <AvFeedback>
+                      <Translate contentKey="entity.validation.required">This field is required.</Translate>
+                    </AvFeedback>
+                  </AvGroup>
                 </Col>
                 <Row>
                   <Col md={{ size: 12, offset: 0 }}>
@@ -429,7 +426,9 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                 </Row>
               </AvForm>
               <FactCheckingReportAnalyzer open={open} toggle={toggle} />
-              {previewArticle && <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />}
+              {previewArticle && (
+                <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />
+              )}
             </>
           )}
         </Col>
@@ -454,6 +453,8 @@ const mapStateToProps = (storeState: IRootState) => ({
   floading: storeState.featureStatement.loading,
   rloading: storeState.resource.loading,
   featureStatementCount: storeState.featureStatement.count,
+  account: storeState.authentication.account,
+  isNotInspector: !hasAnyAuthority(storeState.authentication.account.authorities, [AUTHORITIES.INSPECTOR]),
 });
 
 const mapDispatchToProps = {
