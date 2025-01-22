@@ -197,16 +197,12 @@ export const Statement = (props: IStatementProps) => {
                   <Translate contentKey="check4FactsApp.statement.statementDate">Statement Date</Translate>
                   <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('publicationDate')}>
-                  <Translate contentKey="check4FactsApp.statement.publicationDate">Publication Date</Translate>
+                <th className="hand" onClick={sort('article.articleDate')}>
+                  <Translate contentKey="check4FactsApp.article.articleDate">Article Date</Translate>
                   <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('articleDateUpdated')}>
+                <th className="hand" onClick={sort('article.articleDateUpdated')}>
                   <Translate contentKey="check4FactsApp.article.articleDateUpdated">Article Update Date</Translate>{' '}
-                  <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('registrationDate')}>
-                  <Translate contentKey="check4FactsApp.statement.registrationDate">Registration Date</Translate>{' '}
                   <FontAwesomeIcon icon="sort" />
                 </th>
                 {/* <th className="hand" onClick={sort('mainArticleText')}>*/}
@@ -238,18 +234,13 @@ export const Statement = (props: IStatementProps) => {
                     {statement.statementDate ? <TextFormat type="date" value={statement.statementDate} format={APP_DATE_FORMAT} /> : null}
                   </td>
                   <td style={{ verticalAlign: 'middle' }}>
-                    {statement.publicationDate ? (
+                    {statement.article?.articleDate ? (
                       <TextFormat type="date" value={statement.article.articleDate} format={APP_DATE_FORMAT} />
                     ) : null}
                   </td>
                   <td style={{ verticalAlign: 'middle' }}>
                     {statement.article?.articleDateUpdated ? (
                       <TextFormat type="date" value={statement.article.articleDateUpdated} format={APP_DATE_FORMAT} />
-                    ) : null}
-                  </td>
-                  <td style={{ verticalAlign: 'middle' }}>
-                    {statement.registrationDate ? (
-                      <TextFormat type="date" value={statement.registrationDate} format={APP_DATE_FORMAT} />
                     ) : null}
                   </td>
                   {/* <td>{statement.mainArticleText}</td>*/}
