@@ -44,6 +44,7 @@ import news, {
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 import featureStatement, { FeatureStatementState } from 'app/entities/feature-statement/feature-statement.reducer';
 import kombuMessage, { KombuMessageState } from 'app/entities/kombu-message/kombu-message.reducer';
+import summarization, { SummarizationState } from 'app/modules/summarization/summarization.reducer';
 
 export interface IRootState {
   readonly authentication: AuthenticationState;
@@ -66,6 +67,7 @@ export interface IRootState {
   readonly featureStatement: FeatureStatementState;
   readonly kombuMessage: KombuMessageState;
   readonly news: NewsState;
+  readonly summarization: SummarizationState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -91,6 +93,7 @@ const rootReducer = combineReducers<IRootState>({
   featureStatement,
   kombuMessage,
   news,
+  summarization,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

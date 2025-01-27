@@ -26,6 +26,7 @@ import FactCheckingReportPreview from './fact-checking-report-preview';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { APP_LOCAL_DATETIME_FORMAT, AUTHORITIES } from 'app/config/constants';
 import moment from 'moment';
+import Summarization from 'app/modules/summarization/summarization';
 
 export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -39,6 +40,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const [saveTimeout, setSaveTimeout] = useState(null);
   const [previewArticle, setPreviewArticle] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [sumOpen, setSumOpen] = useState(false);
   const formRef = useRef(null);
 
   const {
@@ -75,6 +77,10 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
 
   const toggle = () => {
     setOpen(!open);
+  };
+
+  const sumToggle = () => {
+    setSumOpen(!sumOpen);
   };
 
   useEffect(() => {
@@ -385,6 +391,30 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       <Translate contentKey="entity.validation.required">This field is required.</Translate>
                     </AvFeedback>
                   </AvGroup>
+                  <AvGroup>
+                    <Label id="summaryLabel" for="article-summary">
+                      <Translate contentKey="check4FactsApp.article.summary">Summary</Translate>
+                    </Label>
+                    <div className="d-flex" style={{ columnGap: 20, alignItems: 'center' }}>
+                      <div style={{ flex: 1 }}>
+                        <AvField
+                          id="article-summary"
+                          type="textarea"
+                          name="summary"
+                          validate={{
+                            required: { value: true, errorMessage: translate('entity.validation.required') },
+                          }}
+                        />
+                      </div>
+                      <div className="w-auto">
+                        <Button color="warning" onClick={sumToggle} disabled={updating}>
+                          <FontAwesomeIcon icon="chart-pie" />
+                          &nbsp;
+                          Summarizer
+                        </Button>
+                      </div>
+                    </div>
+                  </AvGroup>
                 </Col>
                 <Row>
                   <Col md={{ size: 12, offset: 0 }}>
@@ -426,6 +456,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                 </Row>
               </AvForm>
               <FactCheckingReportAnalyzer open={open} toggle={toggle} />
+              <Summarization open={sumOpen} toggle={sumToggle} textArea={statement.article?.summary} />
               {previewArticle && (
                 <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />
               )}
