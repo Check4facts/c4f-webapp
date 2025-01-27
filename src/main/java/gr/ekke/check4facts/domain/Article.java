@@ -76,6 +76,12 @@ public class Article implements Serializable {
     @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String previewText;
 
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "summary", nullable = false)
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
+    private String summary;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties(value = "articles", allowSetters = true)
@@ -221,6 +227,19 @@ public class Article implements Serializable {
 
     public Article previewText(String previewText) {
         this.previewText = previewText;
+        return this;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public Article summary(String summary) {
+        this.summary = summary;
         return this;
     }
 

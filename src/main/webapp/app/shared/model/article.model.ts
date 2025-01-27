@@ -14,6 +14,7 @@ export interface IArticle {
   published?: boolean;
   content?: any;
   previewText?: any;
+  summary?: any;
   category?: ICategory;
   statement?: IStatement;
 }
