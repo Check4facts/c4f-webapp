@@ -1,13 +1,14 @@
+import _ from 'lodash';
 import './summarization.scss';
 import { IRootState } from 'app/shared/reducers';
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Spinner, Col, Row } from 'reactstrap';
-import { generateArticleSummary } from './summarization.reducer';
+import { getGenerationSummaryStatus, reset as summarizationReset, generateAndTrackSummary } from './summarization.reducer';
 import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.reducer';
-import { IModalContent, ITaskStatus } from 'app/shared/model/util.model';
+import { IModalContent } from 'app/shared/model/util.model';
 import { IArticle } from 'app/shared/model/article.model';
-import { updateEntity as updateArticle } from 'app/entities/article/article.reducer';
+import { getEntity as getArticle } from 'app/entities/article/article.reducer';
 
 interface ISummarization extends StateProps, DispatchProps {
   open: boolean;
@@ -16,9 +17,10 @@ interface ISummarization extends StateProps, DispatchProps {
 }
 
 const Summarization = (props: ISummarization) => {
-  const { open, toggle, article, summaryTaskId, articleLoading, genSumLoading } = props;
+  const statusInterval = useRef(null);
+  const { open, toggle, article, summaryTaskStatus, articleLoading, genSumLoading } = props;
   const [modalContent, setModalContent] = useState({} as IModalContent);
-  const [summaryStatus, setSummaryStatus] = useState({} as ITaskStatus);
+  const [tracking, setTracking] = useState(false);
 
   const handleConfirmModal = (content: IModalContent) => () => {
     setModalContent(content);
@@ -27,9 +29,27 @@ const Summarization = (props: ISummarization) => {
   const toggleConfirmModal = () => setModalContent(state => ({ ...state, open: false }));
 
   const initiateGenerateSummary = () => {
-    props.generateArticleSummary(article.id);
+    // Begin the summarization process of the artcle's content.
+    setTracking(true);
+    props.generateAndTrackSummary(article.id);
     toggleConfirmModal();
   };
+
+  useEffect(() => {
+    if (!_.isEmpty(summaryTaskStatus) && summaryTaskStatus.status !== 'SUCCESS' && statusInterval.current === null) {
+      // Check the status of the task every 5
+      statusInterval.current = setInterval(() => {
+        props.getGenerationSummaryStatus(summaryTaskStatus.taskId);
+      }, 5000);
+    }
+    if (!_.isEmpty(summaryTaskStatus) && summaryTaskStatus.status === 'SUCCESS') {
+      // Summary has been generated successfully
+      setTracking(false);
+      clearInterval(statusInterval.current);
+      props.summarizationReset();
+      props.getArticle(article.id);
+    }
+  }, [summaryTaskStatus]);
 
   return (
     <Modal
@@ -40,7 +60,7 @@ const Summarization = (props: ISummarization) => {
       className="summarization-modal-dialog"
       contentClassName="summarization-modal-content"
     >
-      {genSumLoading || articleLoading ? (
+      {genSumLoading || articleLoading || tracking ? (
         <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
       ) : (
         <>
@@ -119,14 +139,16 @@ const Summarization = (props: ISummarization) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   genSumLoading: storeState.summarization.loading,
-  summaryTaskId: storeState.summarization.summaryTaskId,
+  summaryTaskStatus: storeState.summarization.summaryTaskStatus,
   articleLoading: storeState.article.loading,
 });
 
 const mapDispatchToProps = {
-  generateArticleSummary,
   getActiveCeleryTasks,
-  updateArticle,
+  getArticle,
+  getGenerationSummaryStatus,
+  summarizationReset,
+  generateAndTrackSummary,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
