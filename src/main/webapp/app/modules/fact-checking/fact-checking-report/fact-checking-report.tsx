@@ -409,8 +409,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       <div className="w-auto">
                         <Button color="warning" onClick={sumToggle} disabled={updating}>
                           <FontAwesomeIcon icon="chart-pie" />
-                          &nbsp;
-                          Summarizer
+                          &nbsp; Summarizer
                         </Button>
                       </div>
                     </div>
@@ -456,7 +455,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                 </Row>
               </AvForm>
               <FactCheckingReportAnalyzer open={open} toggle={toggle} />
-              <Summarization open={sumOpen} toggle={sumToggle} textArea={statement.article?.summary} />
+              <Summarization open={sumOpen} toggle={sumToggle} article={articleEntity} />
               {previewArticle && (
                 <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />
               )}
