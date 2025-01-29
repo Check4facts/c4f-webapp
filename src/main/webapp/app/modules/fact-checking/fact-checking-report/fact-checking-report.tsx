@@ -397,14 +397,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                     </Label>
                     <div className="d-flex" style={{ columnGap: 20, alignItems: 'center' }}>
                       <div style={{ flex: 1 }}>
-                        <AvField
-                          id="article-summary"
-                          type="textarea"
-                          name="summary"
-                          validate={{
-                            required: { value: true, errorMessage: translate('entity.validation.required') },
-                          }}
-                        />
+                        <AvField id="article-summary" type="textarea" name="summary" value={statement.article?.summary} />
                       </div>
                       <div className="w-auto">
                         <Button color="warning" onClick={sumToggle} disabled={updating}>
@@ -455,7 +448,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                 </Row>
               </AvForm>
               <FactCheckingReportAnalyzer open={open} toggle={toggle} />
-              <Summarization open={sumOpen} toggle={sumToggle} article={articleEntity} />
+              <Summarization open={sumOpen} toggle={sumToggle} article={statement.article} statementId={statement.id} />
               {previewArticle && (
                 <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />
               )}
