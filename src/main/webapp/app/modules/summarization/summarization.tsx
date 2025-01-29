@@ -10,6 +10,7 @@ import { IModalContent } from 'app/shared/model/util.model';
 import { IArticle } from 'app/shared/model/article.model';
 import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
 import { ProgressBar } from 'app/shared/util/progress-bar';
+import { Translate } from 'react-jhipster';
 
 interface ISummarization extends StateProps, DispatchProps {
   open: boolean;
@@ -63,13 +64,15 @@ const Summarization = (props: ISummarization) => {
       contentClassName="summarization-modal-content"
     >
       <ModalHeader toggle={toggle} className="summarization-modal-title">
-        Δημιουργία Περίληψης Έκθεσης
+        <Translate contentKey="check4FactsApp.summarization.modal.header.title" />
       </ModalHeader>
       <ModalBody className="summarization-modal-body">
         <Row className="summarization-modal-body-row" size={{ size: 3, offset: 3 }}>
           <Row>
             <Col>
-              <h1>Λεπτομέρειες Περίληψης Έκθεσης</h1>
+              <h1>
+                <Translate contentKey="check4FactsApp.summarization.modal.body.title" />
+              </h1>
             </Col>
           </Row>
           {tracking ? (
@@ -78,7 +81,9 @@ const Summarization = (props: ISummarization) => {
             <>
               <Row>
                 <Col>
-                  <h3>Υπάρχουσα Περίληψη</h3>
+                  <h3>
+                    <Translate contentKey="check4FactsApp.summarization.modal.body.subTitle.existing" />
+                  </h3>
                 </Col>
               </Row>
               <Row className="summary">
@@ -91,12 +96,16 @@ const Summarization = (props: ISummarization) => {
             <>
               <Row>
                 <Col>
-                  <h3>Δεν βρέθηκε κάποια περίληψη για την συγκεκριμένη έκθεση επαλήθευση δήλωσης.</h3>
+                  <h3>
+                    <Translate contentKey="check4FactsApp.summarization.modal.body.subTitle.new.one" />
+                  </h3>
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <h4>Μπορείτε να χρησιμοποιήσετε το εργαλείο μας πατώντας στο κουμπί για την δημιουργία μίας νέας περίληψης</h4>
+                  <h4>
+                    <Translate contentKey="check4FactsApp.summarization.modal.body.subTitle.new.two" />
+                  </h4>
                 </Col>
               </Row>
             </>
@@ -106,15 +115,24 @@ const Summarization = (props: ISummarization) => {
               <Button
                 color="primary"
                 onClick={handleConfirmModal({
-                  header: article?.summary != null ? 'Νέα Περίληψη Έκθεσης' : 'Δημιουργία Περίληψης Έκθεσης',
-                  body: 'Είστε σίγουροι ότι θέλετε να κάνετε μία νέα περίληψη;',
+                  header:
+                    article?.summary != null ? (
+                      <Translate contentKey="check4FactsApp.summarization.confirmModal.header.existing" />
+                    ) : (
+                      <Translate contentKey="check4FactsApp.summarization.confirmModal.header.new" />
+                    ),
+                  body: <Translate contentKey="check4FactsApp.summarization.confirmModal.body" />,
                   action: initiateGenerateSummary,
                   open: true,
                 })}
                 style={{ margin: '10px' }}
                 disabled={tracking}
               >
-                {article?.summary != null ? 'Νέα Περίληψη Έκθεσης' : 'Δημιουργία Περίληψης Έκθεσης'}
+                {article?.summary != null ? (
+                  <Translate contentKey="check4FactsApp.summarization.modal.button.existing" />
+                ) : (
+                  <Translate contentKey="check4FactsApp.summarization.modal.button.new" />
+                )}
               </Button>
             </Col>
           </Row>
@@ -125,10 +143,10 @@ const Summarization = (props: ISummarization) => {
         <ModalBody>{modalContent.body}</ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggleConfirmModal}>
-            Όχι
+            <Translate contentKey="check4FactsApp.summarization.confirmModal.button.no" />
           </Button>
           <Button color="primary" onClick={() => modalContent.action()}>
-            Ναι
+            <Translate contentKey="check4FactsApp.summarization.confirmModal.button.yes" />
           </Button>
         </ModalFooter>
       </Modal>
