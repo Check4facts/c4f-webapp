@@ -1,6 +1,10 @@
 {
   "check4FactsApp": {
     "summarization": {
+      "button": {
+        "existing": "Edit Article Summary",
+        "new": "Generate Article Summary"
+      },
       "modal": {
         "header": {
           "title": "Generate Article Summary"
@@ -17,7 +21,8 @@
           "button": {
             "existing": "New Article Summary",
             "new": "Generate Article Summary"
-          }
+          },
+          "saveButton": "Save Summary"
         },
         "confirmModal": {
           "body": "Are you sure you want to create a new summary?",

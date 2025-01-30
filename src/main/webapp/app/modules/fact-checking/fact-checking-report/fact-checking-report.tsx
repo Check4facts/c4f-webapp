@@ -32,6 +32,7 @@ export interface IFactCheckingReportProps extends StateProps, DispatchProps, Rou
 
 export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const editorRef = useRef(CKEditor);
+  const sumEditorRef = useRef(CKEditor);
   const [publishArticle, setPublishArticle] = useState(false);
   const [categoryId, setCategoryId] = useState(null);
   const [open, setOpen] = useState(false);
@@ -395,16 +396,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                     <Label id="summaryLabel" for="article-summary">
                       <Translate contentKey="check4FactsApp.article.summary">Summary</Translate>
                     </Label>
-                    <div className="d-flex" style={{ columnGap: 20, alignItems: 'center' }}>
-                      <div style={{ flex: 1 }}>
-                        <AvField id="article-summary" type="textarea" name="summary" value={statement.article?.summary} />
-                      </div>
-                      <div className="w-auto">
-                        <Button color="warning" onClick={sumToggle} disabled={updating}>
-                          <FontAwesomeIcon icon="chart-pie" />
-                          &nbsp; Summarizer
-                        </Button>
-                      </div>
+                    <div className="d-flex" style={{ columnGap: 20, alignItems: 'center', flexDirection: 'column' }}>
+                      <div dangerouslySetInnerHTML={{ __html: articleEntity?.summary }} />
+                      <Button color="warning" onClick={sumToggle} disabled={updating}>
+                        <Translate contentKey={`check4FactsApp.summarization.button.${statement?.article?.summary ? 'existing' : 'new'}`} />
+                      </Button>
                     </div>
                   </AvGroup>
                 </Col>
@@ -448,7 +444,13 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                 </Row>
               </AvForm>
               <FactCheckingReportAnalyzer open={open} toggle={toggle} />
-              <Summarization open={sumOpen} toggle={sumToggle} article={statement.article} statementId={statement.id} />
+              <Summarization
+                open={sumOpen}
+                toggle={sumToggle}
+                article={statement.article}
+                statementId={statement.id}
+                editorRef={sumEditorRef}
+              />
               {previewArticle && (
                 <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />
               )}
