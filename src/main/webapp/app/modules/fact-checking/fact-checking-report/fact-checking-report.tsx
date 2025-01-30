@@ -32,7 +32,6 @@ export interface IFactCheckingReportProps extends StateProps, DispatchProps, Rou
 
 export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const editorRef = useRef(CKEditor);
-  const sumEditorRef = useRef(CKEditor);
   const [publishArticle, setPublishArticle] = useState(false);
   const [categoryId, setCategoryId] = useState(null);
   const [open, setOpen] = useState(false);
@@ -42,6 +41,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const [previewArticle, setPreviewArticle] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [sumOpen, setSumOpen] = useState(false);
+  const [summary, setSummary] = useState(null);
   const formRef = useRef(null);
 
   const {
@@ -119,6 +119,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     if (statement && statement.article) {
       setIsNew(false);
       props.getEntity(statement.article.id);
+      setSummary(statement.article.summary);
     } else {
       setIsNew(true);
       props.reset();
@@ -164,6 +165,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       const entity = {
         ...articleEntity,
         ...values,
+        summary,
         published: publishArticle,
         statement: statement.article ? articleEntity.statement : { id: statement.id },
         category: { id: categoryId },
@@ -397,7 +399,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       <Translate contentKey="check4FactsApp.article.summary">Summary</Translate>
                     </Label>
                     <div className="d-flex" style={{ columnGap: 20, alignItems: 'center', flexDirection: 'column' }}>
-                      <div dangerouslySetInnerHTML={{ __html: articleEntity?.summary }} />
+                      <div dangerouslySetInnerHTML={{ __html: summary }} />
                       <Button color="warning" onClick={sumToggle} disabled={updating}>
                         <Translate contentKey={`check4FactsApp.summarization.button.${statement?.article?.summary ? 'existing' : 'new'}`} />
                       </Button>
@@ -447,9 +449,10 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
               <Summarization
                 open={sumOpen}
                 toggle={sumToggle}
-                article={statement.article}
+                summary={summary}
+                setSummary={setSummary}
+                articleId={articleEntity.id}
                 statementId={statement.id}
-                editorRef={sumEditorRef}
               />
               {previewArticle && (
                 <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />

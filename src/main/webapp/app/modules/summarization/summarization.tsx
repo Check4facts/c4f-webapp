@@ -7,25 +7,24 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row } from 're
 import { getGenerationSummaryStatus, reset as summarizationReset, generateAndTrackSummary } from './summarization.reducer';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import DecoupledEditor from 'ckeditor5-build-decoupled-document-base64-imageresize';
-import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.reducer';
 import { IModalContent } from 'app/shared/model/util.model';
-import { IArticle } from 'app/shared/model/article.model';
 import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
-import { updateEntity as updateArticle } from 'app/entities/article/article.reducer';
 import { ProgressBar } from 'app/shared/util/progress-bar';
 import { Translate } from 'react-jhipster';
 
 interface ISummarization extends StateProps, DispatchProps {
   open: boolean;
   toggle: any;
-  article: IArticle;
+  summary: string;
+  setSummary: any;
+  articleId: number;
   statementId: number;
-  editorRef: any;
 }
 
 const Summarization = (props: ISummarization) => {
   const statusInterval = useRef(null);
-  const { open, toggle, article, summaryTaskStatus, editorRef, statementId } = props;
+  const editorRef = useRef(CKEditor);
+  const { open, toggle, summaryTaskStatus, articleId, summary, setSummary, statementId } = props;
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [tracking, setTracking] = useState(false);
 
@@ -38,17 +37,12 @@ const Summarization = (props: ISummarization) => {
   const initiateGenerateSummary = () => {
     // Begin the summarization process of the artcle's content.
     setTracking(true);
-    props.generateAndTrackSummary(article.id);
+    props.generateAndTrackSummary(articleId);
     toggleConfirmModal();
   };
 
   const handleSaveSummary = () => {
-    const entity = {
-      ...article,
-      statement: { id: statementId },
-      summary: editorRef.current.editor.getData(),
-    };
-    props.updateArticle(entity);
+    setSummary(editorRef.current.editor.getData());
     toggle();
   };
 
@@ -91,7 +85,7 @@ const Summarization = (props: ISummarization) => {
           </Row>
           {tracking ? (
             <ProgressBar message={'Διαδικασία δημιουργίας Περίληψης '} task={summaryTaskStatus} />
-          ) : article?.summary ? (
+          ) : summary ? (
             <>
               <Row>
                 <Col>
@@ -104,7 +98,7 @@ const Summarization = (props: ISummarization) => {
                 <Col>
                   <CKEditor
                     editor={DecoupledEditor}
-                    data={article?.summary}
+                    data={summary}
                     onInit={editor => {
                       // Inserts the toolbar before the editable area.
                       editor.ui.view.editable.element.parentElement.insertBefore(
@@ -138,18 +132,16 @@ const Summarization = (props: ISummarization) => {
           {!tracking && (
             <Row>
               <Col>
-                {article?.summary && (
+                {summary && (
                   <Button color="primary" onClick={handleSaveSummary} style={{ margin: '10px' }}>
                     <Translate contentKey="check4FactsApp.summarization.modal.saveButton" />
                   </Button>
                 )}
                 <Button
-                  color={article?.summary != null ? 'warning' : 'primary'}
+                  color={summary != null ? 'warning' : 'primary'}
                   onClick={handleConfirmModal({
                     header: (
-                      <Translate
-                        contentKey={`check4FactsApp.summarization.confirmModal.header.${article?.summary != null ? 'existing' : 'new'}`}
-                      />
+                      <Translate contentKey={`check4FactsApp.summarization.confirmModal.header.${summary != null ? 'existing' : 'new'}`} />
                     ),
                     body: <Translate contentKey="check4FactsApp.summarization.confirmModal.body" />,
                     action: initiateGenerateSummary,
@@ -157,7 +149,7 @@ const Summarization = (props: ISummarization) => {
                   })}
                   style={{ margin: '10px' }}
                 >
-                  <Translate contentKey={`check4FactsApp.summarization.modal.button.${article?.summary != null ? 'existing' : 'new'}`} />
+                  <Translate contentKey={`check4FactsApp.summarization.modal.button.${summary != null ? 'existing' : 'new'}`} />
                 </Button>
               </Col>
             </Row>
@@ -185,12 +177,10 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getActiveCeleryTasks,
   getStatement,
   getGenerationSummaryStatus,
   summarizationReset,
   generateAndTrackSummary,
-  updateArticle,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
