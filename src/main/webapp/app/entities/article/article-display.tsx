@@ -10,6 +10,7 @@ import { translate } from 'react-jhipster';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HelComp from 'app/shared/util/helmet-component';
+import SummarizationDisplay from 'app/modules/summarization/summarization-display';
 
 export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -107,6 +108,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                   </a>
                 </p>
               </p>
+              {article.summary && <SummarizationDisplay summary={article.summary} sourceUrl="#sources" />}
               {article.content && (
                 <Alert
                   color={'secondary'}
@@ -123,7 +125,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
           </div>
         </Col>
       </Row>
-      <Row>
+      <Row id="sources">
         <Col>
           {article.statement?.statementSources?.length > 0 && (
             <div

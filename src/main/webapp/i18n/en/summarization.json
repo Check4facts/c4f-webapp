@@ -35,6 +35,10 @@
             "no": "No"
           }
         }
+      },
+      "display": {
+        "title": "At a Glance",
+        "sourcesLink": "View sources for this fact-check."
       }
     }
   }
