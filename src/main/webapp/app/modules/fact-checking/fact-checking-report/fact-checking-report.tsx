@@ -197,7 +197,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       setPreviewOpen(false);
       setPreviewArticle(null);
     } else {
-      setPreviewArticle(formRef.current.props.model);
+      setPreviewArticle({
+        ...formRef.current.props.model,
+        summary,
+        statement: { factCheckerAccuracy: statement.factCheckerAccuracy, statementSources },
+      });
       setPreviewOpen(true);
     }
   };
