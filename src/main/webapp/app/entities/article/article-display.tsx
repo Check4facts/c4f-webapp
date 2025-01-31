@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { getEntity, reset } from 'app/entities/article/article.reducer';
+import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
 import { defaultValue } from 'app/shared/model/article.model';
 import { Col, Container, Row, Spinner, Badge, Alert } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
@@ -15,11 +16,22 @@ import SummarizationDisplay from 'app/modules/summarization/summarization-displa
 export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const ArticleDisplay = (props: IArticleDisplayProps) => {
-  const { article, loading, errorMessage, currentLocale } = props;
+  const { article, loading, errorMessage, currentLocale, statementSources } = props;
 
   useEffect(() => {
     props.getEntity(props.match.params.id);
+
+    return () => {
+      props.reset();
+      props.statementSourcesReset();
+    };
   }, []);
+
+  useEffect(() => {
+    if (article.statement) {
+      props.getStatementSourcesByStatement(article.statement.id);
+    }
+  }, [article]);
 
   const handleEmbedTags = htmlContent => {
     const oembed = htmlContent.split('</oembed>');
@@ -127,7 +139,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
       </Row>
       <Row id="sources">
         <Col>
-          {article.statement?.statementSources?.length > 0 && (
+          {statementSources?.length > 0 && (
             <div
               className="sources-section mt-5 p-5"
               style={{
@@ -138,9 +150,9 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                 alignItems: 'left',
               }}
             >
-              <h4 className="px-lg-5 px-md-2">{translate('check4FactsApp.article.articleSources')}:</h4>
+              <h4 className="px-lg-5 px-md-2">{translate('check4FactsApp.statement.statementSources')}:</h4>
               <ul className="px-lg-5 px-md-2">
-                {article.statement.statementSources.map((source, index) => (
+                {statementSources.map((source, index) => (
                   <li key={index} className="my-1">
                     <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-muted">
                       <div className="source-card p-2">
@@ -170,11 +182,14 @@ const mapStateToProps = (storeState: IRootState) => ({
   errorMessage: storeState.article.errorMessage,
   currentLocale: storeState.locale.currentLocale,
   statement: storeState.statement.entity,
+  statementSources: storeState.statementSource.entities,
 });
 
 const mapDispatchToProps = {
   getEntity,
   reset,
+  getStatementSourcesByStatement,
+  statementSourcesReset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
