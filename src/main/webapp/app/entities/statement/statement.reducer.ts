@@ -165,7 +165,6 @@ export const createEntity: ICrudPutAction<IStatement> = entity => async dispatch
     type: ACTION_TYPES.CREATE_STATEMENT,
     payload: axios.post(apiUrl, cleanEntity(entity)),
   });
-  dispatch(getEntities());
   return result;
 };
 
