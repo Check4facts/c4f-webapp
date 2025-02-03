@@ -80,8 +80,8 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                 </a>
               </div>
               <p className="fs-15 d-flex justify-content-center align-items-center m-0 text-muted">
-                {(article.statement && article.statement.author) || 'N/A '} |{' '}
-                {moment.locale(currentLocale) && moment(article.articleDate).format('LL')}
+                {(article.statement && article.statement.author) || 'N/A '} | Ημερομηνία Εξέτασης{' '}
+                {moment.locale(currentLocale) && moment(article.articleDateUpdated || article.articleDate).format('LL')}
               </p>
               {article.previewImage ? (
                 <div className="text-center mt-3" style={{ backgroundColor: '#f9f9f9' }}>
