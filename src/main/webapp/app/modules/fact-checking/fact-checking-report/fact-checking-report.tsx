@@ -32,6 +32,7 @@ export interface IFactCheckingReportProps extends StateProps, DispatchProps, Rou
 
 export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const editorRef = useRef(CKEditor);
+  const sumEditorRef = useRef(CKEditor);
   const [publishArticle, setPublishArticle] = useState(false);
   const [categoryId, setCategoryId] = useState(null);
   const [open, setOpen] = useState(false);
@@ -40,8 +41,6 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const [saveTimeout, setSaveTimeout] = useState(null);
   const [previewArticle, setPreviewArticle] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [sumOpen, setSumOpen] = useState(false);
-  const [summary, setSummary] = useState(null);
   const formRef = useRef(null);
 
   const {
@@ -80,10 +79,6 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     setOpen(!open);
   };
 
-  const sumToggle = () => {
-    setSumOpen(!sumOpen);
-  };
-
   useEffect(() => {
     if (isNew && categories.length > 0) {
       setCategoryId(categories[0].id);
@@ -119,7 +114,6 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     if (statement && statement.article) {
       setIsNew(false);
       props.getEntity(statement.article.id);
-      setSummary(statement.article.summary);
     } else {
       setIsNew(true);
       props.reset();
@@ -161,11 +155,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       values.articleDateUpdated = convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT));
     }
     values.content = editorRef.current.editor.getData();
+    values.summary = sumEditorRef.current.editor?.getData();
     if (errors.length === 0) {
       const entity = {
         ...articleEntity,
         ...values,
-        summary,
         published: publishArticle,
         statement: statement.article ? articleEntity.statement : { id: statement.id },
         category: { id: categoryId },
@@ -199,7 +193,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     } else {
       setPreviewArticle({
         ...formRef.current.props.model,
-        summary,
+        summary: sumEditorRef.current.editor?.getData(),
         statement: { factCheckerAccuracy: statement.factCheckerAccuracy, statementSources },
       });
       setPreviewOpen(true);
@@ -402,14 +396,19 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                     <Label id="summaryLabel" for="article-summary">
                       <Translate contentKey="check4FactsApp.article.summary">Summary</Translate>
                     </Label>
-                    <div className="d-flex" style={{ columnGap: 20, alignItems: 'center', flexDirection: 'column' }}>
-                      <div dangerouslySetInnerHTML={{ __html: summary }} />
-                      <Button color="warning" onClick={sumToggle} disabled={updating}>
-                        <Translate contentKey={`check4FactsApp.summarization.button.${statement?.article?.summary ? 'existing' : 'new'}`} />
-                      </Button>
-                    </div>
                   </AvGroup>
                 </Col>
+                <Row>
+                  <Col md={{ size: 12, offset: 0 }}>
+                    <Summarization
+                      summary={statement?.article?.summary}
+                      articleId={articleEntity.id}
+                      statementId={statement.id}
+                      editorRef={sumEditorRef}
+                      formOnChange={formOnchange}
+                    />
+                  </Col>
+                </Row>
                 <Row>
                   <Col md={{ size: 12, offset: 0 }}>
                     <FactCheckingReportEditor
@@ -450,14 +449,6 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                 </Row>
               </AvForm>
               <FactCheckingReportAnalyzer open={open} toggle={toggle} />
-              <Summarization
-                open={sumOpen}
-                toggle={sumToggle}
-                summary={summary}
-                setSummary={setSummary}
-                articleId={articleEntity.id}
-                statementId={statement.id}
-              />
               {previewArticle && (
                 <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />
               )}
