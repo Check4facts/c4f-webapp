@@ -103,7 +103,17 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                       </a>
                     </p>
                   </div>
-                  {previewArticle.summary && <SummarizationDisplay summary={previewArticle.summary} sourceUrl="#sources" />}
+                  {previewArticle.summary && (
+                    <SummarizationDisplay
+                      accuracy={
+                        previewArticle.statement &&
+                        previewArticle.statement.factCheckerAccuracy != null &&
+                        previewArticle.statement.factCheckerAccuracy
+                      }
+                      summary={previewArticle.summary}
+                      sourceUrl="#sources"
+                    />
+                  )}
                   {previewArticle.content && (
                     <Alert
                       color={'secondary'}

@@ -1,3 +1,5 @@
+// @import 'src/main/webapp/content/scss/colors';
+
 .summarization-modal-content {
   height: 100%;
   width: 100%;
@@ -67,8 +69,6 @@
   .summarization-display {
     width: 60%;
     padding: 2rem;
-    background-color: #f3f3f8;
-    border-left: 0.25rem solid #2270fd;
     display: flex;
     flex-direction: column;
     align-items: center;

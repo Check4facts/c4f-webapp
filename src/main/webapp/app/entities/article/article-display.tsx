@@ -120,7 +120,13 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                   </a>
                 </p>
               </p>
-              {article.summary && <SummarizationDisplay summary={article.summary} sourceUrl="#sources" />}
+              {article.summary && (
+                <SummarizationDisplay
+                  summary={article.summary}
+                  sourceUrl="#sources"
+                  accuracy={article.statement && article.statement.factCheckerAccuracy != null && article.statement.factCheckerAccuracy}
+                />
+              )}
               {article.content && (
                 <Alert
                   color={'secondary'}

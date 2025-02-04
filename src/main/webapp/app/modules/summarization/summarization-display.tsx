@@ -6,14 +6,15 @@ import { NavHashLink } from 'react-router-hash-link';
 interface SummaryProps {
   summary: string;
   sourceUrl: string;
+  accuracy: number;
 }
 
 const SummarizationDisplay: React.FC<SummaryProps> = (props: SummaryProps) => {
-  const { summary, sourceUrl } = props;
+  const { accuracy, summary, sourceUrl } = props;
 
   return (
     <div className="summarization-display-container">
-      <div className="summarization-display">
+      <div className={`summarization-display summary-accuracy-${accuracy}`}>
         <h2>
           <Translate contentKey="check4FactsApp.summarization.display.title" />
         </h2>
