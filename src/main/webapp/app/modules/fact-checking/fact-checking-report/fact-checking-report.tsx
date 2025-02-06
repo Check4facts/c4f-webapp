@@ -399,7 +399,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                   </AvGroup>
                 </Col>
                 <Row>
-                  <Col md={{ size: 12, offset: 0 }}>
+                  <Col md={{ size: 10, offset: 1 }}>
                     <Summarization
                       summary={statement?.article?.summary}
                       articleId={articleEntity.id}

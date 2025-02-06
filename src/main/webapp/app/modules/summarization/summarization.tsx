@@ -72,7 +72,7 @@ const Summarization = (props: ISummarization) => {
           <>
             <Row>
               {summary && (
-                <Col className="summary">
+                <Col className="summary" md={{ size: 9, offset: 1 }}>
                   <CKEditor
                     editor={DecoupledEditor}
                     onChange={formOnChange}
