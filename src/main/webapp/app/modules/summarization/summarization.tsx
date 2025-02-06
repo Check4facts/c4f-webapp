@@ -16,7 +16,7 @@ interface ISummarization extends StateProps, DispatchProps {
   summary: any;
   articleId: number;
   statementId: number;
-  editorRef: any;
+  editorRef: React.RefObject<CKEditor>;
   formOnChange: (e: any) => void;
 }
 
@@ -73,16 +73,16 @@ const Summarization = (props: ISummarization) => {
             <Row>
               {summary && (
                 <Col className="summary" md={{ size: 9, offset: 1 }}>
+                  <div id="toolbar-container" />
                   <CKEditor
                     editor={DecoupledEditor}
                     onChange={formOnChange}
                     data={summary}
+                    config={{ toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'] }}
                     onInit={editor => {
-                      // Inserts the toolbar before the editable area.
-                      editor.ui.view.editable.element.parentElement.insertBefore(
-                        editor.ui.view.toolbar.element,
-                        editor.ui.view.editable.element
-                      );
+                      // Add the toolbar to the container
+                      const toolbarContainer = document.querySelector('#toolbar-container');
+                      toolbarContainer.appendChild(editor.ui.view.toolbar.element);
                     }}
                     ref={editorRef}
                   />
