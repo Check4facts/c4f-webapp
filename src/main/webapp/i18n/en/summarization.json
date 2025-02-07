@@ -1,6 +1,7 @@
 {
   "check4FactsApp": {
     "summarization": {
+      "progress": "Generate Summary",
       "button": {
         "existing": "Edit Article Summary",
         "new": "Generate Article Summary"
@@ -20,7 +21,7 @@
           },
           "button": {
             "existing": "New Article Summary",
-            "new": "Generate Article Summary"
+            "new": "Auto Generate Summary"
           },
           "saveButton": "Save Summary"
         },
@@ -38,7 +39,7 @@
       },
       "display": {
         "title": "At a Glance",
-        "sourcesLink": "View sources for this fact-check."
+        "sourcesLink": "Sources"
       }
     }
   }
