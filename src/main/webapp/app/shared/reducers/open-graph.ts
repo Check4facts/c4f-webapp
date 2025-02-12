@@ -39,13 +39,13 @@ export default (state: OpenGraphState = initialState, action): OpenGraphState =>
       return {
         ...state,
         loading: false,
-        datum: action.paylaod.data,
+        datum: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.FETCH_OPENGRAPH_METADATA_FOR_URLS):
       return {
         ...state,
         loading: false,
-        data: action.paylaod.data,
+        data: action.payload.data,
       };
     default:
       return state;
@@ -60,5 +60,5 @@ export const fetchOpenGraphMetadata = (url: string) => ({
 
 export const fetchOpenGraphMetadataForUrls = (urls: string[]) => ({
   type: ACTION_TYPES.FETCH_OPENGRAPH_METADATA_FOR_URLS,
-  paylaod: axios.post('api/opengraph/batch', urls),
+  payload: axios.post('api/opengraph/batch', urls),
 });
