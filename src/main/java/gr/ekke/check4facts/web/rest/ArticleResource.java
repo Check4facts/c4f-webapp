@@ -268,4 +268,21 @@ public class ArticleResource {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    /**
+     * {@code GET  /articles/populate-greeklish} : updates Greeklish for articles where greeklish is null.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} when the task is finished, or with status {@code 500 (Internal Server Error)} if an error occurs.
+     */
+    @GetMapping("/articles/populate-greeklish")
+    public ResponseEntity<String> populateGreeklishForArticles() {
+        log.debug("REST request to populate Greeklish for Articles");
+        try {
+            int updatedCount = articleService.populateGreeklishForArticles();
+            return ResponseEntity.ok().body("Updated Greeklish for " + updatedCount + " articles");
+        } catch (Exception e) {
+            log.error("Error updating Greeklish for Articles", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

@@ -4,9 +4,11 @@ import gr.ekke.check4facts.domain.Article;
 import gr.ekke.check4facts.domain.CategorizedArticles;
 import gr.ekke.check4facts.domain.Category;
 import gr.ekke.check4facts.domain.Statement;
+import gr.ekke.check4facts.domain.utils.GreekToSeoFriendlyUrl;
 import gr.ekke.check4facts.repository.ArticleRepository;
 import gr.ekke.check4facts.repository.CategoryRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
+import gr.ekke.check4facts.service.dto.ArticleDTO;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.lucene.search.TermQuery;
@@ -81,6 +83,7 @@ public class ArticleService {
             article.setImageThumbPreview(null);
         }
         article.setPreviewImageContentType("image/webp");
+        article.setGreeklish(GreekToSeoFriendlyUrl.convert(article.getPreviewTitle()));
 
         Article result = articleRepository.saveAndFlush(article);
         em.refresh(result);
@@ -327,6 +330,28 @@ public class ArticleService {
                 .collect(Collectors.toList());
 
         return new PageImpl<>(articles, pageable, articlesPage.getTotalElements());
+    }
+
+    public int populateGreeklishForArticles() {
+        log.debug("Request to populate Greeklish for Articles");
+
+        List<ArticleDTO> articles = articleRepository.findArticlesWithNullGreeklish();
+        int updatedCount = 0;
+
+        for (ArticleDTO article : articles) {
+            String greeklish = GreekToSeoFriendlyUrl.convert(article.getPreviewTitle());
+            log.debug("Greeklish for Article : {} is : {}", article.getId(), greeklish);
+            articleRepository.updateGreeklishForArticle(greeklish, article.getId());
+            
+            // TODO: Find a better way to update the greeklish field in the search index
+            // Article partialUpdatedArticle = new Article();
+            // partialUpdatedArticle.setId(article.getId());
+            // partialUpdatedArticle.setGreeklish(greeklish);
+            // articleSearchRepository.save(partialUpdatedArticle);
+            updatedCount++;
+        }
+
+        return updatedCount;
     }
 
     private Article getFilteredArticle(Article article) {
