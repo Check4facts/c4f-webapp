@@ -16,7 +16,7 @@ const Routes = ({ match }) => (
     <Switch>
       <PrivateRoute exact path={`${match.url}/new/:statementId?`} component={ArticleUpdate} hasAnyAuthorities={[AUTHORITIES.USER]} />
       <PrivateRoute exact path={`${match.url}/:id/edit`} component={ArticleUpdate} hasAnyAuthorities={[AUTHORITIES.USER]} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/display`} component={ArticleDisplay} />
+      <ErrorBoundaryRoute exact path={`${match.url}/display/:greeklish`} component={ArticleDisplay} />
       <PrivateRoute exact path={`${match.url}/:id`} component={ArticleDetail} hasAnyAuthorities={[AUTHORITIES.USER]} />
       <PrivateRoute path={match.url} component={Article} hasAnyAuthorities={[AUTHORITIES.USER]} />
     </Switch>
