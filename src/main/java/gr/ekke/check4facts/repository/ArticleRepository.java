@@ -36,6 +36,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Article findById(Integer id);
 
+    Optional<Article> findByGreeklish(String greeklish);
+
     @Query("SELECT a FROM Article a " +
             "WHERE a.category.name = :categoryName " +
             "AND a.published = true " +

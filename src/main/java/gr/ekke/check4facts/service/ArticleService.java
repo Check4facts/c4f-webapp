@@ -215,6 +215,18 @@ public class ArticleService {
     }
 
     /**
+     * Get one article by greeklish.
+     *
+     * @param greeklish the greeklish of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<Article> findByGreeklish(String greeklish) {
+        log.debug("Request to get Article with greeklish : {}", greeklish);
+        return articleRepository.findByGreeklish(greeklish);
+    }
+
+    /**
      * Delete the article by id.
      *
      * @param id the id of the entity.
@@ -364,6 +376,7 @@ public class ArticleService {
         Article suggestion = new Article();
         suggestion.setId(article.getId());
         suggestion.setPreviewTitle(article.getPreviewTitle());
+        suggestion.setGreeklish(article.getGreeklish());
         return suggestion;
     }
 
