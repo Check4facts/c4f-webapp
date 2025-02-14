@@ -54,7 +54,7 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                         {category.categoryArticles.map((article, idx) => (
                           <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={`${article.id}-${idx}`}>
                             <div className="position-relative image-hover">
-                              <Link to={`/article/${article.id}/display`}>
+                              <Link to={`/article/display/${article.greeklish}`}>
                                 {article.imageThumbPreview ? (
                                   <img
                                     src={`data:${article.previewImageContentType};base64,${article.imageThumbPreview}`}
@@ -77,7 +77,7 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                               {/* {article.articleDateUpdated && <span style={{position: "absolute", top: -33, right: -32, backgroundColor: "#f5a623", width: "140px",
                               height: "20px", transform: "rotate(45deg)"}}/>} */}
                             </div>
-                            <Link to={`/article/${article.id}/display`}>
+                            <Link to={`/article/display/${article.greeklish}`}>
                                 <h5 title={article.previewTitle} className="font-weight-600 mt-3 text-truncate text-truncate-4">{article.previewTitle}</h5>
                             </Link>
                             {article.statement && article.statement.factCheckerAccuracy != null && (

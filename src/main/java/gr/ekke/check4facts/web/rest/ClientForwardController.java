@@ -31,9 +31,9 @@ public class ClientForwardController {
         return "forward:/";
     }
 
-    @GetMapping("/article/{id}/display")
-    public String forwardToArticleDisplay(@PathVariable Long id, Model model) {
-    Optional<Article> article = articleService.findOne(id);
+    @GetMapping("/article/display/{greeklish}")
+    public String forwardToArticleDisplay(@PathVariable String greeklish, Model model) {
+    Optional<Article> article = articleService.findByGreeklish(greeklish);
     if (article.isPresent()) {
 
         Article foundArticle = article.get();

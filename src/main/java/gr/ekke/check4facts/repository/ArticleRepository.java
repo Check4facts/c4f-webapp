@@ -3,6 +3,8 @@ package gr.ekke.check4facts.repository;
 import gr.ekke.check4facts.domain.Article;
 
 import gr.ekke.check4facts.domain.FeatureStatement;
+import gr.ekke.check4facts.service.dto.ArticleDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -34,6 +36,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Article findById(Integer id);
 
+    Optional<Article> findByGreeklish(String greeklish);
+
     @Query("SELECT a FROM Article a " +
             "WHERE a.category.name = :categoryName " +
             "AND a.published = true " +
@@ -42,5 +46,14 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "ELSE a.articleDate " +
             "END DESC")
     List<Article> findTop4LatestArticlesByCategoryName(@Param("categoryName") String categoryName, Pageable pageable);
+
+    // Fetch only articles where greeklish is NULL
+    @Query("SELECT new gr.ekke.check4facts.service.dto.ArticleDTO(a.id, a.previewTitle) FROM Article a WHERE a.greeklish IS NULL")
+    List<ArticleDTO> findArticlesWithNullGreeklish();
+
+    // Bulk update greeklish field for a specific article
+    @Modifying
+    @Query("UPDATE Article a SET a.greeklish = :greeklish WHERE a.id = :id")
+    int updateGreeklishForArticle(@Param("greeklish") String greeklish, @Param("id") Long id);
 
 }

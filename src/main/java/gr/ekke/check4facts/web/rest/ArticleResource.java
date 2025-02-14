@@ -124,6 +124,20 @@ public class ArticleResource {
     }
 
     /**
+     * {@code GET  /articles/greeklish/:greeklish} : get the "greeklish" article.
+     *
+     * @param greeklish the greeklish of the article to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the article, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/articles/greeklish/{greeklish}")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthoritiesConstants.ADMIN + "\") or hasAnyAuthority(\"" + AuthoritiesConstants.USER + "\") or @articleService.findByGreeklish(#greeklish).orElse(null)?.published == true")
+    public ResponseEntity<Article> getArticleByGreeklish(@PathVariable String greeklish) {
+        log.debug("REST request to get Article with greeklish : {}", greeklish);
+        Optional<Article> article = articleService.findByGreeklish(greeklish);
+        return ResponseUtil.wrapOrNotFound(article);
+    }
+
+    /**
      * {@code DELETE  /articles/:id} : delete the "id" article.
      *
      * @param id the id of the article to delete.
@@ -266,6 +280,23 @@ public class ArticleResource {
             return new ResponseEntity<>(foundArticle.getPreviewImage(), headers, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * {@code GET  /articles/populate-greeklish} : updates Greeklish for articles where greeklish is null.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} when the task is finished, or with status {@code 500 (Internal Server Error)} if an error occurs.
+     */
+    @GetMapping("/articles/populate-greeklish")
+    public ResponseEntity<String> populateGreeklishForArticles() {
+        log.debug("REST request to populate Greeklish for Articles");
+        try {
+            int updatedCount = articleService.populateGreeklishForArticles();
+            return ResponseEntity.ok().body("Updated Greeklish for " + updatedCount + " articles");
+        } catch (Exception e) {
+            log.error("Error updating Greeklish for Articles", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
