@@ -168,6 +168,7 @@
     "userexists": "Αυτό το όνομα σύνδεσης είναι ήδη εγγεγραμμένο!",
     "emailexists": "Αυτό το email είναι ήδη εγγεγραμμένο!",
     "idexists": "Ένα καινούργιο {{ entityName }} δεν μπορεί να έχει είδη ένα ID.",
+    "greeklishexists": "Μία Έκθεση Επαλήθευσης έχει είδη αυτόν τον τίτλο.",
     "idnull": "Invalid ID",
     "file": {
       "could.not.extract": "Could not extract file",

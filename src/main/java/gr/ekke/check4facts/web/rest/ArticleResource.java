@@ -12,6 +12,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -68,10 +69,18 @@ public class ArticleResource {
         if (article.getId() != null) {
             throw new BadRequestAlertException("A new article cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Article result = articleService.save(article);
-        return ResponseEntity.created(new URI("/api/articles/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+
+        try {
+            Article result = articleService.save(article);
+            return ResponseEntity.created(new URI("/api/articles/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        } catch (DataIntegrityViolationException e) {
+            if (e.getMessage().contains("unique_greeklish")) {
+                throw new BadRequestAlertException("An article with this title already exists", ENTITY_NAME, "greeklishexists");
+            }
+            throw e;
+        }
     }
 
     /**
