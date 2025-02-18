@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { getEntity as getArticleById, getArticleByGreeklish, reset } from 'app/entities/article/article.reducer';
+import { getArticleByGreeklish, reset } from 'app/entities/article/article.reducer';
 import { defaultValue } from 'app/shared/model/article.model';
 import { Col, Container, Row, Spinner, Badge, Alert } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
@@ -13,14 +13,17 @@ import HelComp from 'app/shared/util/helmet-component';
 
 export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ greeklish: string }> {}
 
-export const ArticleDisplay = (props: IArticleDisplayProps) => {
+interface ILocationState {
+  article?: any;
+}
+
+export const ArticleDisplay = (props: IArticleDisplayProps & { history: { location: { state: ILocationState } } }) => {
   const { article, loading, errorMessage, currentLocale } = props;
 
   useEffect(() => {
     const greeklishParam = props.match.params.greeklish;
-    if (!isNaN(Number(greeklishParam))) {
-      props.getArticleById(greeklishParam);
-    } else {
+    const comesFromRedirect = props.history.location.state && props.history.location.state.article && article !== defaultValue;
+    if (!comesFromRedirect) {
       props.getArticleByGreeklish(greeklishParam);
     }
   }, []);
@@ -177,7 +180,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getArticleByGreeklish,
-  getArticleById,
   reset,
 };
 
