@@ -243,6 +243,14 @@ export const getEntity: ICrudGetAction<IArticle> = id => {
   };
 };
 
+export const getArticleByGreeklish: ICrudGetAction<IArticle> = greeklish => {
+  const requestUrl = `${apiUrl}/greeklish/${greeklish}`;
+  return {
+    type: ACTION_TYPES.FETCH_ARTICLE,
+    payload: axios.get<IArticle>(requestUrl),
+  };
+};
+
 export const getFrontPageArticles = () => {
   const requestUrl = `${apiUrl}/frontPage`;
   return {

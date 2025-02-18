@@ -44,6 +44,7 @@ import news, {
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 import featureStatement, { FeatureStatementState } from 'app/entities/feature-statement/feature-statement.reducer';
 import kombuMessage, { KombuMessageState } from 'app/entities/kombu-message/kombu-message.reducer';
+import openGraph, { OpenGraphState } from './open-graph';
 
 export interface IRootState {
   readonly authentication: AuthenticationState;
@@ -59,6 +60,7 @@ export interface IRootState {
   readonly article: ArticleState;
   readonly category: CategoryState;
   readonly factChecking: FactCheckingState;
+  readonly openGraph: OpenGraphState;
   readonly resource: ResourceState;
   readonly statement: StatementState;
   readonly statementSource: StatementSourceState;
@@ -84,6 +86,7 @@ const rootReducer = combineReducers<IRootState>({
   article,
   category,
   factChecking,
+  openGraph,
   resource,
   statement,
   statementSource,

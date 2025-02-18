@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { getEntity, reset } from 'app/entities/article/article.reducer';
+import { getEntity as getArticleById, getArticleByGreeklish, reset } from 'app/entities/article/article.reducer';
 import { defaultValue } from 'app/shared/model/article.model';
 import { Col, Container, Row, Spinner, Badge, Alert } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
@@ -11,13 +11,18 @@ import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HelComp from 'app/shared/util/helmet-component';
 
-export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ greeklish: string }> {}
 
 export const ArticleDisplay = (props: IArticleDisplayProps) => {
   const { article, loading, errorMessage, currentLocale } = props;
 
   useEffect(() => {
-    props.getEntity(props.match.params.id);
+    const greeklishParam = props.match.params.greeklish;
+    if (!isNaN(Number(greeklishParam))) {
+      props.getArticleById(greeklishParam);
+    } else {
+      props.getArticleByGreeklish(greeklishParam);
+    }
   }, []);
 
   const handleEmbedTags = htmlContent => {
@@ -171,7 +176,8 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getEntity,
+  getArticleByGreeklish,
+  getArticleById,
   reset,
 };
 

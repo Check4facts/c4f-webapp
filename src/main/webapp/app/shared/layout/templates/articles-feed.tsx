@@ -38,7 +38,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
       {articles.length > 0 ? articles.map((article, idx) => (
         <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={`${article.id}-${idx}`}>
           <div className="position-relative image-hover">
-            <Link to={`/article/${article.id}/display`}>
+            <Link to={`/article/display/${article.greeklish}`}>
               {article.imageThumbPreview ?
                 <img src={`data:${article.previewImageContentType};base64,${article.imageThumbPreview}`}
                      className="" style={{height: 200, width: "100%", objectFit: 'cover', border: "1px solid #eeeeee"}}
@@ -54,7 +54,7 @@ export const ArticlesFeed = (props: IArticlesFeedProps) => {
             </span>
             </Link>
           </div>
-          <Link to={`/article/${article.id}/display`}>
+          <Link to={`/article/display/${article.greeklish}`}>
             <p title={article.previewTitle}>
             <h5 className="font-weight-600 mt-3 text-truncate text-truncate-4">
               {article.previewTitle}
