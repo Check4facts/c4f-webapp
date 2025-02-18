@@ -8,7 +8,7 @@ import java.util.Map;
 public class GreekToSeoFriendlyUrl {
 
   public static String convert(String name) {
-    String greeklish = name.toLowerCase();
+    String greeklish = name.toLowerCase().trim();
     StringBuilder sb = new StringBuilder();
     Map<String, String> values = new HashMap<String, String>();
 
