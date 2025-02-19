@@ -14,7 +14,10 @@
 }
 
 .summary {
-  margin-bottom: 3vh;
+  margin-bottom: 4vh;
+  padding: 0 0 0 1.8em;
+  flex: 0 0 87%;
+  max-width: 87%;
   .ck-editor__editable {
     min-height: 100% !important;
     height: fit-content !important;

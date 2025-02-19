@@ -73,7 +73,7 @@ const Summarization = (props: ISummarization) => {
         ) : (
           <>
             <Row>
-              <Col className="summary" md={{ size: 10, offset: 1 }} style={{ padding: '0' }}>
+              <Col className="summary">
                 <div id="toolbar-container" />
                 <CKEditor
                   editor={DecoupledEditor}
@@ -92,7 +92,7 @@ const Summarization = (props: ISummarization) => {
                   ref={editorRef}
                 />
               </Col>
-              <Col style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'flexStart', padding: '0' }}>
+              <Col>
                 <Button
                   id="generate-summary"
                   color="primary"
