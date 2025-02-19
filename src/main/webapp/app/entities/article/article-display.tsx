@@ -2,8 +2,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { getEntity, reset } from 'app/entities/article/article.reducer';
-import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
+import { getArticleByGreeklish, reset } from 'app/entities/article/article.reducer';
 import { defaultValue } from 'app/shared/model/article.model';
 import { Col, Container, Row, Spinner, Badge, Alert } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
@@ -13,25 +12,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HelComp from 'app/shared/util/helmet-component';
 import SummarizationDisplay from 'app/modules/summarization/summarization-display';
 
-export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ greeklish: string }> {}
 
-export const ArticleDisplay = (props: IArticleDisplayProps) => {
-  const { article, loading, errorMessage, currentLocale, statementSources } = props;
+interface ILocationState {
+  article?: any;
+}
+
+export const ArticleDisplay = (props: IArticleDisplayProps & { history: { location: { state: ILocationState } } }) => {
+  const { article, loading, errorMessage, currentLocale } = props;
 
   useEffect(() => {
-    props.getEntity(props.match.params.id);
+    const greeklishParam = props.match.params.greeklish;
+    const comesFromRedirect = props.history.location.state && props.history.location.state.article && article !== defaultValue;
+    if (!comesFromRedirect) {
+      props.getArticleByGreeklish(greeklishParam);
+    }
 
     return () => {
       props.reset();
-      props.statementSourcesReset();
     };
   }, []);
-
-  useEffect(() => {
-    if (article.statement) {
-      props.getStatementSourcesByStatement(article.statement.id);
-    }
-  }, [article]);
 
   const handleEmbedTags = htmlContent => {
     const oembed = htmlContent.split('</oembed>');
@@ -145,7 +145,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
       </Row>
       <Row id="sources">
         <Col>
-          {statementSources?.length > 0 && (
+          {article.statement?.statementSources?.length > 0 && (
             <div
               className="sources-section mt-5 p-5"
               style={{
@@ -158,7 +158,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
             >
               <h4 className="px-lg-5 px-md-2">{translate('check4FactsApp.statement.statementSources')}:</h4>
               <ul className="px-lg-5 px-md-2">
-                {statementSources.map((source, index) => (
+                {article.statement.statementSources.map((source, index) => (
                   <li key={index} className="my-1">
                     <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-muted">
                       <div className="source-card p-2">
@@ -188,14 +188,11 @@ const mapStateToProps = (storeState: IRootState) => ({
   errorMessage: storeState.article.errorMessage,
   currentLocale: storeState.locale.currentLocale,
   statement: storeState.statement.entity,
-  statementSources: storeState.statementSource.entities,
 });
 
 const mapDispatchToProps = {
-  getEntity,
+  getArticleByGreeklish,
   reset,
-  getStatementSourcesByStatement,
-  statementSourcesReset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

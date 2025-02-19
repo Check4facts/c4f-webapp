@@ -71,6 +71,11 @@ export const Tools = (props: IToolsProps) => {
     setModalOpen(false);
   };
 
+  const populateGreeklish = () => {
+    axios.get('/api/articles/populate-greeklish');
+    setModalOpen(false);
+  }
+
   const train = () => {
     props.trainModel();
     setModalOpen(false);
@@ -110,6 +115,22 @@ export const Tools = (props: IToolsProps) => {
           >
             ReIndex
           </Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h4 className="text-center">Populate Greeklish</h4>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="d-flex justify-content-center">
+          <Button onClick={() =>
+            openModal({
+              header: 'Populate Greeklish',
+              body: 'Are you sure you want populate greeklish?',
+              action: populateGreeklish
+            })
+          } color="primary">Greeklish</Button>
         </Col>
       </Row>
       <Row className="mt-3">

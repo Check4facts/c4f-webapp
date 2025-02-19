@@ -78,6 +78,12 @@ public class Article implements Serializable {
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "greeklish", nullable = true)
+    @Field(type = FieldType.Text)
+    private String greeklish;
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "summary", nullable = false)
     @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String summary;
@@ -88,7 +94,7 @@ public class Article implements Serializable {
     private Category category;
 
     @OneToOne
-    @JsonIgnoreProperties(value= {"statementSources", "resources"}, allowSetters = true)
+    @JsonIgnoreProperties(value= {"resources"}, allowSetters = true)
     private Statement statement;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -230,6 +236,19 @@ public class Article implements Serializable {
         return this;
     }
 
+    public String getGreeklish() {
+        return greeklish;
+    }
+
+    public void setGreeklish(String greeklish) {
+        this.greeklish = greeklish;
+    }
+
+    public Article greeklish(String greeklish) {
+        this.greeklish = greeklish;
+        return this;
+    }
+
     public String getSummary() {
         return summary;
     }
@@ -299,6 +318,7 @@ public class Article implements Serializable {
             ", published='" + isPublished() + "'" +
             ", content='" + getContent() + "'" +
             ", previewText='" + getPreviewText() + "'" +
+            ", greeklish='" + getGreeklish() + "'" +
             "}";
     }
 }

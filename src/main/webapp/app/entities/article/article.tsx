@@ -291,7 +291,7 @@ export const Article = (props: IArticleProps) => {
                   </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${article.id}/display`} color="info" size="sm">
+                      <Button tag={Link} to={`${match.url}/display/${article.greeklish}`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="check4FactsApp.article.display" />

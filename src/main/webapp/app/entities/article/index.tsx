@@ -10,13 +10,16 @@ import ArticleDetail from './article-detail';
 import ArticleUpdate from './article-update';
 import ArticleDisplay from './article-display';
 import ArticleDeleteDialog from './article-delete-dialog';
+import RedirectToArticle from 'app/shared/util/redirect-to-article';
 
 const Routes = ({ match }) => (
   <>
     <Switch>
       <PrivateRoute exact path={`${match.url}/new/:statementId?`} component={ArticleUpdate} hasAnyAuthorities={[AUTHORITIES.USER]} />
       <PrivateRoute exact path={`${match.url}/:id/edit`} component={ArticleUpdate} hasAnyAuthorities={[AUTHORITIES.USER]} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/display`} component={ArticleDisplay} />
+      {/* Route below if for old version links like /article/ID/display */}
+      <ErrorBoundaryRoute exact path={`${match.url}/:id/display/`} component={RedirectToArticle} />
+      <ErrorBoundaryRoute exact path={`${match.url}/display/:greeklish`} component={ArticleDisplay} />
       <PrivateRoute exact path={`${match.url}/:id`} component={ArticleDetail} hasAnyAuthorities={[AUTHORITIES.USER]} />
       <PrivateRoute path={match.url} component={Article} hasAnyAuthorities={[AUTHORITIES.USER]} />
     </Switch>

@@ -12,6 +12,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -68,10 +69,18 @@ public class ArticleResource {
         if (article.getId() != null) {
             throw new BadRequestAlertException("A new article cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Article result = articleService.save(article);
-        return ResponseEntity.created(new URI("/api/articles/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+
+        try {
+            Article result = articleService.save(article);
+            return ResponseEntity.created(new URI("/api/articles/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        } catch (DataIntegrityViolationException e) {
+            if (e.getMessage().contains("unique_greeklish")) {
+                throw new BadRequestAlertException("An article with this title already exists", ENTITY_NAME, "greeklishexists");
+            }
+            throw e;
+        }
     }
 
     /**
@@ -120,6 +129,20 @@ public class ArticleResource {
     public ResponseEntity<Article> getArticle(@PathVariable Long id) {
         log.debug("REST request to get Article : {}", id);
         Optional<Article> article = articleService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(article);
+    }
+
+    /**
+     * {@code GET  /articles/greeklish/:greeklish} : get the "greeklish" article.
+     *
+     * @param greeklish the greeklish of the article to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the article, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/articles/greeklish/{greeklish}")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthoritiesConstants.ADMIN + "\") or hasAnyAuthority(\"" + AuthoritiesConstants.USER + "\") or @articleService.findByGreeklish(#greeklish).orElse(null)?.published == true")
+    public ResponseEntity<Article> getArticleByGreeklish(@PathVariable String greeklish) {
+        log.debug("REST request to get Article with greeklish : {}", greeklish);
+        Optional<Article> article = articleService.findByGreeklish(greeklish);
         return ResponseUtil.wrapOrNotFound(article);
     }
 
@@ -266,6 +289,23 @@ public class ArticleResource {
             return new ResponseEntity<>(foundArticle.getPreviewImage(), headers, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * {@code GET  /articles/populate-greeklish} : updates Greeklish for articles where greeklish is null.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} when the task is finished, or with status {@code 500 (Internal Server Error)} if an error occurs.
+     */
+    @GetMapping("/articles/populate-greeklish")
+    public ResponseEntity<String> populateGreeklishForArticles() {
+        log.debug("REST request to populate Greeklish for Articles");
+        try {
+            int updatedCount = articleService.populateGreeklishForArticles();
+            return ResponseEntity.ok().body("Updated Greeklish for " + updatedCount + " articles");
+        } catch (Exception e) {
+            log.error("Error updating Greeklish for Articles", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
