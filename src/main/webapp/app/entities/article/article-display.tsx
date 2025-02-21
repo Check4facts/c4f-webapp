@@ -10,6 +10,7 @@ import { translate } from 'react-jhipster';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HelComp from 'app/shared/util/helmet-component';
+import SummarizationDisplay from 'app/modules/summarization/summarization-display';
 
 export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ greeklish: string }> {}
 
@@ -26,6 +27,10 @@ export const ArticleDisplay = (props: IArticleDisplayProps & { history: { locati
     if (!comesFromRedirect) {
       props.getArticleByGreeklish(greeklishParam);
     }
+
+    return () => {
+      props.reset();
+    };
   }, []);
 
   const handleEmbedTags = htmlContent => {
@@ -115,6 +120,13 @@ export const ArticleDisplay = (props: IArticleDisplayProps & { history: { locati
                   </a>
                 </p>
               </p>
+              {article.summary && (
+                <SummarizationDisplay
+                  summary={article.summary}
+                  sourceUrl="#sources"
+                  accuracy={article.statement && article.statement.factCheckerAccuracy != null && article.statement.factCheckerAccuracy}
+                />
+              )}
               {article.content && (
                 <Alert
                   color={'secondary'}
@@ -131,7 +143,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps & { history: { locati
           </div>
         </Col>
       </Row>
-      <Row>
+      <Row id="sources">
         <Col>
           {article.statement?.statementSources?.length > 0 && (
             <div
@@ -144,7 +156,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps & { history: { locati
                 alignItems: 'left',
               }}
             >
-              <h4 className="px-lg-5 px-md-2">{translate('check4FactsApp.article.articleSources')}:</h4>
+              <h4 className="px-lg-5 px-md-2">{translate('check4FactsApp.statement.statementSources')}:</h4>
               <ul className="px-lg-5 px-md-2">
                 {article.statement.statementSources.map((source, index) => (
                   <li key={index} className="my-1">

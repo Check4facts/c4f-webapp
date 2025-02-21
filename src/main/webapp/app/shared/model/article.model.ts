@@ -15,6 +15,7 @@ export interface IArticle {
   content?: any;
   previewText?: any;
   greeklish?: any;
+  summary?: any;
   category?: ICategory;
   statement?: IStatement;
 }

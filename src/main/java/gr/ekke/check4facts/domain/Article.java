@@ -82,13 +82,19 @@ public class Article implements Serializable {
     @Field(type = FieldType.Text)
     private String greeklish;
 
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "summary", nullable = false)
+    @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
+    private String summary;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties(value = "articles", allowSetters = true)
     private Category category;
 
     @OneToOne
-    @JsonIgnoreProperties(value= {"statementSources", "resources"}, allowSetters = true)
+    @JsonIgnoreProperties(value= {"resources"}, allowSetters = true)
     private Statement statement;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -240,6 +246,19 @@ public class Article implements Serializable {
 
     public Article greeklish(String greeklish) {
         this.greeklish = greeklish;
+        return this;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public Article summary(String summary) {
+        this.summary = summary;
         return this;
     }
 

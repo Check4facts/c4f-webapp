@@ -163,7 +163,7 @@ export const FactCheckingReportEditor = (props: IArticleContentEditorProps) => {
 
   return (
     <Row className="pt-3" style={{ height: '70vh' }}>
-      <Col md={(statementSources.length === 0 && resources.length === 0) && { size: 10, offset: 1 }}>
+      <Col>
         <CKEditor
           editor={DecoupledEditor}
           onChange={formOnChange}
