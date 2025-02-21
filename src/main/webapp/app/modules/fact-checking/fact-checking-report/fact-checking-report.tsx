@@ -159,7 +159,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       values.articleDateUpdated = convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT));
     }
     values.content = editorRef.current.editor.getData();
-    values.summary = sumEditorRef.current.editor?.getData();
+    values.summary =
+      sumEditorRef.current.editor?.getData() !==
+      '<p style="text-align:center;"><span style="color:hsl(0,0%,60%);"><i>Δημιουργήστε αυτόματα την περίληψη</i></span></p>'
+        ? sumEditorRef.current.editor?.getData()
+        : null;
     if (errors.length === 0) {
       const entity = {
         ...articleEntity,
