@@ -54,11 +54,7 @@ public class ElasticsearchIndexService {
 
     private final FeatureStatementRepository featureStatementRepository;
 
-    private final FeatureStatementSearchRepository featureStatementSearchRepository;
-
     private final ResourceRepository resourceRepository;
-
-    private final ResourceSearchRepository resourceSearchRepository;
 
     private final StatementRepository statementRepository;
 
@@ -84,7 +80,6 @@ public class ElasticsearchIndexService {
         CategoryRepository categoryRepository,
         CategorySearchRepository categorySearchRepository,
         ResourceRepository resourceRepository,
-        ResourceSearchRepository resourceSearchRepository,
         StatementRepository statementRepository,
         StatementSearchRepository statementSearchRepository,
         StatementSourceRepository statementSourceRepository,
@@ -92,7 +87,6 @@ public class ElasticsearchIndexService {
         TopicRepository topicRepository,
         TopicSearchRepository topicSearchRepository,
         FeatureStatementRepository featureStatementRepository,
-        FeatureStatementSearchRepository featureStatementSearchRepository,
         JestElasticsearchTemplate jestElasticsearchTemplate, 
         NewsRepository newsRepository, 
         NewsSearchRepository newsSearchRepository) {
@@ -103,7 +97,6 @@ public class ElasticsearchIndexService {
         this.categoryRepository = categoryRepository;
         this.categorySearchRepository = categorySearchRepository;
         this.resourceRepository = resourceRepository;
-        this.resourceSearchRepository = resourceSearchRepository;
         this.statementRepository = statementRepository;
         this.statementSearchRepository = statementSearchRepository;
         this.statementSourceRepository = statementSourceRepository;
@@ -111,7 +104,6 @@ public class ElasticsearchIndexService {
         this.topicRepository = topicRepository;
         this.topicSearchRepository = topicSearchRepository;
         this.featureStatementRepository = featureStatementRepository;
-        this.featureStatementSearchRepository = featureStatementSearchRepository;
         this.jestElasticsearchTemplate = jestElasticsearchTemplate;
         this.newsRepository = newsRepository;
         this.newsSearchRepository = newsSearchRepository;
@@ -123,13 +115,11 @@ public class ElasticsearchIndexService {
             try {
                 reindexForClass(Article.class, articleRepository, articleSearchRepository);
                 reindexForClass(Category.class, categoryRepository, categorySearchRepository);
-                reindexForClass(FeatureStatement.class, featureStatementRepository, featureStatementSearchRepository);
                 reindexForClass(Statement.class, statementRepository, statementSearchRepository);
                 reindexForClass(StatementSource.class, statementSourceRepository, statementSourceSearchRepository);
                 reindexForClass(Topic.class, topicRepository, topicSearchRepository );
                 reindexForClass(User.class, userRepository, userSearchRepository);
                 reindexForClass(News.class, newsRepository, newsSearchRepository);
-                reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
                 log.info("Elasticsearch: Successfully performed reindexing");
             } finally {
                 reindexLock.unlock();

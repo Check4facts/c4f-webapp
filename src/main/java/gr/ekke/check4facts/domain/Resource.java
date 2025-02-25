@@ -1,7 +1,5 @@
 package gr.ekke.check4facts.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
@@ -9,7 +7,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -21,7 +18,6 @@ import gr.ekke.check4facts.domain.enumeration.FileFormat;
 @Entity
 @Table(name = "resource")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "resource")
 public class Resource implements Serializable {
 
     private static final long serialVersionUID = 1L;

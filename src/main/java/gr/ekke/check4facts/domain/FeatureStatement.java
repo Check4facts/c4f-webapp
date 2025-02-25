@@ -5,7 +5,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "feature_statement")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Document(indexName = "featurestatement")
 @TypeDef(
     name = "list-array",
     typeClass = ListArrayType.class

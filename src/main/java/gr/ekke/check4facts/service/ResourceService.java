@@ -2,7 +2,6 @@ package gr.ekke.check4facts.service;
 
 import gr.ekke.check4facts.domain.Resource;
 import gr.ekke.check4facts.repository.ResourceRepository;
-import gr.ekke.check4facts.repository.search.ResourceSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,11 +26,8 @@ public class ResourceService {
 
     private final ResourceRepository resourceRepository;
 
-    private final ResourceSearchRepository resourceSearchRepository;
-
-    public ResourceService(ResourceRepository resourceRepository, ResourceSearchRepository resourceSearchRepository) {
+    public ResourceService(ResourceRepository resourceRepository) {
         this.resourceRepository = resourceRepository;
-        this.resourceSearchRepository = resourceSearchRepository;
     }
 
     /**
@@ -43,7 +39,6 @@ public class ResourceService {
     public Resource save(Resource resource) {
         log.debug("Request to save Resource : {}", resource);
         Resource result = resourceRepository.save(resource);
-        resourceSearchRepository.save(result);
         return result;
     }
 
@@ -80,20 +75,6 @@ public class ResourceService {
     public void delete(Long id) {
         log.debug("Request to delete Resource : {}", id);
         resourceRepository.deleteById(id);
-        resourceSearchRepository.deleteById(id);
-    }
-
-    /**
-     * Search for the resource corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Page<Resource> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Resources for query {}", query);
-        return resourceSearchRepository.search(queryStringQuery(query), pageable);
     }
 
     /**

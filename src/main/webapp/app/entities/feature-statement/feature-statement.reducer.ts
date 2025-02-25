@@ -1,12 +1,11 @@
 import axios from 'axios';
-import { ICrudSearchAction, ICrudGetAction, ICrudGetAllAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction } from 'react-jhipster';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IFeatureStatement, defaultValue } from 'app/shared/model/feature-statement.model';
 
 export const ACTION_TYPES = {
-  SEARCH_FEATURESTATEMENTS: 'featureStatement/SEARCH_FEATURESTATEMENTS',
   FETCH_FEATURESTATEMENT_LIST: 'featureStatement/FETCH_FEATURESTATEMENT_LIST',
   FETCH_FEATURESTATEMENT_LIST_BY_STATEMENT: 'featureStatement/FETCH_FEATURESTATEMENT_LIST_BY_STATEMENT',
   COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT: 'featureStatement/COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT',
@@ -30,7 +29,6 @@ export type FeatureStatementState = Readonly<typeof initialState>;
 
 export default (state: FeatureStatementState = initialState, action): FeatureStatementState => {
   switch (action.type) {
-    case REQUEST(ACTION_TYPES.SEARCH_FEATURESTATEMENTS):
     case REQUEST(ACTION_TYPES.FETCH_FEATURESTATEMENT_LIST):
     case REQUEST(ACTION_TYPES.FETCH_FEATURESTATEMENT_LIST_BY_STATEMENT):
     case REQUEST(ACTION_TYPES.COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT):
@@ -41,7 +39,6 @@ export default (state: FeatureStatementState = initialState, action): FeatureSta
         errorMessage: null,
         loading: true,
       };
-    case FAILURE(ACTION_TYPES.SEARCH_FEATURESTATEMENTS):
     case FAILURE(ACTION_TYPES.FETCH_FEATURESTATEMENT_LIST):
     case FAILURE(ACTION_TYPES.FETCH_FEATURESTATEMENT_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.COUNT_FEATURESTATEMENT_LIST_BY_STATEMENT):
@@ -52,7 +49,6 @@ export default (state: FeatureStatementState = initialState, action): FeatureSta
         errorMessage: action.payload,
         loading: false,
       };
-    case SUCCESS(ACTION_TYPES.SEARCH_FEATURESTATEMENTS):
     case SUCCESS(ACTION_TYPES.FETCH_FEATURESTATEMENT_LIST):
     case SUCCESS(ACTION_TYPES.FETCH_FEATURESTATEMENT_LIST_BY_STATEMENT):
       return {
@@ -83,14 +79,8 @@ export default (state: FeatureStatementState = initialState, action): FeatureSta
 };
 
 const apiUrl = 'api/feature-statements';
-const apiSearchUrl = 'api/_search/feature-statements';
 
 // Actions
-
-export const getSearchEntities: ICrudSearchAction<IFeatureStatement> = query => ({
-  type: ACTION_TYPES.SEARCH_FEATURESTATEMENTS,
-  payload: axios.get<IFeatureStatement>(`${apiSearchUrl}?query=${query}`),
-});
 
 export const getEntities: ICrudGetAllAction<IFeatureStatement> = () => ({
   type: ACTION_TYPES.FETCH_FEATURESTATEMENT_LIST,
