@@ -2,6 +2,8 @@
 
 This application was generated using JHipster 6.10.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.10.1](https://www.jhipster.tech/documentation-archive/v6.10.1).
 
+> Remember: Set properly a `.env` file in the root of the repository by copying the contents of the `.env.sample` and setting them to the correct values.
+
 ## Development
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
