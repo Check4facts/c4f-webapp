@@ -159,11 +159,12 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       values.articleDateUpdated = convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT));
     }
     values.content = editorRef.current.editor.getData();
-    values.summary =
-      sumEditorRef.current.editor?.getData() !==
-      '<p style="text-align:center;"><span style="color:hsl(0,0%,60%);"><i>Δημιουργήστε αυτόματα την περίληψη</i></span></p>'
-        ? sumEditorRef.current.editor?.getData()
-        : null;
+    // TODO: Remove comments when summarization goes live
+    // values.summary =
+    //   sumEditorRef.current.editor?.getData() !==
+    //   '<p style="text-align:center;"><span style="color:hsl(0,0%,60%);"><i>Δημιουργήστε αυτόματα την περίληψη</i></span></p>'
+    //     ? sumEditorRef.current.editor?.getData()
+    //     : null;
     if (errors.length === 0) {
       const entity = {
         ...articleEntity,
@@ -201,7 +202,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     } else {
       setPreviewArticle({
         ...formRef.current.props.model,
-        summary: sumEditorRef.current.editor?.getData(),
+        // TODO: Remove comments when summarization goes live
+        // summary: sumEditorRef.current.editor?.getData(),
         statement: { factCheckerAccuracy: statement.factCheckerAccuracy, statementSources },
       });
       setPreviewOpen(true);
@@ -453,7 +455,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       </Col>
                     </Row>
                   </AvGroup>
-                  <Row className="fact-checking-report-row">
+                  {/* TODO: Remove comments when summarization goes live */}
+                  {/* <Row className="fact-checking-report-row">
                     <Col md={{ size: 2 }}>
                       <Label id="summaryLabel" for="article-summary">
                         <Translate contentKey="check4FactsApp.article.summary">Summary</Translate>
@@ -468,7 +471,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                         formOnChange={formOnchange}
                       />
                     </Col>
-                  </Row>
+                  </Row> */}
                   <Row className="fact-checking-report-row" style={{ textAlign: 'center', marginTop: '15px' }}>
                     <Col>
                       <Label for="article-content">
