@@ -73,7 +73,7 @@ export const generateArticleSummary = articleId => (dispatch, getState) => {
   const requestUrl = `${inProduction ? '/ml' : pythonUrl}/summarize/${articleId}`;
   return dispatch({
     type: ACTION_TYPES.GENERATE_ARTICLE_SUMMARY,
-    payload: axios.get(requestUrl),
+    payload: axios.post(requestUrl),
   });
 };
 
