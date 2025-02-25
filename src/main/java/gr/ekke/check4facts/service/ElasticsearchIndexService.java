@@ -16,6 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import gr.ekke.check4facts.repository.search.ArticleSearchRepositoryCustom;
 
 import javax.persistence.ManyToMany;
 import java.beans.IntrospectionException;
@@ -173,8 +174,12 @@ public class ElasticsearchIndexService {
                         }
                     });
                     return result;
-                });
-                elasticsearchRepository.saveAll(results.getContent());
+                });// Check if the repository is an instance of ArticleSearchRepositoryCustom
+                if (elasticsearchRepository instanceof ArticleSearchRepositoryCustom) {
+                    ((ArticleSearchRepositoryCustom) elasticsearchRepository).saveAllCustom(((List<Article> )results.getContent()));
+                } else {
+                    elasticsearchRepository.saveAll(results.getContent()); // Fallback to default saveAll
+                }
             }
         }
         log.info("Elasticsearch: Indexed all rows for {}", entityClass.getSimpleName());
