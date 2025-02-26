@@ -66,12 +66,6 @@ public class FeatureStatementResource {
       .build();
   }
 
-  @GetMapping("/_search/feature-statements")
-  public List<FeatureStatement> searchFeatureStatements(@RequestParam String query) {
-    log.debug("REST request to search FeatureStatements for query {}", query);
-    return featureStatementService.search(query);
-  }
-
   @GetMapping("/feature-statements/statement/{id}")
   public List<FeatureStatement> getAllFeatureStatementsByStatementId(@PathVariable Long id) {
     log.debug("REST request to get all FeatureStatements by statement id: {}", id);

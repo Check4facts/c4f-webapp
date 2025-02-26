@@ -87,7 +87,7 @@ public class ArticleService {
 
         Article result = articleRepository.saveAndFlush(article);
         em.refresh(result);
-        articleSearchRepository.save(result);
+        articleSearchRepository.saveCustom(result);
         return result;
     }
 
