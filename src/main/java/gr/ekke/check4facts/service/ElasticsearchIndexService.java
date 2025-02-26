@@ -16,6 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import gr.ekke.check4facts.repository.search.ArticleSearchRepositoryCustom;
 
 import javax.persistence.ManyToMany;
 import java.beans.IntrospectionException;
@@ -54,11 +55,7 @@ public class ElasticsearchIndexService {
 
     private final FeatureStatementRepository featureStatementRepository;
 
-    private final FeatureStatementSearchRepository featureStatementSearchRepository;
-
     private final ResourceRepository resourceRepository;
-
-    private final ResourceSearchRepository resourceSearchRepository;
 
     private final StatementRepository statementRepository;
 
@@ -84,7 +81,6 @@ public class ElasticsearchIndexService {
         CategoryRepository categoryRepository,
         CategorySearchRepository categorySearchRepository,
         ResourceRepository resourceRepository,
-        ResourceSearchRepository resourceSearchRepository,
         StatementRepository statementRepository,
         StatementSearchRepository statementSearchRepository,
         StatementSourceRepository statementSourceRepository,
@@ -92,7 +88,6 @@ public class ElasticsearchIndexService {
         TopicRepository topicRepository,
         TopicSearchRepository topicSearchRepository,
         FeatureStatementRepository featureStatementRepository,
-        FeatureStatementSearchRepository featureStatementSearchRepository,
         JestElasticsearchTemplate jestElasticsearchTemplate, 
         NewsRepository newsRepository, 
         NewsSearchRepository newsSearchRepository) {
@@ -103,7 +98,6 @@ public class ElasticsearchIndexService {
         this.categoryRepository = categoryRepository;
         this.categorySearchRepository = categorySearchRepository;
         this.resourceRepository = resourceRepository;
-        this.resourceSearchRepository = resourceSearchRepository;
         this.statementRepository = statementRepository;
         this.statementSearchRepository = statementSearchRepository;
         this.statementSourceRepository = statementSourceRepository;
@@ -111,7 +105,6 @@ public class ElasticsearchIndexService {
         this.topicRepository = topicRepository;
         this.topicSearchRepository = topicSearchRepository;
         this.featureStatementRepository = featureStatementRepository;
-        this.featureStatementSearchRepository = featureStatementSearchRepository;
         this.jestElasticsearchTemplate = jestElasticsearchTemplate;
         this.newsRepository = newsRepository;
         this.newsSearchRepository = newsSearchRepository;
@@ -123,13 +116,11 @@ public class ElasticsearchIndexService {
             try {
                 reindexForClass(Article.class, articleRepository, articleSearchRepository);
                 reindexForClass(Category.class, categoryRepository, categorySearchRepository);
-                reindexForClass(FeatureStatement.class, featureStatementRepository, featureStatementSearchRepository);
                 reindexForClass(Statement.class, statementRepository, statementSearchRepository);
                 reindexForClass(StatementSource.class, statementSourceRepository, statementSourceSearchRepository);
                 reindexForClass(Topic.class, topicRepository, topicSearchRepository );
                 reindexForClass(User.class, userRepository, userSearchRepository);
                 reindexForClass(News.class, newsRepository, newsSearchRepository);
-                reindexForClass(Resource.class, resourceRepository, resourceSearchRepository);
                 log.info("Elasticsearch: Successfully performed reindexing");
             } finally {
                 reindexLock.unlock();
@@ -183,8 +174,12 @@ public class ElasticsearchIndexService {
                         }
                     });
                     return result;
-                });
-                elasticsearchRepository.saveAll(results.getContent());
+                });// Check if the repository is an instance of ArticleSearchRepositoryCustom
+                if (elasticsearchRepository instanceof ArticleSearchRepositoryCustom) {
+                    ((ArticleSearchRepositoryCustom) elasticsearchRepository).saveAllCustom(((List<Article> )results.getContent()));
+                } else {
+                    elasticsearchRepository.saveAll(results.getContent()); // Fallback to default saveAll
+                }
             }
         }
         log.info("Elasticsearch: Indexed all rows for {}", entityClass.getSimpleName());

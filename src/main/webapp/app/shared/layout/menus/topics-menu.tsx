@@ -4,9 +4,7 @@ import { Translate, translate } from 'react-jhipster';
 import { NavDropdown } from './menu-components';
 
 export const TopicsMenu = () => (
-  <NavDropdown
-    name={translate('fact-checking.sub-menus.main')}
-    style={{ maxHeight: '80vh', overflow: 'auto' }}  >
+  <NavDropdown name={translate('fact-checking.sub-menus.main')} style={{ maxHeight: '80vh', overflow: 'auto' }}>
     <MenuItem to="/fact-checking/sub-menu/immigration">
       <Translate contentKey="fact-checking.sub-menus.immigration" />
     </MenuItem>
@@ -19,9 +17,8 @@ export const TopicsMenu = () => (
     <MenuItem to="/fact-checking/sub-menu/pandemic">
       <Translate contentKey="fact-checking.sub-menus.pandemic" />
     </MenuItem>
-    {/* TODO: Enable this when the page is ready */}
-    {/* <MenuItem to="/fact-checking/sub-menu/digital_transition">
+    <MenuItem to="/fact-checking/sub-menu/digital_transition">
       <Translate contentKey="fact-checking.sub-menus.digital_transition" />
-    </MenuItem> */}
+    </MenuItem>
   </NavDropdown>
 );

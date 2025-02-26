@@ -2,7 +2,6 @@ package gr.ekke.check4facts.service;
 
 import gr.ekke.check4facts.domain.FeatureStatement;
 import gr.ekke.check4facts.repository.FeatureStatementRepository;
-import gr.ekke.check4facts.repository.search.FeatureStatementSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,17 +23,13 @@ public class FeatureStatementService {
 
     private final FeatureStatementRepository featureStatementRepository;
 
-    private final FeatureStatementSearchRepository featureStatementSearchRepository;
-
-    public FeatureStatementService(FeatureStatementRepository featureStatementRepository, FeatureStatementSearchRepository featureStatementSearchRepository) {
+    public FeatureStatementService(FeatureStatementRepository featureStatementRepository) {
         this.featureStatementRepository = featureStatementRepository;
-        this.featureStatementSearchRepository = featureStatementSearchRepository;
     }
 
     public FeatureStatement save(FeatureStatement featureStatement) {
         log.debug("Request to save FeatureStatement : {}", featureStatement);
         FeatureStatement result = featureStatementRepository.save(featureStatement);
-        featureStatementSearchRepository.save(result);
         return result;
     }
 
@@ -64,15 +59,6 @@ public class FeatureStatementService {
     public void delete(Long id) {
         log.debug("Request to delete FeatureSource : {}", id);
         featureStatementRepository.deleteById(id);
-        featureStatementSearchRepository.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    public List<FeatureStatement> search(String query) {
-        log.debug("Request to search FeatureStatements for query {}", query);
-        return StreamSupport
-            .stream(featureStatementSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-        .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

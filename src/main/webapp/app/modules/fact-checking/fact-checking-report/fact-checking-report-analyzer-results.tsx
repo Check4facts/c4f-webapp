@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Row, Col, Collapse, Button, Table, Modal, ModalHeader, ModalBody, ModalFooter, Progress } from 'reactstrap';
+import { Row, Col, Collapse, Button, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { ProgressBar } from 'app/shared/util/progress-bar';
 import { Translate, translate } from 'react-jhipster';
 import moment from 'moment';
 import { RouteComponentProps } from 'react-router-dom';
@@ -16,19 +17,6 @@ import _ from 'lodash';
 import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.reducer';
 
 interface IFactCheckingReportAnalyzerResults extends StateProps, DispatchProps {}
-
-const progressBar = (message: string, task: ITaskStatus) =>
-  task.taskInfo && (
-    <Row>
-      <Col>
-        <div className="text-center">{message}</div>
-        <Progress animated color="info" value={task.taskInfo.current * (100 / task.taskInfo.total)} />
-        <div className="text-center">
-          Βήμα <span className="text-warning">{task.taskInfo.current}</span> από <span className="text-success">{task.taskInfo.total}</span>
-        </div>
-      </Col>
-    </Row>
-  );
 
 const paragraphStyle = {
   border: '1px solid rgba(0,0,0,0.2)',
@@ -47,7 +35,7 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
     statementSources,
     taskStatuses,
     activeStatuses,
-    statusInterval
+    statusInterval,
   } = props;
   // const statusInterval = useRef(null);
   const [emotionCollapse, setEmotionCollapse] = useState(false);
@@ -87,9 +75,11 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
     if (analyzeStatus) {
       // Hook to set interval for calling getTaskStatus to update status of analyze.
       if (!_.isEmpty(analyzeStatus) && statusInterval === null) {
-        props.changeStatusInterval(setInterval(() => {
-          props.getTaskStatus(analyzeStatus.taskId);
-        }, 5000));
+        props.changeStatusInterval(
+          setInterval(() => {
+            props.getTaskStatus(analyzeStatus.taskId);
+          }, 5000)
+        );
       }
       // When analyze task is finished stop interval and fetch FeatureStatements count to display results button.
       if (analyzeStatus.status === 'SUCCESS') {
@@ -169,7 +159,7 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
             </Row>
           </>
         )}
-        {analyzeStatus.taskInfo && progressBar('Διαδικασία ανάλυσης δήλωσης...', analyzeStatus)}
+        {analyzeStatus.taskInfo && <ProgressBar message="Διαδικασία ανάλυσης δήλωσης..." task={analyzeStatus} />}
         {featureStatementCount > 0 && Object.keys(featureStatement).length > 0 && (
           <>
             {/* <Row>
@@ -512,7 +502,7 @@ const mapDispatchToProps = {
   removeTaskStatus,
   countFeatureStatementsByStatement,
   getActiveCeleryTasks,
-  changeStatusInterval
+  changeStatusInterval,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

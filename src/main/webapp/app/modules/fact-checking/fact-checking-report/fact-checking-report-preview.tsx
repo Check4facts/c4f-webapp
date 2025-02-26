@@ -7,6 +7,7 @@ import { translate } from 'react-jhipster';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HelComp from 'app/shared/util/helmet-component';
+import SummarizationDisplay from 'app/modules/summarization/summarization-display';
 
 interface IArticleDisplayProps extends StateProps {
   previewArticle: IArticle | null;
@@ -112,6 +113,18 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                       </a>
                     </p>
                   </p>
+                  {/* TODO: Remove comments when summarization goes live */}
+                  {/* {previewArticle.summary && (
+                    <SummarizationDisplay
+                      accuracy={
+                        previewArticle.statement &&
+                        previewArticle.statement.factCheckerAccuracy != null &&
+                        previewArticle.statement.factCheckerAccuracy
+                      }
+                      summary={previewArticle.summary}
+                      sourceUrl="#sources"
+                    />
+                  )} */}
                   {previewArticle.content && (
                     <Alert
                       color={'secondary'}
@@ -126,6 +139,37 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                   )}
                 </div>
               </div>
+            </Col>
+          </Row>
+          <Row id="sources">
+            <Col>
+              {previewArticle.statement.statementSources.length > 0 && (
+                <div
+                  className="sources-section mt-5 p-5"
+                  style={{
+                    backgroundColor: '#f9f9f9',
+                    borderRadius: '5px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'left',
+                  }}
+                >
+                  <h4 className="px-lg-5 px-md-2">{translate('check4FactsApp.statement.statementSources')}:</h4>
+                  <ul className="px-lg-5 px-md-2">
+                    {previewArticle.statement.statementSources.map((source, index) => (
+                      <li key={index} className="my-1">
+                        <a href={source.url} target="_blank" rel="noopener noreferrer" style={{ color: 'black' }}>
+                          <div className="source-card p-2">
+                            <h5 className="source-title mb-1" style={{ fontWeight: 'bold' }}>
+                              {source.title}
+                            </h5>
+                          </div>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </Col>
           </Row>
         </Container>

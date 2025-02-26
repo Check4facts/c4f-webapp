@@ -56,7 +56,7 @@ const SearchSuggestionBox = (props: ISearchSuggestionBox) => {
               >
                 <FontAwesomeIcon icon="search" color="black" />
                 <div style={{ color: 'black', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', cursor: 'pointer' }}>
-                  <Link to={`/article/${suggestion.id}/display`} style={{ color: 'black', textDecoration: 'none' }}>
+                  <Link to={`/article/display/${suggestion.greeklish}`} style={{ color: 'black', textDecoration: 'none' }}>
                     {suggestion.previewTitle}
                   </Link>
                 </div>

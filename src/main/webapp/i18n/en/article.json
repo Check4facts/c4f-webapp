@@ -32,6 +32,8 @@
       "unpublished": "Unpublished",
       "content": "Content",
       "previewText": "Preview Text",
+      "greeklish": "Greeklish",
+      "summary": "Summary",
       "statement": "Statement",
       "urls": "Relative URLs"
     }

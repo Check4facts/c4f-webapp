@@ -54,7 +54,7 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                         {category.categoryArticles.map((article, idx) => (
                           <Col sm="6" lg="3" className="mb-5 mb-sm-2 grid-margin" key={`${article.id}-${idx}`}>
                             <div className="position-relative image-hover">
-                              <Link to={`/article/${article.id}/display`}>
+                              <Link to={`/article/display/${article.greeklish}`}>
                                 {article.imageThumbPreview ? (
                                   <img
                                     src={`data:${article.previewImageContentType};base64,${article.imageThumbPreview}`}
@@ -77,7 +77,7 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                               {/* {article.articleDateUpdated && <span style={{position: "absolute", top: -33, right: -32, backgroundColor: "#f5a623", width: "140px",
                               height: "20px", transform: "rotate(45deg)"}}/>} */}
                             </div>
-                            <Link to={`/article/${article.id}/display`}>
+                            <Link to={`/article/display/${article.greeklish}`}>
                                 <h5 title={article.previewTitle} className="font-weight-600 mt-3 text-truncate text-truncate-4">{article.previewTitle}</h5>
                             </Link>
                             {article.statement && article.statement.factCheckerAccuracy != null && (
@@ -92,12 +92,6 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
                                 <span className="text-uppercase">{translate('check4FactsApp.article.unpublished')}</span>
                               </Badge>
                             )}
-                            <div className='d-flex align-items-center pt-2' style={{columnGap: 5, flexFlow: "wrap"}}>
-                            <h5 className="text-muted font-weight-bold" >{article.articleDateUpdated > article.articleDate && "Ενημερώθηκε - "}</h5>
-                            <h5 className="text-muted font-weight-bold">
-                              {moment.locale(currentLocale) && moment(article.articleDateUpdated || article.articleDate).format('LL')}  
-                            </h5>
-                            </div>
                             <p className="fs-15 font-weight-normal text-truncate text-truncate-4">{article.previewText}</p>
                             <div className="d-flex justify-content-between mb-3 align-items-center">
                               <div>

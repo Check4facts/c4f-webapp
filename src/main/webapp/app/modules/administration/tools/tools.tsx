@@ -10,7 +10,7 @@ import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.r
 import { trainModel, getTaskStatus, removeTaskStatus } from 'app/modules/fact-checking/fact-checking.reducer';
 import { Button, Row, Col, Container, Spinner, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { progressBar } from 'app/modules/fact-checking/fact-checking-analyze';
+import { ProgressBar } from 'app/shared/util/progress-bar';
 
 export interface IToolsProps extends StateProps, DispatchProps {}
 
@@ -34,7 +34,7 @@ export const Tools = (props: IToolsProps) => {
       } else if (task.taskId === trainStatus.taskId) {
         setTrainStatus(task);
       }
-    })
+    });
   }, [taskStatuses]);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export const Tools = (props: IToolsProps) => {
         clearInterval(trainStatusInterval.current);
       }
     }
-  }, [trainStatus])
+  }, [trainStatus]);
 
   const openModal = (content: IModalContent) => {
     setModalContent(content);
@@ -71,14 +71,17 @@ export const Tools = (props: IToolsProps) => {
     setModalOpen(false);
   };
 
+  const populateGreeklish = () => {
+    axios.get('/api/articles/populate-greeklish');
+    setModalOpen(false);
+  }
+
   const train = () => {
     props.trainModel();
     setModalOpen(false);
   };
 
-  const onFileChange = event => (
-    setCsvFile(event.target.files[0])
-  );
+  const onFileChange = event => setCsvFile(event.target.files[0]);
 
   return kLoading ? (
     <div>
@@ -100,13 +103,34 @@ export const Tools = (props: IToolsProps) => {
       </Row>
       <Row>
         <Col className="d-flex justify-content-center">
+          <Button
+            onClick={() =>
+              openModal({
+                header: 'Re-index ElasticSearch',
+                body: 'Are you sure you want to re-index ElasticSearch?',
+                action: reIndex,
+              })
+            }
+            color="primary"
+          >
+            ReIndex
+          </Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h4 className="text-center">Populate Greeklish</h4>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="d-flex justify-content-center">
           <Button onClick={() =>
             openModal({
-              header: 'Re-index ElasticSearch',
-              body: 'Are you sure you want to re-index ElasticSearch?',
-              action: reIndex
+              header: 'Populate Greeklish',
+              body: 'Are you sure you want populate greeklish?',
+              action: populateGreeklish
             })
-          } color="primary">ReIndex</Button>
+          } color="primary">Greeklish</Button>
         </Col>
       </Row>
       <Row className="mt-3">
@@ -114,35 +138,34 @@ export const Tools = (props: IToolsProps) => {
           <h4 className="text-center">Train the ML model.</h4>
         </Col>
       </Row>
-      {
-        trainingLoading ? (
-          <Row>
-            <Col className="d-flex justify-content-center">
-              <Button color="primary">
-                <Spinner size="sm" color="dark" />
-              </Button>
-            </Col>
-          </Row>
-        ) : (
-          trainStatus.taskInfo ? (
-            <Row>
-              {progressBar('Model is being trained at the moment...', trainStatus)}
-            </Row>
-          ) : (
-            <Row>
-              <Col className="d-flex justify-content-center">
-                <Button onClick={() =>
-                  openModal({
-                    header: 'Train Model',
-                    body: 'Are you sure you want to train the model?',
-                    action: train
-                  })
-                } color="primary">Train</Button>
-              </Col>
-            </Row>
-          )
-        )
-      }
+      {trainingLoading ? (
+        <Row>
+          <Col className="d-flex justify-content-center">
+            <Button color="primary">
+              <Spinner size="sm" color="dark" />
+            </Button>
+          </Col>
+        </Row>
+      ) : trainStatus.taskInfo ? (
+        <Row>{<ProgressBar message="Model is being trained at the moment..." task={trainStatus} />}</Row>
+      ) : (
+        <Row>
+          <Col className="d-flex justify-content-center">
+            <Button
+              onClick={() =>
+                openModal({
+                  header: 'Train Model',
+                  body: 'Are you sure you want to train the model?',
+                  action: train,
+                })
+              }
+              color="primary"
+            >
+              Train
+            </Button>
+          </Col>
+        </Row>
+      )}
       <Row className="my-3">
         <Col>
           <h4 className="text-center">Import Statements from CSV</h4>
@@ -156,7 +179,7 @@ export const Tools = (props: IToolsProps) => {
             </div>
           ) : (
             <AvForm onSubmit={() => props.importFromCSV(csvFile)}>
-              <AvField type="file" accept=".csv" name="csvFile" label="Upload your CSV" onChange={onFileChange}/>
+              <AvField type="file" accept=".csv" name="csvFile" label="Upload your CSV" onChange={onFileChange} />
               <Button>Submit</Button>
             </AvForm>
           )}
@@ -166,12 +189,16 @@ export const Tools = (props: IToolsProps) => {
         <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>
         <ModalBody>{modalContent.body}</ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={() => setModalOpen(false)}>No</Button>
-          <Button color="primary" onClick={() => modalContent.action()}>Yes</Button>
+          <Button color="secondary" onClick={() => setModalOpen(false)}>
+            No
+          </Button>
+          <Button color="primary" onClick={() => modalContent.action()}>
+            Yes
+          </Button>
         </ModalFooter>
       </Modal>
     </Container>
-  )
+  );
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
@@ -179,7 +206,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   taskStatuses: storeState.factChecking.taskStatuses,
   kLoading: storeState.kombuMessage.loading,
   activeStatuses: storeState.kombuMessage.activeStatuses,
-  importing: storeState.statement.loading
+  importing: storeState.statement.loading,
 });
 
 const mapDispatchToProps = {
@@ -187,7 +214,7 @@ const mapDispatchToProps = {
   getActiveCeleryTasks,
   getTaskStatus,
   removeTaskStatus,
-  importFromCSV
+  importFromCSV,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { getEntity, reset } from 'app/entities/article/article.reducer';
+import { getArticleByGreeklish, reset } from 'app/entities/article/article.reducer';
 import { defaultValue } from 'app/shared/model/article.model';
 import { Col, Container, Row, Spinner, Badge, Alert } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
@@ -10,14 +10,27 @@ import { translate } from 'react-jhipster';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HelComp from 'app/shared/util/helmet-component';
+import SummarizationDisplay from 'app/modules/summarization/summarization-display';
 
-export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IArticleDisplayProps extends StateProps, DispatchProps, RouteComponentProps<{ greeklish: string }> {}
 
-export const ArticleDisplay = (props: IArticleDisplayProps) => {
+interface ILocationState {
+  article?: any;
+}
+
+export const ArticleDisplay = (props: IArticleDisplayProps & { history: { location: { state: ILocationState } } }) => {
   const { article, loading, errorMessage, currentLocale } = props;
 
   useEffect(() => {
-    props.getEntity(props.match.params.id);
+    const greeklishParam = props.match.params.greeklish;
+    const comesFromRedirect = props.history.location.state && props.history.location.state.article && article !== defaultValue;
+    if (!comesFromRedirect) {
+      props.getArticleByGreeklish(greeklishParam);
+    }
+
+    return () => {
+      props.reset();
+    };
   }, []);
 
   const handleEmbedTags = htmlContent => {
@@ -80,8 +93,8 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                 </a>
               </div>
               <p className="fs-15 d-flex justify-content-center align-items-center m-0 text-muted">
-                {(article.statement && article.statement.author) || 'N/A '} |{' '}
-                {moment.locale(currentLocale) && moment(article.articleDate).format('LL')}
+                {(article.statement && article.statement.author) || 'N/A '} | Ημερομηνία Εξέτασης{' '}
+                {moment.locale(currentLocale) && moment(article.articleDateUpdated || article.articleDate).format('LL')}
               </p>
               {article.previewImage ? (
                 <div className="text-center mt-3" style={{ backgroundColor: '#f9f9f9' }}>
@@ -107,6 +120,14 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                   </a>
                 </p>
               </p>
+              {/* TODO: Remomve comments when summarization goes live */}
+              {/* {article.summary && (
+                <SummarizationDisplay
+                  summary={article.summary}
+                  sourceUrl="#sources"
+                  accuracy={article.statement && article.statement.factCheckerAccuracy != null && article.statement.factCheckerAccuracy}
+                />
+              )} */}
               {article.content && (
                 <Alert
                   color={'secondary'}
@@ -123,7 +144,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
           </div>
         </Col>
       </Row>
-      <Row>
+      <Row id="sources">
         <Col>
           {article.statement?.statementSources?.length > 0 && (
             <div
@@ -136,7 +157,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps) => {
                 alignItems: 'left',
               }}
             >
-              <h4 className="px-lg-5 px-md-2">{translate('check4FactsApp.article.articleSources')}:</h4>
+              <h4 className="px-lg-5 px-md-2">{translate('check4FactsApp.statement.statementSources')}:</h4>
               <ul className="px-lg-5 px-md-2">
                 {article.statement.statementSources.map((source, index) => (
                   <li key={index} className="my-1">
@@ -171,7 +192,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getEntity,
+  getArticleByGreeklish,
   reset,
 };
 
