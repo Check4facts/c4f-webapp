@@ -193,7 +193,7 @@ public class ArticleService {
     public List<Article> searchForSuggestions(String query) {
         MultiMatchQueryBuilder queryBuilder;
         queryBuilder = multiMatchQuery(query)
-                .field("previewTitle", 2).field("previewText");
+                .field("previewTitle", 4).field("previewText", 3).field("content", 2);
         BoolQueryBuilder boolQueryBuilder = boolQuery().must(queryBuilder)
                 .must(termQuery("published", true));
         List<Article> suggestedArticles = StreamSupport.stream(articleSearchRepository.search(boolQueryBuilder).spliterator(), false)
