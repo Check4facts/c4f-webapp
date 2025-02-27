@@ -4,6 +4,7 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "complexity": ["error", 42]
+    "complexity": ["error", 42],
+    "@typescript-eslint/camelcase": "off"
   }
 }

@@ -3,7 +3,12 @@ import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util'
 import { IStatement } from 'app/shared/model/statement.model';
 import { ITaskStatus } from 'app/shared/model/util.model';
 import { upsertTaskStatus } from 'app/shared/util/entity-utils';
-import { ITranslationRequest, ITranslationResponse } from 'app/shared/model/ilsp-tool.model';
+import {
+  IClaimVerificationRequest,
+  IClaimVerificationResponse,
+  ITranslationRequest,
+  ITranslationResponse,
+} from 'app/shared/model/ilsp-tool.model';
 
 export const ACTION_TYPES = {
   SET_FACT: 'fact-checking/SET_FACT',
@@ -17,6 +22,7 @@ export const ACTION_TYPES = {
   TRANSLATE_TEXT: 'fact-checking/TRANSLATE_TEXT',
   GET_RECOMMENDATIONS: 'fact-checking/GET_RECOMMENDATIONS',
   RESET_ILSP_TOOL: 'fact-checking/RESET_ILSP_TOOL',
+  GET_CLAIM_VERIFICATION: 'fact-checking/GET_CLAIM_VERIFICATION',
 };
 
 const initialState = {
@@ -30,12 +36,11 @@ const initialState = {
   ilspTool: {
     translator: {
       data: null as ITranslationResponse,
-      // TODO: This should be a false, change when API integration completed
-      loading: true,
+      loading: false,
       error: null,
     },
     recommender: {
-      data: null,
+      data: null as IClaimVerificationResponse,
       loading: false,
       error: null,
     },
@@ -48,6 +53,21 @@ export type FactCheckingState = Readonly<typeof initialState>;
 
 export default (state: FactCheckingState = initialState, action): FactCheckingState => {
   switch (action.type) {
+    case REQUEST(ACTION_TYPES.GET_CLAIM_VERIFICATION):
+      return {
+        ...state,
+        ilspTool: { ...state.ilspTool, recommender: { ...state.ilspTool.recommender, loading: true } },
+      };
+    case FAILURE(ACTION_TYPES.GET_CLAIM_VERIFICATION):
+      return {
+        ...state,
+        ilspTool: { ...state.ilspTool, recommender: { ...state.ilspTool.recommender, loading: false, error: action.payload } },
+      };
+    case SUCCESS(ACTION_TYPES.GET_CLAIM_VERIFICATION):
+      return {
+        ...state,
+        ilspTool: { ...state.ilspTool, recommender: { ...state.ilspTool.recommender, data: action.payload.data, loading: false } },
+      };
     case REQUEST(ACTION_TYPES.ANALYZE_TASK):
       return {
         ...state,
@@ -203,6 +223,19 @@ export const getTranslation = (text: string) => dispatch => {
   } as ITranslationRequest;
   return dispatch({
     type: ACTION_TYPES.TRANSLATE_TEXT,
+    payload: axios.post(requestUrl, requestPayload),
+  });
+};
+
+export const getClaimVerification = (text: string) => dispatch => {
+  const requestUrl = process.env.REACT_APP_ILSP_TOOL_URL;
+  const requestPayload = {
+    auth_key: process.env.REACT_APP_ILSP_TOOL_KEY,
+    doc_id: '1',
+    text,
+  } as IClaimVerificationRequest;
+  return dispatch({
+    type: ACTION_TYPES.GET_CLAIM_VERIFICATION,
     payload: axios.post(requestUrl, requestPayload),
   });
 };

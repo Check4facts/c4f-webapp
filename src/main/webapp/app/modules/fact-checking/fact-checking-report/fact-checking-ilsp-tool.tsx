@@ -19,15 +19,15 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Translate } from 'react-jhipster';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { getTranslation } from '../fact-checking.reducer';
-import { set } from 'lodash';
+import { getClaimVerification, getTranslation } from '../fact-checking.reducer';
+import { get, set } from 'lodash';
 
 const dummyToolResponse = {
-  doc_id: '1',
+  docId: '1',
   details: 'Success',
   support: [],
   refute: [],
-  no_info: [
+  noInfo: [
     {
       sentence: 'This study shows that increased surface temperatures in the Mediterranean Sea have driven recent rainfall increases.',
       doi: '10.1038/nclimate3065',
@@ -71,9 +71,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
   const interval = React.useRef(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      props.getTranslation(statementText);
-    }, 3000);
+    props.getTranslation(statementText);
 
     interval.current = setInterval(() => {
       setLoadingText(prev => {
@@ -88,11 +86,23 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
   }, []);
 
   useEffect(() => {
-    if (ilspTool.translator.data || !ilspTool.translator.loading) {
-      clearInterval(interval.current);
+    if (ilspTool.translator.data) {
+      props.getClaimVerification(ilspTool.translator.data.translatedText);
       setLoadingText('Αναζήτηση');
+    }else if(ilspTool.translator.error){
+      clearInterval(interval.current);
+      setLoadingText("An error occured during Translation");
     }
   }, [ilspTool.translator]);
+  
+  useEffect(() => {
+    if (ilspTool.recommender.data || !ilspTool.recommender.loading) {
+      setLoadingText('Αναζήτηση');
+    }else if(ilspTool.recommender.error){
+      clearInterval(interval.current);
+      setLoadingText("An error occured during scinobo request");
+    }
+  }, [ilspTool.recommender]);
 
   const handleSearch = () => {
     props.getTranslation(statementText);
@@ -110,7 +120,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
 
   const handleAllSourceStatements = () => {
     // prepare all statements
-    const preparedSources = dummyToolResponse.no_info.reduce((acc, info) => [...acc, createStatementSource(info)], []);
+    const preparedSources = dummyToolResponse.noInfo.reduce((acc, info) => [...acc, createStatementSource(info)], []);
     // find out which of the statements are not already in the list
     const differences = preparedSources.filter(source => statementSources.find(s => s.url === source.url) === undefined);
     // find out if all of the fetched statements are included in the list
@@ -127,7 +137,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
   };
 
   const handleAllCheckboxValue = () => {
-    const preparedSources = dummyToolResponse.no_info.reduce((acc, info) => [...acc, createStatementSource(info)], []);
+    const preparedSources = dummyToolResponse.noInfo.reduce((acc, info) => [...acc, createStatementSource(info)], []);
     return preparedSources.every(source => statementSources.find(s => s.url === source.url) !== undefined);
   };
 
@@ -198,7 +208,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {!ilspTool.translator.data || ilspTool.translator.loading ? (
+                    {!ilspTool.recommender.data || ilspTool.recommender.loading ? (
                       <tr>
                         <td colSpan={4} style={{ textAlign: 'center', verticalAlign: 'center' }}>
                           <p style={{ fontSize: '2rem', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -207,7 +217,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
                         </td>
                       </tr>
                     ) : (
-                      dummyToolResponse.no_info.map((info, idx) => (
+                      ilspTool.recommender.data.no_info.map((info, idx) => (
                         <tr key={`entity-tool-${idx}`}>
                           <td>
                             <Input type="checkbox" checked={handleCheckboxValue(info)} onClick={handleSourceStatement(info)} />
@@ -251,6 +261,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getTranslation,
+  getClaimVerification,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

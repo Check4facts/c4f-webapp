@@ -1,10 +1,13 @@
 const path = require('path');
+const dotenv = require('dotenv');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
 const utils = require('./utils.js');
+
+dotenv.config()
 
 const getTsLoaderRule = env => {
   const rules = [
@@ -104,7 +107,9 @@ module.exports = options => ({
         // If this URL is left empty (""), then it will be relative to the current context.
         // If you use an API server, in `prod` mode, you will need to enable CORS
         // (see the `jhipster.cors` common JHipster property in the `application-*.yml` configurations)
-        SERVER_API_URL: `''`
+        SERVER_API_URL: `''`,
+        REACT_APP_ILSP_TOOL_KEY: `'${process.env.REACT_APP_ILSP_TOOL_KEY}'`,
+        REACT_APP_ILSP_TOOL_URL: `'${process.env.REACT_APP_ILSP_TOOL_URL}'`,
       }
     }),
     new ForkTsCheckerWebpackPlugin({ eslint: true }),
