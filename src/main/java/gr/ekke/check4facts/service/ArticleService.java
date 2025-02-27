@@ -86,8 +86,8 @@ public class ArticleService {
         article.setGreeklish(GreekToSeoFriendlyUrl.convert(article.getPreviewTitle()));
 
         Article result = articleRepository.saveAndFlush(article);
-        em.refresh(result);
         articleSearchRepository.saveCustom(result);
+        em.refresh(result);
         return result;
     }
 
