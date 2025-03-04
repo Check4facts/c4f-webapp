@@ -64,15 +64,15 @@ spring:
   liquibase:
     contexts: prod, faker
   mail:
-    host: smtp.mail.yahoo.com
-    port: 587
-    username: check4facts@yahoo.com
-    password: iduaroqntcumgocx
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     protocol: smtp
     properties.mail.smtp:
       auth: true
       starttls.enable: true
-      ssl.trust: smtp.mail.yahoo.com
+      ssl.trust: ${MAIL_HOST}
   thymeleaf:
     cache: true
   sleuth:
@@ -133,7 +133,7 @@ jhipster:
         # - In the JHipster Registry (which includes a Spring Cloud Config server)
         # - In a separate `application-prod.yml` file, in the same folder as your executable JAR file
         # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
-        base64-secret: ZTRjYjNiZDk4MWNiOWVlOGEyMjNiMTBiMTVhNmMwMjI4ZmM5YzEyZDY5ODg0NzVlMzNhNmVjNGFiMzRiMzBmNjVkZDIxOGM1NmVjMzllMTViNjFmOGU2MzdmYzA1OTViNTJjZTc3NmVmOTQ3NGJhMGQ2MWFiMTg0MjM5ZjQ1NDk=
+        base64-secret: ${JWT_SECRET}
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000

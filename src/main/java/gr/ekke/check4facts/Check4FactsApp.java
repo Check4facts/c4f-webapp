@@ -1,7 +1,7 @@
 package gr.ekke.check4facts;
 
 import gr.ekke.check4facts.config.ApplicationProperties;
-
+import gr.ekke.check4facts.config.DotenvPropertySource;
 import io.github.jhipster.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterConstants;
 
@@ -12,7 +12,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.StandardEnvironment;
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
@@ -59,6 +61,13 @@ public class Check4FactsApp {
      */
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(Check4FactsApp.class);
+
+        // Create and configure the environment
+        ConfigurableEnvironment environment = new StandardEnvironment();
+        environment.getPropertySources().addFirst(new DotenvPropertySource("dotenvPropertySource"));
+
+        // Set the environment to the application
+        app.setEnvironment(environment);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);
