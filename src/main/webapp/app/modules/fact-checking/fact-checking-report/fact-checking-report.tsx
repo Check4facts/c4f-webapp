@@ -10,12 +10,7 @@ import { createEntity, getEntity, reset, updateEntity, setBlob } from 'app/entit
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
-import {
-  getEntity as getStatement,
-  setFactCheckerAccuracy,
-  reset as StatementReset,
-  updateEntity as updateStatement,
-} from 'app/entities/statement/statement.reducer';
+import { getEntity as getStatement, reset as StatementReset } from 'app/entities/statement/statement.reducer';
 import { getLatestResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
 import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
 import FactCheckingReportEditor from './fact-checking-report-editor';
@@ -25,7 +20,6 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import FactCheckingReportAnalyzer from './fact-checking-report-analyzer';
 import {
   countFeatureStatementsByStatement,
-  getLatestFeatureStatementByStatementId,
   reset as featureStatementReset,
 } from 'app/entities/feature-statement/feature-statement.reducer';
 import FactCheckingReportPreview from './fact-checking-report-preview';
@@ -184,6 +178,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     if (statement && statement.article) {
       setIsNew(false);
       setStatementText(statement.text);
+      setStatementAccuracy(statement.factCheckerAccuracy);
       !articleEntity.id && props.getEntity(statement.article.id);
     } else {
       setIsNew(true);
@@ -237,16 +232,14 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
         ...articleEntity,
         ...values,
         published: publishArticle,
-        statement: statement.article ? articleEntity.statement : { id: statement.id },
+        statement: { ...statement, statementSources: allSources, factCheckerAccuracy: statementAccuracy }, // Set the statement in the article entity as the article is the managing entity in this relationship
         category: { id: categoryId },
       };
       if (isNew && updateNew) {
         props.createEntity(entity);
-        props.updateStatement({ ...statement, statementSources: allSources, factCheckerAccuracy: statementAccuracy });
         setUpdateNew(false);
       } else {
         props.updateEntity(entity);
-        props.updateStatement({ ...statement, statementSources: allSources, factCheckerAccuracy: statementAccuracy });
       }
     }
   };
@@ -281,7 +274,6 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
 
   const changeFactCheckerAccuracy = event => {
     setStatementAccuracy(event.target.value);
-    setFactCheckerAccuracy(statement.id, event.target.value);
     // TODO: Add corresponding call for FeatureStatement when column is added to table.
   };
 
@@ -726,11 +718,8 @@ const mapDispatchToProps = {
   resourcesReset,
   factReset,
   StatementReset,
-  setFactCheckerAccuracy,
-  getLatestFeatureStatementByStatementId,
   countFeatureStatementsByStatement,
   featureStatementReset,
-  updateStatement,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

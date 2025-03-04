@@ -9,7 +9,6 @@ import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
 import gr.ekke.check4facts.repository.search.StatementSearchRepository;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.Operator;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -99,13 +98,13 @@ public class StatementService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Statement : {}", id);
+        resourceRepository.deleteByStatementId(id);
+        featureStatementRepository.deleteByStatementId(id);
+        statementSearchRepository.deleteById(id);
+        // Article is the managing entity of this relationship and will automatically delete orphan children
         articleRepository.findArticleByStatementId(id).ifPresent(article -> {
             articleService.delete(article.getId());
         });
-        resourceRepository.deleteByStatementId(id);
-        featureStatementRepository.deleteByStatementId(id);
-        statementRepository.deleteById(id);
-        statementSearchRepository.deleteById(id);
     }
 
     /**
