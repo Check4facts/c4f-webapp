@@ -83,6 +83,7 @@ public class GreekToSeoFriendlyUrl {
     values.put("~", "");
     values.put("«", "");
     values.put("»", "");
+    values.put("\n","");
 
     for (int i = 0; i < greeklish.length(); i++) {
       if (values.containsKey(String.valueOf(greeklish.charAt(i)))) {
