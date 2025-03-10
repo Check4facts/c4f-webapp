@@ -572,7 +572,6 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       />
                     </Col>
                   </Row>
-                  //TODO: HERE IT IS
                   <Row>
                     <Col md={{ size: 8, offset: 2 }} style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem' }}>
                       <h4 className="text-center">{translate('fact-checking.check.titles.second')}</h4>

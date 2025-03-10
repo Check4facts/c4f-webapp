@@ -19,41 +19,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Translate } from 'react-jhipster';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { getClaimVerification, getTranslation } from '../fact-checking.reducer';
+import { getClaimVerification, getTranslation, resetIlspTool } from '../fact-checking.reducer';
 import { get, set } from 'lodash';
-
-const dummyToolResponse = {
-  docId: '1',
-  details: 'Success',
-  support: [],
-  refute: [],
-  noInfo: [
-    {
-      sentence: 'This study shows that increased surface temperatures in the Mediterranean Sea have driven recent rainfall increases.',
-      doi: '10.1038/nclimate3065',
-    },
-    {
-      sentence:
-        'It increased (by 0.48 °C·decade -1 ), along with the SST in the Eastern Mediterranean, while it fluctuated in the Black Sea.',
-      doi: '10.12681/mms.1882',
-    },
-    {
-      sentence:
-        'An analysis of these anomalies detected a positive trend of 850 hPa temperature and geopotential height in the western Mediterranean area.',
-      doi: '10.1002/joc.3910',
-    },
-    {
-      sentence:
-        'While temperature has kept on increasing for the whole period, with 2014 and 2015 being the warmest years since at least 1950, the number of WWN increased linearly, that of NIS increased exponentially, contradicting the idea of meridionalization and supporting that of tropicalization even in the northern sectors of the Mediterranean basin.',
-      doi: '10.1017/s0025315417000819',
-    },
-    {
-      sentence:
-        'Finally, the mean annual temperature was also subjected to a significant increase by about 0.8 °C during the study period, especially after 1990.',
-      doi: '10.1007/s00704-018-2561-y',
-    },
-  ],
-};
 
 interface IFactCheckingIlspTool extends StateProps, DispatchProps {
   ilspToolOpen: boolean;
@@ -82,7 +49,10 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
       });
     }, 500);
 
-    return () => clearInterval(interval.current);
+    return () => {
+      clearInterval(interval.current)
+      props.resetIlspTool();
+    };
   }, []);
 
   useEffect(() => {
@@ -120,7 +90,8 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
 
   const handleAllSourceStatements = () => {
     // prepare all statements
-    const preparedSources = dummyToolResponse.noInfo.reduce((acc, info) => [...acc, createStatementSource(info)], []);
+    if (ilspTool.recommender.data && !ilspTool.recommender.loading) {
+    const preparedSources = ilspTool.recommender.data.no_info.reduce((acc, info) => [...acc, createStatementSource(info)], []);
     // find out which of the statements are not already in the list
     const differences = preparedSources.filter(source => statementSources.find(s => s.url === source.url) === undefined);
     // find out if all of the fetched statements are included in the list
@@ -130,6 +101,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
     } else {
       setStatementSources(prevState => [...prevState, ...differences]);
     }
+  }
   };
 
   const handleCheckboxValue = info => {
@@ -137,8 +109,10 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
   };
 
   const handleAllCheckboxValue = () => {
-    const preparedSources = dummyToolResponse.noInfo.reduce((acc, info) => [...acc, createStatementSource(info)], []);
+    if (ilspTool.recommender.data && !ilspTool.recommender.loading) {
+    const preparedSources = ilspTool.recommender.data.no_info.reduce((acc, info) => [...acc, createStatementSource(info)], []);
     return preparedSources.every(source => statementSources.find(s => s.url === source.url) !== undefined);
+    }
   };
 
   const handleSourceStatement = info => e => {
@@ -167,14 +141,14 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
         <ModalBody>
           <Container style={{ display: 'flex', flexDirection: 'column', rowGap: 40 }}>
             <Row>
-              <Col style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', rowGap: 20 }}>
-                <h1>Ευρετής Παραπομπών</h1>
+              <Col style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', rowGap: 10 }}>
+              <h3>Αναζητήστε σχετικά επιστημονικά άρθρα για την παρακάτω δήλωση.</h3>
                 <InputGroup style={{ paddingLeft: '2rem', paddingRight: '2rem' }}>
                   <Input
                     placeholder="Check it out"
                     value={statementText}
                     onChange={handleTextChange}
-                    disabled={ilspTool.translator.loading}
+                    disabled={ilspTool.translator.loading || ilspTool.recommender.loading}
                   />
                   <InputGroupText>
                     <Button
@@ -182,10 +156,18 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
                       onClick={handleSearch}
                       disabled={ilspTool.translator.loading}
                     >
-                      {ilspTool.translator.loading ? <Spinner size="sm" /> : <FontAwesomeIcon icon="search" style={{ fontSize: 15 }} />}
+                      {ilspTool.translator.loading || ilspTool.recommender.loading ? <Spinner size="sm" /> : <FontAwesomeIcon icon="search" style={{ fontSize: 15 }} />}
                     </Button>
                   </InputGroupText>
                 </InputGroup>
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'end', columnGap: 2, width: '100%', paddingRight: "2rem" }}>
+                          <p style={{ fontSize: '1rem' }}>powered by</p>
+                          <img
+                            style={{ height: '1.5rem', marginBottom: '0.5rem' }}
+                            src="/content/images/inobo-logo-full.svg"
+                            alt="inobo-full-logo"
+                          />
+                        </span>
               </Col>
             </Row>
             <Row>
@@ -234,14 +216,6 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
                     )}
                     <tr>
                       <td colSpan={4} style={{ textAlign: 'right' }}>
-                        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'end', columnGap: 2 }}>
-                          <p style={{ fontSize: '1rem' }}>powered by</p>
-                          <img
-                            style={{ height: '1.5rem', marginBottom: '0.5rem' }}
-                            src="/content/images/inobo-logo-full.svg"
-                            alt="inobo-full-logo"
-                          />
-                        </span>
                       </td>
                     </tr>
                   </tbody>
@@ -262,6 +236,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   getTranslation,
   getClaimVerification,
+  resetIlspTool,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

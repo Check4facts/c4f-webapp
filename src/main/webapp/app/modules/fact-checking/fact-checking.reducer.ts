@@ -173,6 +173,11 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
       return {
         ...initialState,
       };
+    case ACTION_TYPES.RESET_ILSP_TOOL:
+      return {
+        ...state,
+        ilspTool: initialState.ilspTool,
+      };
     default:
       return state;
   }
@@ -257,4 +262,8 @@ export const setFact = (statement: string) => ({
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET,
+});
+
+export const resetIlspTool = () => ({
+  type: ACTION_TYPES.RESET_ILSP_TOOL,
 });
