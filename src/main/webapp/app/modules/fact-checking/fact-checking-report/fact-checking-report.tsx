@@ -24,16 +24,22 @@ import {
 } from 'app/entities/feature-statement/feature-statement.reducer';
 import FactCheckingReportPreview from './fact-checking-report-preview';
 import FactCheckingIlspTool from './fact-checking-ilsp-tool';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import { APP_LOCAL_DATETIME_FORMAT, AUTHORITIES } from 'app/config/constants';
+import moment from 'moment';
+import Summarization from 'app/modules/summarization/summarization';
 
 const addNewRowDefault = {
   open: false,
   url: '',
   title: '',
 };
-import { hasAnyAuthority } from 'app/shared/auth/private-route';
-import { APP_LOCAL_DATETIME_FORMAT, AUTHORITIES } from 'app/config/constants';
-import moment from 'moment';
-import Summarization from 'app/modules/summarization/summarization';
+
+const editRowDefault = {
+  index: null,
+  url: '',
+  title: '',
+}
 
 export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -49,6 +55,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const [previewArticle, setPreviewArticle] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [addNewRow, setAddNewRow] = useState(addNewRowDefault);
+  const [editRow, setEditRow] = useState(editRowDefault);
   const [allSources, setAllSources] = useState([]);
   const [ilspToolOpen, setIlspToolOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -82,15 +89,19 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
 
   const { previewImage, previewImageContentType } = articleEntity;
 
-  const handleSourcesComponent = (
-    action: 'open' | 'edit' | 'commit' | 'filter',
+  const handleSourceAction = (
+    action: 'open' | 'edit' | 'commit' | 'filter' | 'cancel',
     editBox: 'url' | 'title' | null,
-    deleteIndex: number | null
+    index: number | null
   ) => e => {
     if (action === 'open') {
-      setAddNewRow(prev =>
-        (prev.title.length > 0 || prev.url.length > 0) && prev.open ? addNewRowDefault : { ...prev, open: !prev.open }
-      );
+      if (index !== null) {
+        setEditRow({ index, url: allSources[index].url, title: allSources[index].title });
+      } else {
+        setAddNewRow(prev =>
+          (prev.title.length > 0 || prev.url.length > 0) && prev.open ? addNewRowDefault : { ...prev, open: !prev.open }
+        );
+      }
     }
     if (action === 'edit') {
       if (e.target.value.length > 255) {
@@ -99,22 +110,28 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
         formError.current.timeout = setTimeout(() => (formError.current.error = false), 1500);
         return;
       }
-      setAddNewRow(prev => ({ ...prev, [editBox]: e.target.value }));
+      if (index !== null) {
+        setEditRow(prev => ({ ...prev, [editBox]: e.target.value }));
+      } else {
+        setAddNewRow(prev => ({ ...prev, [editBox]: e.target.value }));
+      }
     }
     if (action === 'commit') {
-      setAllSources(prev => [...prev, { url: addNewRow.url, title: addNewRow.title, snippet: '' }]);
-      setAddNewRow(addNewRowDefault);
+      if (index !== null) {
+        setAllSources(prev => prev.map((source, idx) => idx === index ? { ...source, url: editRow.url, title: editRow.title } : source));
+        setEditRow(editRowDefault);
+      } else {
+        setAllSources(prev => [...prev, { url: addNewRow.url, title: addNewRow.title, snippet: '' }]);
+        setAddNewRow(addNewRowDefault);
+      }
     }
     if (action === 'filter') {
-      setAllSources(prev => [...prev.filter((source, idx) => idx !== deleteIndex)]);
+      setAllSources(prev => [...prev.filter((source, idx) => idx !== index)]);
+    }
+    if (action === 'cancel') {
+      setEditRow(editRowDefault);
     }
   };
-
-  // const toggleTooltip = () => {
-  //   if (!['1005', '1006'].includes(selectedTopic)) {
-  //     setTooltipOpen(!tooltipOpen);
-  //   }
-  // };
 
   const handleIlspTool = () => {
     setIlspToolOpen(!ilspToolOpen);
@@ -555,6 +572,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       />
                     </Col>
                   </Row>
+                  //TODO: HERE IT IS
                   <Row>
                     <Col md={{ size: 8, offset: 2 }} style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem' }}>
                       <h4 className="text-center">{translate('fact-checking.check.titles.second')}</h4>
@@ -570,7 +588,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                               <Translate contentKey="check4FactsApp.statementSource.title">Title</Translate>
                             </th>
                             <th style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
-                              <Button color="primary" style={{ marginRight: '5px' }} onClick={handleSourcesComponent('open', null, null)}>
+                              <Button color="primary" style={{ marginRight: '5px' }} onClick={handleSourceAction('open', null, null)}>
                                 <FontAwesomeIcon icon="plus" />
                               </Button>
                               <Button id="ilspTooltip" color="primary" onClick={handleIlspTool}>
@@ -583,36 +601,75 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                           </tr>
                         </thead>
                         <tbody>
-                          {allSources.map((statementSource, i) => (
-                            <tr key={`entity-${i}`}>
-                              <td>{i + 1}</td>
-                              <td>
-                                <p title={statementSource.url}>{shortenStatementText(statementSource.url)}</p>
-                              </td>
-                              <td>
-                                <p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p>
-                              </td>
-                              <td style={{ textAlign: 'center', verticalAlign: 'center', whiteSpace: 'nowrap' }}>
-                                <Button color="danger" onClick={handleSourcesComponent('filter', null, i)}>
-                                  <FontAwesomeIcon icon="trash" />
-                                </Button>
-                              </td>
-                            </tr>
-                          ))}
+                          {allSources.map((statementSource, i) => {
+                            return (editRow.index === i) ? (
+                              <tr key={`entity-${i}`}>
+                                <td>{i + 1}</td>
+                                <td>
+                                  <Input value={editRow.url} onChange={handleSourceAction('edit', "url", i)} />
+                                </td>
+                                <td>
+                                  <FormGroup>
+                                    <Input
+                                      invalid={formError.current.error}
+                                      value={editRow.title}
+                                      onChange={handleSourceAction('edit', "title", i)}
+                                    />
+                                    <FormFeedback tooltip>Ο τίτλος δεν μπορεί να ξεπερνάει τους 255 χαρακτήρες.</FormFeedback>
+                                  </FormGroup>
+                                  {/* <Input value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} /> */}
+                                </td>
+                                <td style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                                  <Button
+                                    color="success"
+                                    style={{ marginRight: '5px' }}
+                                    onClick={handleSourceAction('commit', null, i)}
+                                  >
+                                    <FontAwesomeIcon icon="check" />
+                                  </Button>
+                                  <Button color="danger" onClick={handleSourceAction('cancel', null, null)}>
+                                    <FontAwesomeIcon icon="ban" />
+                                  </Button>
+                                </td>
+                              </tr>
+                            ) : (
+                              <tr key={`entity-${i}`}>
+                                <td>{i + 1}</td>
+                                <td>
+                                  <p title={statementSource.url}>{shortenStatementText(statementSource.url)}</p>
+                                </td>
+                                <td>
+                                  <p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p>
+                                </td>
+                                <td style={{ textAlign: 'center', verticalAlign: 'center', whiteSpace: 'nowrap' }}>
+                                  <Button
+                                    color="warning"
+                                    style={{ marginRight: '5px' }}
+                                    onClick={handleSourceAction('open', null, i)}
+                                  >
+                                    <FontAwesomeIcon icon="pencil-alt" />
+                                  </Button>
+                                  <Button color="danger" onClick={handleSourceAction('filter', null, i)}>
+                                    <FontAwesomeIcon icon="trash" />
+                                  </Button>
+                                </td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                         {addNewRow.open && (
                           <tfoot>
                             <tr>
                               <td />
                               <td>
-                                <Input value={addNewRow.url} onChange={handleSourcesComponent('edit', 'url', null)} />
+                                <Input value={addNewRow.url} onChange={handleSourceAction('edit', 'url', null)} />
                               </td>
                               <td>
                                 <FormGroup>
                                   <Input
                                     invalid={formError.current.error}
                                     value={addNewRow.title}
-                                    onChange={handleSourcesComponent('edit', 'title', null)}
+                                    onChange={handleSourceAction('edit', 'title', null)}
                                   />
                                   <FormFeedback tooltip>Ο τίτλος δεν μπορεί να ξεπερνάει τους 255 χαρακτήρες.</FormFeedback>
                                 </FormGroup>
@@ -622,11 +679,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                                 <Button
                                   color="success"
                                   style={{ marginRight: '5px' }}
-                                  onClick={handleSourcesComponent('commit', null, null)}
+                                  onClick={handleSourceAction('commit', null, null)}
                                 >
                                   <FontAwesomeIcon icon="check" />
                                 </Button>
-                                <Button color="danger" onClick={handleSourcesComponent('open', null, null)}>
+                                <Button color="danger" onClick={handleSourceAction('open', null, null)}>
                                   <FontAwesomeIcon icon="ban" />
                                 </Button>
                               </td>
