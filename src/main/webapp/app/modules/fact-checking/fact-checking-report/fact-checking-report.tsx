@@ -39,7 +39,7 @@ const editRowDefault = {
   index: null,
   url: '',
   title: '',
-}
+};
 
 export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -118,7 +118,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     }
     if (action === 'commit') {
       if (index !== null) {
-        setAllSources(prev => prev.map((source, idx) => idx === index ? { ...source, url: editRow.url, title: editRow.title } : source));
+        setAllSources(prev => prev.map((source, idx) => (idx === index ? { ...source, url: editRow.url, title: editRow.title } : source)));
         setEditRow(editRowDefault);
       } else {
         setAllSources(prev => [...prev, { url: addNewRow.url, title: addNewRow.title, snippet: '' }]);
@@ -238,12 +238,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       values.articleDateUpdated = convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT));
     }
     values.content = editorRef.current.editor.getData();
-    // TODO: Remove comments when summarization goes live
-    // values.summary =
-    //   sumEditorRef.current.editor?.getData() !==
-    //   '<p style="text-align:center;"><span style="color:hsl(0,0%,60%);"><i>Δημιουργήστε αυτόματα την περίληψη</i></span></p>'
-    //     ? sumEditorRef.current.editor?.getData()
-    //     : null;
+    values.summary =
+      sumEditorRef.current.editor?.getData() !==
+      '<p style="text-align:center;"><span style="color:hsl(0,0%,60%);"><i>Δημιουργήστε αυτόματα την περίληψη</i></span></p>'
+        ? sumEditorRef.current.editor?.getData()
+        : null;
     if (errors.length === 0) {
       const entity = {
         ...articleEntity,
@@ -281,8 +280,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     } else {
       setPreviewArticle({
         ...formRef.current.props.model,
-        // TODO: Remove comments when summarization goes live
-        // summary: sumEditorRef.current.editor?.getData(),
+        summary: sumEditorRef.current.editor?.getData(),
         statement: { factCheckerAccuracy: statement.factCheckerAccuracy, statementSources },
       });
       setPreviewOpen(true);
@@ -534,8 +532,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       </Col>
                     </Row>
                   </AvGroup>
-                  {/* TODO: Remove comments when summarization goes live */}
-                  {/* <Row className="fact-checking-report-row">
+                  <Row className="fact-checking-report-row">
                     <Col md={{ size: 2 }}>
                       <Label id="summaryLabel" for="article-summary">
                         <Translate contentKey="check4FactsApp.article.summary">Summary</Translate>
@@ -550,7 +547,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                         formOnChange={formOnchange}
                       />
                     </Col>
-                  </Row> */}
+                  </Row>
                   <Row className="fact-checking-report-row" style={{ textAlign: 'center', marginTop: '15px' }}>
                     <Col>
                       <Label for="article-content">
@@ -601,29 +598,25 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                         </thead>
                         <tbody>
                           {allSources.map((statementSource, i) => {
-                            return (editRow.index === i) ? (
+                            return editRow.index === i ? (
                               <tr key={`entity-${i}`}>
                                 <td>{i + 1}</td>
                                 <td>
-                                  <Input value={editRow.url} onChange={handleSourceAction('edit', "url", i)} />
+                                  <Input value={editRow.url} onChange={handleSourceAction('edit', 'url', i)} />
                                 </td>
                                 <td>
                                   <FormGroup>
                                     <Input
                                       invalid={formError.current.error}
                                       value={editRow.title}
-                                      onChange={handleSourceAction('edit', "title", i)}
+                                      onChange={handleSourceAction('edit', 'title', i)}
                                     />
                                     <FormFeedback tooltip>Ο τίτλος δεν μπορεί να ξεπερνάει τους 255 χαρακτήρες.</FormFeedback>
                                   </FormGroup>
                                   {/* <Input value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} /> */}
                                 </td>
                                 <td style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
-                                  <Button
-                                    color="success"
-                                    style={{ marginRight: '5px' }}
-                                    onClick={handleSourceAction('commit', null, i)}
-                                  >
+                                  <Button color="success" style={{ marginRight: '5px' }} onClick={handleSourceAction('commit', null, i)}>
                                     <FontAwesomeIcon icon="check" />
                                   </Button>
                                   <Button color="danger" onClick={handleSourceAction('cancel', null, null)}>
@@ -641,11 +634,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                                   <p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p>
                                 </td>
                                 <td style={{ textAlign: 'center', verticalAlign: 'center', whiteSpace: 'nowrap' }}>
-                                  <Button
-                                    color="warning"
-                                    style={{ marginRight: '5px' }}
-                                    onClick={handleSourceAction('open', null, i)}
-                                  >
+                                  <Button color="warning" style={{ marginRight: '5px' }} onClick={handleSourceAction('open', null, i)}>
                                     <FontAwesomeIcon icon="pencil-alt" />
                                   </Button>
                                   <Button color="danger" onClick={handleSourceAction('filter', null, i)}>
@@ -675,11 +664,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                                 {/* <Input value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} /> */}
                               </td>
                               <td style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
-                                <Button
-                                  color="success"
-                                  style={{ marginRight: '5px' }}
-                                  onClick={handleSourceAction('commit', null, null)}
-                                >
+                                <Button color="success" style={{ marginRight: '5px' }} onClick={handleSourceAction('commit', null, null)}>
                                   <FontAwesomeIcon icon="check" />
                                 </Button>
                                 <Button color="danger" onClick={handleSourceAction('open', null, null)}>

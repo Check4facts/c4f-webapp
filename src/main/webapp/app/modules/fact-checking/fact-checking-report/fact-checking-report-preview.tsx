@@ -113,8 +113,7 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                       </a>
                     </p>
                   </p>
-                  {/* TODO: Remove comments when summarization goes live */}
-                  {/* {previewArticle.summary && (
+                  {previewArticle.summary && previewArticle.summary !== '' && (
                     <SummarizationDisplay
                       accuracy={
                         previewArticle.statement &&
@@ -124,7 +123,7 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                       summary={previewArticle.summary}
                       sourceUrl="#sources"
                     />
-                  )} */}
+                  )}
                   {previewArticle.content && (
                     <Alert
                       color={'secondary'}
