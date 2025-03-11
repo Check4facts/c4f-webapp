@@ -31,6 +31,12 @@ export const Dissemination = (props: IDisseminationProps) => {
       id: 'media',
       title: translate('dissemination.category.media.main'),
       links: [
+        'https://tvxs.gr/apopseis/arthra-gnomis/social-media-ekpaideyontas-to-koino-apenanti-stin-akrodexia-propaganda-o-rolos-toy-fact-checking/?fbclid=IwY2xjawI6xNpleHRuA2FlbQIxMQABHe8hCEF9UqzTrcBG6oT1pGjZLVtjwmBivmzrAXIgQ9M5FizMQ6RBtkpY5A_aem_rZAncqw1FWRwUzA0xElxhw',
+        'https://www.anatropinews.gr/2025/01/19/%cf%83%cf%84%ce%b1%ce%bc%ce%ac%cf%84%ce%b7%cf%82-%cf%80%ce%bf%cf%85%ce%bb%ce%b1%ce%ba%ce%b9%ce%b4%ce%ac%ce%ba%ce%bf%cf%82-%ce%ba%ce%b1%cf%84%ce%ac%cf%81%ce%b3%ce%b7%cf%83%ce%b7-fact-checking-%ce%bc/?fbclid=IwY2xjawI6xQ9leHRuA2FlbQIxMQABHcNCFwRLWW9g7JLjUP75KfS08dtJpIGQ7_aJF08M6ey15CN_o3o7JN0_yw_aem_CPz_Adz7JAJSx8g1_MH0QQ',
+        'https://www.amna.gr/macedonia/article/875625/Mipos-i-katargisi-tou-fact-checking-stis-platformes-Facebook-kai-Instagram-stis-IPA-einai-apla-ena-dentro-sto-dasos-Kai-poso-pithano-einai-na-ischusei-stin-Europi',
+        'https://www.kathimerini.gr/society/563407384/diadiktyo-vima-piso-sti-machi-kata-tis-parapliroforisis/?fbclid=IwY2xjawI6xVxleHRuA2FlbQIxMQABHeRwrDglvmBNx56Y2CO0ElLTa4l2CcRlz5Vgefq05dOERy5qNc5VEdt-gg_aem_NZvGNEUhnfAn7Sp0ysy-lA',
+        'https://www.libre.gr/2024/12/24/synentefxi-libre-manolis-pleionis-gnosi-p/?fbclid=IwY2xjawI6xYtleHRuA2FlbQIxMQABHT2zimyZeTydWVcdw-S_tAH8VSDuMCNkAeNY6JyJw-xDbY07kwy74fQcEQ_aem_ZzgtF_M5jtwzdICS4XuqDg',
+        'https://www.efsyn.gr/kosmos/boreia-ameriki/454340_oi-ekloges-poy-allaxan-tin-istoria-ton-tilemahion',
         'https://www.efsyn.gr/kosmos/327225_megali-pigi-parapliroforisis-youtube-kataggelloyn-dekades-organismoi-fact-checking',
         'https://www.kathimerini.gr/opinion/561815104/paraplanitikes-eidiseis-kai-polemos/',
         'https://www.dw.com/el/fact-checking-%CE%B5%CE%BD%CE%B1%CE%BD%CF%84%CE%AF%CE%BF%CE%BD-fake-news/a-47007355',
@@ -42,6 +48,10 @@ export const Dissemination = (props: IDisseminationProps) => {
       id: 'video',
       title: translate('dissemination.category.video'),
       links: [
+        'https://www.youtube.com/watch?v=cVz0mk7aWTQ',
+        'https://www.facebook.com/watch/?v=618054820814365',
+        // 'https://www.alphatv.gr/show/kalutera-de-ginetai/?vtype=player&vid=61510&showId=913&year=2025', // Find a better way to display this video
+        'https://www.youtube.com/watch?v=_svwufyIcQk',
         'https://www.youtube.com/watch?v=1S9EoB83hXY',
         'https://www.youtube.com/watch?v=G5V8bzNGlE8',
         'https://www.youtube.com/watch?v=I4IpJRz5xxQ',
@@ -74,9 +84,9 @@ export const Dissemination = (props: IDisseminationProps) => {
         </Col>
       </Row>
       {props.loading ? (
-          <div>
-            <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
-          </div>
+        <div>
+          <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
+        </div>
       ) : (
         props.data.length > 0 &&
         publicationsItems.map(rowItem => {
