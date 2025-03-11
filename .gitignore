@@ -14,6 +14,7 @@ node_modules/
 npm-debug.log.*
 /.awcache/*
 /.cache-loader/*
+.env
 
 ######################
 # SASS
@@ -131,6 +132,7 @@ Desktop.ini
 *.*~
 *~
 .merge_file*
+.env
 
 ######################
 # Gradle Wrapper

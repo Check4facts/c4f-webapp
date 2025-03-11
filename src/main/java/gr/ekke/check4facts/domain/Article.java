@@ -93,7 +93,7 @@ public class Article implements Serializable {
     @JsonIgnoreProperties(value = "articles", allowSetters = true)
     private Category category;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value= {"resources"}, allowSetters = true)
     private Statement statement;
 
@@ -311,12 +311,9 @@ public class Article implements Serializable {
         return "Article{" +
             "id=" + getId() +
             ", previewTitle='" + getPreviewTitle() + "'" +
-            ", previewImage='" + getPreviewImage() + "'" +
-            ", previewImageContentType='" + getPreviewImageContentType() + "'" +
             ", articleDate='" + getArticleDate() + "'" +
             ", author='" + getAuthor() + "'" +
             ", published='" + isPublished() + "'" +
-            ", content='" + getContent() + "'" +
             ", previewText='" + getPreviewText() + "'" +
             ", greeklish='" + getGreeklish() + "'" +
             "}";

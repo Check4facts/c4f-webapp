@@ -7,11 +7,11 @@ import gr.ekke.check4facts.domain.Statement;
 import gr.ekke.check4facts.domain.utils.GreekToSeoFriendlyUrl;
 import gr.ekke.check4facts.repository.ArticleRepository;
 import gr.ekke.check4facts.repository.CategoryRepository;
+import gr.ekke.check4facts.repository.StatementRepository;
 import gr.ekke.check4facts.repository.search.ArticleSearchRepository;
 import gr.ekke.check4facts.service.dto.ArticleDTO;
 import net.coobird.thumbnailator.Thumbnails;
 
-import org.apache.lucene.search.TermQuery;
 import org.elasticsearch.index.query.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +30,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -57,12 +55,15 @@ public class ArticleService {
     private final ArticleSearchRepository articleSearchRepository;
 
     private final CategoryRepository categoryRepository;
+    
+    private final StatementRepository statementRepository;
 
     public ArticleService(ArticleRepository articleRepository, ArticleSearchRepository articleSearchRepository,
-            EntityManager em, CategoryRepository categoryRepository) {
+            EntityManager em, CategoryRepository categoryRepository, StatementRepository statementRepository) {
         this.articleRepository = articleRepository;
         this.articleSearchRepository = articleSearchRepository;
         this.categoryRepository = categoryRepository;
+        this.statementRepository = statementRepository;
         this.em = em;
     }
 
@@ -84,6 +85,27 @@ public class ArticleService {
         }
         article.setPreviewImageContentType("image/webp");
         article.setGreeklish(GreekToSeoFriendlyUrl.convert(article.getPreviewTitle()));
+
+        // When creating a new article for an existing statement,
+        // reattach the existing statement to the new article.
+        if (article.getId() == null && article.getStatement() != null && article.getStatement().getId() != null) {
+            Statement managedStatement = statementRepository.findById(article.getStatement().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Statement not found with id " + article.getStatement().getId()));
+            // Optional: Update managed statement's fields from incoming data:
+            managedStatement.setText(article.getStatement().getText());
+            managedStatement.setAuthor(article.getStatement().getAuthor());
+            managedStatement.setMainArticleText(article.getStatement().getMainArticleText());
+            managedStatement.setMainArticleUrl(article.getStatement().getMainArticleUrl());
+            managedStatement.setFactCheckerAccuracy(article.getStatement().getFactCheckerAccuracy());
+            managedStatement.setStatementSources(article.getStatement().getStatementSources());
+            // Attach the managed statement to the article
+            article.setStatement(managedStatement);
+            // Set the bidirectional link
+            managedStatement.setArticle(article);
+        } else if (article.getStatement() != null) {
+            // For a completely new statement, just set the bidirectional link.
+            article.getStatement().setArticle(article);
+        }
 
         Article result = articleRepository.saveAndFlush(article);
         articleSearchRepository.saveCustom(result);
@@ -145,7 +167,7 @@ public class ArticleService {
     @Transactional(readOnly = true)
     public List<CategorizedArticles> findFrontPageArticles() {
         log.debug("Request to get front Page Articles");
-        List<CategorizedArticles> categorizedArticles = new ArrayList();
+        List<CategorizedArticles> categorizedArticles = new ArrayList<CategorizedArticles>();
         // Get All categories
         List<Category> categoryNames = categoryRepository.findAll();
         // Find first 6 articles of each category and add them to a list

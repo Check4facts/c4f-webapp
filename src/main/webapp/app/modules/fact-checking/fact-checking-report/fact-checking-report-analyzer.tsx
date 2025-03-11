@@ -36,6 +36,8 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
     featureStatementCount,
   } = props;
 
+  const shortenStatementText = text => text.length > 20 ? `${text.substring(0, 20)}...` : text;
+
   React.useEffect(() => {
     if (statement && statement.id && featureStatementCount > 0) {
       props.getLatestFeatureStatementByStatementId(statement.id);
@@ -170,11 +172,11 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
                           <td>{i + 1}</td>
                           <td>
                             <a href={statementSource.url} target="_blank" rel="noopener noreferrer">
-                              {statementSource.url}
+                              {shortenStatementText(statementSource.url)}
                             </a>
                           </td>
-                          <td>{statementSource.title}</td>
-                          <td>{statementSource.snippet}</td>
+                          <td><p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p></td>
+                          <td><p title={statementSource.snippet}>{shortenStatementText(statementSource.snippet)}</p></td>
                         </tr>
                       ))}
                     </tbody>

@@ -120,14 +120,13 @@ export const ArticleDisplay = (props: IArticleDisplayProps & { history: { locati
                   </a>
                 </p>
               </p>
-              {/* TODO: Remomve comments when summarization goes live */}
-              {/* {article.summary && (
+              {article.summary && article.summary !== '' && (
                 <SummarizationDisplay
                   summary={article.summary}
                   sourceUrl="#sources"
                   accuracy={article.statement && article.statement.factCheckerAccuracy != null && article.statement.factCheckerAccuracy}
                 />
-              )} */}
+              )}
               {article.content && (
                 <Alert
                   color={'secondary'}

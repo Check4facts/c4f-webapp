@@ -3,6 +3,12 @@ import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util'
 import { IStatement } from 'app/shared/model/statement.model';
 import { ITaskStatus } from 'app/shared/model/util.model';
 import { upsertTaskStatus } from 'app/shared/util/entity-utils';
+import {
+  IClaimVerificationRequest,
+  IClaimVerificationResponse,
+  ITranslationRequest,
+  ITranslationResponse,
+} from 'app/shared/model/ilsp-tool.model';
 
 export const ACTION_TYPES = {
   SET_FACT: 'fact-checking/SET_FACT',
@@ -13,6 +19,10 @@ export const ACTION_TYPES = {
   UPDATE_ACTIVE_TASKS: 'fact-checking/UPDATE_ACTIVE_TASKS',
   CHANGE_STATUS_INTERVAL: 'fact-checking/CHANGE_STATUS_INTERVAL',
   RESET: 'fact-checking/RESET',
+  TRANSLATE_TEXT: 'fact-checking/TRANSLATE_TEXT',
+  GET_RECOMMENDATIONS: 'fact-checking/GET_RECOMMENDATIONS',
+  RESET_ILSP_TOOL: 'fact-checking/RESET_ILSP_TOOL',
+  GET_CLAIM_VERIFICATION: 'fact-checking/GET_CLAIM_VERIFICATION',
 };
 
 const initialState = {
@@ -23,6 +33,18 @@ const initialState = {
   taskStatusLoading: false,
   taskStatuses: [] as ITaskStatus[],
   statusInterval: null,
+  ilspTool: {
+    translator: {
+      data: null as ITranslationResponse,
+      loading: false,
+      error: null,
+    },
+    recommender: {
+      data: null as IClaimVerificationResponse,
+      loading: false,
+      error: null,
+    },
+  },
 };
 
 export type FactCheckingState = Readonly<typeof initialState>;
@@ -31,6 +53,21 @@ export type FactCheckingState = Readonly<typeof initialState>;
 
 export default (state: FactCheckingState = initialState, action): FactCheckingState => {
   switch (action.type) {
+    case REQUEST(ACTION_TYPES.GET_CLAIM_VERIFICATION):
+      return {
+        ...state,
+        ilspTool: { ...state.ilspTool, recommender: { ...state.ilspTool.recommender, loading: true } },
+      };
+    case FAILURE(ACTION_TYPES.GET_CLAIM_VERIFICATION):
+      return {
+        ...state,
+        ilspTool: { ...state.ilspTool, recommender: { ...state.ilspTool.recommender, loading: false, error: action.payload } },
+      };
+    case SUCCESS(ACTION_TYPES.GET_CLAIM_VERIFICATION):
+      return {
+        ...state,
+        ilspTool: { ...state.ilspTool, recommender: { ...state.ilspTool.recommender, data: action.payload.data, loading: false } },
+      };
     case REQUEST(ACTION_TYPES.ANALYZE_TASK):
       return {
         ...state,
@@ -82,6 +119,41 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
         taskStatusLoading: false,
         taskStatuses: upsertTaskStatus([...state.taskStatuses], action.payload.data),
       };
+    case REQUEST(ACTION_TYPES.TRANSLATE_TEXT):
+      return {
+        ...state,
+        ilspTool: {
+          ...state.ilspTool,
+          translator: {
+            ...state.ilspTool.translator,
+            loading: true,
+          },
+        },
+      };
+    case FAILURE(ACTION_TYPES.TRANSLATE_TEXT):
+      return {
+        ...state,
+        ilspTool: {
+          ...state.ilspTool,
+          translator: {
+            ...state.ilspTool.translator,
+            loading: false,
+            error: action.payload,
+          },
+        },
+      };
+    case SUCCESS(ACTION_TYPES.TRANSLATE_TEXT):
+      return {
+        ...state,
+        ilspTool: {
+          ...state.ilspTool,
+          translator: {
+            data: action.payload.data,
+            loading: false,
+            error: null,
+          },
+        },
+      };
     case ACTION_TYPES.REMOVE_TASK_STATUS:
       return {
         ...state,
@@ -100,6 +172,11 @@ export default (state: FactCheckingState = initialState, action): FactCheckingSt
     case ACTION_TYPES.RESET:
       return {
         ...initialState,
+      };
+    case ACTION_TYPES.RESET_ILSP_TOOL:
+      return {
+        ...state,
+        ilspTool: initialState.ilspTool,
       };
     default:
       return state;
@@ -141,6 +218,33 @@ export const getTaskStatus = id => (dispatch, getState) => {
   });
 };
 
+export const getTranslation = (text: string) => dispatch => {
+  const requestUrl = `http://localhost:5000/translate`;
+  const requestPayload = {
+    q: text,
+    source: 'auto',
+    target: 'en',
+    format: 'text',
+  } as ITranslationRequest;
+  return dispatch({
+    type: ACTION_TYPES.TRANSLATE_TEXT,
+    payload: axios.post(requestUrl, requestPayload),
+  });
+};
+
+export const getClaimVerification = (text: string) => dispatch => {
+  const requestUrl = process.env.REACT_APP_ILSP_TOOL_URL;
+  const requestPayload = {
+    auth_key: process.env.REACT_APP_ILSP_TOOL_KEY,
+    doc_id: '1',
+    text,
+  } as IClaimVerificationRequest;
+  return dispatch({
+    type: ACTION_TYPES.GET_CLAIM_VERIFICATION,
+    payload: axios.post(requestUrl, requestPayload),
+  });
+};
+
 export const removeTaskStatus = (taskId: string) => ({
   type: ACTION_TYPES.REMOVE_TASK_STATUS,
   payload: taskId,
@@ -158,4 +262,8 @@ export const setFact = (statement: string) => ({
 
 export const reset = () => ({
   type: ACTION_TYPES.RESET,
+});
+
+export const resetIlspTool = () => ({
+  type: ACTION_TYPES.RESET_ILSP_TOOL,
 });

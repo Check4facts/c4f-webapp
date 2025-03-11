@@ -3,6 +3,7 @@ package gr.ekke.check4facts.domain;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import org.hibernate.annotations.Cache;
@@ -91,6 +92,7 @@ public class Statement implements Serializable {
     private List<String> subTopics;
 
     @OneToOne(mappedBy = "statement")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Article article;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

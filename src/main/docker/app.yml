@@ -29,3 +29,10 @@ services:
     environment:
       - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_TYPE=native
       - SPRING_CLOUD_CONFIG_SERVER_COMPOSITE_0_SEARCH_LOCATIONS=file:./central-config/docker-config/
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    restart: always
+    environment:
+      - LT_LOAD_ONLY=en,el
+    ports:
+      - '5000:5000'

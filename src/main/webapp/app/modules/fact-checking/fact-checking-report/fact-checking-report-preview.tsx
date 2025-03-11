@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { IArticle } from 'app/shared/model/article.model';
-import { Col, Container, Row, Alert, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Col, Container, Row, Alert, Modal, ModalHeader, ModalBody, Badge } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
 import { translate } from 'react-jhipster';
 import moment from 'moment';
@@ -68,9 +68,18 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
           />
           <Row>
             <Col sm="12">
-              <div className="article-wrapper">
-                <div className="article-wrapper-sm ">
+              <div className="article-wrapper" style={{ width: '100%' }}>
+                <div className="article-wrapper-sm" style={{ padding: 0 }}>
                   <h1 className="text-center">{previewArticle.previewTitle}</h1>
+                  <div className="text-center">
+                    {previewArticle.statement && previewArticle.statement.factCheckerAccuracy != null && (
+                      <Badge className={`mb-4 accuracy-color-${previewArticle.statement.factCheckerAccuracy}`}>
+                        <span className="text-uppercase" style={{ fontSize: 20, padding: 20 }}>
+                          {translate(`fact-checking.results.model.accuracy.${previewArticle.statement.factCheckerAccuracy}`)}
+                        </span>
+                      </Badge>
+                    )}
+                  </div>
                   <div className="text-center">
                     <a href={`/fact-checking/sub-menu/${previewArticle.category.name}`} className="btn btn-dark font-weight-bold mb-4">
                       {translate(`check4FactsApp.category.${previewArticle.category.name}`)}
@@ -81,16 +90,17 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                     {moment.locale(currentLocale) && moment(previewArticle.articleDate).format('LL')}
                   </p>
                   {previewArticle.previewImage ? (
-                    <div className="text-center mt-3">
+                    <div className="text-center mt-3" style={{ backgroundColor: 'rgba(0,0,0,0.05)' }}>
                       <img
                         src={`data:${previewArticle.previewImageContentType};base64,${previewArticle.previewImage}`}
-                        className="img-fluid mb-4"
+                        className="img-fluid"
+                        style={{ maxHeight: '600px' }}
                         alt="previewImage"
                       />
                     </div>
                   ) : null}
-                  <div className="pt-4 pb-4">
-                    <p>{previewArticle.statement.mainArticleText}</p>
+                  <p className="px-5 py-4">
+                    {previewArticle.statement.mainArticleText}
                     <p className="text-right">
                       <a
                         className="fs-12 mr-1 text-muted"
@@ -102,9 +112,8 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                         Πηγή <FontAwesomeIcon icon="link" />
                       </a>
                     </p>
-                  </div>
-                  {/* TODO: Remove comments when summarization goes live */}
-                  {/* {previewArticle.summary && (
+                  </p>
+                  {previewArticle.summary && previewArticle.summary !== '' && (
                     <SummarizationDisplay
                       accuracy={
                         previewArticle.statement &&
@@ -114,7 +123,7 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                       summary={previewArticle.summary}
                       sourceUrl="#sources"
                     />
-                  )} */}
+                  )}
                   {previewArticle.content && (
                     <Alert
                       color={'secondary'}
@@ -148,7 +157,7 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                   <ul className="px-lg-5 px-md-2">
                     {previewArticle.statement.statementSources.map((source, index) => (
                       <li key={index} className="my-1">
-                        <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-muted">
+                        <a href={source.url} target="_blank" rel="noopener noreferrer" style={{ color: 'black' }}>
                           <div className="source-card p-2">
                             <h5 className="source-title mb-1" style={{ fontWeight: 'bold' }}>
                               {source.title}

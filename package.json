@@ -20,6 +20,7 @@
     "bootstrap": "4.4.1",
     "bootswatch": "4.3.1",
     "ckeditor5-build-decoupled-document-base64-imageresize": "^17.0.0",
+    "dotenv": "^16.4.7",
     "loaders.css": "0.1.2",
     "lodash": "4.17.15",
     "moment": "2.24.0",

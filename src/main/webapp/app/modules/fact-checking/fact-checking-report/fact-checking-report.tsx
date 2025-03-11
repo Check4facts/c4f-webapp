@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Label, Row, Spinner, Tooltip } from 'reactstrap';
+import { Button, Col, Label, Row, Spinner, Table, Input, Tooltip, FormGroup, FormFeedback } from 'reactstrap';
 import { AvFeedback, AvField, AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 import { byteSize, openFile, setFileData, translate, Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,7 +10,7 @@ import { createEntity, getEntity, reset, updateEntity, setBlob } from 'app/entit
 import { getEntities as getCategories } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
-import { getEntity as getStatement, setFactCheckerAccuracy, reset as StatementReset } from 'app/entities/statement/statement.reducer';
+import { getEntity as getStatement, reset as StatementReset } from 'app/entities/statement/statement.reducer';
 import { getLatestResourcesByStatement, reset as resourcesReset } from 'app/entities/resource/resource.reducer';
 import { getStatementSourcesByStatement, reset as statementSourcesReset } from 'app/entities/statement-source/statement-source.reducer';
 import FactCheckingReportEditor from './fact-checking-report-editor';
@@ -20,14 +20,26 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import FactCheckingReportAnalyzer from './fact-checking-report-analyzer';
 import {
   countFeatureStatementsByStatement,
-  getLatestFeatureStatementByStatementId,
   reset as featureStatementReset,
 } from 'app/entities/feature-statement/feature-statement.reducer';
 import FactCheckingReportPreview from './fact-checking-report-preview';
+import FactCheckingIlspTool from './fact-checking-ilsp-tool';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { APP_LOCAL_DATETIME_FORMAT, AUTHORITIES } from 'app/config/constants';
 import moment from 'moment';
 import Summarization from 'app/modules/summarization/summarization';
+
+const addNewRowDefault = {
+  open: false,
+  url: '',
+  title: '',
+};
+
+const editRowDefault = {
+  index: null,
+  url: '',
+  title: '',
+};
 
 export interface IFactCheckingReportProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -42,8 +54,19 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const [saveTimeout, setSaveTimeout] = useState(null);
   const [previewArticle, setPreviewArticle] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
-  const formRef = useRef(null);
+  const [addNewRow, setAddNewRow] = useState(addNewRowDefault);
+  const [editRow, setEditRow] = useState(editRowDefault);
+  const [allSources, setAllSources] = useState([]);
+  const [ilspToolOpen, setIlspToolOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [statementAccuracy, setStatementAccuracy] = useState(0);
+  const [statementText, setStatementText] = useState(
+    'Το 2009, τα αναπτυγμένα έθνη του κόσμου συμφώνησαν να δώσουν 100 δισεκατομμύρια δολάρια το χρόνο σε φτωχότερα έθνη μέχρι το 2020 για να τα βοηθήσουν να αντιμετωπίσουν και να προετοιμαστούν για την κλιματική αλλαγή'
+  );
+  const formRef = useRef(null);
+  const [ilspTooltip, setIlspTooltip] = useState(false);
+  const toggleIlspTooltip = () => setIlspTooltip(!ilspTooltip);
+  const formError = useRef({ error: false, timeout: null });
 
   const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
 
@@ -65,6 +88,56 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   } = props;
 
   const { previewImage, previewImageContentType } = articleEntity;
+
+  const handleSourceAction = (
+    action: 'open' | 'edit' | 'commit' | 'filter' | 'cancel',
+    editBox: 'url' | 'title' | null,
+    index: number | null
+  ) => e => {
+    if (action === 'open') {
+      if (index !== null) {
+        setEditRow({ index, url: allSources[index].url, title: allSources[index].title });
+      } else {
+        setAddNewRow(prev =>
+          (prev.title.length > 0 || prev.url.length > 0) && prev.open ? addNewRowDefault : { ...prev, open: !prev.open }
+        );
+      }
+    }
+    if (action === 'edit') {
+      if (e.target.value.length > 255) {
+        formError.current.error && clearTimeout(formError.current.timeout);
+        formError.current.error = true;
+        formError.current.timeout = setTimeout(() => (formError.current.error = false), 1500);
+        return;
+      }
+      if (index !== null) {
+        setEditRow(prev => ({ ...prev, [editBox]: e.target.value }));
+      } else {
+        setAddNewRow(prev => ({ ...prev, [editBox]: e.target.value }));
+      }
+    }
+    if (action === 'commit') {
+      if (index !== null) {
+        setAllSources(prev => prev.map((source, idx) => (idx === index ? { ...source, url: editRow.url, title: editRow.title } : source)));
+        setEditRow(editRowDefault);
+      } else {
+        setAllSources(prev => [...prev, { url: addNewRow.url, title: addNewRow.title, snippet: '' }]);
+        setAddNewRow(addNewRowDefault);
+      }
+    }
+    if (action === 'filter') {
+      setAllSources(prev => [...prev.filter((source, idx) => idx !== index)]);
+    }
+    if (action === 'cancel') {
+      setEditRow(editRowDefault);
+    }
+  };
+
+  const handleIlspTool = () => {
+    setIlspToolOpen(!ilspToolOpen);
+  };
+
+  const shortenStatementText = text => (text.length > 20 ? `${text.substring(0, 20)}...` : text);
 
   const handleClose = () => {
     props.statementSourcesReset();
@@ -109,6 +182,10 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   }, []);
 
   useEffect(() => {
+    setAllSources([...statementSources]);
+  }, [statementSources]);
+
+  useEffect(() => {
     if (featureStatementCount > 0) {
       props.getLatestResourcesByStatement(props.match.params.id);
     }
@@ -117,7 +194,9 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   useEffect(() => {
     if (statement && statement.article) {
       setIsNew(false);
-      props.getEntity(statement.article.id);
+      setStatementText(statement.text);
+      setStatementAccuracy(statement.factCheckerAccuracy);
+      !articleEntity.id && props.getEntity(statement.article.id);
     } else {
       setIsNew(true);
       props.reset();
@@ -159,18 +238,17 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       values.articleDateUpdated = convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT));
     }
     values.content = editorRef.current.editor.getData();
-    // TODO: Remove comments when summarization goes live
-    // values.summary =
-    //   sumEditorRef.current.editor?.getData() !==
-    //   '<p style="text-align:center;"><span style="color:hsl(0,0%,60%);"><i>Δημιουργήστε αυτόματα την περίληψη</i></span></p>'
-    //     ? sumEditorRef.current.editor?.getData()
-    //     : null;
+    values.summary =
+      sumEditorRef.current.editor?.getData() !==
+      '<p style="text-align:center;"><span style="color:hsl(0,0%,60%);"><i>Δημιουργήστε αυτόματα την περίληψη</i></span></p>'
+        ? sumEditorRef.current.editor?.getData()
+        : null;
     if (errors.length === 0) {
       const entity = {
         ...articleEntity,
         ...values,
         published: publishArticle,
-        statement: statement.article ? articleEntity.statement : { id: statement.id },
+        statement: { ...statement, statementSources: allSources, factCheckerAccuracy: statementAccuracy }, // Set the statement in the article entity as the article is the managing entity in this relationship
         category: { id: categoryId },
       };
       if (isNew && updateNew) {
@@ -202,8 +280,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     } else {
       setPreviewArticle({
         ...formRef.current.props.model,
-        // TODO: Remove comments when summarization goes live
-        // summary: sumEditorRef.current.editor?.getData(),
+        summary: sumEditorRef.current.editor?.getData(),
         statement: { factCheckerAccuracy: statement.factCheckerAccuracy, statementSources },
       });
       setPreviewOpen(true);
@@ -211,8 +288,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   };
 
   const changeFactCheckerAccuracy = event => {
-    setFactCheckerAccuracy(statement.id, event.target.value);
-    // TODO Add corresponding call for FeatureStatement when column is added to table.
+    setStatementAccuracy(event.target.value);
+    // TODO: Add corresponding call for FeatureStatement when column is added to table.
   };
 
   // console.log(props.authentication);
@@ -455,8 +532,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       </Col>
                     </Row>
                   </AvGroup>
-                  {/* TODO: Remove comments when summarization goes live */}
-                  {/* <Row className="fact-checking-report-row">
+                  <Row className="fact-checking-report-row">
                     <Col md={{ size: 2 }}>
                       <Label id="summaryLabel" for="article-summary">
                         <Translate contentKey="check4FactsApp.article.summary">Summary</Translate>
@@ -471,7 +547,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                         formOnChange={formOnchange}
                       />
                     </Col>
-                  </Row> */}
+                  </Row>
                   <Row className="fact-checking-report-row" style={{ textAlign: 'center', marginTop: '15px' }}>
                     <Col>
                       <Label for="article-content">
@@ -491,6 +567,114 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                         statementSources={statementSources && statementSources.length > 0 ? [...statementSources] : []}
                         resources={resources && resources.length > 0 ? [...resources] : []}
                       />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md={{ size: 8, offset: 2 }} style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem' }}>
+                      <h4 className="text-center">{translate('fact-checking.check.titles.second')}</h4>
+                      <p className="text-center text-muted">Δεν είναι υποχρεωτικό να εισάγετε κάποια πηγή</p>
+                      <Table responsive bordered>
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>
+                              <Translate contentKey="check4FactsApp.statementSource.url">Url</Translate>
+                            </th>
+                            <th>
+                              <Translate contentKey="check4FactsApp.statementSource.title">Title</Translate>
+                            </th>
+                            <th style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                              <Button color="primary" style={{ marginRight: '5px' }} onClick={handleSourceAction('open', null, null)}>
+                                <FontAwesomeIcon icon="plus" />
+                              </Button>
+                              <Button id="ilspTooltip" color="primary" onClick={handleIlspTool}>
+                                <img src="/content/images/inobo-logo-white.svg" height="12px" alt="inobo-logo" />
+                              </Button>
+                              <Tooltip isOpen={ilspTooltip} target="ilspTooltip" toggle={toggleIlspTooltip}>
+                                Βιβλιογραφικες Προτάσεις
+                              </Tooltip>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {allSources.map((statementSource, i) => {
+                            return editRow.index === i ? (
+                              <tr key={`entity-${i}`}>
+                                <td>{i + 1}</td>
+                                <td>
+                                  <Input value={editRow.url} onChange={handleSourceAction('edit', 'url', i)} />
+                                </td>
+                                <td>
+                                  <FormGroup>
+                                    <Input
+                                      invalid={formError.current.error}
+                                      value={editRow.title}
+                                      onChange={handleSourceAction('edit', 'title', i)}
+                                    />
+                                    <FormFeedback tooltip>Ο τίτλος δεν μπορεί να ξεπερνάει τους 255 χαρακτήρες.</FormFeedback>
+                                  </FormGroup>
+                                  {/* <Input value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} /> */}
+                                </td>
+                                <td style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                                  <Button color="success" style={{ marginRight: '5px' }} onClick={handleSourceAction('commit', null, i)}>
+                                    <FontAwesomeIcon icon="check" />
+                                  </Button>
+                                  <Button color="danger" onClick={handleSourceAction('cancel', null, null)}>
+                                    <FontAwesomeIcon icon="ban" />
+                                  </Button>
+                                </td>
+                              </tr>
+                            ) : (
+                              <tr key={`entity-${i}`}>
+                                <td>{i + 1}</td>
+                                <td>
+                                  <p title={statementSource.url}>{shortenStatementText(statementSource.url)}</p>
+                                </td>
+                                <td>
+                                  <p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p>
+                                </td>
+                                <td style={{ textAlign: 'center', verticalAlign: 'center', whiteSpace: 'nowrap' }}>
+                                  <Button color="warning" style={{ marginRight: '5px' }} onClick={handleSourceAction('open', null, i)}>
+                                    <FontAwesomeIcon icon="pencil-alt" />
+                                  </Button>
+                                  <Button color="danger" onClick={handleSourceAction('filter', null, i)}>
+                                    <FontAwesomeIcon icon="trash" />
+                                  </Button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                        {addNewRow.open && (
+                          <tfoot>
+                            <tr>
+                              <td />
+                              <td>
+                                <Input value={addNewRow.url} onChange={handleSourceAction('edit', 'url', null)} />
+                              </td>
+                              <td>
+                                <FormGroup>
+                                  <Input
+                                    invalid={formError.current.error}
+                                    value={addNewRow.title}
+                                    onChange={handleSourceAction('edit', 'title', null)}
+                                  />
+                                  <FormFeedback tooltip>Ο τίτλος δεν μπορεί να ξεπερνάει τους 255 χαρακτήρες.</FormFeedback>
+                                </FormGroup>
+                                {/* <Input value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} /> */}
+                              </td>
+                              <td style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                                <Button color="success" style={{ marginRight: '5px' }} onClick={handleSourceAction('commit', null, null)}>
+                                  <FontAwesomeIcon icon="check" />
+                                </Button>
+                                <Button color="danger" onClick={handleSourceAction('open', null, null)}>
+                                  <FontAwesomeIcon icon="ban" />
+                                </Button>
+                              </td>
+                            </tr>
+                          </tfoot>
+                        )}
+                      </Table>
                     </Col>
                   </Row>
                   <Row>
@@ -522,6 +706,16 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
               <FactCheckingReportAnalyzer open={open} toggle={toggle} />
               {previewArticle && (
                 <FactCheckingReportPreview previewOpen={previewOpen} handlePreview={handlePreview} previewArticle={previewArticle} />
+              )}
+              {ilspToolOpen && (
+                <FactCheckingIlspTool
+                  ilspToolOpen={ilspToolOpen}
+                  handleIlspTool={handleIlspTool}
+                  statementText={statementText}
+                  setStatementText={setStatementText}
+                  statementSources={allSources}
+                  setStatementSources={setAllSources}
+                />
               )}
             </>
           )}
@@ -565,8 +759,6 @@ const mapDispatchToProps = {
   resourcesReset,
   factReset,
   StatementReset,
-  setFactCheckerAccuracy,
-  getLatestFeatureStatementByStatementId,
   countFeatureStatementsByStatement,
   featureStatementReset,
 };
