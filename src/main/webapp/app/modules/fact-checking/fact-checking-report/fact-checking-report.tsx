@@ -569,114 +569,116 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       />
                     </Col>
                   </Row>
-                  <Row>
-                    <Col md={{ size: 8, offset: 2 }} style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem' }}>
-                      <h4 className="text-center">{translate('fact-checking.check.titles.second')}</h4>
-                      <p className="text-center text-muted">Δεν είναι υποχρεωτικό να εισάγετε κάποια πηγή</p>
-                      <Table responsive bordered>
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>
-                              <Translate contentKey="check4FactsApp.statementSource.url">Url</Translate>
-                            </th>
-                            <th>
-                              <Translate contentKey="check4FactsApp.statementSource.title">Title</Translate>
-                            </th>
-                            <th style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
-                              <Button color="primary" style={{ marginRight: '5px' }} onClick={handleSourceAction('open', null, null)}>
-                                <FontAwesomeIcon icon="plus" />
-                              </Button>
-                              <Button id="ilspTooltip" color="primary" onClick={handleIlspTool}>
-                                <img src="/content/images/inobo-logo-white.svg" height="12px" alt="inobo-logo" />
-                              </Button>
-                              <Tooltip isOpen={ilspTooltip} target="ilspTooltip" toggle={toggleIlspTooltip}>
-                                Βιβλιογραφικες Προτάσεις
-                              </Tooltip>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {allSources.map((statementSource, i) => {
-                            return editRow.index === i ? (
-                              <tr key={`entity-${i}`}>
-                                <td>{i + 1}</td>
+                  {false && (
+                    <Row>
+                      <Col md={{ size: 8, offset: 2 }} style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem' }}>
+                        <h4 className="text-center">{translate('fact-checking.check.titles.second')}</h4>
+                        <p className="text-center text-muted">Δεν είναι υποχρεωτικό να εισάγετε κάποια πηγή</p>
+                        <Table responsive bordered>
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>
+                                <Translate contentKey="check4FactsApp.statementSource.url">Url</Translate>
+                              </th>
+                              <th>
+                                <Translate contentKey="check4FactsApp.statementSource.title">Title</Translate>
+                              </th>
+                              <th style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                                <Button color="primary" style={{ marginRight: '5px' }} onClick={handleSourceAction('open', null, null)}>
+                                  <FontAwesomeIcon icon="plus" />
+                                </Button>
+                                <Button id="ilspTooltip" color="primary" onClick={handleIlspTool}>
+                                  <img src="/content/images/inobo-logo-white.svg" height="12px" alt="inobo-logo" />
+                                </Button>
+                                <Tooltip isOpen={ilspTooltip} target="ilspTooltip" toggle={toggleIlspTooltip}>
+                                  Βιβλιογραφικες Προτάσεις
+                                </Tooltip>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {allSources.map((statementSource, i) => {
+                              return editRow.index === i ? (
+                                <tr key={`entity-${i}`}>
+                                  <td>{i + 1}</td>
+                                  <td>
+                                    <Input value={editRow.url} onChange={handleSourceAction('edit', 'url', i)} />
+                                  </td>
+                                  <td>
+                                    <FormGroup>
+                                      <Input
+                                        invalid={formError.current.error}
+                                        value={editRow.title}
+                                        onChange={handleSourceAction('edit', 'title', i)}
+                                      />
+                                      <FormFeedback tooltip>Ο τίτλος δεν μπορεί να ξεπερνάει τους 255 χαρακτήρες.</FormFeedback>
+                                    </FormGroup>
+                                    {/* <Input value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} /> */}
+                                  </td>
+                                  <td style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                                    <Button color="success" style={{ marginRight: '5px' }} onClick={handleSourceAction('commit', null, i)}>
+                                      <FontAwesomeIcon icon="check" />
+                                    </Button>
+                                    <Button color="danger" onClick={handleSourceAction('cancel', null, null)}>
+                                      <FontAwesomeIcon icon="ban" />
+                                    </Button>
+                                  </td>
+                                </tr>
+                              ) : (
+                                <tr key={`entity-${i}`}>
+                                  <td>{i + 1}</td>
+                                  <td>
+                                    <p title={statementSource.url}>{shortenStatementText(statementSource.url)}</p>
+                                  </td>
+                                  <td>
+                                    <p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p>
+                                  </td>
+                                  <td style={{ textAlign: 'center', verticalAlign: 'center', whiteSpace: 'nowrap' }}>
+                                    <Button color="warning" style={{ marginRight: '5px' }} onClick={handleSourceAction('open', null, i)}>
+                                      <FontAwesomeIcon icon="pencil-alt" />
+                                    </Button>
+                                    <Button color="danger" onClick={handleSourceAction('filter', null, i)}>
+                                      <FontAwesomeIcon icon="trash" />
+                                    </Button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                          {addNewRow.open && (
+                            <tfoot>
+                              <tr>
+                                <td />
                                 <td>
-                                  <Input value={editRow.url} onChange={handleSourceAction('edit', 'url', i)} />
+                                  <Input value={addNewRow.url} onChange={handleSourceAction('edit', 'url', null)} />
                                 </td>
                                 <td>
                                   <FormGroup>
                                     <Input
                                       invalid={formError.current.error}
-                                      value={editRow.title}
-                                      onChange={handleSourceAction('edit', 'title', i)}
+                                      value={addNewRow.title}
+                                      onChange={handleSourceAction('edit', 'title', null)}
                                     />
                                     <FormFeedback tooltip>Ο τίτλος δεν μπορεί να ξεπερνάει τους 255 χαρακτήρες.</FormFeedback>
                                   </FormGroup>
                                   {/* <Input value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} /> */}
                                 </td>
                                 <td style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
-                                  <Button color="success" style={{ marginRight: '5px' }} onClick={handleSourceAction('commit', null, i)}>
+                                  <Button color="success" style={{ marginRight: '5px' }} onClick={handleSourceAction('commit', null, null)}>
                                     <FontAwesomeIcon icon="check" />
                                   </Button>
-                                  <Button color="danger" onClick={handleSourceAction('cancel', null, null)}>
+                                  <Button color="danger" onClick={handleSourceAction('open', null, null)}>
                                     <FontAwesomeIcon icon="ban" />
                                   </Button>
                                 </td>
                               </tr>
-                            ) : (
-                              <tr key={`entity-${i}`}>
-                                <td>{i + 1}</td>
-                                <td>
-                                  <p title={statementSource.url}>{shortenStatementText(statementSource.url)}</p>
-                                </td>
-                                <td>
-                                  <p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p>
-                                </td>
-                                <td style={{ textAlign: 'center', verticalAlign: 'center', whiteSpace: 'nowrap' }}>
-                                  <Button color="warning" style={{ marginRight: '5px' }} onClick={handleSourceAction('open', null, i)}>
-                                    <FontAwesomeIcon icon="pencil-alt" />
-                                  </Button>
-                                  <Button color="danger" onClick={handleSourceAction('filter', null, i)}>
-                                    <FontAwesomeIcon icon="trash" />
-                                  </Button>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                        {addNewRow.open && (
-                          <tfoot>
-                            <tr>
-                              <td />
-                              <td>
-                                <Input value={addNewRow.url} onChange={handleSourceAction('edit', 'url', null)} />
-                              </td>
-                              <td>
-                                <FormGroup>
-                                  <Input
-                                    invalid={formError.current.error}
-                                    value={addNewRow.title}
-                                    onChange={handleSourceAction('edit', 'title', null)}
-                                  />
-                                  <FormFeedback tooltip>Ο τίτλος δεν μπορεί να ξεπερνάει τους 255 χαρακτήρες.</FormFeedback>
-                                </FormGroup>
-                                {/* <Input value={addNewRow.title} onChange={handleSourcesComponent('edit', 'title', null)} /> */}
-                              </td>
-                              <td style={{ verticalAlign: 'middle', textAlign: 'center', whiteSpace: 'nowrap' }}>
-                                <Button color="success" style={{ marginRight: '5px' }} onClick={handleSourceAction('commit', null, null)}>
-                                  <FontAwesomeIcon icon="check" />
-                                </Button>
-                                <Button color="danger" onClick={handleSourceAction('open', null, null)}>
-                                  <FontAwesomeIcon icon="ban" />
-                                </Button>
-                              </td>
-                            </tr>
-                          </tfoot>
-                        )}
-                      </Table>
-                    </Col>
-                  </Row>
+                            </tfoot>
+                          )}
+                        </Table>
+                      </Col>
+                    </Row>
+                  )}
                   <Row>
                     <Col md={{ size: 10, offset: 1 }}>
                       <div className="float-left">
