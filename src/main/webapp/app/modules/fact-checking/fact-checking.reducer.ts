@@ -218,8 +218,9 @@ export const getTaskStatus = id => (dispatch, getState) => {
   });
 };
 
-export const getTranslation = (text: string) => dispatch => {
-  const requestUrl = `http://localhost:5000/translate`;
+export const getTranslation = (text: string) => (dispatch, getState) => {
+  const { inProduction } = getState().applicationProfile;
+  const requestUrl = `${inProduction ? '/libretranslate/translate' : 'http://localhost:5000/translate'}`;
   const requestPayload = {
     q: text,
     source: 'auto',
