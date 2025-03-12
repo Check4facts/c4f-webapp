@@ -232,8 +232,9 @@ export const getTranslation = (text: string) => dispatch => {
   });
 };
 
-export const getClaimVerification = (text: string) => dispatch => {
-  const requestUrl = process.env.REACT_APP_ILSP_TOOL_URL;
+export const getClaimVerification = (text: string) => (dispatch, getState) => {
+  const { inProduction } = getState().applicationProfile;
+  const requestUrl = `${inProduction ? '/ilsp_tool/claim_verification' : process.env.REACT_APP_ILSP_TOOL_URL}`;
   const requestPayload = {
     auth_key: process.env.REACT_APP_ILSP_TOOL_KEY,
     doc_id: '1',
