@@ -1,0 +1,28 @@
+{
+  "check4FactsApp": {
+    "justification": {
+      "home": {
+        "title": "Justification",
+        "createLabel": "Create a new Justification",
+        "createOrEditLabel": "Create or edit a Justification",
+        "search": "Search for Justification",
+        "notFound": "No Justification found"
+      },
+      "created": "A new Justification is created with identifier {{ param }}",
+      "updated": "A Justification is updated with identifier {{ param }}",
+      "deleted": "A Justification is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Justification {{ id }}?"
+      },
+      "detail": {
+        "title": "Justification"
+      },
+      "text": "Text",
+      "label": "Label",
+      "timestamp": "Timestamp",
+      "elapsedTime": "Elapsed Time",
+      "model": "Model",
+      "statement": "Statement"
+    }
+  }
+}
