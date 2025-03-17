@@ -48,6 +48,12 @@ public class News implements Serializable {
     @Field(type = FieldType.Text, analyzer = "greek", searchAnalyzer = "greek")
     private String content;
 
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "greeklish", nullable = true)
+    @Field(type = FieldType.Text)
+    private String greeklish;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -107,6 +113,19 @@ public class News implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getGreeklish() {
+        return greeklish;
+    }
+
+    public void setGreeklish(String greeklish) {
+        this.greeklish = greeklish;
+    }
+
+    public News greeklish(String greeklish) {
+        this.greeklish = greeklish;
+        return this;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

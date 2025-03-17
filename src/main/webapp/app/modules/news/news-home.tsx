@@ -127,101 +127,105 @@ const NewsHome = (props: INewsHome) => {
             </AvForm>
           </Col>
         </Row>
-        {newsList.length > 0 ? (
-          newsList.map((news, i) => (
-            <Row key={`${news.title}-${i}`} className="mt-5">
-              <Col className="d-none d-sm-block" sm="2" style={{ borderRight: '1px solid rgba(0,0,0,0.2)' }}>
-                <Row>
-                  {authenticated ? (
-                    <Col style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}>
-                      <Col>
-                      <Button
-                        tag={Link}
-                        to={`${match.url}/${news.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="warning"
-                        size="sm"
-                      >
-                        <FontAwesomeIcon icon="pencil-alt" />
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`${match.url}/${news.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="danger"
-                        size="sm"
-                        style={{ display: 'flex', alignItems: 'center' }}
-                      >
-                        <FontAwesomeIcon icon="trash" />
-                      </Button>
+        {newsList.length > 0
+          ? newsList.map((news, i) => (
+              <Row key={`${news.title}-${i}`} className="mt-5">
+                <Col className="d-none d-sm-block" sm="2" style={{ borderRight: '1px solid rgba(0,0,0,0.2)' }}>
+                  <Row>
+                    {authenticated ? (
+                      <Col style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Col>
+                          <Button
+                            tag={Link}
+                            to={`${match.url}/${news.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                            color="warning"
+                            size="sm"
+                          >
+                            <FontAwesomeIcon icon="pencil-alt" />
+                          </Button>
+                          <Button
+                            tag={Link}
+                            to={`${match.url}/${news.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                            color="danger"
+                            size="sm"
+                            style={{ display: 'flex', alignItems: 'center' }}
+                          >
+                            <FontAwesomeIcon icon="trash" />
+                          </Button>
+                        </Col>
+                        <Col>
+                          <p style={{ fontSize: '2.5rem' }}>{moment.locale(currentLocale) && moment(news.date).format('D')}</p>
+                        </Col>
                       </Col>
-                      <Col>
-                      <p style={{ fontSize: '2.5rem' }}>{moment.locale(currentLocale) && moment(news.date).format('D')}</p>
+                    ) : (
+                      <Col style={{ display: 'flex', justifyContent: 'right' }}>
+                        <p style={{ fontSize: '2.5rem' }}>{moment.locale(currentLocale) && moment(news.date).format('D')}</p>
                       </Col>
+                    )}
+                  </Row>
+                  <Row>
+                    <Col style={{ display: 'flex', justifyContent: 'right', columnGap: '0.5rem' }}>
+                      <p>{moment.locale(currentLocale) && moment(news.date).format('MMMM')}</p>
+                      <p>{moment.locale(currentLocale) && moment(news.date).format('Y')}</p>
                     </Col>
-                  ) : (
-                    <Col style={{ display: 'flex', justifyContent: 'right' }}>
-                      <p style={{ fontSize: '2.5rem' }}>{moment.locale(currentLocale) && moment(news.date).format('D')}</p>
-                    </Col>
-                  )}
-                </Row>
-                <Row>
-                  <Col style={{ display: 'flex', justifyContent: 'right', columnGap: '0.5rem' }}>
-                    <p>{moment.locale(currentLocale) && moment(news.date).format('MMMM')}</p>
-                    <p>{moment.locale(currentLocale) && moment(news.date).format('Y')}</p>
-                  </Col>
-                </Row>
-              </Col>
-              <Col xs="12" sm="8">
-                <Row>
-                  <Col style={{ display: 'flex', justifyContent: 'left', borderBottom: '1px solid rgba(0,0,0,0.2)' }}>
-                    <Link to={`/news/${news.id}`} className="news-link-color" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      <p
-                        style={{
-                          fontSize: '1.5rem',
-                          fontWeight: 500,
-                          textDecoration: 'underline',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
+                  </Row>
+                </Col>
+                <Col xs="12" sm="8">
+                  <Row>
+                    <Col style={{ display: 'flex', justifyContent: 'left', borderBottom: '1px solid rgba(0,0,0,0.2)' }}>
+                      <Link
+                        to={`/news/${news.greeklish}`}
+                        className="news-link-color"
+                        style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                       >
-                        {news.title}
+                        <p
+                          style={{
+                            fontSize: '1.5rem',
+                            fontWeight: 500,
+                            textDecoration: 'underline',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {news.title}
+                        </p>
+                      </Link>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col style={{ display: 'flex', justifyContent: 'left' }}>
+                      <p style={{ fontSize: '1rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {news.previewText}
                       </p>
-                    </Link>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col style={{ display: 'flex', justifyContent: 'left' }}>
-                    <p style={{ fontSize: '1rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {news.previewText}
-                    </p>
-                  </Col>
-                </Row>
-                <Row className="d-block d-sm-none">
-                  <Col style={{ display: 'flex', justifyContent: 'left' }}>
-                    <p className="text-muted" style={{ fontSize: '1rem', fontWeight: 500 }}>
-                      {moment.locale(currentLocale) && moment(news.date).format('LL')}
-                    </p>
-                  </Col>
-                </Row>
-              </Col>
-              <Col sm="2" className="d-none d-sm-flex align-items-center">
-                <Row>
-                  <Col>
-                    <Link to={`/news/${news.id}`} className="news-link-color">
-                      <FontAwesomeIcon icon="angle-right" style={{ fontSize: '5rem' }} />
-                    </Link>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          ))
-        ) : (
-          !loading && <Row>
-            <Col sm="12" className="alert alert-warning">
-              <Translate contentKey="check4FactsApp.news.home.notFound">No News found</Translate>
-            </Col>
-          </Row>
-        )}
+                    </Col>
+                  </Row>
+                  <Row className="d-block d-sm-none">
+                    <Col style={{ display: 'flex', justifyContent: 'left' }}>
+                      <p className="text-muted" style={{ fontSize: '1rem', fontWeight: 500 }}>
+                        {moment.locale(currentLocale) && moment(news.date).format('LL')}
+                      </p>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col sm="2" className="d-none d-sm-flex align-items-center">
+                  <Row>
+                    <Col>
+                      <Link to={`/news/${news.greeklish}`} className="news-link-color">
+                        <FontAwesomeIcon icon="angle-right" style={{ fontSize: '5rem' }} />
+                      </Link>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            ))
+          : !loading && (
+              <Row>
+                <Col sm="12" className="alert alert-warning">
+                  <Translate contentKey="check4FactsApp.news.home.notFound">No News found</Translate>
+                </Col>
+              </Row>
+            )}
       </Container>
     </>
   );
