@@ -33,8 +33,8 @@ public class Justification implements Serializable {
     @Column(name = "timestamp")
     private Instant timestamp;
 
-    @Column(name = "elapsed_time")
-    private Instant elapsedTime;
+    @Column(name = "elapsed_time", columnDefinition = "float8")
+    private Double elapsedTime;
 
     @Column(name = "model")
     private String model;
@@ -95,15 +95,15 @@ public class Justification implements Serializable {
         return this;
     }
 
-    public Instant getElapsedTime() {
+    public Double getElapsedTime() {
         return elapsedTime;
     }
 
-    public void setElapsedTime(Instant elapsedTime) {
+    public void setElapsedTime(Double elapsedTime) {
         this.elapsedTime = elapsedTime;
     }
 
-    public Justification elapsedTime(Instant elapsedTime) {
+    public Justification elapsedTime(Double elapsedTime) {
         this.elapsedTime = elapsedTime;
         return this;
     }

@@ -5,7 +5,7 @@ export interface IJustification {
   text?: string;
   label?: string;
   timestamp?: string;
-  elapsedTime?: string;
+  elapsedTime?: number;
   model?: string;
   sources?: string[];
   statement?: IStatement;
