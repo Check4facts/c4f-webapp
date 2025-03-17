@@ -127,6 +127,14 @@ export const getEntity: ICrudGetAction<INews> = id => {
   };
 };
 
+export const getNewsByGreeklish: ICrudGetAction<INews> = greeklish => {
+  const requestUrl = `${apiUrl}/greeklish/${greeklish}`;
+  return {
+    type: ACTION_TYPES.FETCH_NEWS,
+    payload: axios.get<INews>(requestUrl),
+  };
+};
+
 export const createEntity: ICrudPutAction<INews> = entity => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.CREATE_NEWS,

@@ -1,9 +1,10 @@
 package gr.ekke.check4facts.service;
 
 import gr.ekke.check4facts.domain.News;
-import gr.ekke.check4facts.domain.Statement;
+import gr.ekke.check4facts.domain.utils.GreekToSeoFriendlyUrl;
 import gr.ekke.check4facts.repository.NewsRepository;
 import gr.ekke.check4facts.repository.search.NewsSearchRepository;
+import gr.ekke.check4facts.service.dto.NewsDTO;
 
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.Operator;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -45,8 +47,9 @@ public class NewsService {
      */
     public News save(News news) {
         log.debug("Request to save News : {}", news);
+        news.setGreeklish(GreekToSeoFriendlyUrl.convert(news.getTitle()));
         News result = newsRepository.save(news);
-        newsSearchRepository.save(result);
+        newsSearchRepository.saveCustom(result);
         return result;
     }
 
@@ -81,6 +84,20 @@ public class NewsService {
         log.debug("Request to get News : {}", id);
         return newsRepository.findById(id);
     }
+
+
+    /**
+     * Get one news by greeklish.
+     *
+     * @param greeklish the greeklish of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<News> findByGreeklish(String greeklish) {
+        log.debug("Request to get News : {}", greeklish);
+        return newsRepository.findByGreeklish(greeklish);
+    }
+
 
     /**
      * Delete the news by id.
@@ -120,5 +137,21 @@ public class NewsService {
         System.out.println("News: " + news);
 
         return news;
+    }
+
+    public int populateGreeklishForNews() {
+        log.debug("Request to populate Greeklish for News");
+
+        List<NewsDTO> news = newsRepository.findNewsWithNullGreeklish();
+        int updatedCount = 0;
+
+        for (NewsDTO n : news) {
+            String greeklish = GreekToSeoFriendlyUrl.convert(n.getTitle());
+            log.debug("Greeklish for News : {} is : {}", n.getId(), greeklish);
+            newsRepository.updateGreeklishForNews(greeklish, n.getId());
+            updatedCount++;
+        }
+
+        return updatedCount;
     }
 }

@@ -20,7 +20,8 @@
       "title": "Title",
       "date": "Date",
       "content": "Content",
-      "previewText": "Preview Text"
+      "previewText": "Preview Text",
+      "greeklish": "Greeklish"
     }
   }
 }
