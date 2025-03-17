@@ -71,8 +71,13 @@ export const Tools = (props: IToolsProps) => {
     setModalOpen(false);
   };
 
-  const populateGreeklish = () => {
+  const populateArticlesGreeklish = () => {
     axios.get('/api/articles/populate-greeklish');
+    setModalOpen(false);
+  }
+
+  const populateNewsGreeklish = () => {
+    axios.get('/api/news/populate-greeklish');
     setModalOpen(false);
   }
 
@@ -119,18 +124,34 @@ export const Tools = (props: IToolsProps) => {
       </Row>
       <Row>
         <Col>
-          <h4 className="text-center">Populate Greeklish</h4>
+          <h4 className="text-center">Populate Articles Greeklish</h4>
         </Col>
       </Row>
       <Row>
         <Col className="d-flex justify-content-center">
           <Button onClick={() =>
             openModal({
-              header: 'Populate Greeklish',
-              body: 'Are you sure you want populate greeklish?',
-              action: populateGreeklish
+              header: 'Populate Articles Greeklish',
+              body: 'Are you sure you want populate articles greeklish?',
+              action: populateArticlesGreeklish
             })
-          } color="primary">Greeklish</Button>
+          } color="primary">Articles Greeklish</Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h4 className="text-center">Populate News Greeklish</h4>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="d-flex justify-content-center">
+          <Button onClick={() =>
+            openModal({
+              header: 'Populate News Greeklish',
+              body: 'Are you sure you want populate news greeklish?',
+              action: populateNewsGreeklish
+            })
+          } color="primary">News Greeklish</Button>
         </Col>
       </Row>
       <Row className="mt-3">

@@ -53,10 +53,6 @@ public class ElasticsearchIndexService {
 
     private final CategorySearchRepository categorySearchRepository;
 
-    private final FeatureStatementRepository featureStatementRepository;
-
-    private final ResourceRepository resourceRepository;
-
     private final StatementRepository statementRepository;
 
     private final StatementSearchRepository statementSearchRepository;
@@ -80,16 +76,14 @@ public class ElasticsearchIndexService {
         ArticleSearchRepository articleSearchRepository,
         CategoryRepository categoryRepository,
         CategorySearchRepository categorySearchRepository,
-        ResourceRepository resourceRepository,
         StatementRepository statementRepository,
         StatementSearchRepository statementSearchRepository,
         StatementSourceRepository statementSourceRepository,
         StatementSourceSearchRepository statementSourceSearchRepository,
         TopicRepository topicRepository,
         TopicSearchRepository topicSearchRepository,
-        FeatureStatementRepository featureStatementRepository,
-        JestElasticsearchTemplate jestElasticsearchTemplate, 
-        NewsRepository newsRepository, 
+        JestElasticsearchTemplate jestElasticsearchTemplate,
+        NewsRepository newsRepository,
         NewsSearchRepository newsSearchRepository) {
         this.userRepository = userRepository;
         this.userSearchRepository = userSearchRepository;
@@ -97,14 +91,12 @@ public class ElasticsearchIndexService {
         this.articleSearchRepository = articleSearchRepository;
         this.categoryRepository = categoryRepository;
         this.categorySearchRepository = categorySearchRepository;
-        this.resourceRepository = resourceRepository;
         this.statementRepository = statementRepository;
         this.statementSearchRepository = statementSearchRepository;
         this.statementSourceRepository = statementSourceRepository;
         this.statementSourceSearchRepository = statementSourceSearchRepository;
         this.topicRepository = topicRepository;
         this.topicSearchRepository = topicSearchRepository;
-        this.featureStatementRepository = featureStatementRepository;
         this.jestElasticsearchTemplate = jestElasticsearchTemplate;
         this.newsRepository = newsRepository;
         this.newsSearchRepository = newsSearchRepository;
@@ -174,9 +166,13 @@ public class ElasticsearchIndexService {
                         }
                     });
                     return result;
-                });// Check if the repository is an instance of ArticleSearchRepositoryCustom
+                });
+                // Check if the repository is an instance of ArticleSearchRepositoryCustom or NewsSearchRepositoryCustom
                 if (elasticsearchRepository instanceof ArticleSearchRepositoryCustom) {
                     ((ArticleSearchRepositoryCustom) elasticsearchRepository).saveAllCustom(((List<Article> )results.getContent()));
+                } else if (elasticsearchRepository instanceof NewsSearchRepositoryCustom) {
+
+                    ((NewsSearchRepositoryCustom) elasticsearchRepository).saveAllCustom(((List<News> )results.getContent()));
                 } else {
                     elasticsearchRepository.saveAll(results.getContent()); // Fallback to default saveAll
                 }

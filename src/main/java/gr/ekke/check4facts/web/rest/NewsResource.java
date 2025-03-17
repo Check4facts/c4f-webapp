@@ -23,9 +23,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link gr.ekke.check4facts.domain.News}.
@@ -115,6 +112,19 @@ public class NewsResource {
     }
 
     /**
+     * {@code GET  /news/greeklish/:greeklish} : get the "greeklish" news.
+     *
+     * @param greeklish the greeklish of the news to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the news, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/news/greeklish/{greeklish}")
+    public ResponseEntity<News> getNewsByGreeklish(@PathVariable String greeklish) {
+        log.debug("REST request to get News with greeklish : {}", greeklish);
+        Optional<News> n = newsService.findByGreeklish(greeklish);
+        return ResponseUtil.wrapOrNotFound(n);
+    }
+
+    /**
      * {@code DELETE  /news/:id} : delete the "id" news.
      *
      * @param id the id of the news to delete.
@@ -141,5 +151,22 @@ public class NewsResource {
         Page<News> page = newsService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /news/populate-greeklish} : updates Greeklish for news where greeklish is null.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} when the task is finished, or with status {@code 500 (Internal Server Error)} if an error occurs.
+     */
+    @GetMapping("/news/populate-greeklish")
+    public ResponseEntity<String> populateGreeklishForNews() {
+        log.debug("REST request to populate Greeklish for News");
+        try {
+            int updatedCount = newsService.populateGreeklishForNews();
+            return ResponseEntity.ok().body("Updated Greeklish for " + updatedCount + " news");
+        } catch (Exception e) {
+            log.error("Error updating Greeklish for News", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
 }

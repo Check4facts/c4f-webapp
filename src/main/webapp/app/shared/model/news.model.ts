@@ -6,6 +6,7 @@ export interface INews {
   date?: string;
   content?: string;
   previewText?: string;
+  greeklish?: string;
 }
 
 export const defaultValue: Readonly<INews> = {};

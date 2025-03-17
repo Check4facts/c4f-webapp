@@ -6,7 +6,7 @@ import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntity, reset } from './news.reducer';
+import { getEntity, getNewsByGreeklish, reset } from './news.reducer';
 import { INews } from 'app/shared/model/news.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import moment from 'moment';
@@ -43,7 +43,12 @@ export const NewsDetail = (props: INewsDetailProps) => {
   };
 
   useEffect(() => {
-    props.getEntity(props.match.params.id);
+    const param = props.match.params.id;
+    if (!isNaN(Number(param))) {
+      props.getEntity(param);
+    } else {
+      props.getNewsByGreeklish(param);
+    }
 
     return () => {
       props.reset();
@@ -56,27 +61,27 @@ export const NewsDetail = (props: INewsDetailProps) => {
     </div>
   ) : errorMessage === null ? (
     <Container>
-      {/* <HelComp title={article.previewTitle} description={article.previewText} 
-      author={article.author} publishedDate={article.articleDate} image={article.previewImage} 
+      {/* <HelComp title={article.previewTitle} description={article.previewText}
+      author={article.author} publishedDate={article.articleDate} image={article.previewImage}
       imageType={article.previewImageContentType} /> */}
       <Row>
         <Col sm="12">
           <div className="article-wrapper">
             <div className="article-wrapper-sm ">
-            <div className="text-center" style={{wordWrap: "break-word"}}> 
-              <h1>{newsEntity.title}</h1>
+              <div className="text-center" style={{ wordWrap: 'break-word' }}>
+                <h1>{newsEntity.title}</h1>
+              </div>
+              <p className="fs-15 d-flex justify-content-center align-items-center m-0 text-muted">
+                {moment.locale(currentLocale) && moment(newsEntity.date).format('LL')}
+              </p>
+              {
+                newsEntity.content && (
+                  // <Alert color={'secondary'} >
+                  <div className="ck-content mt-5" dangerouslySetInnerHTML={{ __html: handleEmbedTags(newsEntity.content) }} />
+                )
+                // </Alert>
+              }
             </div>
-            <p className="fs-15 d-flex justify-content-center align-items-center m-0 text-muted">
-              {moment.locale(currentLocale) && moment(newsEntity.date).format('LL')}
-            </p>
-            {
-              newsEntity.content && (
-                // <Alert color={'secondary'} >
-                <div className="ck-content mt-5" dangerouslySetInnerHTML={{ __html: handleEmbedTags(newsEntity.content) }} />
-              )
-              // </Alert>
-            }
-          </div>
           </div>
         </Col>
       </Row>
@@ -95,7 +100,7 @@ const mapStateToProps = ({ news, locale }: IRootState) => ({
   currentLocale: locale.currentLocale,
 });
 
-const mapDispatchToProps = { getEntity, reset };
+const mapDispatchToProps = { getEntity, getNewsByGreeklish, reset };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
