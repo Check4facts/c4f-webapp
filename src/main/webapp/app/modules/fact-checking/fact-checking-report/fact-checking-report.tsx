@@ -28,6 +28,7 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { APP_LOCAL_DATETIME_FORMAT, AUTHORITIES } from 'app/config/constants';
 import moment from 'moment';
 import Summarization from 'app/modules/summarization/summarization';
+import Justification from 'app/entities/justification/justification';
 
 const addNewRowDefault = {
   open: false,
@@ -546,6 +547,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                         editorRef={sumEditorRef}
                         formOnChange={formOnchange}
                       />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Justification statementId={statement?.id} />
                     </Col>
                   </Row>
                   <Row className="fact-checking-report-row" style={{ textAlign: 'center', marginTop: '15px' }}>
