@@ -2,6 +2,8 @@ package gr.ekke.check4facts.service;
 
 import gr.ekke.check4facts.domain.Justification;
 import gr.ekke.check4facts.repository.JustificationRepository;
+
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,9 +40,21 @@ public class JustificationService {
     }
 
     @Transactional(readOnly = true)
+    public List<Justification> findAllByStatementIdOrderByTimestampDesc(Long statementId) {
+        log.debug("Request to get all Justifications for Statement wit id: {}", statementId);
+        return justificationRepository.findAllByStatementIdOrderByTimestampDesc(statementId);
+    }
+
+    @Transactional(readOnly = true)
     public Optional<Justification> findOne(Long id) {
         log.debug("Request to get Justfication : {}", id);
         return justificationRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Justification> findFirstByStatementIdOrderByTimestampDesc(Long statementId) {
+        log.debug("Request to get latest Justfication by Statement with id : {}", statementId);
+        return justificationRepository.findFirstByStatementIdOrderByTimestampDesc(statementId);
     }
 
     public void delete(Long id) {

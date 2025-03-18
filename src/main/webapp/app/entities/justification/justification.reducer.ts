@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ICrudSearchAction, ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -8,7 +8,9 @@ import { IJustification, defaultValue } from 'app/shared/model/justification.mod
 
 export const ACTION_TYPES = {
   FETCH_JUSTIFICATION_LIST: 'justification/FETCH_JUSTIFICATION_LIST',
+  FETCH_JUSTIFICATION_LIST_BY_STATEMENT: 'justification/FETCH_JUSTIFICATION_LIST_BY_STATEMENT',
   FETCH_JUSTIFICATION: 'justification/FETCH_JUSTIFICATION',
+  FETCH_LATEST_JUSTIFICATION: 'justification/FETCH_LATSET_JUSTIFICATION',
   CREATE_JUSTIFICATION: 'justification/CREATE_JUSTIFICATION',
   UPDATE_JUSTIFICATION: 'justification/UPDATE_JUSTIFICATION',
   DELETE_JUSTIFICATION: 'justification/DELETE_JUSTIFICATION',
@@ -32,13 +34,9 @@ export type JustificationState = Readonly<typeof initialState>;
 export default (state: JustificationState = initialState, action): JustificationState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.FETCH_JUSTIFICATION_LIST):
+    case REQUEST(ACTION_TYPES.FETCH_JUSTIFICATION_LIST_BY_STATEMENT):
     case REQUEST(ACTION_TYPES.FETCH_JUSTIFICATION):
-      return {
-        ...state,
-        errorMessage: null,
-        updateSuccess: false,
-        loading: true,
-      };
+    case REQUEST(ACTION_TYPES.FETCH_LATEST_JUSTIFICATION):
     case REQUEST(ACTION_TYPES.CREATE_JUSTIFICATION):
     case REQUEST(ACTION_TYPES.UPDATE_JUSTIFICATION):
     case REQUEST(ACTION_TYPES.DELETE_JUSTIFICATION):
@@ -49,7 +47,9 @@ export default (state: JustificationState = initialState, action): Justification
         updating: true,
       };
     case FAILURE(ACTION_TYPES.FETCH_JUSTIFICATION_LIST):
+    case FAILURE(ACTION_TYPES.FETCH_JUSTIFICATION_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.FETCH_JUSTIFICATION):
+    case FAILURE(ACTION_TYPES.FETCH_LATEST_JUSTIFICATION):
     case FAILURE(ACTION_TYPES.CREATE_JUSTIFICATION):
     case FAILURE(ACTION_TYPES.UPDATE_JUSTIFICATION):
     case FAILURE(ACTION_TYPES.DELETE_JUSTIFICATION):
@@ -67,7 +67,14 @@ export default (state: JustificationState = initialState, action): Justification
         entities: action.payload.data,
         totalItems: parseInt(action.payload.headers['x-total-count'], 10),
       };
+    case SUCCESS(ACTION_TYPES.FETCH_JUSTIFICATION_LIST_BY_STATEMENT):
+      return {
+        ...state,
+        loading: false,
+        entities: action.payload.data,
+      };
     case SUCCESS(ACTION_TYPES.FETCH_JUSTIFICATION):
+    case SUCCESS(ACTION_TYPES.FETCH_LATEST_JUSTIFICATION):
       return {
         ...state,
         loading: false,
@@ -109,10 +116,26 @@ export const getEntities: ICrudGetAllAction<IJustification> = (page, size, sort)
   };
 };
 
+export const getJustificationsByStatement = statementId => {
+  const requestUrl = `${apiUrl}/statement/${statementId}`;
+  return {
+    type: ACTION_TYPES.FETCH_JUSTIFICATION_LIST_BY_STATEMENT,
+    payload: axios.get<IJustification[]>(requestUrl),
+  };
+};
+
 export const getEntity: ICrudGetAction<IJustification> = id => {
   const requestUrl = `${apiUrl}/${id}`;
   return {
     type: ACTION_TYPES.FETCH_JUSTIFICATION,
+    payload: axios.get<IJustification>(requestUrl),
+  };
+};
+
+export const getLatestJustification: ICrudGetAction<IJustification> = statementId => {
+  const requestUrl = `${apiUrl}/latest/${statementId}`;
+  return {
+    type: ACTION_TYPES.FETCH_LATEST_JUSTIFICATION,
     payload: axios.get<IJustification>(requestUrl),
   };
 };

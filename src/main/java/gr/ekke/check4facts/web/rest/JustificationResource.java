@@ -98,6 +98,18 @@ public class JustificationResource {
     }
 
     /**
+     * {@code GET  /justification/statement/:statementId} : get all the justifications by "statementId".
+     *
+     * @param statementId the id of the statement to get justifications
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of justification in body.
+     */
+    @GetMapping("/justification/statement/{statementId}")
+    public List<Justification> findAllByStatementIdOrderByTimestampDesc(@PathVariable Long statementId) {
+        log.debug("REST request to get a page of Justification");
+        return justificationService.findAllByStatementIdOrderByTimestampDesc(statementId);
+    }
+
+    /**
      * {@code GET  /justification/:id} : get the "id" justification.
      *
      * @param id the id of the justification to retrieve.
@@ -108,6 +120,18 @@ public class JustificationResource {
         log.debug("REST request to get Justification : {}", id);
         Optional<Justification> justification = justificationService.findOne(id);
         return ResponseUtil.wrapOrNotFound(justification);
+    }
+    /**
+     * {@code GET  /justification/latest/:statementId} : get the lateset justification by "statementId".
+     *
+     * @param statementId the id of the statement to get the latest justification.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the justification or null if not found.
+     */
+    @GetMapping("/justification/latest/{statementId}")
+    public ResponseEntity<Optional<Justification>> findFirstByStatementIdOrderByTimestampDesc(@PathVariable Long statementId) {
+        log.debug("REST Request to get latest Justfication by Statement with id : {}", statementId);
+        Optional<Justification> justification = justificationService.findFirstByStatementIdOrderByTimestampDesc(statementId);
+        return ResponseEntity.ok().body(justification);
     }
 
     /**

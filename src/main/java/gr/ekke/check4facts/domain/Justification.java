@@ -1,5 +1,6 @@
 package gr.ekke.check4facts.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import java.io.Serializable;
 import java.time.Instant;
@@ -44,6 +45,7 @@ public class Justification implements Serializable {
     private List<String> sources;
 
     @ManyToOne
+    @JsonBackReference
     private Statement statement;
 
     public Justification() {}
