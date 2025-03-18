@@ -40,7 +40,7 @@ export const Dissemination = (props: IDisseminationProps) => {
         'https://www.efsyn.gr/kosmos/327225_megali-pigi-parapliroforisis-youtube-kataggelloyn-dekades-organismoi-fact-checking',
         'https://www.kathimerini.gr/opinion/561815104/paraplanitikes-eidiseis-kai-polemos/',
         'https://www.dw.com/el/fact-checking-%CE%B5%CE%BD%CE%B1%CE%BD%CF%84%CE%AF%CE%BF%CE%BD-fake-news/a-47007355',
-        'https://www.nytimes.com/2016/11/20/business/media/how-fake-news-spreads.html',
+        // 'https://www.nytimes.com/2016/11/20/business/media/how-fake-news-spreads.html',
         'https://www.pewresearch.org/internet/2017/03/29/the-future-of-free-speech-trolls-anonymity-and-fake-news-online',
       ],
     },
