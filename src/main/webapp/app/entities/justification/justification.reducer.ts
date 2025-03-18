@@ -5,6 +5,7 @@ import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IJustification, defaultValue } from 'app/shared/model/justification.model';
+import { ITaskStatus } from 'app/shared/model/util.model';
 
 export const ACTION_TYPES = {
   FETCH_JUSTIFICATION_LIST: 'justification/FETCH_JUSTIFICATION_LIST',
@@ -14,6 +15,8 @@ export const ACTION_TYPES = {
   CREATE_JUSTIFICATION: 'justification/CREATE_JUSTIFICATION',
   UPDATE_JUSTIFICATION: 'justification/UPDATE_JUSTIFICATION',
   DELETE_JUSTIFICATION: 'justification/DELETE_JUSTIFICATION',
+  GENERATION_JUSTIFY_STATUS: 'justification/GENERATION_JUSTIFY_STATUS',
+  GENERATE_STATEMENT_JUSTIFY: 'justification/GENERATE_STATEMENT_JUSTIFY',
   RESET: 'justification/RESET',
 };
 
@@ -25,6 +28,7 @@ const initialState = {
   updating: false,
   totalItems: 0,
   updateSuccess: false,
+  justifyTaskStatus: {} as ITaskStatus,
 };
 
 export type JustificationState = Readonly<typeof initialState>;
@@ -46,6 +50,13 @@ export default (state: JustificationState = initialState, action): Justification
         updateSuccess: false,
         updating: true,
       };
+    case REQUEST(ACTION_TYPES.GENERATE_STATEMENT_JUSTIFY):
+      return {
+        ...state,
+        errorMessage: null,
+      };
+    case FAILURE(ACTION_TYPES.GENERATE_STATEMENT_JUSTIFY):
+    case FAILURE(ACTION_TYPES.GENERATION_JUSTIFY_STATUS):
     case FAILURE(ACTION_TYPES.FETCH_JUSTIFICATION_LIST):
     case FAILURE(ACTION_TYPES.FETCH_JUSTIFICATION_LIST_BY_STATEMENT):
     case FAILURE(ACTION_TYPES.FETCH_JUSTIFICATION):
@@ -95,6 +106,12 @@ export default (state: JustificationState = initialState, action): Justification
         updateSuccess: true,
         entity: {},
       };
+    case SUCCESS(ACTION_TYPES.GENERATE_STATEMENT_JUSTIFY):
+    case SUCCESS(ACTION_TYPES.GENERATION_JUSTIFY_STATUS):
+      return {
+        ...state,
+        justifyTaskStatus: action.payload.data,
+      };
     case ACTION_TYPES.RESET:
       return {
         ...initialState,
@@ -105,6 +122,7 @@ export default (state: JustificationState = initialState, action): Justification
 };
 
 const apiUrl = 'api/justification';
+const pythonUrl = 'http://localhost:9090';
 
 // Actions
 
@@ -165,6 +183,38 @@ export const deleteEntity: ICrudDeleteAction<IJustification> = id => async dispa
   });
   dispatch(getEntities());
   return result;
+};
+
+export const generateStatementJustify = (statementId, n) => (dispatch, getState) => {
+  const { inProduction } = getState().applicationProfile;
+  const requestUrl = `${inProduction ? '/ml' : pythonUrl}/justify`;
+  return dispatch({
+    type: ACTION_TYPES.GENERATE_STATEMENT_JUSTIFY,
+    payload: axios.post(requestUrl, { id: statementId, n }),
+  });
+};
+
+export const getGenerationJustifyStatus = taskId => (dispatch, getState) => {
+  const { inProduction } = getState().applicationProfile;
+  const requestUrl = `${inProduction ? '/ml' : pythonUrl}/task-status/${taskId}`;
+  return dispatch({
+    type: ACTION_TYPES.GENERATION_JUSTIFY_STATUS,
+    payload: axios.get(requestUrl),
+  });
+};
+
+export const generateAndTrackJustify = (statementId, n) => dispatch => {
+  return dispatch(generateStatementJustify(statementId, n))
+    .then(result => {
+      const taskId = result.value?.data?.taskId; // Extract taskId safely from the response
+      if (taskId) {
+        return dispatch(getGenerationJustifyStatus(taskId));
+      }
+      throw new Error('Task ID not found in the response.');
+    })
+    .catch(error => {
+      console.error('Error during generateAndTrackSummary:', error);
+    });
 };
 
 export const reset = () => ({
