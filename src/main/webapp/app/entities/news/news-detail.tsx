@@ -77,7 +77,7 @@ export const NewsDetail = (props: INewsDetailProps) => {
               {
                 newsEntity.content && (
                   // <Alert color={'secondary'} >
-                  <div className="ck-content mt-5" dangerouslySetInnerHTML={{ __html: handleEmbedTags(newsEntity.content) }} />
+                  <div className="ck-content mt-5 list-line-height" dangerouslySetInnerHTML={{ __html: handleEmbedTags(newsEntity.content) }} />
                 )
                 // </Alert>
               }

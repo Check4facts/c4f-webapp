@@ -136,7 +136,7 @@ export const ArticleDisplay = (props: IArticleDisplayProps & { history: { locati
                     'article-content-new-' + article.statement.factCheckerAccuracy
                   }`}
                 >
-                  <div className="ck-content" dangerouslySetInnerHTML={{ __html: handleEmbedTags(article.content) }} />
+                  <div className="ck-content list-line-height" dangerouslySetInnerHTML={{ __html: handleEmbedTags(article.content) }} />
                 </Alert>
               )}
             </div>
