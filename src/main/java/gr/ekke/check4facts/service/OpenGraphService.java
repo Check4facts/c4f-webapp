@@ -9,11 +9,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OpenGraphService {
   private final Map<String, OpenGraphMetadata> cache = new ConcurrentHashMap<>();
+  private final Logger log = LoggerFactory.getLogger(OpenGraphService.class);
 
   public OpenGraphMetadata fetchMetadata(String url) throws IOException {
     if (cache.containsKey(url)) {
@@ -35,7 +38,12 @@ public class OpenGraphService {
   public List<OpenGraphMetadata> fetchMetadataForUrls(List<String> urls) throws IOException {
     List<OpenGraphMetadata> metadataList = new ArrayList<>();
     for (String url : urls) {
-      metadataList.add(fetchMetadata(url));
+      try {
+        metadataList.add(fetchMetadata(url));
+      } catch (IOException e) {
+        // Log the error and continue with the next URL
+        log.error("Failed to fetch metadata for URL: {} ",url,  e);
+      }
     }
     return metadataList;
   }

@@ -49,7 +49,7 @@ public class NewsService {
         log.debug("Request to save News : {}", news);
         news.setGreeklish(GreekToSeoFriendlyUrl.convert(news.getTitle()));
         News result = newsRepository.save(news);
-        newsSearchRepository.saveCustom(result);
+        newsSearchRepository.save(result);
         return result;
     }
 
