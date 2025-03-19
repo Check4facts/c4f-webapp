@@ -2,7 +2,7 @@ import _ from 'lodash';
 import './justification.scss';
 import React, { useEffect, useRef, useState } from 'react';
 import { IRootState } from 'app/shared/reducers';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Progress } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Progress, Tooltip } from 'reactstrap';
 import {
   getLatestJustification,
   reset as justificationReset,
@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { Translate } from 'react-jhipster';
 import moment from 'moment';
 import { IModalContent } from 'app/shared/model/util.model';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface IJustificationProps extends StateProps, DispatchProps {
   statementId: number;
@@ -23,6 +24,9 @@ const Justification = (props: IJustificationProps) => {
   const { statementId, loading, justification, justifyTaskStatus } = props;
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [tracking, setTracking] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
 
   const handleConfirmModal = (content: IModalContent) => () => {
     setModalContent(content);
@@ -62,11 +66,21 @@ const Justification = (props: IJustificationProps) => {
   return loading ? (
     <></>
   ) : (
+    // TODO: Adde background color accroding to justification.label
     <div className="justification">
       <h3>
         <Translate contentKey="check4FactsApp.justification.home.title" />
       </h3>
-      {justification !== null ? (
+      {tracking ? (
+        <>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Progress animated color="info" value={100} style={{ width: '60%' }} />
+          </div>
+          <p className="text-center font-italic">
+            <Translate contentKey="check4FactsApp.justification.progressMessage" />
+          </p>
+        </>
+      ) : justification !== null ? (
         <div key={justification.id} className="entry">
           <p className="text">{justification.text}</p>
           <h4>
@@ -83,34 +97,46 @@ const Justification = (props: IJustificationProps) => {
           </ul>
           <div className="bottom-info">
             <ul className="inline-list">
-              <li>
+              {/* <li>
                 <Translate contentKey="check4FactsApp.justification.model" />: <span>{justification.model}</span>
+              </li> */}
+              <li>
+                <Translate contentKey="check4FactsApp.justification.label" />: <span>{justification.label}</span>
               </li>
               <li>
                 <Translate contentKey="check4FactsApp.justification.timestamp" />:{' '}
                 <span>{moment(justification.timestamp).format('LL')}</span>
               </li>
-              <li>
+              {/* <li>
                 <Translate contentKey="check4FactsApp.justification.elapsedTime" />: <span>{justification.elapsedTime}</span>
-              </li>
+              </li> */}
             </ul>
           </div>
-        </div>
-      ) : tracking ? (
-        <>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Progress animated color="info" value={100} style={{ width: '60%' }} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+            <Button
+              id="generate-justify"
+              color="warning"
+              onClick={handleConfirmModal({
+                header: <Translate contentKey="check4FactsApp.justification.modal.header" />,
+                body: <Translate contentKey="check4FactsApp.justification.modal.body" />,
+                action: initiateGenerateJustify,
+                open: true,
+              })}
+            >
+              <img src="../../content/images/reshot-icon-brain-2GQK794YNR.svg" alt="brain-svg" height={16} />
+            </Button>
+            <Tooltip target="generate-justify" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
+              Τεκμηρίωση με ΑΙ
+            </Tooltip>
           </div>
-          <p className="text-center font-italic">
-            <Translate contentKey="check4FactsApp.justification.progressMessage" />
-          </p>
-        </>
+        </div>
       ) : (
         <div className="empty">
           <p className="prompt">
             <Translate contentKey="check4FactsApp.justification.home.createLabel" />
           </p>
           <Button
+            id="generate-justify"
             color="warning"
             onClick={handleConfirmModal({
               header: <Translate contentKey="check4FactsApp.justification.modal.header" />,
@@ -119,8 +145,11 @@ const Justification = (props: IJustificationProps) => {
               open: true,
             })}
           >
-            <Translate contentKey="check4FactsApp.justification.home.button" />
+            <img src="../../content/images/reshot-icon-brain-2GQK794YNR.svg" alt="brain-svg" height={16} />
           </Button>
+          <Tooltip target="generate-summary" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
+            Τεκμηρίωση με ΑΙ
+          </Tooltip>
         </div>
       )}
       <Modal fade={false} size="md" isOpen={modalContent.open} toggle={toggleConfirmModal} className="summarization-confirm-modal-dialog">
