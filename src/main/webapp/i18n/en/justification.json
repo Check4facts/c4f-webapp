@@ -6,7 +6,9 @@
         "createLabel": "Create a new Justification",
         "createOrEditLabel": "Create or edit a Justification",
         "search": "Search for Justification",
-        "notFound": "No Justification found"
+        "notFound": "No Justification found",
+        "button": "ΑΙ Justification",
+        "progress": "Justification progress"
       },
       "created": "A new Justification is created with identifier {{ param }}",
       "updated": "A Justification is updated with identifier {{ param }}",
@@ -17,11 +19,20 @@
       "detail": {
         "title": "Justification"
       },
+      "modal": {
+        "header": "Justify Statement with AI",
+        "body": "Are you sure you want to consult our AI model for the justification of this specific statement?",
+        "button": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      },
       "text": "Text",
       "label": "Label",
       "timestamp": "Timestamp",
       "elapsedTime": "Elapsed Time",
       "model": "Model",
+      "sources": "Sources",
       "statement": "Statement"
     }
   }

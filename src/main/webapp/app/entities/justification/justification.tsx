@@ -3,7 +3,12 @@ import './justification.scss';
 import React, { useEffect, useRef, useState } from 'react';
 import { IRootState } from 'app/shared/reducers';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Progress } from 'reactstrap';
-import { getLatestJustification, reset as justificationReset, generateAndTrackJustify, getGenerationJustifyStatus } from './justification.reducer';
+import {
+  getLatestJustification,
+  reset as justificationReset,
+  generateAndTrackJustify,
+  getGenerationJustifyStatus,
+} from './justification.reducer';
 import { connect } from 'react-redux';
 import { Translate } from 'react-jhipster';
 import moment from 'moment';
@@ -23,7 +28,7 @@ const Justification = (props: IJustificationProps) => {
     setModalContent(content);
   };
 
-  const toggleConfirmModal = () => setModalContent(state => ({ ...state, open: false }));
+  const toggleConfirmModal = () => setModalContent(state => ({ ...state, open: !state.open }));
 
   useEffect(() => {
     if (statementId) {
@@ -40,10 +45,10 @@ const Justification = (props: IJustificationProps) => {
 
   useEffect(() => {
     if (!_.isEmpty(justifyTaskStatus) && justifyTaskStatus.status !== 'SUCCESS' && statusInterval.current === null) {
-      // Check the status of the task every 5
+      // Check the status of the task every 10 seconds
       statusInterval.current = setInterval(() => {
         props.getGenerationJustifyStatus(justifyTaskStatus.taskId);
-      }, 5000);
+      }, 10000);
     }
     if (!_.isEmpty(justifyTaskStatus) && justifyTaskStatus.status === 'SUCCESS') {
       // Summary has been generated successfully
@@ -92,7 +97,14 @@ const Justification = (props: IJustificationProps) => {
           </div>
         </div>
       ) : tracking ? (
-        <Progress animated color="info" value={100} />
+        <>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Progress animated color="info" value={100} style={{ width: '60%' }} />
+          </div>
+          <p className="text-center font-italic">
+            <Translate contentKey="check4FactsApp.justification.progressMessage" />
+          </p>
+        </>
       ) : (
         <div className="empty">
           <p className="prompt">
@@ -101,8 +113,8 @@ const Justification = (props: IJustificationProps) => {
           <Button
             color="warning"
             onClick={handleConfirmModal({
-              header: <Translate contentKey="" />,
-              body: <Translate contentKey="" />,
+              header: <Translate contentKey="check4FactsApp.justification.modal.header" />,
+              body: <Translate contentKey="check4FactsApp.justification.modal.body" />,
               action: initiateGenerateJustify,
               open: true,
             })}
@@ -116,10 +128,10 @@ const Justification = (props: IJustificationProps) => {
         <ModalBody>{modalContent.body}</ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={toggleConfirmModal}>
-            <Translate contentKey="check4FactsApp.summarization.confirmModal.button.no" />
+            <Translate contentKey="check4FactsApp.justification.modal.button.no" />
           </Button>
           <Button color="primary" onClick={() => modalContent.action()}>
-            <Translate contentKey="check4FactsApp.summarization.confirmModal.button.yes" />
+            <Translate contentKey="check4FactsApp.justification.modal.button.yes" />
           </Button>
         </ModalFooter>
       </Modal>
