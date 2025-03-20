@@ -66,8 +66,7 @@ const Justification = (props: IJustificationProps) => {
   return loading ? (
     <></>
   ) : (
-    // TODO: Adde background color accroding to justification.label
-    <div className="justification">
+    <div className={`justification justify-accuracy-${justification?.label}`}>
       <h3>
         <Translate contentKey="check4FactsApp.justification.home.title" />
       </h3>
@@ -101,11 +100,14 @@ const Justification = (props: IJustificationProps) => {
                 <Translate contentKey="check4FactsApp.justification.model" />: <span>{justification.model}</span>
               </li> */}
               <li>
-                <Translate contentKey="check4FactsApp.justification.label" />: <span>{justification.label}</span>
+                <Translate contentKey="check4FactsApp.justification.label" />:{' '}
+                <span>
+                  <Translate contentKey={`check4FactsApp.justification.accuracy.${justification.label}`} />
+                </span>
               </li>
               <li>
                 <Translate contentKey="check4FactsApp.justification.timestamp" />:{' '}
-                <span>{moment(justification.timestamp).format('LL')}</span>
+                <span>{moment(justification.timestamp).format('LLL')}</span>
               </li>
               {/* <li>
                 <Translate contentKey="check4FactsApp.justification.elapsedTime" />: <span>{justification.elapsedTime}</span>

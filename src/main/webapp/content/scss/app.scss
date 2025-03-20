@@ -395,6 +395,27 @@ Accuracy level colors
   border-radius: 5em;
 }
 
+.justify-accuracy-0 {
+  background: rgba($accuracy-color-0, 0.1);
+  border-radius: 5em;
+}
+.justify-accuracy-1 {
+  background: rgba($accuracy-color-1, 0.1);
+  border-radius: 5em;
+}
+.justify-accuracy-2 {
+  background: rgba($accuracy-color-2, 0.1);
+  border-radius: 5em;
+}
+.justify-accuracy-3 {
+  background: rgba($accuracy-color-3, 0.1);
+  border-radius: 5em;
+}
+.justify-accuracy-4 {
+  background: rgba($accuracy-color-4, 0.1);
+  border-radius: 5em;
+}
+
 .news-link-color {
   color: #000;
   &:hover {
