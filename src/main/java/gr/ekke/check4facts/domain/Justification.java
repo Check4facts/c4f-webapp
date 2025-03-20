@@ -3,7 +3,7 @@ package gr.ekke.check4facts.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,8 +31,8 @@ public class Justification implements Serializable {
     @Column(name = "label")
     private String label;
 
-    @Column(name = "timestamp")
-    private Instant timestamp;
+    @Column(name = "timestamp", columnDefinition = "timestamp")
+    private LocalDateTime timestamp;
 
     @Column(name = "elapsed_time", columnDefinition = "float8")
     private Double elapsedTime;
@@ -84,15 +84,15 @@ public class Justification implements Serializable {
         return this;
     }
 
-    public Instant getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
-    public Justification timestamp(Instant timestamp) {
+    public Justification timestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
         return this;
     }
