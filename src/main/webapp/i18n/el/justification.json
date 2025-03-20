@@ -41,7 +41,8 @@
       "elapsedTime": "Χρόνος Εκτέλεσης",
       "model": "Μοντέλο",
       "sources": "Πηγές Βοηθού",
-      "statement": "Δήλωση"
+      "statement": "Δήλωση",
+      "totalExecutions": "Συνολικές Εκτελέσεις"
     }
   }
 }

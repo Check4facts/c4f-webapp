@@ -4,16 +4,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IRootState } from 'app/shared/reducers';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Progress, Tooltip } from 'reactstrap';
 import {
-  getLatestJustification,
   reset as justificationReset,
   generateAndTrackJustify,
   getGenerationJustifyStatus,
+  getJustificationsByStatement,
 } from './justification.reducer';
 import { connect } from 'react-redux';
 import { Translate } from 'react-jhipster';
 import moment from 'moment';
 import { IModalContent } from 'app/shared/model/util.model';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { defaultValue, IJustification } from 'app/shared/model/justification.model';
 
 interface IJustificationProps extends StateProps, DispatchProps {
   statementId: number;
@@ -21,10 +21,15 @@ interface IJustificationProps extends StateProps, DispatchProps {
 
 const Justification = (props: IJustificationProps) => {
   const statusInterval = useRef(null);
-  const { statementId, loading, justification, justifyTaskStatus } = props;
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [tracking, setTracking] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [justificationSelect, setJustificationSelect] = useState({ selected: defaultValue, timestamps: [] } as {
+    selected: IJustification;
+    timestamps: string[];
+  });
+
+  const { statementId, loading, justifyTaskStatus, justifications } = props;
 
   const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
 
@@ -36,9 +41,28 @@ const Justification = (props: IJustificationProps) => {
 
   useEffect(() => {
     if (statementId) {
-      props.getLatestJustification(statementId);
+      props.getJustificationsByStatement(statementId);
     }
   }, [statementId]);
+
+  useEffect(() => {
+    if (!_.isEmpty(justifications)) {
+      setJustificationSelect(
+        justifications.reduce(
+          (acc, curr) => {
+            acc.selected = acc.selected || curr;
+            acc.timestamps.push(curr.timestamp);
+            return acc;
+          },
+          { selected: undefined, timestamps: [] }
+        )
+      );
+    }
+  }, [justifications]);
+
+  const handleChangeSelect = event => {
+    setJustificationSelect({ ...justificationSelect, selected: justifications.find(jf => jf.timestamp === event.target.value) });
+  };
 
   const initiateGenerateJustify = () => {
     // Begin the justification process of the statement's text
@@ -55,18 +79,18 @@ const Justification = (props: IJustificationProps) => {
       }, 10000);
     }
     if (!_.isEmpty(justifyTaskStatus) && justifyTaskStatus.status === 'SUCCESS') {
-      // Summary has been generated successfully
+      // Justification has been generated successfully
       setTracking(false);
       clearInterval(statusInterval.current);
       props.justificationReset();
-      props.getLatestJustification(statementId);
+      props.getJustificationsByStatement(statementId);
     }
   }, [justifyTaskStatus]);
 
   return loading ? (
     <></>
   ) : (
-    <div className={`justification justify-accuracy-${justification?.label}`}>
+    <div className={`justification justify-accuracy-${justificationSelect.selected?.label}`}>
       <h3>
         <Translate contentKey="check4FactsApp.justification.home.title" />
       </h3>
@@ -79,14 +103,14 @@ const Justification = (props: IJustificationProps) => {
             <Translate contentKey="check4FactsApp.justification.progressMessage" />
           </p>
         </>
-      ) : justification !== null ? (
-        <div key={justification.id} className="entry">
-          <p className="text">{justification.text}</p>
+      ) : !_.isEmpty(justificationSelect.selected) ? (
+        <div key={justificationSelect.selected.id} className="entry">
+          <p className="text">{justificationSelect.selected.text}</p>
           <h4>
             <Translate contentKey="check4FactsApp.justification.sources" />
           </h4>
           <ul>
-            {justification.sources?.map((source, index) => (
+            {justificationSelect.selected.sources?.map((source, index) => (
               <li key={`source-${index}`}>
                 <a className="source" href={source} target="_blank" rel="noopener noreferrer">
                   {source}
@@ -102,16 +126,25 @@ const Justification = (props: IJustificationProps) => {
               <li>
                 <Translate contentKey="check4FactsApp.justification.label" />:{' '}
                 <span>
-                  <Translate contentKey={`check4FactsApp.justification.accuracy.${justification.label}`} />
+                  <Translate contentKey={`check4FactsApp.justification.accuracy.${justificationSelect.selected.label}`} />
                 </span>
               </li>
               <li>
                 <Translate contentKey="check4FactsApp.justification.timestamp" />:{' '}
-                <span>{moment(justification.timestamp).format('LLL')}</span>
+                <select value={justificationSelect.selected.timestamp} onChange={handleChangeSelect}>
+                  {justificationSelect.timestamps.map((d, i) => (
+                    <option value={d} key={i}>
+                      {moment(d).format('LLL')}
+                    </option>
+                  ))}
+                </select>
               </li>
               {/* <li>
                 <Translate contentKey="check4FactsApp.justification.elapsedTime" />: <span>{justification.elapsedTime}</span>
               </li> */}
+              <li>
+                <Translate contentKey="check4FactsApp.justification.totalExecutions" />: <span>{justifications.length}</span>
+              </li>
             </ul>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
@@ -171,16 +204,16 @@ const Justification = (props: IJustificationProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
-  justification: storeState.justification.entity,
+  justifications: storeState.justification.entities,
   loading: storeState.justification.loading,
   justifyTaskStatus: storeState.justification.justifyTaskStatus,
 });
 
 const mapDispatchToProps = {
-  getLatestJustification,
   justificationReset,
   generateAndTrackJustify,
   getGenerationJustifyStatus,
+  getJustificationsByStatement,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

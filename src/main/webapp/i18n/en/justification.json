@@ -40,7 +40,8 @@
       "elapsedTime": "Elapsed Time",
       "model": "Model",
       "sources": "Sources",
-      "statement": "Statement"
+      "statement": "Statement",
+      "totalExecutions": "Total Executions"
     }
   }
 }
