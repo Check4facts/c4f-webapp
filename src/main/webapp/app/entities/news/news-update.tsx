@@ -138,7 +138,7 @@ export const NewsUpdate = (props: INewsUpdateProps) => {
                   }}
                 /> */}
                 <Row>
-                  <Col md={{ size: 12, offset: 0 }}>
+                  <Col className="list-line-height" md={{ size: 12, offset: 0 }}>
                     <CKEditor
                       editor={DecoupledEditor}
                       // onChange={handleEditorChange}

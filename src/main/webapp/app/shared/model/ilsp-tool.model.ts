@@ -30,4 +30,5 @@ export interface IClaimVerificationResponse {
 interface INoInfo {
   sentence: string;
   doi: string;
+  title: string;
 }

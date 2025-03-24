@@ -64,7 +64,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
       setLoadingText("An error occured during Translation");
     }
   }, [ilspTool.translator]);
-  
+
   useEffect(() => {
     if (ilspTool.recommender.data || !ilspTool.recommender.loading) {
       setLoadingText('Αναζήτηση');
@@ -85,7 +85,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
   };
 
   const createStatementSource = info => {
-    return { url: `https://doi.org/${info.doi}`, title: '-', snippet: info.sentence };
+    return { url: `https://doi.org/${info.doi}`, title: info.title, snippet: info.sentence };
   };
 
   const handleAllSourceStatements = () => {
@@ -209,7 +209,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
                               {info.doi}
                             </a>
                           </td>
-                          <td> - </td>
+                          <td>{info.title}</td>
                           <td>{info.sentence}</td>
                         </tr>
                       ))

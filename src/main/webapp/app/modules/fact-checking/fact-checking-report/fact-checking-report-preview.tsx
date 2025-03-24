@@ -133,7 +133,7 @@ export const FactCheckingReportPreview = (props: IArticleDisplayProps) => {
                         'article-content-new-' + previewArticle.statement.factCheckerAccuracy
                       }`}
                     >
-                      <div className="ck-content" dangerouslySetInnerHTML={{ __html: handleEmbedTags(previewArticle.content) }} />
+                      <div className="ck-content list-line-height" dangerouslySetInnerHTML={{ __html: handleEmbedTags(previewArticle.content) }} />
                     </Alert>
                   )}
                 </div>
