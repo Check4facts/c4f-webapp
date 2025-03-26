@@ -50,9 +50,22 @@ const JustificationSource = (props: IJustificationSourceProps) => {
           <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
         ) : (
           <div className="justification-sources">
-            <h3>Black and White lists</h3>
-            <div className="black-list">{lists.black.map(blackItem => blackItem.url)}</div>
-            <div className="white-list">{lists.white.map(whiteItem => whiteItem.url)}</div>
+            <div className="list">
+              <h4>Black List</h4>
+              {lists.black.map(blackItem => (
+                <a href={blackItem.url} target="_blank" rel='noopener noreferrer' key={blackItem.id}>
+                  {blackItem.url}
+                </a>
+              ))}
+            </div>
+            <div className="list">
+              <h4>White List</h4>
+              {lists.white.map(whiteItem => (
+                <a href={whiteItem.url} target="_blank" rel='noopener noreferrer' key={whiteItem.id}>
+                  {whiteItem.url}
+                </a>
+              ))}
+            </div>
           </div>
         )}
       </ModalBody>
