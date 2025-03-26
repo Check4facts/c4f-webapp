@@ -87,7 +87,7 @@ const Summarization = (props: ISummarization) => {
                   onInit={editor => {
                     // Add the toolbar to the container
                     const toolbarContainer = document.querySelector('#toolbar-container');
-                    toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+                    toolbarContainer?.appendChild(editor.ui.view.toolbar.element);
                   }}
                   ref={editorRef}
                 />

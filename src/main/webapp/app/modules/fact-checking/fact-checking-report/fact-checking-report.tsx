@@ -262,7 +262,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   };
 
   const saveForm = () => {
-    formRef.current.submit();
+    formRef?.current.submit();
   };
 
   const resetTimeout = (id, newID) => {
