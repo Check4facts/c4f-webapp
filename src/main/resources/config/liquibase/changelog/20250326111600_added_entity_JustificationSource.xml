@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <property name="autoIncrement" value="true"/>
+
+    <changeSet id="20250326111600-1" author="Asteris">
+        <createTable tableName="justification_source">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="url" type="${clobType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="black_listed" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="created_at" type="timestamp with time zone" defaultValueComputed="now()"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

@@ -14,6 +14,9 @@ import { Translate } from 'react-jhipster';
 import moment from 'moment';
 import { IModalContent } from 'app/shared/model/util.model';
 import { defaultValue, IJustification } from 'app/shared/model/justification.model';
+import JustificationSource from '../justification-source/justification-source';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
 
 interface IJustificationProps extends StateProps, DispatchProps {
   statementId: number;
@@ -24,6 +27,7 @@ const Justification = (props: IJustificationProps) => {
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [tracking, setTracking] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [listModalOpen, setListModalOpen] = useState(false);
   const [justificationSelect, setJustificationSelect] = useState({ selected: defaultValue, timestamps: [] } as {
     selected: IJustification;
     timestamps: string[];
@@ -32,6 +36,8 @@ const Justification = (props: IJustificationProps) => {
   const { statementId, loading, justifyTaskStatus, justifications } = props;
 
   const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
+
+  const toggleListModal = () => setListModalOpen(!listModalOpen);
 
   const handleConfirmModal = (content: IModalContent) => () => {
     setModalContent(content);
@@ -147,46 +153,34 @@ const Justification = (props: IJustificationProps) => {
               </li>
             </ul>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-            <Button
-              id="generate-justify"
-              color="warning"
-              onClick={handleConfirmModal({
-                header: <Translate contentKey="check4FactsApp.justification.modal.header" />,
-                body: <Translate contentKey="check4FactsApp.justification.modal.body" />,
-                action: initiateGenerateJustify,
-                open: true,
-              })}
-            >
-              <img src="../../content/images/reshot-icon-brain-2GQK794YNR.svg" alt="brain-svg" height={16} />
-            </Button>
-            <Tooltip target="generate-justify" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
-              Τεκμηρίωση με ΑΙ
-            </Tooltip>
-          </div>
         </div>
       ) : (
         <div className="empty">
           <p className="prompt">
             <Translate contentKey="check4FactsApp.justification.home.createLabel" />
           </p>
-          <Button
-            id="generate-justify"
-            color="warning"
-            onClick={handleConfirmModal({
-              header: <Translate contentKey="check4FactsApp.justification.modal.header" />,
-              body: <Translate contentKey="check4FactsApp.justification.modal.body" />,
-              action: initiateGenerateJustify,
-              open: true,
-            })}
-          >
-            <img src="../../content/images/reshot-icon-brain-2GQK794YNR.svg" alt="brain-svg" height={16} />
-          </Button>
-          <Tooltip target="generate-summary" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
-            Τεκμηρίωση με ΑΙ
-          </Tooltip>
         </div>
       )}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '1rem', gap: '1rem' }}>
+        <Button
+          id="generate-justify"
+          color="warning"
+          onClick={handleConfirmModal({
+            header: <Translate contentKey="check4FactsApp.justification.modal.header" />,
+            body: <Translate contentKey="check4FactsApp.justification.modal.body" />,
+            action: initiateGenerateJustify,
+            open: true,
+          })}
+        >
+          <img src="../../content/images/reshot-icon-brain-2GQK794YNR.svg" alt="brain-svg" height={16} />
+        </Button>
+        <Tooltip target="generate-justify" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
+          Τεκμηρίωση με ΑΙ
+        </Tooltip>
+        <Button onClick={toggleListModal}>
+          <FontAwesomeIcon icon={faCog} size="lg" />
+        </Button>
+      </div>
       <Modal fade={false} size="md" isOpen={modalContent.open} toggle={toggleConfirmModal} className="summarization-confirm-modal-dialog">
         <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>
         <ModalBody>{modalContent.body}</ModalBody>
@@ -199,6 +193,7 @@ const Justification = (props: IJustificationProps) => {
           </Button>
         </ModalFooter>
       </Modal>
+      <JustificationSource isOpen={listModalOpen} toggle={toggleListModal} />
     </div>
   );
 };
