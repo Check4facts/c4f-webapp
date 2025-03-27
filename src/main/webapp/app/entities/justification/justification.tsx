@@ -177,9 +177,9 @@ const Justification = (props: IJustificationProps) => {
         <Tooltip target="generate-justify" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
           Τεκμηρίωση με ΑΙ
         </Tooltip>
-        <Button onClick={toggleListModal}>
-          <FontAwesomeIcon icon={faCog} size="lg" />
-        </Button>
+        <a onClick={toggleListModal} className="settings">
+          <Translate contentKey="check4FactsApp.justification.settings" />
+        </a>
       </div>
       <Modal fade={false} size="md" isOpen={modalContent.open} toggle={toggleConfirmModal} className="summarization-confirm-modal-dialog">
         <ModalHeader className="text-primary">{modalContent.header}</ModalHeader>

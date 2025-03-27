@@ -28,4 +28,12 @@
   .empty {
     text-align: center;
   }
+
+  .settings {
+    font-style: italic;
+    &:hover {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
 }

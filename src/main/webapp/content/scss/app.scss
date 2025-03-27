@@ -350,6 +350,7 @@ Entities page styles
 .text-truncate.text-truncate-4 {
   display: -webkit-box !important;
   -webkit-line-clamp: 4;
+  line-clamp: 4;
   -webkit-box-orient: vertical;
   white-space: normal;
 }
@@ -392,6 +393,11 @@ Accuracy level colors
 }
 .summary-accuracy-4 {
   background: rgba($accuracy-color-4, 0.1);
+  border-radius: 5em;
+}
+
+.justify-accuracy-undefined {
+  border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5em;
 }
 

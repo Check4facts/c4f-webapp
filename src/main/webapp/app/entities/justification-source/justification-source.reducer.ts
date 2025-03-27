@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction, translate } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -147,6 +147,9 @@ export const saveBatch: ICrudPutAction<IJustificationSource[]> = entities => asy
   const result = await dispatch({
     type: ACTION_TYPES.SAVE_BATCH_JUSTIFICATIONSOURCE,
     payload: axios.post('api/justification-sources/batch', entities.map(cleanEntity)),
+    meta: {
+      successMessage: translate('check4FactsApp.justification_source.batchCreated'),
+    },
   });
   dispatch(getEntities());
   return result;

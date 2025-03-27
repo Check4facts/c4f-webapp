@@ -1,0 +1,38 @@
+{
+  "check4FactsApp": {
+    "justification_source": {
+      "home": {
+        "title": "Πηγές Τεκμηρίωσης",
+        "createLabel": "Create a new Justification Source",
+        "createOrEditLabel": "Create or edit a Justification Source",
+        "search": "Search for Justification Source",
+        "notFound": "No Justification Sources found"
+      },
+      "modal": {
+        "button": {
+          "add": "Προσήθηκη",
+          "cancel": "Ακύρωση"
+        }
+      },
+      "action": "Ενέργεια",
+      "add": "Προσήθηκη Πηγής",
+      "close": "Κλείσιμο",
+      "save": "Αποθήκευση",
+      "created": "Μία Πηγή Τεκμηρίωσης έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+      "batchCreated": "Οι Πηγές Τεκμηρίωσης έχουν ενημερωθεί",
+      "updated": "Μία Πηγή Τεκμηρίωσης έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+      "deleted": "Μία Πηγή Τεκμηρίωσης έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+      "delete": {
+        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε την ακόλουθη Πηγή Τεκμηρίωσης {{ id }};"
+      },
+      "detail": {
+        "title": "Πηγή Τεκμηρίωσης"
+      },
+      "url": "Σύνδεσμος",
+      "blackListed": "Αποκλεισμένο",
+      "blackList": "Λίστα Αποκλεισμού",
+      "whiteList": "Λίστα Αναζήτησης",
+      "createdAt": "Δημιουργήθηκε"
+    }
+  }
+}

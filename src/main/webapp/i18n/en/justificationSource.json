@@ -1,0 +1,27 @@
+{
+  "check4FactsApp": {
+    "justification_source": {
+      "home": {
+        "title": "Justification Sources",
+        "createLabel": "Create a new Justification Source",
+        "createOrEditLabel": "Create or edit a Justification Source",
+        "search": "Search for Justification Source",
+        "notFound": "No Justification Sources found"
+      },
+      "created": "A new Justification Source is created with identifier {{ param }}",
+      "updated": "A Justification Source is updated with identifier {{ param }}",
+      "deleted": "A Justification Source is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Justification Source {{ id }}?"
+      },
+      "detail": {
+        "title": "Justification Source"
+      },
+      "url": "Url",
+      "blackListed": "Blacklisted",
+      "blackList": "Black List",
+      "whiteList": "White List",
+      "createdAt": "Created At"
+    }
+  }
+}
