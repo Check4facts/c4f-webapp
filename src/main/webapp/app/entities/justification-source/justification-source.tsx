@@ -2,7 +2,7 @@ import { IRootState } from 'app/shared/reducers';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Spinner, Form, FormGroup, Input, Label, Col, FormFeedback } from 'reactstrap';
-import { getEntities, deleteEntity, saveBatch, reset } from './justification-source.reducer';
+import { getEntities, deleteEntity, updateEntity, saveBatch, reset } from './justification-source.reducer';
 import { IJustificationSource } from 'app/shared/model/justification-source.model';
 import './justification-source.scss';
 import { Translate } from 'react-jhipster';
@@ -18,6 +18,8 @@ const JustificationSource = (props: IJustificationSourceProps) => {
   const [addOpen, setAddOpen] = useState(false);
   const [addNewSource, setAddNewSource] = useState({ url: '', blackListed: false } as IJustificationSource);
   const [lists, setLists] = useState({ black: [], white: [] } as { black: IJustificationSource[]; white: IJustificationSource[] });
+  // Local state to track edit mode and the edited URL value per row.
+  const [editingRows, setEditingRows] = useState<{ [id: string]: string }>({});
 
   const addToLists = (source: IJustificationSource) => {
     setLists(prevState => ({
@@ -83,11 +85,64 @@ const JustificationSource = (props: IJustificationSourceProps) => {
         {list.map(item => (
           <tr key={`${listType}-${item.id}`}>
             <td>
-              <a href={item.url} target="_blank" rel="noopener noreferrer">
-                {item.url}
-              </a>
+              {editingRows[item.id] !== undefined && editingRows[item.id] !== null ? (
+                <Input
+                  type="text"
+                  value={editingRows[item.id] ?? ''}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const newValue = e.target.value;
+                    setEditingRows(prev => ({
+                      ...prev,
+                      [item.id]: newValue,
+                    }));
+                  }}
+                />
+              ) : (
+                <a href={item.url} target="_blank" rel="noopener noreferrer">
+                  {item.url}
+                </a>
+              )}
             </td>
             <td>
+              {editingRows[item.id] !== undefined ? (
+                <Button
+                  color="success"
+                  size="sm"
+                  className="ms-2"
+                  onClick={() => {
+                    const updatedUrl = editingRows[item.id].trim();
+                    if (updatedUrl) {
+                      const updatedItem = { ...item, url: updatedUrl };
+                      if (justificationSources.some(justificationSource => justificationSource.id === item.id)) {
+                        props.updateEntity(updatedItem);
+                      } else {
+                        setLists(prevState => ({
+                          ...prevState,
+                          [listType]: prevState[listType].map(source => (source.id === item.id ? updatedItem : source)),
+                        }));
+                      }
+                      setEditingRows(prev => {
+                        const newState = { ...prev };
+                        delete newState[item.id];
+                        return newState;
+                      });
+                    }
+                  }}
+                >
+                  <FontAwesomeIcon icon="save" />
+                </Button>
+              ) : (
+                <Button
+                  color="primary"
+                  size="sm"
+                  className="ms-2"
+                  onClick={() => {
+                    setEditingRows(prev => ({ ...prev, [item.id]: item.url }));
+                  }}
+                >
+                  <FontAwesomeIcon icon="pencil-alt" />
+                </Button>
+              )}
               <Button
                 color="danger"
                 size="sm"
@@ -162,10 +217,10 @@ const JustificationSource = (props: IJustificationSourceProps) => {
         <ModalBody>
           <Form className="form-group">
             <FormGroup row>
-              <Label for="urlInput" sm={2}>
+              <Label for="urlInput" sm={3}>
                 <Translate contentKey="check4FactsApp.justification_source.url" />
               </Label>
-              <Col sm={10}>
+              <Col sm={9}>
                 <Input
                   type="text"
                   id="urlInput"
@@ -178,20 +233,17 @@ const JustificationSource = (props: IJustificationSourceProps) => {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="blackListedInput" sm={2}>
+              <Label for="blackListedInput" sm={3}>
                 <Translate contentKey="check4FactsApp.justification_source.blackListed" />
               </Label>
-              <Col
-                sm={{
-                  size: 10,
-                }}
-              >
+              <Col sm={9} style={{ paddingTop: '9px' }}>
                 <FormGroup check>
                   <Input
                     type="checkbox"
                     id="blackListedInput"
                     checked={addNewSource.blackListed}
                     onChange={e => setAddNewSource({ ...addNewSource, blackListed: e.target.checked })}
+                    style={{ width: '20px', height: '20px' }}
                   />
                 </FormGroup>
               </Col>
@@ -227,6 +279,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 const mapDispatchToProps = {
   getEntities,
   deleteEntity,
+  updateEntity,
   saveBatch,
   reset,
 };

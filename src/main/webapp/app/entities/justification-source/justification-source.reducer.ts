@@ -128,7 +128,7 @@ export const createEntity: ICrudPutAction<IJustificationSource> = entity => asyn
 export const updateEntity: ICrudPutAction<IJustificationSource> = entity => async dispatch => {
   const result = await dispatch({
     type: ACTION_TYPES.UPDATE_JUSTIFICATIONSOURCE,
-    payload: axios.put(`api/justification-sources/${entity.id}`, cleanEntity(entity)),
+    payload: axios.put(`api/justification-sources`, cleanEntity(entity)),
   });
   dispatch(getEntities());
   return result;
