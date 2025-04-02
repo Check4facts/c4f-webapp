@@ -76,15 +76,27 @@ const Justification = (props: IJustificationProps) => {
       // Check the status of the task every 10 seconds
       statusInterval.current = setInterval(() => {
         props.getGenerationJustifyStatus(justifyTaskStatus.taskId);
-      }, 10000);
+      }, 5000);
     }
+
     if (!_.isEmpty(justifyTaskStatus) && justifyTaskStatus.status === 'SUCCESS') {
       // Justification has been generated successfully
       setTracking(false);
-      clearInterval(statusInterval.current);
+      if (statusInterval.current !== null) {
+        clearInterval(statusInterval.current);
+        statusInterval.current = null; // Reset the interval reference
+      }
       props.justificationReset();
       props.getJustificationsByStatement(statementId);
     }
+
+    return () => {
+      // Cleanup interval on component unmount
+      if (statusInterval.current !== null) {
+        clearInterval(statusInterval.current);
+        statusInterval.current = null;
+      }
+    };
   }, [justifyTaskStatus]);
 
   return loading ? (
