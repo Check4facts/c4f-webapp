@@ -53,7 +53,7 @@ public class KombuMessageService {
     }
 
     @Transactional(readOnly = true)
-    public List<TaskStatus> findAllActiveTasksInLast24Hours() throws JSONException {
+    public List<TaskStatus> findAllActiveTasksInLast24Hours(String authToken) throws JSONException {
         log.debug("Request to get TaskStatus of active CeleryTasks in last 24 hours");
         List<KombuMessage> kombuMessages = kombuMessageRepository.findAllInLast24Hours();
         List<CeleryTask> celeryTasks = new ArrayList<>();
@@ -71,6 +71,7 @@ public class KombuMessageService {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + authToken);
         HttpEntity<Object> requestEntity = new HttpEntity<>(celeryTasks, headers);
         ResponseEntity<List<TaskStatus>> responseEntity = restTemplate.exchange(baseUrlTemplate, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<List<TaskStatus>>() {});
 
