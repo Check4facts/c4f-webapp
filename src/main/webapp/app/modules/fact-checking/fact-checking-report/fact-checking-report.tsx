@@ -197,7 +197,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       setStatementText(statement.text);
       setStatementAccuracy(statement.factCheckerAccuracy);
       !articleEntity.id && props.getEntity(statement.article.id);
-    } else {
+    } else if (statement && !articleEntity.id) {
       setIsNew(true);
       props.reset();
     }
