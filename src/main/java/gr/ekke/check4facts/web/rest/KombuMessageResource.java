@@ -12,6 +12,7 @@ import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,8 +57,10 @@ public class KombuMessageResource {
     }
 
     @GetMapping("/kombu-messages/celery-task/active")
-    public List<TaskStatus> getAllActiveInLast24Hours() throws JSONException {
+    public List<TaskStatus> getAllActiveInLast24Hours(@RequestHeader("Authorization") String authorizationHeader) throws JSONException {
         log.debug("REST request to get TaskStatus of active CeleryTasks in last 24 hours");
-        return kombuMessageService.findAllActiveTasksInLast24Hours();
+        String authToken = authorizationHeader.replace("Bearer ", "");
+        log.debug("Authorization token: {}", authToken);
+        return kombuMessageService.findAllActiveTasksInLast24Hours(authToken);
     }
 }
