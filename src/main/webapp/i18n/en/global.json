@@ -119,7 +119,12 @@
     "ribbon": {
       "dev": "Development"
     },
-    "item-count": "Showing {{first}} - {{second}} of {{total}} items."
+    "item-count": "Showing {{first}} - {{second}} of {{total}} items.",
+    "cookie": {
+      "message": "Check4Facts uses cookies in order to function properly. Cookies are small pieces of data that websites store in your browser to allow us to give you the best browsing experience possible. By using the Check4Facts portal you accept our use of cookies.",
+      "dismiss": "Alright",
+      "link": "Learn More"
+    }
   },
   "entity": {
     "action": {

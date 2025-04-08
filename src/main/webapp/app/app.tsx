@@ -2,8 +2,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../content/scss/app.scss';
 
 import React, { useEffect } from 'react';
+import ReactGA from 'react-ga4';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, withRouter, RouteComponentProps } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { hot } from 'react-hot-loader';
 
@@ -20,6 +21,22 @@ import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
 import ScrollToTop from 'app/scroll-to-top';
+import CookieConsent from 'react-cookie-consent';
+import { translate } from 'react-jhipster';
+
+ReactGA.initialize('G-SB0BFWXW1Q');
+
+const GAListener = withRouter(({ history }: RouteComponentProps) => {
+  useEffect(() => {
+    const unlisten = history.listen(location => {
+      ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search });
+    });
+
+    return () => unlisten();
+  }, [history]);
+
+  return null;
+});
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -27,6 +44,7 @@ export interface IAppProps extends StateProps, DispatchProps {}
 
 export const App = (props: IAppProps) => {
   useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: window.location.pathname + window.location.search });
     props.getSession();
     props.getProfile();
   }, []);
@@ -34,6 +52,7 @@ export const App = (props: IAppProps) => {
   return (
     <Router basename={baseHref}>
       <div className="app-container">
+        <GAListener />
         <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
         <ScrollToTop />
         <ErrorBoundary>
@@ -48,11 +67,24 @@ export const App = (props: IAppProps) => {
           />
         </ErrorBoundary>
         {/* <Container fluid className="view-container"> */}
-          <ErrorBoundary>
-            <AppRoutes/>
-          </ErrorBoundary>
+        <ErrorBoundary>
+          <AppRoutes />
+        </ErrorBoundary>
         {/* </Container> */}
         <Footer isAuthenticated={props.isAuthenticated} currentLocale={props.currentLocale} />
+        <CookieConsent
+          location="bottom"
+          buttonText={translate('global.cookie.dismiss')}
+          cookieName="check4facts-cookie"
+          style={{ background: '#2B373B' }}
+          buttonStyle={{ color: '#4e503b', fontSize: '13px' }}
+          expires={150}
+        >
+          {translate('global.cookie.message')}{' '}
+          <a href="https://check4facts.gr/files/c4f-privacy-policy-gr.pdf" style={{ color: '#007bff' }}>
+            {translate('global.cookie.link')}
+          </a>
+        </CookieConsent>
       </div>
     </Router>
   );
