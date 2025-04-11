@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row, Progress } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+import { Translate, Storage } from 'react-jhipster';
 
 interface TaskProgressProps {
   taskId: string;
@@ -20,9 +20,13 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
   const [progressData, setProgressData] = useState<ProgressData | null>(null);
   const [status, setStatus] = useState<'idle' | 'connected' | 'done' | 'error'>('idle');
 
+  const authToken = Storage.local.get('jhi-authenticationToken')
+    ? Storage.local.get('jhi-authenticationToken')
+    : Storage.session.get('jhi-authenticationToken');
+
   useEffect(() => {
     if (taskId) {
-      const ws = new WebSocket(`ws://localhost:9090/ws/${taskId}`);
+      const ws = new WebSocket(`ws://localhost:9090/ws/${taskId}?token=${authToken}`);
 
       ws.onopen = () => {
         setStatus('connected');
