@@ -4,7 +4,8 @@ import { Translate } from 'react-jhipster';
 
 interface TaskProgressProps {
   taskId: string;
-  setTracking: (tracking: boolean) => void;
+  progressMessage: string;
+  onSuccess: () => void;
 }
 
 interface ProgressData {
@@ -15,7 +16,7 @@ interface ProgressData {
 }
 
 const TaskProgress: React.FC<TaskProgressProps> = props => {
-  const { taskId, setTracking } = props;
+  const { taskId, progressMessage } = props;
   const [progressData, setProgressData] = useState<ProgressData | null>(null);
   const [status, setStatus] = useState<'idle' | 'connected' | 'done' | 'error'>('idle');
 
@@ -34,6 +35,7 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
 
           if (data.status === 'SUCCESS') {
             setStatus('done');
+            props.onSuccess();
             ws.close();
           }
 
@@ -53,7 +55,6 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
 
       ws.onclose = () => {
         if (status !== 'done') setStatus('idle');
-        setTracking(false);
       };
 
       return () => {
@@ -69,7 +70,7 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
       ) : (
         <Col md={{ size: 6, offset: 0 }}>
           <p style={{ textAlign: 'center' }}>
-            <Translate contentKey="check4FactsApp.summarization.progress" />
+            <Translate contentKey={progressMessage} />
           </p>
           <Progress animated color="info" value={progressData ? progressData.progress : 0} />
         </Col>

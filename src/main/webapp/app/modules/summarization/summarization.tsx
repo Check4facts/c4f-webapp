@@ -27,13 +27,6 @@ const Summarization = (props: ISummarization) => {
   const [tracking, setTracking] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
-  useEffect(() => {
-    if (!tracking && !_.isEmpty(summaryTaskStatus)) {
-      props.getStatement(statementId);
-      props.summarizationReset();
-    }
-  }, [tracking]);
-
   const handleConfirmModal = (content: IModalContent) => () => {
     setModalContent(content);
   };
@@ -49,11 +42,22 @@ const Summarization = (props: ISummarization) => {
     toggleConfirmModal();
   };
 
+  const onSummarySuccess = () => {
+    // Handle the success of the summarization process.
+    setTracking(false);
+    props.getStatement(statementId);
+    props.summarizationReset();
+  };
+
   return (
     <div className="summarization-modal-dialog">
       <Row className="summarization-modal-body-row" size={{ size: 3, offset: 3 }}>
         {tracking ? (
-          <TaskProgress taskId={summaryTaskStatus.taskId} setTracking={setTracking} />
+          <TaskProgress
+            taskId={summaryTaskStatus.taskId}
+            progressMessage="check4FactsApp.summarization.progress"
+            onSuccess={onSummarySuccess}
+          />
         ) : (
           <>
             <Row>
