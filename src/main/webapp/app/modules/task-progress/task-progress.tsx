@@ -34,8 +34,17 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
 
       ws.onmessage = event => {
         try {
-          const data: ProgressData = JSON.parse(event.data);
-          setProgressData(data);
+          let data = JSON.parse(event.data);
+
+          // If the result is still a string, parse again (handle double-encoded JSON)
+          if (typeof data === 'string') {
+            data = JSON.parse(data);
+          }
+
+          // Fix progress type if needed
+          data.progress = Number(data.progress);
+
+          setProgressData({ ...data });
 
           if (data.status === 'SUCCESS') {
             setStatus('done');

@@ -10,7 +10,10 @@ import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { analyzeStatement, changeStatusInterval, getTaskStatus, removeTaskStatus } from '../fact-checking.reducer';
 import { updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
-import { countFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
+import {
+  countFeatureStatementsByStatement,
+  getLatestFeatureStatementByStatementId,
+} from 'app/entities/feature-statement/feature-statement.reducer';
 import _ from 'lodash';
 import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.reducer';
 import TaskProgress from 'app/modules/task-progress/task-progress';
@@ -47,7 +50,14 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
 
   useEffect(() => {
     props.getActiveCeleryTasks();
+    props.countFeatureStatementsByStatement(statement.id);
   }, []);
+
+  useEffect(() => {
+    if (featureStatementCount > 0) {
+      props.getLatestFeatureStatementByStatementId(statement.id);
+    }
+  }, [featureStatementCount]);
 
   useEffect(() => {
     taskStatuses.forEach(task => {
@@ -490,6 +500,7 @@ const mapDispatchToProps = {
   countFeatureStatementsByStatement,
   getActiveCeleryTasks,
   changeStatusInterval,
+  getLatestFeatureStatementByStatementId,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
