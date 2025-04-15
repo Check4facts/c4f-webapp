@@ -488,6 +488,27 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                       </Col>
                     </Row>
                   </AvGroup>
+                  {!isNew && (
+                    <AvGroup>
+                      <Row className="fact-checking-report-row">
+                        <Col md={{ size: 2 }}>
+                          <Label for="article-date-updated">
+                            <Translate contentKey="check4FactsApp.article.articleDateUpdated">Article Date Updated</Translate>
+                          </Label>
+                        </Col>
+                        <Col md={{ size: 9 }}>
+                          <AvInput
+                            id="article-date-updated"
+                            type="datetime-local"
+                            className="form-control"
+                            name="articleDateUpdated"
+                            value={convertDateTimeFromServer(props.articleEntity.articleDateUpdated)}
+                            readOnly
+                          />
+                        </Col>
+                      </Row>
+                    </AvGroup>
+                  )}
                   <AvGroup>
                     <Row className="fact-checking-report-row">
                       <Col md={{ size: 2 }}>
