@@ -4,12 +4,10 @@ import { Translate, translate } from 'react-jhipster';
 import moment from 'moment';
 import { IModalContent, ITaskStatus } from 'app/shared/model/util.model';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { convertDateTimeToServer } from 'app/shared/util/date-utils';
-import { APP_LOCAL_DATETIME_FORMAT } from 'app/config/constants';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { analyzeStatement, changeStatusInterval, getTaskStatus, removeTaskStatus } from '../fact-checking.reducer';
-import { updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
+import { setRegistrationDate } from 'app/entities/statement/statement.reducer';
 import {
   countFeatureStatementsByStatement,
   getLatestFeatureStatementByStatementId,
@@ -86,22 +84,11 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
   };
 
   const analyze = () => {
-    // FIXME Remove those ugly ignores when got the time.
     setAnalyzeTracking(true);
-    const entity = {
-      ...statement,
-      registrationDate: convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT)),
-      statementSources: [...statementSources],
-    };
+    props.setRegistrationDate(statement.id, moment().toISOString());
     props.analyzeStatement({
-      // Only pass entity fields that we need.
-      id: entity.id,
-      text: entity.text,
-    });
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    props.updateStatement({
-      ...entity,
+      id: statement.id,
+      text: statement.text,
     });
   };
 
@@ -494,7 +481,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   analyzeStatement,
-  updateStatement,
+  setRegistrationDate,
   getTaskStatus,
   removeTaskStatus,
   countFeatureStatementsByStatement,
