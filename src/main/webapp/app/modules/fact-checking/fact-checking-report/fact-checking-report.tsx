@@ -232,10 +232,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
 
   const saveEntity = (event, errors, values) => {
     values.articleDate = convertDateTimeToServer(values.articleDate);
-
     // automatically save the articleUdpateDate upon request to save/publish report from a NON inscpector
     if (props.isNotInspector) {
       values.articleDateUpdated = convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT));
+    } else {
+      values.articleDateUpdated = convertDateTimeToServer(values.articleDateUpdated);
     }
     values.content = editorRef.current.editor.getData();
     values.summary =
