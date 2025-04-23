@@ -49,12 +49,12 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
           if (data.status === 'SUCCESS') {
             setStatus('done');
             props.onSuccess();
-            ws.close();
+            ws.close(1000, 'Task completed successfully');
           }
 
           if (data.status === 'FAILURE') {
             setStatus('error');
-            ws.close();
+            ws.close(1011, 'Task failed');
           }
         } catch (err) {
           console.error('Error parsing message:', err);
@@ -64,14 +64,6 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
       ws.onerror = err => {
         console.error('WebSocket error:', err);
         setStatus('error');
-      };
-
-      ws.onclose = () => {
-        if (status !== 'done') setStatus('idle');
-      };
-
-      return () => {
-        ws.close();
       };
     }
   }, [taskId]);
