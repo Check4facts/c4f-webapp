@@ -22,7 +22,7 @@ interface ISummarization extends StateProps, DispatchProps {
 }
 
 const Summarization = (props: ISummarization) => {
-  const { editorRef, summaryTaskStatus, articleId, summary, statementId, formOnChange } = props;
+  const { inProduction, editorRef, summaryTaskStatus, articleId, summary, statementId, formOnChange } = props;
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [tracking, setTracking] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -54,6 +54,7 @@ const Summarization = (props: ISummarization) => {
       <Row className="summarization-modal-body-row" size={{ size: 3, offset: 3 }}>
         {tracking ? (
           <TaskProgress
+            inProduction={inProduction}
             taskId={summaryTaskStatus.taskId}
             progressMessage="check4FactsApp.summarization.progress"
             onSuccess={onSummarySuccess}
@@ -122,6 +123,7 @@ const Summarization = (props: ISummarization) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  inProduction: storeState.applicationProfile.inProduction,
   summaryTaskStatus: storeState.summarization.summaryTaskStatus,
 });
 

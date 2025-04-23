@@ -27,6 +27,7 @@ const paragraphStyle = {
 
 const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerResults) => {
   const {
+    inProduction,
     resources,
     statement,
     currentLocale,
@@ -132,7 +133,12 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
           </Col>
         </Row>
         {analyzeTracking ? (
-          <TaskProgress taskId={analyzeStatus.taskId} progressMessage="fact-checking.analyze.progress" onSuccess={onAnalyzeSuccess} />
+          <TaskProgress
+            inProduction={inProduction}
+            taskId={analyzeStatus.taskId}
+            progressMessage="fact-checking.analyze.progress"
+            onSuccess={onAnalyzeSuccess}
+          />
         ) : featureStatementCount === 0 ? (
           <Row>
             <Col className="alert alert-warning" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -469,6 +475,7 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  inProduction: storeState.applicationProfile.inProduction,
   currentLocale: storeState.locale.currentLocale,
   statement: storeState.statement.entity,
   statementSources: storeState.statementSource.entities,

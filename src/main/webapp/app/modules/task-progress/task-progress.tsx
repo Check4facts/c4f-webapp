@@ -3,6 +3,7 @@ import { Col, Row, Progress } from 'reactstrap';
 import { Translate, Storage } from 'react-jhipster';
 
 interface TaskProgressProps {
+  inProduction: boolean;
   taskId: string;
   progressMessage: string;
   onSuccess: () => void;
@@ -16,7 +17,7 @@ interface ProgressData {
 }
 
 const TaskProgress: React.FC<TaskProgressProps> = props => {
-  const { taskId, progressMessage } = props;
+  const { inProduction, taskId, progressMessage } = props;
   const [progressData, setProgressData] = useState<ProgressData | null>(null);
   const [status, setStatus] = useState<'idle' | 'connected' | 'done' | 'error'>('idle');
 
@@ -26,7 +27,7 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
 
   useEffect(() => {
     if (taskId) {
-      const ws = new WebSocket(`ws://localhost:9090/ws/${taskId}?token=${authToken}`);
+      const ws = new WebSocket(`${inProduction ? 'wss://check4facts.gr/ml/ws/' : 'ws://localhost:9090/'}ws/${taskId}?token=${authToken}`);
 
       ws.onopen = () => {
         setStatus('connected');
