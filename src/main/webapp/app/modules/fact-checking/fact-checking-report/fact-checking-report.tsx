@@ -7,7 +7,7 @@ import { byteSize, openFile, setFileData, translate, Translate } from 'react-jhi
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 import { createEntity, getEntity, reset, updateEntity, setBlob } from 'app/entities/article/article.reducer';
-import { getEntities as getCategories } from 'app/entities/category/category.reducer';
+import { getEntities as getCategories, reset as categoryReset } from 'app/entities/category/category.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { reset as factReset } from 'app/modules/fact-checking/fact-checking.reducer';
 import { getEntity as getStatement, reset as StatementReset } from 'app/entities/statement/statement.reducer';
@@ -28,6 +28,7 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { APP_LOCAL_DATETIME_FORMAT, AUTHORITIES } from 'app/config/constants';
 import moment from 'moment';
 import Summarization from 'app/modules/summarization/summarization';
+import Justification from 'app/entities/justification/justification';
 
 const addNewRowDefault = {
   open: false,
@@ -177,6 +178,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
       props.reset();
       props.StatementReset();
       props.featureStatementReset();
+      props.categoryReset();
+      props.statementSourcesReset();
       clearTimeout(saveTimeout);
     };
   }, []);
@@ -262,7 +265,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   };
 
   const saveForm = () => {
-    formRef.current.submit();
+    formRef?.current.submit();
   };
 
   const resetTimeout = (id, newID) => {
@@ -419,56 +422,54 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                     </Row>
                   </AvGroup>
                   <AvGroup>
-                    <AvGroup>
-                      <Row className="fact-checking-report-row">
-                        <Col md={{ size: 2 }}>
-                          <Label id="previewImageLabel" for="previewImage">
-                            <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
-                          </Label>
-                        </Col>
-                        <Col>
-                          {previewImage ? (
-                            <div>
-                              {previewImageContentType ? (
-                                <a onClick={openFile(previewImageContentType, previewImage)}>
-                                  <img
-                                    src={`data:${previewImageContentType};base64,${previewImage}`}
-                                    style={{ maxHeight: '100px' }}
-                                    alt="previewImage"
-                                  />
-                                </a>
-                              ) : null}
-                              <br />
-                              <div className="d-flex justify-content-between align-items-center w-100">
-                                <div>
-                                  <span>
-                                    {previewImageContentType}, {byteSize(previewImage)}
-                                  </span>
-                                </div>
+                    <Row className="fact-checking-report-row">
+                      <Col md={{ size: 2 }}>
+                        <Label id="previewImageLabel" for="previewImage">
+                          <Translate contentKey="check4FactsApp.article.previewImage">Preview Image</Translate>
+                        </Label>
+                      </Col>
+                      <Col>
+                        {previewImage ? (
+                          <div>
+                            {previewImageContentType ? (
+                              <a onClick={openFile(previewImageContentType, previewImage)}>
+                                <img
+                                  src={`data:${previewImageContentType};base64,${previewImage}`}
+                                  style={{ maxHeight: '100px' }}
+                                  alt="previewImage"
+                                />
+                              </a>
+                            ) : null}
+                            <br />
+                            <div className="d-flex justify-content-between align-items-center w-100">
+                              <div>
+                                <span>
+                                  {previewImageContentType}, {byteSize(previewImage)}
+                                </span>
                               </div>
                             </div>
-                          ) : null}
-                          <div className="d-flex justify-content-start align-items-center w-100">
-                            <input
-                              className="py-1"
-                              id="file_previewImage"
-                              type="file"
-                              onChange={onBlobChange(true, 'previewImage')}
-                              accept="image/*"
-                              style={{ width: '91.4%' }}
-                            />
-                            {previewImage && (
-                              <div>
-                                <Button color="danger" onClick={clearBlob('previewImage')}>
-                                  <FontAwesomeIcon icon="times-circle" />
-                                </Button>
-                              </div>
-                            )}
                           </div>
-                          <AvInput type="hidden" name="previewImage" value={previewImage} />
-                        </Col>
-                      </Row>
-                    </AvGroup>
+                        ) : null}
+                        <div className="d-flex justify-content-start align-items-center w-100">
+                          <input
+                            className="py-1"
+                            id="file_previewImage"
+                            type="file"
+                            onChange={onBlobChange(true, 'previewImage')}
+                            accept="image/*"
+                            style={{ width: '91.4%' }}
+                          />
+                          {previewImage && (
+                            <div>
+                              <Button color="danger" onClick={clearBlob('previewImage')}>
+                                <FontAwesomeIcon icon="times-circle" />
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                        {previewImage && <AvInput type="hidden" name="previewImage" value={previewImage} />}
+                      </Col>
+                    </Row>
                   </AvGroup>
                   <AvGroup>
                     <Row className="fact-checking-report-row">
@@ -484,7 +485,13 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                           className="form-control"
                           name="articleDate"
                           placeholder={'YYYY-MM-DD HH:mm'}
-                          value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.articleEntity.articleDate)}
+                          value={
+                            isNew
+                              ? displayDefaultDateTime()
+                              : props.articleEntity.articleDate
+                              ? convertDateTimeFromServer(props.articleEntity.articleDate)
+                              : ''
+                          }
                         />
                       </Col>
                     </Row>
@@ -568,6 +575,11 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                         editorRef={sumEditorRef}
                         formOnChange={formOnchange}
                       />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Justification statementId={statement?.id} />
                     </Col>
                   </Row>
                   <Row className="fact-checking-report-row" style={{ textAlign: 'center', marginTop: '15px' }}>
@@ -783,6 +795,7 @@ const mapDispatchToProps = {
   StatementReset,
   countFeatureStatementsByStatement,
   featureStatementReset,
+  categoryReset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

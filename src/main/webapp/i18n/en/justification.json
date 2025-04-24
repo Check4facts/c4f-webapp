@@ -1,0 +1,47 @@
+{
+  "check4FactsApp": {
+    "justification": {
+      "home": {
+        "title": "Justification",
+        "createLabel": "Create a new Justification",
+        "createOrEditLabel": "Create or edit a Justification",
+        "search": "Search for Justification",
+        "notFound": "No Justification found",
+        "button": "ΑΙ Justification",
+        "progress": "Justification progress"
+      },
+      "created": "A new Justification is created with identifier {{ param }}",
+      "updated": "A Justification is updated with identifier {{ param }}",
+      "deleted": "A Justification is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Justification {{ id }}?"
+      },
+      "detail": {
+        "title": "Justification"
+      },
+      "modal": {
+        "header": "Justify Statement with AI",
+        "body": "Are you sure you want to consult our AI model for the justification of this specific statement?",
+        "button": {
+          "yes": "Yes",
+          "no": "No"
+        }
+      },
+      "accuracy": {
+        "0": "Non verifiable",
+        "1": "Very Inaccurate",
+        "2": "Relatively Inaccurate",
+        "3": "Relatively Accurate",
+        "4": "Very Accurate"
+      },
+      "text": "Text",
+      "label": "Label",
+      "timestamp": "Timestamp",
+      "elapsedTime": "Elapsed Time",
+      "model": "Model",
+      "sources": "Sources",
+      "statement": "Statement",
+      "totalExecutions": "Total Executions"
+    }
+  }
+}

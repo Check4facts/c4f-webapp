@@ -1,0 +1,31 @@
+.justification {
+  margin: 2%;
+  padding: 2%;
+  h3,
+  h4 {
+    text-align: center;
+  }
+  .entry {
+    .source {
+      color: #0a62fb;
+    }
+  }
+
+  .bottom-info {
+    display: flex;
+    justify-content: center; /* Centers the list horizontally */
+    width: 100%; /* Ensures it takes full width */
+  }
+
+  .inline-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Uses flexbox for responsiveness */
+    gap: 3vw; /* Responsive spacing between items */
+  }
+
+  .empty {
+    text-align: center;
+  }
+}

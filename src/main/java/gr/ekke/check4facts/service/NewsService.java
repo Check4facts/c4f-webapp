@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+import javax.persistence.EntityManager;
 
 /**
  * Service Implementation for managing {@link News}.
@@ -30,11 +31,14 @@ public class NewsService {
 
     private final Logger log = LoggerFactory.getLogger(NewsService.class);
 
+    private final EntityManager em;
+
     private final NewsRepository newsRepository;
 
     private final NewsSearchRepository newsSearchRepository;
 
-    public NewsService(NewsRepository newsRepository, NewsSearchRepository newsSearchRepository) {
+    public NewsService(EntityManager em, NewsRepository newsRepository, NewsSearchRepository newsSearchRepository) {
+        this.em =  em;
         this.newsRepository = newsRepository;
         this.newsSearchRepository = newsSearchRepository;
     }
@@ -48,8 +52,9 @@ public class NewsService {
     public News save(News news) {
         log.debug("Request to save News : {}", news);
         news.setGreeklish(GreekToSeoFriendlyUrl.convert(news.getTitle()));
-        News result = newsRepository.save(news);
-        newsSearchRepository.save(result);
+        News result = newsRepository.saveAndFlush(news);
+        newsSearchRepository.saveCustom(result);
+        em.refresh(result);
         return result;
     }
 
