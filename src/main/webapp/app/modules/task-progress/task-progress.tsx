@@ -55,7 +55,7 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
 
           if (data.status === 'FAILURE') {
             setStatus('error');
-            ws.close(1011, 'Task failed');
+            ws.close(4001, 'Task failed');
           }
         } catch (err) {
           console.error('Error parsing message:', err);
@@ -72,7 +72,7 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
   return (
     <Row style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       {status === 'error' ? (
-        <p className="text-red-500">❌ Error occurred while tracking progress.</p>
+        <p className="text-red-500">❌ Error occurred on task with id: {taskId}.</p>
       ) : (
         <Col md={{ size: 6, offset: 0 }}>
           <p style={{ textAlign: 'center' }}>
