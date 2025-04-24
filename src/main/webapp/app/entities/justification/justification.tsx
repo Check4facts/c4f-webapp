@@ -2,25 +2,20 @@ import _ from 'lodash';
 import './justification.scss';
 import React, { useEffect, useRef, useState } from 'react';
 import { IRootState } from 'app/shared/reducers';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Progress, Tooltip } from 'reactstrap';
-import {
-  reset as justificationReset,
-  generateAndTrackJustify,
-  getGenerationJustifyStatus,
-  getJustificationsByStatement,
-} from './justification.reducer';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Tooltip } from 'reactstrap';
+import { reset as justificationReset, generateStatementJustify, getJustificationsByStatement } from './justification.reducer';
 import { connect } from 'react-redux';
 import { Translate } from 'react-jhipster';
 import moment from 'moment';
 import { IModalContent } from 'app/shared/model/util.model';
 import { defaultValue, IJustification } from 'app/shared/model/justification.model';
+import TaskProgress from 'app/modules/task-progress/task-progress';
 
 interface IJustificationProps extends StateProps, DispatchProps {
   statementId: number;
 }
 
 const Justification = (props: IJustificationProps) => {
-  const statusInterval = useRef(null);
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [tracking, setTracking] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -29,7 +24,7 @@ const Justification = (props: IJustificationProps) => {
     timestamps: string[];
   });
 
-  const { statementId, loading, justifyTaskStatus, justifications } = props;
+  const { inProduction, statementId, loading, justifyTaskStatus, justifications } = props;
 
   const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
 
@@ -67,37 +62,16 @@ const Justification = (props: IJustificationProps) => {
   const initiateGenerateJustify = () => {
     // Begin the justification process of the statement's text
     setTracking(true);
-    props.generateAndTrackJustify(statementId, 3);
+    props.generateStatementJustify(statementId, 3);
     toggleConfirmModal();
   };
 
-  useEffect(() => {
-    if (!_.isEmpty(justifyTaskStatus) && justifyTaskStatus.status !== 'SUCCESS' && statusInterval.current === null) {
-      // Check the status of the task every 10 seconds
-      statusInterval.current = setInterval(() => {
-        props.getGenerationJustifyStatus(justifyTaskStatus.taskId);
-      }, 5000);
-    }
-
-    if (!_.isEmpty(justifyTaskStatus) && justifyTaskStatus.status === 'SUCCESS') {
-      // Justification has been generated successfully
-      setTracking(false);
-      if (statusInterval.current !== null) {
-        clearInterval(statusInterval.current);
-        statusInterval.current = null; // Reset the interval reference
-      }
-      props.justificationReset();
-      props.getJustificationsByStatement(statementId);
-    }
-
-    return () => {
-      // Cleanup interval on component unmount
-      if (statusInterval.current !== null) {
-        clearInterval(statusInterval.current);
-        statusInterval.current = null;
-      }
-    };
-  }, [justifyTaskStatus]);
+  const onJustificationSuccess = () => {
+    // Handle the success of the justification process
+    setTracking(false);
+    props.justificationReset();
+    props.getJustificationsByStatement(statementId);
+  };
 
   return loading ? (
     <></>
@@ -107,14 +81,12 @@ const Justification = (props: IJustificationProps) => {
         <Translate contentKey="check4FactsApp.justification.home.title" />
       </h3>
       {tracking ? (
-        <>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Progress animated color="info" value={100} style={{ width: '60%' }} />
-          </div>
-          <p className="text-center font-italic">
-            <Translate contentKey="check4FactsApp.justification.progressMessage" />
-          </p>
-        </>
+        <TaskProgress
+          inProduction={inProduction}
+          taskId={justifyTaskStatus.taskId}
+          progressMessage="check4FactsApp.justification.progressMessage"
+          onSuccess={onJustificationSuccess}
+        />
       ) : !_.isEmpty(justificationSelect.selected) ? (
         <div key={justificationSelect.selected.id} className="entry">
           <p className="text">{justificationSelect.selected.text}</p>
@@ -194,7 +166,7 @@ const Justification = (props: IJustificationProps) => {
           >
             <img src="../../content/images/reshot-icon-brain-2GQK794YNR.svg" alt="brain-svg" height={16} />
           </Button>
-          <Tooltip target="generate-summary" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
+          <Tooltip target="generate-justify" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
             Τεκμηρίωση με ΑΙ
           </Tooltip>
         </div>
@@ -216,6 +188,7 @@ const Justification = (props: IJustificationProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  inProduction: storeState.applicationProfile.inProduction,
   justifications: storeState.justification.entities,
   loading: storeState.justification.loading,
   justifyTaskStatus: storeState.justification.justifyTaskStatus,
@@ -223,8 +196,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   justificationReset,
-  generateAndTrackJustify,
-  getGenerationJustifyStatus,
+  generateStatementJustify,
   getJustificationsByStatement,
 };
 
