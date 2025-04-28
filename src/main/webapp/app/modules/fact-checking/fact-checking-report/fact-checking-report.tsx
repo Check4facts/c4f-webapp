@@ -29,6 +29,7 @@ import { APP_LOCAL_DATETIME_FORMAT, AUTHORITIES } from 'app/config/constants';
 import moment from 'moment';
 import Summarization from 'app/modules/summarization/summarization';
 import Justification from 'app/entities/justification/justification';
+import { getEntities as getFeatureToggleList, reset as featureToggleReset } from 'app/entities/feature-toggle/feature-toggle.reducer';
 
 const addNewRowDefault = {
   open: false,
@@ -82,10 +83,8 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
     statementSources,
     resources,
     statementLoading,
-    featureStatement,
-    floading,
-    rloading,
     featureStatementCount,
+    featureToggleList,
   } = props;
 
   const { previewImage, previewImageContentType } = articleEntity;
@@ -164,6 +163,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   }, [categories]);
 
   useEffect(() => {
+    props.getFeatureToggleList();
     props.getStatement(props.match.params.id);
     props.getStatementSourcesByStatement(props.match.params.id);
     props.countFeatureStatementsByStatement(props.match.params.id);
@@ -175,6 +175,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
 
     // Reset Statement and Article on unmount
     return () => {
+      props.featureToggleReset();
       props.reset();
       props.StatementReset();
       props.featureStatementReset();
@@ -551,37 +552,43 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                           <Translate contentKey="entity.validation.required">This field is required.</Translate>
                         </AvFeedback>
                       </Col>
-                      <Col style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'flexStart', padding: '0' }}>
-                        <Button id="analyze-btn" color="warning" onClick={toggle} disabled={updating}>
-                          <FontAwesomeIcon icon="chart-pie" />
-                        </Button>
-                        <Tooltip target="analyze-btn" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
-                          <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
-                        </Tooltip>
-                      </Col>
+                      {featureToggleList.find(ft => ft.key === 'analyze')?.enabled && (
+                        <Col style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'flexStart', padding: '0' }}>
+                          <Button id="analyze-btn" color="warning" onClick={toggle} disabled={updating}>
+                            <FontAwesomeIcon icon="chart-pie" />
+                          </Button>
+                          <Tooltip target="analyze-btn" placement="top" toggle={toggleTooltip} isOpen={tooltipOpen}>
+                            <Translate contentKey="entity.action.analyzer">Analyzer</Translate>
+                          </Tooltip>
+                        </Col>
+                      )}
                     </Row>
                   </AvGroup>
-                  <Row className="fact-checking-report-row">
-                    <Col md={{ size: 2 }}>
-                      <Label id="summaryLabel" for="article-summary">
-                        <Translate contentKey="check4FactsApp.article.summary">Summary</Translate>
-                      </Label>
-                    </Col>
-                    <Col>
-                      <Summarization
-                        summary={statement?.article?.summary}
-                        articleId={articleEntity.id}
-                        statementId={statement.id}
-                        editorRef={sumEditorRef}
-                        formOnChange={formOnchange}
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Justification statementId={statement?.id} />
-                    </Col>
-                  </Row>
+                  {featureToggleList.find(ft => ft.key === 'summarize')?.enabled && (
+                    <Row className="fact-checking-report-row">
+                      <Col md={{ size: 2 }}>
+                        <Label id="summaryLabel" for="article-summary">
+                          <Translate contentKey="check4FactsApp.article.summary">Summary</Translate>
+                        </Label>
+                      </Col>
+                      <Col>
+                        <Summarization
+                          summary={statement?.article?.summary}
+                          articleId={articleEntity.id}
+                          statementId={statement.id}
+                          editorRef={sumEditorRef}
+                          formOnChange={formOnchange}
+                        />
+                      </Col>
+                    </Row>
+                  )}
+                  {featureToggleList.find(ft => ft.key === 'justify')?.enabled && (
+                    <Row>
+                      <Col>
+                        <Justification statementId={statement?.id} />
+                      </Col>
+                    </Row>
+                  )}
                   <Row className="fact-checking-report-row" style={{ textAlign: 'center', marginTop: '15px' }}>
                     <Col>
                       <Label for="article-content">
@@ -777,6 +784,7 @@ const mapStateToProps = (storeState: IRootState) => ({
   featureStatementCount: storeState.featureStatement.count,
   account: storeState.authentication.account,
   isNotInspector: !hasAnyAuthority(storeState.authentication.account.authorities, [AUTHORITIES.INSPECTOR]),
+  featureToggleList: storeState.featureToggle.entities,
 });
 
 const mapDispatchToProps = {
@@ -796,6 +804,8 @@ const mapDispatchToProps = {
   countFeatureStatementsByStatement,
   featureStatementReset,
   categoryReset,
+  getFeatureToggleList,
+  featureToggleReset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

@@ -62,7 +62,7 @@ const Justification = (props: IJustificationProps) => {
   const initiateGenerateJustify = () => {
     // Begin the justification process of the statement's text
     setTracking(true);
-    props.generateStatementJustify(statementId, 3);
+    props.generateStatementJustify(statementId, 5);
     toggleConfirmModal();
   };
 
