@@ -27,7 +27,7 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
 
   useEffect(() => {
     if (taskId) {
-      const ws = new WebSocket(`${inProduction ? 'wss://check4facts.gr/ml/ws/' : 'ws://localhost:9090/'}ws/${taskId}?token=${authToken}`);
+      const ws = new WebSocket(`${inProduction ? 'wss://check4facts.gr/ml/' : 'ws://localhost:9090/'}ws/${taskId}?token=${authToken}`);
 
       ws.onopen = () => {
         setStatus('connected');
