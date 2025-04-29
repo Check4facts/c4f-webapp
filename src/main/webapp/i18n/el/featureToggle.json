@@ -1,0 +1,24 @@
+{
+  "check4FactsApp": {
+    "featureToggle": {
+      "home": {
+        "title": "Feature Toggles",
+        "createLabel": "Δημιουργήστε ένα νέο Feature Toggle",
+        "createOrEditLabel": "Δημιουργήστε η επεξεργαστείτε ένα Feature Toggle",
+        "search": "Αναζήτηση για Feature Toggle",
+        "notFound": "No Feature Toggles found"
+      },
+      "created": "Ένα νέο Feature Toggle έχει δημιουργηθεί με αναγνωριστικό {{ param }}",
+      "updated": "Ένα Feature Toggle έχει ενημερωθεί με αναγνωριστικό {{ param }}",
+      "deleted": "Ένα Feature Toggle έχει διαγραφτεί με αναγνωριστικό {{ param }}",
+      "delete": {
+        "question": "Είστε βέβαιοι όταν θέλετε να διαγράψετε το ακόλουθο Feature Toggle {{ id }};"
+      },
+      "detail": {
+        "title": "Feature Toggle"
+      },
+      "key": "Key",
+      "enabled": "Enabled"
+    }
+  }
+}

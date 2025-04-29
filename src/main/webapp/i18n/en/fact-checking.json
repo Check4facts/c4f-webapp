@@ -19,6 +19,7 @@
       "button": "Check!"
     },
     "analyze": {
+      "progress": "Analyzing statement in progress",
       "action": {
         "main": "Actions",
         "createArticle": "Create an article for the statement",

@@ -37,7 +37,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -164,6 +164,12 @@ public class StatementResource {
     public Integer setFactCheckerAccuracy(@PathVariable Long id, @PathVariable Integer accuracy) {
         log.debug("REST request to set factCheckerAccuracy of Statement: {} tp : {}", id, accuracy);
         return statementService.setFactCheckerAccuracy(id, accuracy);
+    }
+
+    @PutMapping("/statements/registration-date")
+    public Integer setRegistrationDate(@RequestParam Long id, @RequestParam Instant date) {
+        log.debug("REST request to set registrationDate of Statement: {} to : {}", id, date);
+        return statementService.setRegistrationDate(id, date);
     }
 
     @PostMapping("/statements/import-csv")

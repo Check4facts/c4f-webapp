@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -144,5 +145,10 @@ public class StatementService {
     public Integer setFactCheckerAccuracy(Long id, Integer accuracy) {
         log.debug("Request to set factCheckerAccuracy of Statement: {} to : {}", id, accuracy);
         return statementRepository.setFactCheckerAccuracy(id, accuracy);
+    }
+
+    public Integer setRegistrationDate(Long id, Instant date) {
+        log.debug("Request to set registrationDate of Statement: {} to : {}", id, date);
+        return statementRepository.setRegistrationDate(id, date);
     }
 }

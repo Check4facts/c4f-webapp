@@ -1,19 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Collapse, Button, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { ProgressBar } from 'app/shared/util/progress-bar';
 import { Translate, translate } from 'react-jhipster';
 import moment from 'moment';
 import { IModalContent, ITaskStatus } from 'app/shared/model/util.model';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { convertDateTimeToServer } from 'app/shared/util/date-utils';
-import { APP_LOCAL_DATETIME_FORMAT } from 'app/config/constants';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { analyzeStatement, changeStatusInterval, getTaskStatus, removeTaskStatus } from '../fact-checking.reducer';
-import { updateEntity as updateStatement } from 'app/entities/statement/statement.reducer';
-import { countFeatureStatementsByStatement } from 'app/entities/feature-statement/feature-statement.reducer';
+import { setRegistrationDate } from 'app/entities/statement/statement.reducer';
+import {
+  countFeatureStatementsByStatement,
+  getLatestFeatureStatementByStatementId,
+} from 'app/entities/feature-statement/feature-statement.reducer';
 import _ from 'lodash';
 import { getActiveCeleryTasks } from 'app/entities/kombu-message/kombu-message.reducer';
+import TaskProgress from 'app/modules/task-progress/task-progress';
 
 interface IFactCheckingReportAnalyzerResults extends StateProps, DispatchProps {}
 
@@ -26,6 +27,7 @@ const paragraphStyle = {
 
 const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerResults) => {
   const {
+    inProduction,
     resources,
     statement,
     currentLocale,
@@ -34,14 +36,12 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
     statementSources,
     taskStatuses,
     activeStatuses,
-    statusInterval,
   } = props;
-  // const statusInterval = useRef(null);
   const [emotionCollapse, setEmotionCollapse] = useState(false);
   const [restCollapse, setRestCollapse] = useState(false);
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [analyzeStatus, setAnalyzeStatus] = useState({} as ITaskStatus);
-  const [reAnalyze, setReAnalyze] = useState(false);
+  const [analyzeTracking, setAnalyzeTracking] = useState(false);
 
   const handleReanalyzeModal = (content: IModalContent) => () => {
     setModalContent(content);
@@ -49,7 +49,14 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
 
   useEffect(() => {
     props.getActiveCeleryTasks();
+    props.countFeatureStatementsByStatement(statement.id);
   }, []);
+
+  useEffect(() => {
+    if (featureStatementCount > 0) {
+      props.getLatestFeatureStatementByStatementId(statement.id);
+    }
+  }, [featureStatementCount]);
 
   useEffect(() => {
     taskStatuses.forEach(task => {
@@ -70,46 +77,19 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
     });
   }, [activeStatuses]);
 
-  useEffect(() => {
-    if (analyzeStatus) {
-      // Hook to set interval for calling getTaskStatus to update status of analyze.
-      if (!_.isEmpty(analyzeStatus) && statusInterval === null) {
-        props.changeStatusInterval(
-          setInterval(() => {
-            props.getTaskStatus(analyzeStatus.taskId);
-          }, 5000)
-        );
-      }
-      // When analyze task is finished stop interval and fetch FeatureStatements count to display results button.
-      if (analyzeStatus.status === 'SUCCESS') {
-        props.removeTaskStatus(analyzeStatus.taskId);
-        setAnalyzeStatus({});
-        setReAnalyze(false);
-        clearInterval(statusInterval);
-        props.changeStatusInterval(null);
-        props.countFeatureStatementsByStatement(statement.id);
-      }
-    }
-  }, [analyzeStatus]);
+  const onAnalyzeSuccess = () => {
+    props.removeTaskStatus(analyzeStatus.taskId);
+    props.countFeatureStatementsByStatement(statement.id);
+    setAnalyzeStatus({});
+    setAnalyzeTracking(false);
+  };
 
   const analyze = () => {
-    // FIXME Remove those ugly ignores when got the time.
-    const entity = {
-      ...statement,
-      registrationDate: convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT)),
-      statementSources: [...statementSources],
-    };
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
+    setAnalyzeTracking(true);
+    props.setRegistrationDate(statement.id, moment().toISOString());
     props.analyzeStatement({
-      // Only pass entity fields that we need.
-      id: entity.id,
-      text: entity.text,
-    });
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    props.updateStatement({
-      ...entity,
+      id: statement.id,
+      text: statement.text,
     });
   };
 
@@ -152,20 +132,22 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
             )}
           </Col>
         </Row>
-        {!reAnalyze && !analyzeStatus.taskInfo && featureStatementCount === 0 && (
-          <>
-            <Row>
-              <Col className="alert alert-warning" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <p style={{ margin: 0 }}>Δεν έχει γίνει κάποια ανάλυση για αυτή την δήλωση.</p>
-                <Button color="primary" onClick={analyze}>
-                  {translate('fact-checking.analyze.button')}
-                </Button>
-              </Col>
-            </Row>
-          </>
-        )}
-        {analyzeStatus.taskInfo ? (
-          <ProgressBar message="Διαδικασία ανάλυσης δήλωσης..." task={analyzeStatus} />
+        {analyzeTracking ? (
+          <TaskProgress
+            inProduction={inProduction}
+            taskId={analyzeStatus.taskId}
+            progressMessage="fact-checking.analyze.progress"
+            onSuccess={onAnalyzeSuccess}
+          />
+        ) : featureStatementCount === 0 ? (
+          <Row>
+            <Col className="alert alert-warning" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <p style={{ margin: 0 }}>Δεν έχει γίνει κάποια ανάλυση για αυτή την δήλωση.</p>
+              <Button color="primary" onClick={analyze}>
+                {translate('fact-checking.analyze.button')}
+              </Button>
+            </Col>
+          </Row>
         ) : (
           featureStatementCount > 0 &&
           Object.keys(featureStatement).length > 0 && (
@@ -493,6 +475,7 @@ const FactchekcingReportAnalyzerResults = (props: IFactCheckingReportAnalyzerRes
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  inProduction: storeState.applicationProfile.inProduction,
   currentLocale: storeState.locale.currentLocale,
   statement: storeState.statement.entity,
   statementSources: storeState.statementSource.entities,
@@ -501,17 +484,17 @@ const mapStateToProps = (storeState: IRootState) => ({
   featureStatementCount: storeState.featureStatement.count,
   taskStatuses: storeState.factChecking.taskStatuses,
   activeStatuses: storeState.kombuMessage.activeStatuses,
-  statusInterval: storeState.factChecking.statusInterval,
 });
 
 const mapDispatchToProps = {
   analyzeStatement,
-  updateStatement,
+  setRegistrationDate,
   getTaskStatus,
   removeTaskStatus,
   countFeatureStatementsByStatement,
   getActiveCeleryTasks,
   changeStatusInterval,
+  getLatestFeatureStatementByStatementId,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

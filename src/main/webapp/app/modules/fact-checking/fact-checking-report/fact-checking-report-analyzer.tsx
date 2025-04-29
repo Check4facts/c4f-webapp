@@ -1,17 +1,11 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table, Col, Row } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Table, Col, Row } from 'reactstrap';
 import './fact-checking-report-analyzer.scss';
-import { IStatement } from 'app/shared/model/statement.model';
 import { Translate, translate } from 'react-jhipster';
 import moment from 'moment';
-import { IStatementSource } from 'app/shared/model/statement-source.model';
 import FactchekcingReportAnalyzerResults from './fact-checking-report-analyzer-results';
-import { IFeatureStatement } from 'app/shared/model/feature-statement.model';
-import { IResource } from 'app/shared/model/resource.model';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
 import { IRootState } from 'app/shared/reducers';
-import { getLatestFeatureStatementByStatementId } from 'app/entities/feature-statement/feature-statement.reducer';
 
 interface IFactCheckingReportAnalyzer extends StateProps, DispatchProps {
   open: boolean;
@@ -26,23 +20,9 @@ const paragraphStyle = {
 } as React.CSSProperties;
 
 const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
-  const {
-    open,
-    toggle,
-    statement,
-    currentLocale,
-    statementSources,
-    floading,
-    featureStatementCount,
-  } = props;
+  const { open, toggle, statement, currentLocale, statementSources } = props;
 
-  const shortenStatementText = text => text.length > 20 ? `${text.substring(0, 20)}...` : text;
-
-  React.useEffect(() => {
-    if (statement && statement.id && featureStatementCount > 0) {
-      props.getLatestFeatureStatementByStatementId(statement.id);
-    }
-  }, [statement, featureStatementCount]);
+  const shortenStatementText = text => (text.length > 20 ? `${text.substring(0, 20)}...` : text);
 
   return (
     <Modal
@@ -175,8 +155,12 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
                               {shortenStatementText(statementSource.url)}
                             </a>
                           </td>
-                          <td><p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p></td>
-                          <td><p title={statementSource.snippet}>{shortenStatementText(statementSource.snippet)}</p></td>
+                          <td>
+                            <p title={statementSource.title}>{shortenStatementText(statementSource.title)}</p>
+                          </td>
+                          <td>
+                            <p title={statementSource.snippet}>{shortenStatementText(statementSource.snippet)}</p>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -190,7 +174,7 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
             </Row>
           </Row>
         </div>
-        {!floading && <FactchekcingReportAnalyzerResults />}
+        <FactchekcingReportAnalyzerResults />
       </ModalBody>
     </Modal>
   );
@@ -201,13 +185,9 @@ const mapStateToProps = (storeState: IRootState) => ({
   loading: storeState.article.loading,
   statement: storeState.statement.entity,
   statementSources: storeState.statementSource.entities,
-  floading: storeState.featureStatement.loading,
-  featureStatementCount: storeState.featureStatement.count,
 });
 
-const mapDispatchToProps = {
-  getLatestFeatureStatementByStatementId
-};
+const mapDispatchToProps = {};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

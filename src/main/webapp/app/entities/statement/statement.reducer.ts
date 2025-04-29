@@ -13,6 +13,7 @@ export const ACTION_TYPES = {
   CREATE_STATEMENT: 'statement/CREATE_STATEMENT',
   UPDATE_STATEMENT: 'statement/UPDATE_STATEMENT',
   SET_FACT_CHECKER_ACCURACY: 'statement/SET_FACT_CHECKER_ACCURACY',
+  SET_REGISTRATION_DATE: 'statement/SET_REGISTRATION_DATE',
   DELETE_STATEMENT: 'statement/DELETE_STATEMENT',
   IMPORT_CSV: 'statement/IMPORT_CSV',
   SET_BLOB: 'statement/SET_BLOB',
@@ -51,6 +52,7 @@ export default (state: StatementState = initialState, action): StatementState =>
     case REQUEST(ACTION_TYPES.UPDATE_STATEMENT):
     case REQUEST(ACTION_TYPES.DELETE_STATEMENT):
     case REQUEST(ACTION_TYPES.SET_FACT_CHECKER_ACCURACY):
+    case REQUEST(ACTION_TYPES.SET_REGISTRATION_DATE):
       return {
         ...state,
         errorMessage: null,
@@ -64,6 +66,7 @@ export default (state: StatementState = initialState, action): StatementState =>
     case FAILURE(ACTION_TYPES.UPDATE_STATEMENT):
     case FAILURE(ACTION_TYPES.DELETE_STATEMENT):
     case FAILURE(ACTION_TYPES.SET_FACT_CHECKER_ACCURACY):
+    case FAILURE(ACTION_TYPES.SET_REGISTRATION_DATE):
     case FAILURE(ACTION_TYPES.IMPORT_CSV):
       return {
         ...state,
@@ -95,6 +98,7 @@ export default (state: StatementState = initialState, action): StatementState =>
         entity: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.SET_FACT_CHECKER_ACCURACY):
+    case SUCCESS(ACTION_TYPES.SET_REGISTRATION_DATE):
       return {
         ...state,
         updating: false,
@@ -180,6 +184,13 @@ export const setFactCheckerAccuracy = (id: number, accuracy: number) => {
   return {
     type: ACTION_TYPES.SET_FACT_CHECKER_ACCURACY,
     payload: axios.put(`${apiUrl}/accuracy/${id}/${accuracy}`),
+  };
+};
+
+export const setRegistrationDate = (id: number, date) => {
+  return {
+    type: ACTION_TYPES.SET_REGISTRATION_DATE,
+    payload: axios.put(`${apiUrl}/registration-date?id=${id}&date=${date}`),
   };
 };
 
