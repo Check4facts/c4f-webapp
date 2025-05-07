@@ -37,8 +37,7 @@ export const FrontPageFeed = (props: IArticlesFeedProps) => {
     <>
       {frontPageArticles.length > 0
         ? frontPageArticles.map((category, index) => {
-            // TODO: Remove category.categoryName !== 'digital_transition' in future to show this category
-            if (category.categoryArticles.length > 0 && category.categoryName !== 'digital_transition') {
+            if (category.categoryArticles.length > 0) {
               return (
                 <Row style={{marginLeft: 0, marginRight: 0}} key={`${category.categoryName}-${index}`}>
                   <div className={`${category.categoryName}-section mt-5`} style={{width: "100%"}}>
