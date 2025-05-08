@@ -14,9 +14,12 @@ export default class MenuItem extends React.Component<IMenuItem> {
   render() {
     const { to, icon, id, children } = this.props;
 
+    // Ensure icon is valid before rendering
+    const isValidIcon = typeof icon !== 'undefined' && icon !== null;
+
     return (
       <DropdownItem tag={Link} to={to} id={id}>
-        <FontAwesomeIcon icon={icon} fixedWidth /> {children}
+        {isValidIcon && <FontAwesomeIcon icon={icon} fixedWidth />} {children}
       </DropdownItem>
     );
   }

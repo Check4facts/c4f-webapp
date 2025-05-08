@@ -1,16 +1,17 @@
 import _ from 'lodash';
 import './summarization.scss';
 import { IRootState } from 'app/shared/reducers';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row, Progress, Tooltip } from 'reactstrap';
-import { getGenerationSummaryStatus, reset as summarizationReset, generateAndTrackSummary } from './summarization.reducer';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row, Tooltip } from 'reactstrap';
+import { reset as summarizationReset, generateArticleSummary } from './summarization.reducer';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import DecoupledEditor from 'ckeditor5-build-decoupled-document-base64-imageresize';
 import { IModalContent } from 'app/shared/model/util.model';
 import { getEntity as getStatement } from 'app/entities/statement/statement.reducer';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import TaskProgress from '../task-progress/task-progress';
 
 interface ISummarization extends StateProps, DispatchProps {
   summary: any;
@@ -21,8 +22,7 @@ interface ISummarization extends StateProps, DispatchProps {
 }
 
 const Summarization = (props: ISummarization) => {
-  const statusInterval = useRef(null);
-  const { editorRef, summaryTaskStatus, articleId, summary, statementId, formOnChange } = props;
+  const { inProduction, editorRef, summaryTaskStatus, articleId, summary, statementId, formOnChange } = props;
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [tracking, setTracking] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -38,38 +38,27 @@ const Summarization = (props: ISummarization) => {
   const initiateGenerateSummary = () => {
     // Begin the summarization process of the artcle's content.
     setTracking(true);
-    props.generateAndTrackSummary(articleId);
+    props.generateArticleSummary(articleId);
     toggleConfirmModal();
   };
 
-  useEffect(() => {
-    if (!_.isEmpty(summaryTaskStatus) && summaryTaskStatus.status !== 'SUCCESS' && statusInterval.current === null) {
-      // Check the status of the task every 5
-      statusInterval.current = setInterval(() => {
-        props.getGenerationSummaryStatus(summaryTaskStatus.taskId);
-      }, 5000);
-    }
-    if (!_.isEmpty(summaryTaskStatus) && summaryTaskStatus.status === 'SUCCESS') {
-      // Summary has been generated successfully
-      setTracking(false);
-      clearInterval(statusInterval.current);
-      props.summarizationReset();
-      props.getStatement(statementId);
-    }
-  }, [summaryTaskStatus]);
+  const onSummarySuccess = () => {
+    // Handle the success of the summarization process.
+    setTracking(false);
+    props.getStatement(statementId);
+    props.summarizationReset();
+  };
 
   return (
     <div className="summarization-modal-dialog">
       <Row className="summarization-modal-body-row" size={{ size: 3, offset: 3 }}>
         {tracking ? (
-          <Row style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Col md={{ size: 6, offset: 0 }}>
-              <p style={{ textAlign: 'center' }}>
-                <Translate contentKey="check4FactsApp.summarization.progress" />
-              </p>
-              <Progress animated color="info" value={100} />
-            </Col>
-          </Row>
+          <TaskProgress
+            inProduction={inProduction}
+            taskId={summaryTaskStatus.taskId}
+            progressMessage="check4FactsApp.summarization.progress"
+            onSuccess={onSummarySuccess}
+          />
         ) : (
           <>
             <Row>
@@ -134,14 +123,14 @@ const Summarization = (props: ISummarization) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  inProduction: storeState.applicationProfile.inProduction,
   summaryTaskStatus: storeState.summarization.summaryTaskStatus,
 });
 
 const mapDispatchToProps = {
   getStatement,
-  getGenerationSummaryStatus,
   summarizationReset,
-  generateAndTrackSummary,
+  generateArticleSummary,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

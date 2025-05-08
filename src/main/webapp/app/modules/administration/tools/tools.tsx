@@ -11,6 +11,10 @@ import { trainModel, getTaskStatus, removeTaskStatus } from 'app/modules/fact-ch
 import { Button, Row, Col, Container, Spinner, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { ProgressBar } from 'app/shared/util/progress-bar';
+import {
+  getEntities as getFeatureToggleList,
+  updateEntity as updateFeatureToggle,
+} from 'app/entities/feature-toggle/feature-toggle.reducer';
 
 export interface IToolsProps extends StateProps, DispatchProps {}
 
@@ -21,10 +25,11 @@ export const Tools = (props: IToolsProps) => {
   const [modalContent, setModalContent] = useState({} as IModalContent);
   const [trainStatus, setTrainStatus] = useState({} as ITaskStatus);
 
-  const { trainingLoading, activeStatuses, taskStatuses, kLoading, importing } = props;
+  const { trainingLoading, activeStatuses, taskStatuses, kLoading, importing, featureToggleList, ftLoading, ftUpdating } = props;
 
   useEffect(() => {
     props.getActiveCeleryTasks();
+    props.getFeatureToggleList();
   }, []);
 
   useEffect(() => {
@@ -74,12 +79,12 @@ export const Tools = (props: IToolsProps) => {
   const populateArticlesGreeklish = () => {
     axios.get('/api/articles/populate-greeklish');
     setModalOpen(false);
-  }
+  };
 
   const populateNewsGreeklish = () => {
     axios.get('/api/news/populate-greeklish');
     setModalOpen(false);
-  }
+  };
 
   const train = () => {
     props.trainModel();
@@ -129,13 +134,18 @@ export const Tools = (props: IToolsProps) => {
       </Row>
       <Row>
         <Col className="d-flex justify-content-center">
-          <Button onClick={() =>
-            openModal({
-              header: 'Populate Articles Greeklish',
-              body: 'Are you sure you want populate articles greeklish?',
-              action: populateArticlesGreeklish
-            })
-          } color="primary">Articles Greeklish</Button>
+          <Button
+            onClick={() =>
+              openModal({
+                header: 'Populate Articles Greeklish',
+                body: 'Are you sure you want populate articles greeklish?',
+                action: populateArticlesGreeklish,
+              })
+            }
+            color="primary"
+          >
+            Articles Greeklish
+          </Button>
         </Col>
       </Row>
       <Row>
@@ -145,13 +155,18 @@ export const Tools = (props: IToolsProps) => {
       </Row>
       <Row>
         <Col className="d-flex justify-content-center">
-          <Button onClick={() =>
-            openModal({
-              header: 'Populate News Greeklish',
-              body: 'Are you sure you want populate news greeklish?',
-              action: populateNewsGreeklish
-            })
-          } color="primary">News Greeklish</Button>
+          <Button
+            onClick={() =>
+              openModal({
+                header: 'Populate News Greeklish',
+                body: 'Are you sure you want populate news greeklish?',
+                action: populateNewsGreeklish,
+              })
+            }
+            color="primary"
+          >
+            News Greeklish
+          </Button>
         </Col>
       </Row>
       <Row className="mt-3">
@@ -187,6 +202,36 @@ export const Tools = (props: IToolsProps) => {
           </Col>
         </Row>
       )}
+      <Row className="my-3">
+        <Col>
+          <h4 className="text-center">Features of Check4Facts</h4>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div className="d-flex flex-wrap justify-content-center">
+            {ftLoading || ftUpdating ? (
+              <div>
+                <Spinner style={{ width: '5rem', height: '5rem', margin: '10% 0 10% 45%' }} color="dark" />
+              </div>
+            ) : (
+              featureToggleList.map(feature => (
+                <div key={feature.key} className="m-2 p-3 border rounded text-center" style={{ width: '200px' }}>
+                  <h5>{feature.key}</h5>
+                  <Button
+                    color={feature.enabled ? 'danger' : 'success'}
+                    onClick={() => {
+                      props.updateFeatureToggle({ ...feature, enabled: !feature.enabled });
+                    }}
+                  >
+                    {feature.enabled ? 'Disable' : 'Enable'}
+                  </Button>
+                </div>
+              ))
+            )}
+          </div>
+        </Col>
+      </Row>
       <Row className="my-3">
         <Col>
           <h4 className="text-center">Import Statements from CSV</h4>
@@ -228,6 +273,9 @@ const mapStateToProps = (storeState: IRootState) => ({
   kLoading: storeState.kombuMessage.loading,
   activeStatuses: storeState.kombuMessage.activeStatuses,
   importing: storeState.statement.loading,
+  featureToggleList: storeState.featureToggle.entities,
+  ftUpdating: storeState.featureToggle.updating,
+  ftLoading: storeState.featureToggle.loading,
 });
 
 const mapDispatchToProps = {
@@ -236,6 +284,8 @@ const mapDispatchToProps = {
   getTaskStatus,
   removeTaskStatus,
   importFromCSV,
+  getFeatureToggleList,
+  updateFeatureToggle,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

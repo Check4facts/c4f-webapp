@@ -48,6 +48,7 @@ import openGraph, { OpenGraphState } from './open-graph';
 import summarization, { SummarizationState } from 'app/modules/summarization/summarization.reducer';
 import justification, { JustificationState } from 'app/entities/justification/justification.reducer';
 import justificationSource, { JustificationSourceState } from 'app/entities/justification-source/justification-source.reducer';
+import featureToggle, { FeatureToggleState } from 'app/entities/feature-toggle/feature-toggle.reducer';
 
 export interface IRootState {
   readonly authentication: AuthenticationState;
@@ -74,6 +75,7 @@ export interface IRootState {
   readonly summarization: SummarizationState;
   readonly justification: JustificationState;
   readonly justificationSource: JustificationSourceState;
+  readonly featureToggle: FeatureToggleState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -103,6 +105,7 @@ const rootReducer = combineReducers<IRootState>({
   summarization,
   justification,
   justificationSource,
+  featureToggle,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });
