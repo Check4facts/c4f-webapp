@@ -48,6 +48,7 @@ export const Dissemination = (props: IDisseminationProps) => {
       id: 'video',
       title: translate('dissemination.category.video'),
       links: [
+        'https://www.youtube.com/watch?v=MNg45gjDh18',
         'https://www.youtube.com/watch?v=cVz0mk7aWTQ',
         'https://www.facebook.com/watch/?v=618054820814365',
         // 'https://www.alphatv.gr/show/kalutera-de-ginetai/?vtype=player&vid=61510&showId=913&year=2025', // Find a better way to display this video
