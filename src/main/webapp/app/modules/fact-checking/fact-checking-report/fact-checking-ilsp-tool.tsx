@@ -8,7 +8,6 @@ import {
   Container,
   Row,
   Col,
-  Tooltip,
   Input,
   Button,
   Spinner,
@@ -18,9 +17,7 @@ import {
 } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Translate } from 'react-jhipster';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { getClaimVerification, getTranslation, resetIlspTool } from '../fact-checking.reducer';
-import { get, set } from 'lodash';
 
 interface IFactCheckingIlspTool extends StateProps, DispatchProps {
   ilspToolOpen: boolean;
@@ -61,16 +58,16 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
       setLoadingText('Αναζήτηση');
     }else if(ilspTool.translator.error){
       clearInterval(interval.current);
-      setLoadingText("An error occured during Translation");
+      setLoadingText("Παρουσιάστηκε σφάλμα κατά την μετάφραση.");
     }
   }, [ilspTool.translator]);
 
   useEffect(() => {
-    if (ilspTool.recommender.data || !ilspTool.recommender.loading) {
+    if (ilspTool.recommender.data) {
       setLoadingText('Αναζήτηση');
     }else if(ilspTool.recommender.error){
       clearInterval(interval.current);
-      setLoadingText("An error occured during scinobo request");
+      setLoadingText("Σφάλμα λειτουργίας του SCINOBO");
     }
   }, [ilspTool.recommender]);
 
@@ -193,7 +190,7 @@ const FactCheckingIlspTool = (props: IFactCheckingIlspTool) => {
                     {!ilspTool.recommender.data || ilspTool.recommender.loading ? (
                       <tr>
                         <td colSpan={4} style={{ textAlign: 'center', verticalAlign: 'center' }}>
-                          <p style={{ fontSize: '2rem', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                          <p style={{ fontSize: '2rem', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', color: `${ilspTool.recommender.error ? 'red' : 'black'}` }}>
                             {loadingText}
                           </p>
                         </td>
