@@ -72,7 +72,10 @@ const TaskProgress: React.FC<TaskProgressProps> = props => {
   return (
     <Row style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       {status === 'error' ? (
-        <p className="text-red-500">❌ Error occurred on task with id: {taskId}.</p>
+        <>
+          <p className="text-red-500">❌ Πρόβλημα εκτέλεσης διαδικασίας με αναγνωριστικό: {taskId}.</p>
+          <p>Παρακαλώ επαναλάβετε την διαδικασία. Εάν το πρόβλημα επιμείνει, επικοινωνήστε μαζί μας.</p>
+        </>
       ) : (
         <Col md={{ size: 6, offset: 0 }}>
           <p style={{ textAlign: 'center' }}>
