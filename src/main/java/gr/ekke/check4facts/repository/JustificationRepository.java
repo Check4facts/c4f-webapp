@@ -22,4 +22,8 @@ public interface JustificationRepository extends JpaRepository<Justification, Lo
     List<Justification> findAllByStatementIdOrderByTimestampDesc(@Param("statementId") Long statementId);
 
     Optional<Justification> findFirstByStatementIdOrderByTimestampDesc(@Param("statementId") Long statementId);
+    
+    @Modifying
+    @Query("DELETE FROM Justification j WHERE j.statement.id = :statementId")
+    void deleteByStatementId(@Param("statementId") Long statementId);
 }

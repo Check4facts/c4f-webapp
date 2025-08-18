@@ -18,6 +18,7 @@ import java.util.List;
 public interface ResourceRepository extends JpaRepository<Resource, Long> {
     Page<Resource> findAllByStatementId(Long statement_id, Pageable pageable);
 
+    @Modifying
     List<Resource> deleteByStatementId(Long statement_id);
 
 

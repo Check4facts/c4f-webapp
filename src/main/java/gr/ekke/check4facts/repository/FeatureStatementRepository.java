@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface FeatureStatementRepository extends JpaRepository<FeatureStatement, Long> {
     List<FeatureStatement> findAllByStatementId(Long statement_id);
 
+    @Modifying
     List<FeatureStatement> deleteByStatementId(Long statement_id);
 
     Integer countAllByStatementId(Long statement_id);
