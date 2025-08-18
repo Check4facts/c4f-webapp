@@ -91,7 +91,7 @@ const FactCheckingReportAnalyzer = (props: IFactCheckingReportAnalyzer) => {
             </Row>
             <Row>
               <Col>
-                <p style={paragraphStyle}>{statement.subTopics.join(', ') || '-'}</p>
+                <p style={paragraphStyle}>{statement.subTopics ? statement.subTopics.join(', ') : '-'}</p>
               </Col>
             </Row>
             <Row>

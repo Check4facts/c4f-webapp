@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import { Translate, ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
+import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IStatement } from 'app/shared/model/statement.model';
 import { IRootState } from 'app/shared/reducers';
-import { getEntity, deleteEntity } from './statement.reducer';
+import { getEntity, deleteEntityAndRefresh } from './statement.reducer';
 
 export interface IStatementDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -17,7 +16,7 @@ export const StatementDeleteDialog = (props: IStatementDeleteDialogProps) => {
   }, []);
 
   const handleClose = () => {
-    props.history.push('/statement' + props.location.search);
+    props.history.replace('/statement' + props.location.search);
   };
 
   useEffect(() => {
@@ -27,7 +26,7 @@ export const StatementDeleteDialog = (props: IStatementDeleteDialogProps) => {
   }, [props.updateSuccess]);
 
   const confirmDelete = () => {
-    props.deleteEntity(props.statementEntity.id);
+    props.deleteEntityAndRefresh(props.statementEntity.id, props.location.search);
   };
 
   const { statementEntity } = props;
@@ -62,7 +61,7 @@ const mapStateToProps = ({ statement }: IRootState) => ({
   updateSuccess: statement.updateSuccess,
 });
 
-const mapDispatchToProps = { getEntity, deleteEntity };
+const mapDispatchToProps = { getEntity, deleteEntityAndRefresh };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

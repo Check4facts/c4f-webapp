@@ -200,7 +200,30 @@ export const deleteEntity: ICrudDeleteAction<IStatement> = id => async dispatch 
     type: ACTION_TYPES.DELETE_STATEMENT,
     payload: axios.delete(requestUrl),
   });
-  dispatch(getEntities());
+  return result;
+};
+
+// Custom delete function that handles refresh with current view parameters
+export const deleteEntityAndRefresh: (id: number, locationSearch: string) => any = (id, locationSearch) => async dispatch => {
+  const result = await dispatch(deleteEntity(id));
+
+  // Parse URL parameters to maintain current view
+  if (locationSearch) {
+    const params = new URLSearchParams(locationSearch);
+    const page = params.get('page');
+    const sort = params.get('sort');
+    const size = params.get('size') || '12'; // Default page size
+
+    if (page && sort) {
+      const sortSplit = sort.split(',');
+      dispatch(getEntities(parseInt(page, 10) - 1, parseInt(size, 10), sort));
+    } else {
+      dispatch(getEntities());
+    }
+  } else {
+    dispatch(getEntities());
+  }
+
   return result;
 };
 
