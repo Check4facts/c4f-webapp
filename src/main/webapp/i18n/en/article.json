@@ -27,6 +27,7 @@
       "previewImage": "Preview Image",
       "articleDate": "Article Date",
       "articleDateUpdated": "Article Update Date",
+      "manualArticleDateUpdated": "Manually set last updated date",
       "publish": "Publish",
       "published": "Published",
       "unpublished": "Unpublished",

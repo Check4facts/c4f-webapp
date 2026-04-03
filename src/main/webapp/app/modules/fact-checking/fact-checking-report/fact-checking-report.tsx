@@ -68,6 +68,7 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
   const formRef = useRef(null);
   const [ilspTooltip, setIlspTooltip] = useState(false);
   const toggleIlspTooltip = () => setIlspTooltip(!ilspTooltip);
+  const [manualArticleDateUpdated, setManualArticleDateUpdated] = useState(false);
   const formError = useRef({ error: false, timeout: null });
 
   const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
@@ -236,9 +237,12 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
 
   const saveEntity = (event, errors, values) => {
     values.articleDate = convertDateTimeToServer(values.articleDate);
-    // automatically save the articleUdpateDate upon request to save/publish report from a NON inscpector
     if (props.isNotInspector) {
-      values.articleDateUpdated = convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT));
+      if (!isNew && manualArticleDateUpdated) {
+        values.articleDateUpdated = convertDateTimeToServer(values.articleDateUpdated);
+      } else {
+        values.articleDateUpdated = convertDateTimeToServer(moment().format(APP_LOCAL_DATETIME_FORMAT));
+      }
     } else {
       values.articleDateUpdated = convertDateTimeToServer(values.articleDateUpdated);
     }
@@ -505,16 +509,32 @@ export const FactCheckingReport = (props: IFactCheckingReportProps) => {
                             <Translate contentKey="check4FactsApp.article.articleDateUpdated">Article Date Updated</Translate>
                           </Label>
                         </Col>
-                        <Col md={{ size: 9 }}>
+                        <Col md={{ size: props.isNotInspector ? 6 : 9 }}>
                           <AvInput
                             id="article-date-updated"
                             type="datetime-local"
                             className="form-control"
                             name="articleDateUpdated"
                             value={convertDateTimeFromServer(props.articleEntity.articleDateUpdated)}
-                            readOnly
+                            readOnly={!props.isNotInspector || !manualArticleDateUpdated}
                           />
                         </Col>
+                        {props.isNotInspector && (
+                          <Col md={{ size: 3 }} className="d-flex align-items-center">
+                            <FormGroup check className="mb-0">
+                              <Label check>
+                                <Input
+                                  type="checkbox"
+                                  checked={manualArticleDateUpdated}
+                                  onChange={e => setManualArticleDateUpdated(e.target.checked)}
+                                />{' '}
+                                <Translate contentKey="check4FactsApp.article.manualArticleDateUpdated">
+                                  Manually set last updated date
+                                </Translate>
+                              </Label>
+                            </FormGroup>
+                          </Col>
+                        )}
                       </Row>
                     </AvGroup>
                   )}
